@@ -17,7 +17,7 @@ Usage: nvm rc [<version>] [flags]
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `[<version>]` | No | [Version specifier](../guide/version-specifiers) to resolve and write. If omitted, uses the current active version. Pinning file formats: [Version Selectors](../guide/version-selectors). |
+| `[<version>]` | No | [Version specifier](../introduction/version-specifiers) to resolve and write. If omitted, uses the current active version. Pinning file formats: [Version Selectors](../introduction/version-selectors). |
 
 ## Flags
 

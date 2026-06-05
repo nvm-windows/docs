@@ -28,7 +28,7 @@ Default subcommand when you pass version arguments directly (for example `nvm in
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `<version> ...` | Yes | One or more [version specifiers](../../guide/version-specifiers). |
+| `<version> ...` | Yes | One or more [version specifiers](../../introduction/version-specifiers). |
 
 ## Flags
 
