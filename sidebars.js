@@ -1,7 +1,5 @@
 // @ts-check
-
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
-
 /**
  * Creating a sidebar enables you to:
  - create an ordered group of docs
@@ -9,17 +7,142 @@
  - provide next/previous navigation
 
  The sidebars can be generated from the filesystem, or explicitly defined here.
-
  Create as many sidebars as you want.
-
  @type {import('@docusaurus/plugin-content-docs').SidebarsConfig}
- */
+*/
+
 const sidebars = {
   tutorialSidebar: [
-    'intro',
-    'whats-new-in-v2/index',
-    'installation',
-    'commands',
+    {
+      type: 'category',
+      label: 'Introduction',
+      collapsed: false,
+      collapsible: true,
+      items: [
+        'introduction/about',
+        'introduction/installation',
+        'introduction/newv2',
+        'introduction/modes',
+        'introduction/native',
+        'introduction/command-workflows',
+        'introduction/cache',
+        'introduction/version-specifiers',
+        'introduction/version-selectors',
+        'introduction/log',
+        'introduction/notifications',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Commands',
+      collapsed: true,
+      collapsible: true,
+      link: {
+        type: 'generated-index',
+        title: 'Command Reference',
+        description:
+          'Detailed command documentation for nvm install, use, list, config, cache, and related operations.',
+        slug: '/commands',
+      },
+      items: [
+        {
+          type: 'category',
+          label: 'install',
+          collapsed: true,
+          link: {type: 'doc', id: 'command/install/index'},
+          items: ['command/install/native-tools'],
+        },
+        'command/uninstall',
+        {
+          type: 'category',
+          label: 'use',
+          collapsed: true,
+          link: {type: 'doc', id: 'command/use/index'},
+          items: [
+            'command/use/lts',
+            'command/use/latest',
+            'command/use/last',
+            'command/use/shim',
+            'command/use/link',
+          ],
+        },
+        'command/rc',
+        {
+          type: 'category',
+          label: 'list',
+          collapsed: true,
+          link: {type: 'doc', id: 'command/list/index'},
+          items: ['command/list/releases', 'command/list/cached'],
+        },
+        {
+          type: 'category',
+          label: 'alias',
+          collapsed: true,
+          link: {type: 'doc', id: 'command/alias/index'},
+          items: [
+            'command/alias/add',
+            'command/alias/list',
+            'command/alias/remove',
+          ],
+        },
+        'command/default',
+        'command/env',
+        {
+          type: 'category',
+          label: 'cache',
+          collapsed: true,
+          link: {type: 'doc', id: 'command/cache/index'},
+          items: [
+            'command/cache/add',
+            'command/cache/view',
+            {
+              type: 'category',
+              label: 'remove',
+              collapsed: true,
+              link: {type: 'doc', id: 'command/cache/remove/index'},
+              items: [
+                'command/cache/remove/version',
+                'command/cache/remove/metadata',
+                'command/cache/remove/all',
+              ],
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'config',
+          collapsed: true,
+          link: {type: 'doc', id: 'command/config/index'},
+          items: [
+            'command/config/list',
+            'command/config/get',
+            'command/config/set',
+            'command/config/reset',
+            'command/config/docs',
+          ],
+        },
+        'command/on',
+        'command/off',
+        'command/sync-doctor',
+        'command/sync-upgrade',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Guides',
+      collapsed: true,
+      collapsible: true,
+      link: {
+        type: 'generated-index',
+        title: 'Guides',
+        description:
+          'Deep dives on NVM for Windows capabilities and workflows.',
+        slug: '/guides',
+      },
+      items: [
+        'guide/todo',
+      ],
+    },
     'troubleshooting',
   ],
 };
