@@ -4,14 +4,14 @@ sidebar_position: 2
 
 # Operating Modes
 
-NVM for Windows operates in one of two modes: link or shim. This mode can be toggled at any time.
+NVM for Windows operates in one of two modes: link or shim. These modes are responsible for This mode can be toggled at any time.
 
 ```powershell title="Setting the Operational Mode"
+# Easy access
 nvm use shim
 nvm use link
 
 # Also available in the nvm configuration
-
 nvm cfg set mode=shim
 nvm cfg set mode=link
 ```
@@ -20,17 +20,13 @@ nvm cfg set mode=link
 
 This mode uses links to locate the active system-wide version of `node.exe`. The `.nodejs` target is updated any time [`nvm use`](../command/use) changes the default version.
 
-Link mode offers the closest possible experience to running `node.exe` "as delivered" by [nodejs.org](https://nodejs.org). This mode offers zero latency, but potentially adds operational complexity.
+Link mode offers the closest possible experience to running `node.exe` "as delivered" by [nodejs.org](https://nodejs.org). This mode offers zero latency. Link mode, by its nature, does not provide any advanced modern workflow features (shim mode does).
 
 Version 2.0.0 introduced the "fallback" link creation strategy.
-
-1. Attempt to create a NTFS junction.
-1. Attempt to create a symlink.
-
 ```mermaid
 flowchart LR
-  j(Create NTFS Junction)-->ok{Success?}
-  ok-->|no|s(Create Symlink)
+  j(1. Create NTFS Junction)-->ok{Success?}
+  ok-->|no|s(2. Create Symlink)
   ok-->|yes|d{{Done}}
 ```
 

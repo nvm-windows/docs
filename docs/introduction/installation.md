@@ -2,7 +2,7 @@
 
 NVM for Windows is publicly available through GitHub and Winget. If your organization supports certified builds, it will likely be automatically installed on your computer.
 
-### Standard
+### Download
 
 [Download](https://github.com/nvm-windows/nvm/releases) and run the installer. Then install Node.js with the following command:
 

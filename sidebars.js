@@ -13,9 +13,25 @@
 
 const sidebars = {
   tutorialSidebar: [
-    'intro',
-    'whats-new-in-v2/index',
-    'installation',
+    {
+      type: 'category',
+      label: 'Introduction',
+      collapsed: false,
+      collapsible: true,
+      items: [
+        'introduction/about',
+        'introduction/installation',
+        'introduction/newv2',
+        'introduction/modes',
+        'introduction/native',
+        'introduction/command-workflows',
+        'introduction/cache',
+        'introduction/version-specifiers',
+        'introduction/version-selectors',
+        'introduction/log',
+        'introduction/notifications',
+      ],
+    },
     {
       type: 'category',
       label: 'Commands',
@@ -124,14 +140,7 @@ const sidebars = {
         slug: '/guides',
       },
       items: [
-        'guide/modes',
-        'guide/native',
-        'guide/cache',
-        'guide/version-specifiers',
-        'guide/version-selectors',
-        'guide/log',
-        'guide/command-workflows',
-        'guide/notifications',
+        'guide/todo',
       ],
     },
     'troubleshooting',
