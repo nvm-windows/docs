@@ -18,11 +18,11 @@ nvm cfg set mode=link
 
 ## Link Mode
 
-Link Mode uses links to locate the active system-wide version of `node.exe`. The `.nodejs` target is updated any time the default version is changed via [`nvm use`](../command/use).
+Link mode uses links to locate the active system-wide version of `node.exe`. The `.nodejs` target is updated any time the default version is changed via [`nvm use`](../command/use).
 
-Link mode offers an experience that is as close as possible to simply running `node.exe` "as delivered" by [nodejs.org](https://nodejs.org). It offers zero latency, but does not provide the advanced modern workflow features available in Shim Mode.
+Link mode offers an experience that is as close as possible to running `node.exe` "as delivered" by [nodejs.org](https://nodejs.org). It incurs zero latency, but does not provide the advanced modern workflow features available in shim mode.
 
-NVM for Windows v2.0.0 introduces a "fallback" link creation strategy:
+NVM for Windows v2.0.0 introduced a "fallback" link creation strategy:
 ```mermaid
 flowchart LR
   j(1. Create NTFS Junction)-->ok{Success?}
@@ -43,9 +43,9 @@ Unlike prior versions, NVM for Windows will not attempt to elevate permissions (
 
 ## Shim Mode (default)
 
-Shim mode offers a new, streamlined developer experience. When compared with Link Mode, Shim Mode comes with the benefit of avoiding esoteric permission requirements, but at the cost of a small amount of additional latency (~25-35ms total). This latency is negligible for most use cases. For this reason, Shim Mode is recommended for most users.
+Shim mode offers a streamlined developer experience. When compared with link mode, shim mode has the benefit of avoiding esoteric permission requirements, but at the cost of a small amount of additional latency (~25-35ms total). This latency is negligible for most use cases. For this reason, shim mode is recommended for most users.
 
-Shim mode offers:
+Shim mode features:
 
 1. Directory/project-level version detection via `.nvmrc`, `.node-version`, `package.json`, or other custom run command files.
 1. Automatic installation of missing versions.
