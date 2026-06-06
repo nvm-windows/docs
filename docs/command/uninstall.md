@@ -12,7 +12,7 @@ Uninstall one or more versions of Node.js.
 ## Usage
 
 ```powershell
-Usage: nvm uninstall (rm,un) <version> ... [flags]
+Usage: nvm uninstall <version> [<version> ...] [flags]
 ```
 
 ## Arguments

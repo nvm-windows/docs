@@ -15,7 +15,7 @@ Install one or more versions of Node.js.
 nvm install <version> [<version> ...] [flags]
 ```
 
-Default subcommand when you pass version arguments directly (for example `nvm install 24`).
+Default subcommand is used when you pass version arguments directly (for example `nvm install 24`).
 
 ## Subcommands
 
