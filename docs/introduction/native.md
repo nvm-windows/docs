@@ -7,13 +7,13 @@ NVM for Windows runs natively on Microsoft Windows. Several integrations help it
 
 ## Windows Apps
 
-Installed versions of Node.js are visible in the Windows Apps screen. They can be uninstalled directly from there:
+Installed versions of Node.js are visible in the Windows Apps screen. They can be uninstalled via CLI or directly from there:
 
 ![1776491546067](image/install/1776491546067.png)
 
 ## Windows Event Center
 
-Critical events, such as Node.js installations/uninstallations, nvm configuration changes, and security events are logged natively. This allows for clear observability and auditing using tools most organizations are already familiar with.
+Critical events, such as Node.js installations/uninstallations, nvm configuration changes, and security events are logged natively. This allows for clear observability and auditing using tools most organizations already use.
 
 ![1776532731980](image/native/1776532731980.png)
 
