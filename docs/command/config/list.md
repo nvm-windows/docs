@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # nvm config list
 
-List effective NVM configuration values.
+List effective NVM for Windows configuration values.
 
 **Aliases:** `cfg list`, `cfg ls`
 

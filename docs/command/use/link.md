@@ -5,7 +5,7 @@ sidebar_position: 6
 
 # nvm use link
 
-Switch NVM to **link** operating mode.
+Switch NVM for Windows to **link** operating mode.
 
 ## Usage
 
@@ -29,4 +29,4 @@ nvm use link
 successfully switched to link mode
 ```
 
-See [Operating Modes](../../guide/modes).
+See [Operating Modes](../../introduction/modes).

@@ -126,7 +126,6 @@ nvm upgrade
 ## Related Docs
 
 - [Commands](../command/install)
-- [Version Specifiers](./version-specifiers)
-- [Version Selectors](./version-selectors)
+- [Version Resolution](./version-resolution)
 - [nvm config](../command/config)
 - [Operating Modes](./modes)

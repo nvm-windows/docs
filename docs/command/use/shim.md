@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # nvm use shim
 
-Switch NVM to **shim** operating mode.
+Switch NVM for Windows to **shim** operating mode.
 
 ## Usage
 
@@ -29,4 +29,4 @@ nvm use shim
 successfully switched to shim mode
 ```
 
-See [Operating Modes](../../guide/modes).
+See [Operating Modes](../../introduction/modes).

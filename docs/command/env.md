@@ -28,7 +28,7 @@ This command takes no arguments.
 | Section | Contents |
 |---------|----------|
 | Computer | Windows version/build, shell, admin and developer mode |
-| Installation | NVM version, install path, upgrade policy |
+| Installation | NVM for Windows version, install path, upgrade policy |
 | Version management | Mode, active version, install/cache roots, sizes and counts |
 | Mirrors | Node and npm mirror URLs and reachability |
 | License | Optional license summary when available |
@@ -49,7 +49,7 @@ nvm env --json > nvm-env.json
 ## Sample output
 
 ```powershell
-NVM For Windows
+NVM for Windows
 ├─ Version            : v2.0.0-alpha.1
 ├─ Status             : on
 ├─ Operating Mode     : shim

@@ -5,7 +5,7 @@ sidebar_position: 11
 
 # nvm on
 
-Enable Node.js management through NVM.
+Enable Node.js management through NVM for Windows.
 
 ## Usage
 

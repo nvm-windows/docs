@@ -5,7 +5,7 @@ sidebar_position: 12
 
 # nvm off
 
-Temporarily stop managing Node.js through NVM.
+Temporarily stop managing Node.js through NVM for Windows.
 
 ## Usage
 

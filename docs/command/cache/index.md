@@ -34,4 +34,4 @@ nvm cache remove all
 
 - Removal can be blocked by policy (`allow_download_cache_removal=false`).
 
-See [Download Cache](../../guide/cache).
+See [Download Cache](../../introduction/cache).
