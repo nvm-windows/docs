@@ -76,9 +76,9 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'nvm-windows',
+        title: 'NVM for Windows',
         logo: {
-          alt: 'nvm-windows',
+          alt: 'NVM for Windows',
           src: 'img/logo.svg',
         },
         items: [
