@@ -5,13 +5,25 @@ sidebar_position: 7
 
 # Command Workflows
 
-This guide explains common end-to-end CLI workflows using the command set.
+This guide explains common end-to-end CLI workflows.
 
 ## 1) New Machine Bootstrap
 
+Install the latest LTS version of Node.js:
+
 ```powershell
 nvm install lts
+```
+
+Set as default version:
+
+```powershell
 nvm use lts
+```
+
+Verify the default version:
+
+```powershell
 nvm default
 node -v
 ```
@@ -25,8 +37,17 @@ nvm doctor
 
 ## 2) Multi-Version Project Testing
 
+Install multiple versions of Node.js at once:
+
 ```powershell
 nvm install 18 20 22
+```
+
+All versions will be downloaded in parallel, then installed sequentially.
+
+Switch between versions for testing:
+
+```powershell
 nvm use 18
 npm test
 nvm use 20
@@ -43,6 +64,8 @@ nvm alias add modern 24.1.0
 ```
 
 ## 3) Project Pinning with Run Command Files
+
+Set default version and create a local `.nvmrc` file:
 
 ```powershell
 nvm use 24
@@ -86,7 +109,7 @@ nvm use shim
 nvm use link
 ```
 
-Temporarily disable/enable management:
+Temporarily disable/enable nvm:
 
 ```powershell
 nvm off
