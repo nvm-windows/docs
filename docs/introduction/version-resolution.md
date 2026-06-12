@@ -3,6 +3,9 @@ title: Version Resolution
 sidebar_position: 5
 ---
 
+import VersionConstraintTable from '../_components/VersionConstraintTable.mdx';
+import VersionSpecifierTable from '../_components/VersionSpecifierTable.mdx';
+
 # Version Resolution
 
 NVM for Windows accepts several ways to identify a Node.js version. Depending on the
@@ -20,15 +23,7 @@ There are two kinds of version input:
 Version specifiers are tokens passed to commands such as `install`, `use`, and
 `uninstall`.
 
-| Form | Example | Resolution |
-|------|---------|------------|
-| Latest release | `latest` | Newest available release from the mirror index. |
-| Latest LTS | `lts` | Newest available LTS release. |
-| Named LTS line | `lts/iron` | Newest release from the named LTS line. |
-| User alias | `legacy` | Version assigned with [`nvm alias add`](../command/alias/add). |
-| Major only | `24` | Newest matching `24.x.x` release. |
-| Major.minor | `24.1` | Newest matching `24.1.x` release. |
-| Exact version | `24.1.0`, `v24.1.0` | The specified release. The `v` prefix is optional. |
+<VersionSpecifierTable />
 
 Commands that accept version specifiers include:
 
@@ -46,15 +41,7 @@ Version constraints describe acceptable releases in project pinning and
 auto-detect files. Unlike a command-line specifier, a constraint can match a
 range of releases.
 
-| Constraint | Example | Meaning |
-|------------|---------|---------|
-| Caret | `^18` | Compatible with major 18. |
-| Tilde | `~20.1` | Compatible with minor 20.1. |
-| Minimum | `>=16` | Version 16 or newer. |
-| Range | `>=18 <21` | Version 18 or newer, but older than version 21. |
-| Wildcard | `18.x` | Any release in the 18.x line. |
-| Any | `*` | Any version. |
-| Exact | `24.1.0` | Only the specified release. |
+<VersionConstraintTable />
 
 Constraints can appear in the following project files:
 
