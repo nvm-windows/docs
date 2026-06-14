@@ -127,6 +127,5 @@ nvm use stable
 
 ## Related docs
 
-- [nvm rc](../command/rc)
+- [Commands](./commands)
 - [Command workflows](./command-workflows)
-- [Operating Modes](./modes)
