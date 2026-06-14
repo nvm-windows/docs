@@ -35,6 +35,25 @@ Commands that accept version specifiers include:
 - [`nvm cache add`](../command/cache/add)
 - [`nvm cache remove version`](../command/cache/remove/version)
 
+### Examples
+
+```powershell
+# reserved aliases
+nvm install lts
+nvm use latest
+
+# named LTS line
+nvm install lts/iron
+
+# partial and exact versions
+nvm use 24.1
+nvm cache add 22.14.0
+
+# user-defined alias
+nvm alias add stable 24.1.0
+nvm use stable
+```
+
 ## Version constraints
 
 Version constraints describe acceptable releases in project pinning and
@@ -54,75 +73,31 @@ Constraints can appear in the following project files:
 Configured auto-detect files come from `auto_detect`. By default, NVM for Windows checks
 `.nvmrc`, `.node-version`, and `package.json`.
 
-## Resolution process
+## Resolution order {#resolution-order}
 
-When NVM for Windows receives a version input, it determines what the input represents and
-resolves it to a concrete release:
+1. User alias mapping (from `nvm alias add`)
+2. Reserved aliases (`latest`, `lts`, `lts/<codename>`)
+3. Partial versions expanded to the best matching concrete release
+4. Semver constraints resolved in constraint-aware flows (for example `engines.node` or caret/tilde ranges in detect files)
+5. Read version string from the configured detect file in the current directory tree (auto-detect)
+6. Apply `auto_use`, `auto_install`, and related config when switching or installing
 
-1. Resolve user-defined aliases created with `nvm alias add`.
-2. Resolve reserved aliases such as `latest`, `lts`, and `lts/<codename>`.
-3. Expand partial versions to the newest matching concrete release.
-4. In constraint-aware project-file flows, select a release that satisfies the
-   semver constraint.
+## Auto-detect Node.js version by project
 
-The selected release may come from installed versions, the local cache, or the
-configured remote mirror, depending on the command and configuration.
+In shim mode, NVM for Windows resolves the Node.js version from an auto-detect file (.nvmrc, .node-version, package.json, etc.). If no version can be resolved, it falls back to the default system version.
 
-## Project auto-detection
+## Pinning a Node.js version to a project
 
-In shim mode, NVM for Windows can detect project version intent while traversing the
-configured project files in the current directory tree:
-
-1. Read the version input from a configured auto-detect file.
-2. Resolve an exact version or a version satisfying the file's constraint.
-3. Apply `auto_use`, `auto_install`, and related configuration when switching
-   to or installing the selected version.
-
-## Pinning a project
-
-`nvm rc` accepts a version specifier on the command line, resolves it, and
-writes the concrete result into the target project file.
+`nvm rc` creates auto-detect files automatically. It accepts a version specifier, resolves it, and
+writes the exact version to the auto-detect file.
 
 ```powershell
-# set the active runtime, then pin .nvmrc
+# set the active version, then pin .nvmrc
 nvm use 24
 nvm rc 24 --file=.nvmrc
 
-# update package.json engines.node and engines.npm
+# set package.json engines.node, engines.npm, and the equivalent devEngines properties
 nvm rc 24 --file=package.json
-```
-
-Files edited by hand can use version constraints directly:
-
-```text title=".nvmrc"
-^20
-```
-
-```json title="package.json"
-{
-  "engines": {
-    "node": ">=18 <21"
-  }
-}
-```
-
-## Examples
-
-```powershell
-# reserved aliases
-nvm install lts
-nvm use latest
-
-# named LTS line
-nvm install lts/iron
-
-# partial and exact versions
-nvm use 24.1
-nvm cache add 22.14.0
-
-# user-defined alias
-nvm alias add stable 24.1.0
-nvm use stable
 ```
 
 ## Related docs
