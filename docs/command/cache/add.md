@@ -17,7 +17,7 @@ nvm cache add <version> [<version> ...] [flags]
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `<version> ...` | Yes | One or more [version specifiers](../../guide/version-specifiers). |
+| `<version> ...` | Yes | One or more [version specifiers](../../introduction/version-specifiers). |
 
 ## Flags
 
