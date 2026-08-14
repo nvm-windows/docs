@@ -37,7 +37,16 @@ const config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ru'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      ru: {
+        label: 'Русский',
+        htmlLang: 'ru-RU',
+      },
+    },
   },
 
   presets: [
@@ -82,6 +91,10 @@ const config = {
           src: 'img/logo.svg',
         },
         items: [
+          {
+            type: 'localeDropdown',
+            position: 'right',
+          },
           {
             href: 'https://github.com/nvm-windows/docs',
             label: 'GitHub',
