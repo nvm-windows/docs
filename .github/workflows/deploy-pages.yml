@@ -1,4 +1,4 @@
-name: Deploy Cloudflare Pages
+name: Deploy
 
 on:
   release:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy docs to Cloudflare Pages
+    name: Deploy docs to Live Site
     runs-on: ubuntu-latest
     steps:
       - name: Checkout release tag
