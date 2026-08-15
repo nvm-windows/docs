@@ -1,0 +1,10 @@
+{
+  "label": "Choosing an Edition",
+  "collapsed": true,
+  "collapsible": true,
+  "position": 1,
+  "link": {
+    "type": "doc",
+    "id": "guide/builds/builds"
+  }
+}

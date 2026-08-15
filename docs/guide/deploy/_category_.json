@@ -1,0 +1,10 @@
+{
+  "label": "Enterprise Deployment",
+  "collapsed": false,
+  "collapsible": true,
+  "position": 2,
+  "link": {
+    "type": "doc",
+    "id": "guide/deploy/deploy"
+  }
+}

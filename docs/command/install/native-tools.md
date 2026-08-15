@@ -9,11 +9,11 @@ Run `install_tools.bat` from the newest installed Node.js version that includes 
 
 This is only necessary for compiling native modules.
 
-:::warning Large Download
+:::warning[Large Download]
 This utility often installs large files (3GB+), alternative installers (like chocolatey), and other runtimes (like Python). This plaintext script is shipped with Node.js. NVM for Windows does not validate it.
 :::
 
-:::tip Recommendation
+:::tip[Recommendation]
 Disable this in regulated environments.
 :::
 

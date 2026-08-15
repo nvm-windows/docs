@@ -1,0 +1,10 @@
+{
+  "label": "Configure policies",
+  "collapsed": true,
+  "collapsible": true,
+  "position": 4,
+  "link": {
+    "type": "doc",
+    "id": "guide/deploy/policy/policy"
+  }
+}

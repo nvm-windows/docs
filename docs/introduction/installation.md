@@ -9,7 +9,7 @@ NVM for Windows is publicly available through GitHub and Winget. If your organiz
 ```powershell
 nvm install lts
 ```
-:::info This is the recommended approach.
+:::info[This is the recommended approach.]
 The installer visually walks through the configuration, allowing users to customize their experience according to their preference.
 :::
 

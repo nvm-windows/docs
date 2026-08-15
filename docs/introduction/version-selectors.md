@@ -43,7 +43,7 @@ nvm rc 24 --file=package.json
 
 `nvm rc` accepts a [version specifier](./version-specifiers) on the CLI and writes the resolved result into the target file. Files you edit by hand can use selector constraints directly.
 
-## Resolution order {#resolution-order}
+## Resolution order {/* #resolution-order */}
 
 1. User alias mapping (from `nvm alias add`)
 2. Reserved aliases (`latest`, `lts`, `lts/<codename>`)

@@ -25,7 +25,7 @@ Usage: nvm config (cfg) <command>
 | [`reset`](./reset) | `rm` | Reset a value to its default. |
 | [`docs`](./docs) | — | Show setting explanations. |
 
-## `config set` value formats {#config-set-value-formats}
+## `config set` value formats {/* #config-set-value-formats */}
 
 | Type | Accepted values | Examples |
 |------|-----------------|----------|

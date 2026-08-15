@@ -1,0 +1,50 @@
+.proBanner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--ifm-color-warning-contrast-background);
+  border: 1px solid var(--ifm-color-warning-dark);
+  border-radius: var(--ifm-global-radius);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.proBannerMain {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.proBannerText {
+  line-height: 1.4;
+}
+
+.proBadge {
+  background-color: var(--ifm-color-warning);
+  color: #000;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.proBannerComment {
+  margin: 0;
+  padding-left: 0.25rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--ifm-font-color-base);
+  opacity: 0.9;
+}
+
+.proBannerComment {
+  font-style: italic;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ifm-font-color-base);
+  opacity: 0.9;
+}

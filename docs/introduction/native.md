@@ -45,7 +45,7 @@ As of v2.0.0, settings and preferences are stored in the registry under user key
 
 Prior versions of NVM for Windows utilized a plain text file for settings. Some users experienced difficulties with special characters due to encoding types enforced by older versions of Go. By leveraging the registry instead, Windows handles encoding natively, by the native locale.
 
-:::tip Enterprise Security
+:::tip[Enterprise Security]
 NVM for Windows provides significant capabilities for developers. In highly regulated environments, some of these capabilities may need to be throttled or disabled for compliance.
 
 **Certified builds** provide an option to override settings, enabling organizations to secure desktop environments according to their own policies.
