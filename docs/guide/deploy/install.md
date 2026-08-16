@@ -11,8 +11,6 @@ Phase 2 of [Enterprise Deployment](/guide/deploy/). Deploy NVM for Windows to ma
 |:-|:-|:-|
 |[Microsoft Intune](#using-intune)|Governance||
 |[Active Directory GPO](#active-directory-gpo)|Governance||
-|[Microsoft Endpoint Configuration Manager](#microsoft-endpoint-configuration-manager) (MECM)|Distro||
-|[Google Workspace](#google-workspace)|Distro||
 |[Manual](#manual-installation)|Distro||
 
 ## Using Intune
@@ -121,7 +119,7 @@ If you created a custom Intune application from v1.1.7+, it needs to be superced
 1. Confirm deployment status under **Apps** > **Monitor** > **App install status**.
 1. Install logs are written to `%ProgramData%\Author\nvm-certified-install.log` on the target device.
 
-## Microsoft Endpoint Configuration Manager
+{/* ## Microsoft Endpoint Configuration Manager */}
 
 ## Active Directory GPO
 
@@ -198,18 +196,18 @@ This method moves the deployment to User Configuration so it triggers at logon, 
 1. **Create or Edit a GPO**: Link it to the OU containing your target Users.
 1. **Configure Software Installation**: Add your MSI under User *Configuration* > *Policies* > *Software Settings* > *Software Installation*. Select *Advanced*, and you will now be able to check *Install this application at logon*.
 1. **Elevate Installer Privileges:**
-  1. Navigate to *Computer Configuration* > *Policies* > *Administrative Templates* > *Windows Components* > *Windows Installer*.
-  1. Double-click **Always install with elevated privileges**.
-  1. Set it to **Enabled**, click Apply, and click OK.
-  1. Navigate to *User Configuration* > *Policies* > *Administrative Templates* > *Windows Components* > *Windows Installer*.
-  1. Double-click **Always install with elevated privileges** there as well and set it to **Enabled**.
+   1. Navigate to *Computer Configuration* > *Policies* > *Administrative Templates* > *Windows Components* > *Windows Installer*.
+   1. Double-click **Always install with elevated privileges**.
+   1. Set it to **Enabled**, click Apply, and click OK.
+   1. Navigate to *User Configuration* > *Policies* > *Administrative Templates* > *Windows Components* > *Windows Installer*.
+   1. Double-click **Always install with elevated privileges** there as well and set it to **Enabled**.
 
-  :::warning Temporary Security Risk
-  *Enabling "Always install with elevated privileges" allows standard users to run any Windows Installer package with elevated privileges, which can be exploited by malicious actors.*
+:::warning[Temporary Security Risk]
+Enabling **Always install with elevated privileges** allows standard users to run any Windows Installer package with elevated privileges, which can be exploited by malicious actors.
 :::
 
 
-## Google Workspace
+{/* ## Google Workspace */}
 
 ## Manual Installation
 

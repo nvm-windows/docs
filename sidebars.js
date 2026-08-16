@@ -15,21 +15,53 @@ const sidebars = {
   tutorialSidebar: [
     {
       type: 'category',
-      label: 'Introduction',
+      label: 'Install',
       collapsed: false,
       collapsible: true,
       items: [
-        'introduction/about',
-        'introduction/installation',
-        'introduction/newv2',
-        'introduction/modes',
-        'introduction/native',
-        'introduction/command-workflows',
-        'introduction/cache',
-        'introduction/version-specifiers',
-        'introduction/version-selectors',
-        'introduction/log',
-        'introduction/notifications',
+        {
+          type: 'doc',
+          label: 'Installers & Packages',
+          id: 'install/installers',
+        },
+        {
+          type: 'doc',
+          label: 'Organizational Deployment',
+          id: 'install/ad',
+        },
+        {
+          type: 'doc',
+          label: 'Build from Source',
+          id: 'install/build',
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Features',
+      collapsed: true,
+      collapsible: true,
+      items: [
+        'features/about',
+        'features/newv2',
+        'features/modes',
+        'features/native',
+        'features/command-workflows',
+        'features/cache',
+        'features/version-specifiers',
+        'features/version-selectors',
+        'features/log',
+        'features/notifications',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Configuration',
+      collapsed: true,
+      collapsible: true,
+      items: [
+        'cfg/core',
+        'cfg/ad',
       ],
     },
     {
@@ -127,6 +159,7 @@ const sidebars = {
         'command/sync-upgrade',
       ],
     },
+    'permissions',
     {
       type: 'category',
       label: 'Guides',
