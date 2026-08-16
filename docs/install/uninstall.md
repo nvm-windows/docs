@@ -5,7 +5,7 @@ Uninstalling NVM for Windows (the application) from the computer is different fr
 :::
 
 :::warning[Backup Node.js Installations!]
-Uninstalling NVM for Windows removes all managed Node.js versions and their global modules. Back up the Node.js storage directory first if you may need those versions later. The default location is `%LOCALAPPDATA%\Author Software\nvm\installs` (see [Basic Configuration](../cfg/core#operating-mode-and-install-location)).
+Uninstalling NVM for Windows removes all managed Node.js versions and their global modules. Back up the Node.js storage directory first if you may need those versions later. The default location is `%LOCALAPPDATA%\Author Software\nvm\installs` (see [Basic Configuration](../cfg/core#mode-and-install-location)).
 
 Choose the section that matches your [edition](../guide/builds/).
 :::
@@ -69,7 +69,7 @@ Community reinstall uses the [standard installer or winget](./installers#communi
 
 ## Certified Builds
 
-Certified builds install machine-wide to `%ProgramFiles%\Author Software\nvm` as an MSI/Intune Win32 package. Prefer MDM or GPO uninstall so detection and assignments stay consistent. See [Enterprise Deployment](../guide/deploy/) and [Installers](./installers#certified-build).
+Certified builds install machine-wide to `%ProgramFiles%\Author Software\nvm` as an MSI/Intune Win32 package. Prefer MDM or GPO uninstall so detection and assignments stay consistent. See [enterprise requirements](./enterprise/requirements), [Intune](./enterprise/intune), [Active Directory](./enterprise/ad), and [Installers](./installers#certified-build).
 
 :::warning[Scope of removal]
 Uninstalling certified NVM for Windows removes Node.js versions managed for that user (default storage: `%LOCALAPPDATA%\Author Software\nvm\installs`) and can affect every account on the device that relied on the machine install. Back up installs before fleet-wide removal. See the GPO warning in [Deploy with Active Directory](./enterprise/ad).
@@ -139,7 +139,7 @@ Uninstalling the MSI removes the product. Group Policy/Intune **configuration** 
 |:-|:-|
 |Which edition you have|[Choosing an Edition](../guide/builds/)|
 |Install again|[Installers](./installers)|
-|Enterprise phases|[Enterprise Deployment](../guide/deploy/)|
+|Enterprise prerequisites|[Requirements](./enterprise/requirements)|
 |Intune uninstall command|[Deploy with Intune](./enterprise/intune)|
 |GPO software removal|[Deploy with Active Directory](./enterprise/ad)|
 |Remove Node.js versions only|[`nvm uninstall`](../command/uninstall)|

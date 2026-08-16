@@ -95,7 +95,7 @@ Unnecessary (skip).
 
 ### 7. Supercedence
 
-Unnecessary (skip) when deploying the first time. See [Operate & Maintain](../../guide/deploy/operations) for supercedence guidance when deploying an update.
+Unnecessary (skip) when deploying the first time. When deploying an update, configure **Supersedence** on this Win32 app so the new package replaces the previous one.
 
 :::warning[Upgrading from NVM for Windows v1]
 If your organization used NVM for Windows v1.1.7+, v2 will auto-migrate. Versions below 1.1.7 should be uninstalled, but users will lose their existing installations and settings.
