@@ -9,13 +9,13 @@ NVM for Windows runs natively in Microsoft Windows. Several integrations help th
 
 Installed versions of Node.js are visible in the Windows Apps screen. It is possible to uninstall directly from this screen.
 
-![1776491546067](image/install/1776491546067.png)
+![1776491546067](/img/features/install/1776491546067.png)
 
 ## Windows Event Center
 
 Critical events, such as installations, configuration changes, and security events are logged natively. This allows for clear organization observability and auditing using tools most companies already implement.
 
-![1776532731980](image/native/1776532731980.png)
+![1776532731980](/img/features/native/1776532731980.png)
 
 The application currently only logs critical change events, but we've considered adding finer control over logging in certified builds. For example, it is possible to log every node.exe/npm/npx invocation in strongly audited environments. The choice was made to not include this to prevent noisy logs, but it is possible.
 
@@ -34,7 +34,7 @@ NVM for Windows leverages native desktop notifications through the notification 
 Since all notifications leverage the notification center, personal notification preferences are honored.
 
 <img
-	src={require('./image/native/1776541489737.png').default}
+	src="/img/features/native/1776541489737.png"
 	alt="Windows Notification Center"
 	style={{width: '40%', maxWidth: '480px'}}
 />

@@ -25,14 +25,26 @@ const sidebars = {
           id: 'install/installers',
         },
         {
-          type: 'doc',
-          label: 'Organizational Deployment',
-          id: 'install/ad',
+          type: 'category',
+          label: 'Enterprise Deployment',
+          key: 'install-enterprise-deployment',
+          collapsed: true,
+          collapsible: true,
+          items: [
+            'install/enterprise/requirements',
+            'install/enterprise/intune',
+            'install/enterprise/ad',
+          ],
         },
         {
           type: 'doc',
           label: 'Build from Source',
-          id: 'install/build',
+          id: 'install/source',
+        },
+        {
+          type: 'doc',
+          label: 'Uninstall',
+          id: 'install/uninstall',
         },
       ],
     },
@@ -48,8 +60,7 @@ const sidebars = {
         'features/native',
         'features/command-workflows',
         'features/cache',
-        'features/version-specifiers',
-        'features/version-selectors',
+        'features/version-resolution',
         'features/log',
         'features/notifications',
       ],
@@ -61,7 +72,16 @@ const sidebars = {
       collapsible: true,
       items: [
         'cfg/core',
-        'cfg/ad',
+        {
+          type: 'category',
+          label: 'Enterprise policy',
+          collapsed: true,
+          collapsible: true,
+          items: [
+            'cfg/ad',
+            'cfg/registry'
+          ],
+        }
       ],
     },
     {

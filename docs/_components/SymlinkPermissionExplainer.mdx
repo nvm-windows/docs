@@ -1,0 +1,8 @@
+NVM for Windows [link mode](/features/modes#link-mode) uses NTFS junctions to resolve Node.js versions. NTFS Junctions do not require special permissions, but do not support UNC paths (like remote network shares/mapped drives). When the Node.js storage location is configured to use a UNC path, NVM for Windows creates a symlink instead of an NTFS junction. The operating system requires the `SeCreateSymbolicLinkPrivilege` right to do this.
+
+:::tip[Enabling `SeCreateSymbolicLinkPrivilege`]
+- Users with administrative rights have this privilege by default.
+- This privilege is granted when **[Windows Developer Mode](https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode)** is enabled.
+- This privilege can be granted via group policy by enabling:<br/>
+**Computer Configuration** > **Windows Settings** > **Security Settings** > **Local Policies** > **User Rights Assignment** > *Create symbolic links*.
+:::

@@ -32,7 +32,8 @@ Certified builds are designed for teams and organizations who need to centralize
 |**Policy Management**|||✓|✓|
 |**Enterprise Agreements**||||✓|
 
-All certified builds are distributed as `.msi`/`intunewin` files. These are designed for deploying NVM for Windows through Microsoft Entra, Active Directory (AD), Microsoft Endpoint Configuration Manager (MECM), or manually. _(Google Workspace support is planned)_
+All certified builds are distributed as `.msi`/`intunewin` files. These are designed for deploying NVM for Windows through Microsoft Entra, Active Directory (AD), or manually.
+{/* Microsoft Endpoint Configuration Manager (MECM) and Google Workspace support are planned. */}
 
 ### Code Signing Authority
 

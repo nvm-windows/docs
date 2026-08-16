@@ -29,4 +29,4 @@ nvm use shim
 successfully switched to shim mode
 ```
 
-See [Operating Modes](../../introduction/modes).
+See [Operating Modes](../../features/modes).

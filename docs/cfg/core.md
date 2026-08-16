@@ -1,6 +1,6 @@
-# Core Configuration
+# Basic Configuration
 
-User preferences for NVM for Windows live in the Windows registry and are managed with [`nvm config`](../command/config) (alias: `nvm cfg`).
+User preferences live in the Windows registry. Manage them with [`nvm config`](../command/config) (alias: `nvm cfg`).
 
 ```powershell
 nvm config list
@@ -10,35 +10,37 @@ nvm config reset auto_install
 nvm config docs
 ```
 
+On certified fleets, machine policy can override these values. See [Administrative Templates](ad) and the [registry policy reference](registry).
+
+:::tip[Live docs]
+`nvm config docs` (or `nvm cfg docs`) prints the same help text the CLI ships with. Prefer that when this page and your install disagree. Use `nvm config docs --json` for machine-readable metadata.
+:::
+
+## Value types
+
 | Type | Accepted values |
 |------|-----------------|
 | Boolean | `true`, `false`, `1`, `0` |
 | List | Comma-delimited strings |
 | Enum | Only values listed for that option |
 
-On certified fleets, machine policy can override these values. See [Active Directory](ad) and the [registry policy reference](../guide/deploy/policy/registry).
+## Mode and install location
 
----
-
-## Operating mode and install location
-
-| Option | Default | Values | What it does |
-|--------|---------|--------|--------------|
-| `mode` | `shim` | `shim`, `link` | How Node.js is resolved on PATH. **Shim** (recommended) intercepts `node`/`npm`/etc. and enables auto-detect, auto-install, and shim security options. **Link** uses junctions/symlinks with near-zero latency but fewer features. Same effect as `nvm use shim` / `nvm use link`. See [Operating Modes](../features/modes). |
-| `root` | `%LOCALAPPDATA%\Author Software\nvm\installs` | Directory path | Where Node.js versions are stored. Changing this does not move existing installs; migrate files yourself or reinstall versions. |
-
----
+| Option | Default | Values | Description |
+|--------|---------|--------|-------------|
+| `mode` | `shim` | `shim`, `link` | Specifies how Node.js commands and versions are managed, either through shim-based routing or direct junction/symlink linking. Same as `nvm use shim`/`nvm use link`. See [Operating Modes](../features/modes). |
+| `root` | `%LOCALAPPDATA%\Author Software\nvm\installs` | Directory path | Root directory where Node.js versions are installed. Changing this does not move existing installs; migrate files yourself or reinstall versions. |
 
 ## Downloads and mirrors
 
-| Option | Default | Values | What it does |
-|--------|---------|--------|--------------|
-| `node_mirror` | `https://nodejs.org/dist` | One or more URLs (comma-delimited) | Where Node.js archives are downloaded. First successful mirror wins. |
-| `npm_mirror` | `https://registry.npmjs.org` | One or more URLs (comma-delimited) | npm registry / npm tarball mirrors. |
-| `cache_downloads` | `false` | Boolean | Keep downloaded installers for offline reuse. |
-| `allow_download_cache_removal` | `true` | Boolean | Allow `nvm cache remove` to delete cached downloads. Set `false` to lock the cache. |
-| `allow_insecure_downloads` | `false` | Boolean | Allow downloads when TLS certificates are expired or invalid. Leave off unless you control a broken corporate MITM proxy and understand the risk. |
-| `auto_installed_modules` | _(empty)_ | Comma-delimited npm package names | Global modules installed automatically whenever a new Node.js version is installed (for example `typescript,eslint`). |
+| Option | Default | Values | Description |
+|--------|---------|--------|-------------|
+| `node_mirror` | `https://nodejs.org/dist` | One or more URLs (comma-delimited) | Mirror URL(s) for downloading Node.js. Accepts a comma-delimited list. |
+| `npm_mirror` | `https://registry.npmjs.org` | One or more URLs (comma-delimited) | Mirror URL(s) for downloading npm. Accepts a comma-delimited list. |
+| `cache_downloads` | `false` | Boolean | Whether to cache downloaded files for offline use. |
+| `allow_download_cache_removal` | `true` | Boolean | Allow removing cached downloads. |
+| `allow_insecure_downloads` | `false` | Boolean | Allow expired/invalid SSL certificates when downloading assets. |
+| `auto_installed_modules` | _(none)_ | Comma-delimited npm package names | Comma-delimited list of global npm modules to automatically install with new Node.js versions. |
 
 ```powershell
 nvm config set node_mirror=https://npmmirror.com/mirrors/node
@@ -46,82 +48,62 @@ nvm config set cache_downloads=true
 nvm config set auto_installed_modules=typescript,prettier
 ```
 
-Proxy settings (`proxy`, `proxy_auth`, `proxy_auth_type`) exist for restricted networks. They are normally set by policy on certified builds; ask your admin if downloads fail behind a corporate proxy.
-
----
+Proxy keys (`proxy`, `proxy_auth`, `proxy_auth_type`) are hidden from everyday `cfg docs` output. On certified builds they are usually set by policy — see [registry reference](registry).
 
 ## Project detection and auto behavior
 
 These options apply primarily in **shim** mode (and related `nvm rc` workflows).
 
-| Option | Default | Values | What it does |
-|--------|---------|--------|--------------|
-| `auto_detect` | `.nvmrc,.node-version,package.json` | Comma-delimited filenames | Project files scanned (in order) to pick a Node.js version for the current directory. |
-| `default_detect_file` | `.nvmrc` | Filename | File written when you pin a version with `nvm rc`. |
-| `auto_use` | `true` | Boolean | When a project file names a version, use that version for commands without changing your global default. |
-| `auto_install` | `false` | Boolean | If the detected version is missing, install it automatically. |
-| `auto_install_prompt` | `true` | Boolean | Ask before auto-installing when `auto_install` is on. Set `false` for fully silent auto-install. |
+| Option | Default | Values | Description |
+|--------|---------|--------|-------------|
+| `auto_detect` | `.nvmrc,.node-version,package.json` | Comma-delimited filenames | Project files to inspect for version (shim-only). |
+| `default_detect_file` | `.nvmrc` | Filename | The default file to write to when saving/pinning a version to a project. |
+| `auto_use` | `true` | Boolean | Automatically switch to auto-detected version to run the specified scripts without modifying the system version (shim-only). |
+| `auto_install` | `false` | Boolean | Automatically install missing auto-detected version (rc/shim-only). |
+| `auto_install_prompt` | `true` | Boolean | Prompt before automatically installing missing auto-detected version (rc/shim-only). |
 
 ```powershell
 nvm config set auto_install=true auto_install_prompt=false
 nvm config set auto_detect=.nvmrc,.node-version
 ```
 
----
-
 ## Package managers
 
-| Option | Default | Values | What it does |
-|--------|---------|--------|--------------|
-| `pm_mismatch_action` | `error` | `ignore`, `warn`, `error` | What to do when the active package manager (npm/pnpm/yarn) does not match the expectations for the selected Node.js version during install or use. |
+| Option | Default | Values | Description |
+|--------|---------|--------|-------------|
+| `pm_mismatch_action` | `error` | `ignore`, `warn`, `error` | Action to take when a mismatch between npm and Node.js versions is detected during install or use: ignore, warn, or error. |
 
 - `error` — stop the operation (safest default)
 - `warn` — continue after a warning
 - `ignore` — stay silent
 
----
+## Logging and announcements
 
-## Shim security and audit logging
-
-These options only take effect in **shim** mode. They inject Node.js runtime flags (or logging) when `node` is launched through the shim. They do **not** apply in link mode.
-
-| Option | Default | Values | What it does |
-|--------|---------|--------|--------------|
-| `log_executions` | `false` | Boolean | Log every Node.js invocation (for example `node app.js`) to the Windows Event Log. |
-| `enforce_permission_model` | `false` | Boolean | Start Node with the permission model (`--permission` or `--experimental-permission`, depending on Node major). Default-deny filesystem/network access unless the process passes `--allow-*` flags. |
-| `freeze_v8_global_objects` | `false` | Boolean | Start Node with `--frozen-intrinsics` so built-in prototypes cannot be patched. Adds measurable startup cost. Requires Node.js 12+. |
-| `disable_eval_and_string_execution` | `false` | Boolean | Start Node with `--disallow-code-generation-from-strings`, blocking `eval()` and `new Function()`. |
+| Option | Default | Values | Description |
+|--------|---------|--------|-------------|
+| `log_executions` | `false` | Boolean | Whether to log every Node.js invocation (ex: `node file.js`). (shim-only) |
+| `disable_announcements` | `false` | Boolean | Whether to disable project and release announcements. License expiry warnings still run. |
 
 ```powershell
 nvm config set log_executions=true
-nvm config set enforce_permission_model=true
+nvm config set disable_announcements=true
 ```
 
 :::tip[See also]
-OS-level install and symlink privileges are separate from these Node flags. See [Permissions](../permissions).
+OS-level install and symlink privileges are separate. See [Permissions](../permissions).
 :::
 
----
+## Related settings
 
-## Notifications
-
-| Option | Default | Values | What it does |
-|--------|---------|--------|--------------|
-| `disable_announcements` | `false` | Boolean | Hide project and release announcements. License expiry notices (certified) still run. |
-
----
-
-## Related settings (not listed here)
+_(not listed in `cfg docs`)_
 
 | Topic | Where |
 |-------|--------|
-| Version aliases (`stable=24.x`, etc.) | Prefer `nvm alias` / upcoming [Aliases](aliases) docs; values are stored as `aliases` |
-| Turn version management on/off | `nvm on` / `nvm off` (writes `enabled`) |
-| Machine licensing | `nvm license` (not `nvm config set`) |
-| Active / last version | Managed by `nvm use` (`active_version`, `last_version`) |
-| Enterprise locks (mirrors, version allow/block lists, proxies) | [Active Directory](ad) and [registry policies](../guide/deploy/policy/registry) |
-
-For the live list of documented keys on your install:
+| Version aliases (`stable=24.x`, etc.) | Prefer [`nvm alias`](../command/alias); values are stored as `aliases` |
+| Turn version management on/off | [`nvm on`](../command/on)/[`nvm off`](../command/off) (writes `enabled`) |
+| Active/last version | Managed by [`nvm use`](../command/use) (`active_version`, `last_version`) |
+| Shim security/V8 flags | [Registry reference](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) |
+| Enterprise locks (mirrors, version allow/block lists, proxies) | [Administrative Templates](ad) and [registry policies](registry) |
 
 ```powershell
 nvm config docs

@@ -1,1 +1,0 @@
-# ACtive Directory/Entra

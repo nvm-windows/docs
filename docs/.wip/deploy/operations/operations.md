@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Operate & Maintain
 
-Phase 4: monitor and maintain NVM for Windows after [installation](../install) and [policy configuration](../policy/).
+Phase 4: monitor and maintain NVM for Windows after [installation](../../../install/installers) and [policy configuration](../policy/).
 
 |Topic|Guide|
 |:-|:-|

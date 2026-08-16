@@ -29,4 +29,4 @@ nvm use link
 successfully switched to link mode
 ```
 
-See [Operating Modes](../../introduction/modes).
+See [Operating Modes](../../features/modes).

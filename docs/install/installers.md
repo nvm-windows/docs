@@ -9,7 +9,7 @@ NVM for Windows should be installed with a _standard user account_.
 The standard installer attempts to register NVM for Windows as a system event source, introducing a UAC prompt. If the user account does not have permission to do this, log entries will show "Unknown" instead of "NVM for Windows" as the event source in Windows Event Viewer.
 
 :::warning[Do not install as Administrator]
-Do not attempt to install the community edition as Administrator. Doing so will configure the application for the administrator account instead of the user account who will run Node.js.
+Do not attempt to install the community edition as Administrator. Doing so will configure the application for the administrator account instead of the user account who will run Node.js. See [registered event source permissions](/permissions#community-installer-registered-event-source).
 :::
 
 ### Standard Installer
@@ -40,9 +40,9 @@ The v1 updater is designed for minor and patch upgrades in the legacy v1.x.x lin
 
 ## Certified Build
 
-Certified builds are designed for remote installation
+Download and run the MSI installer from the [customer portal](https://portal.author.io/downloads) for installation on a single Windows device.
 
-Download and run the MSI installer from the [customer portal](https://portal.author.io/downloads).
+Certified builds are specifically designed for remote installation through platforms like Active Directory and Microsoft Entra. See the Enterprise Deployment section to deploy NVM for Windows to many computers.
 
 ## Install Node.js
 
