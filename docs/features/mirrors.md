@@ -80,7 +80,7 @@ Corporate networks often require an HTTP(S) proxy between NVM and the mirror. Re
 :::
 
 :::info[No Digest or Browser Proxies]
-Digest auth is not supported due to its extensive requirements and minimal rel-world usage.
+Digest auth is not supported due to its extensive requirements and minimal real-world usage.
 
 No interactive SAML/OIDC browser login capabilities exist for captive portals. Consider using PAC instead.
 :::
