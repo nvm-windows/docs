@@ -18,7 +18,7 @@ nvm cache remove [version ...] [flags]
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `[version ...]` | No* | [Version specifiers](../../../features/version-resolution) to remove. With `--all`, each token is a major or major.minor prefix. *Required unless `--prompt` is used. |
+| `[version ...]` | No* | [Version specifiers](../../../guide/version-resolution) to remove. With `--all`, each token is a major or major.minor prefix. *Required unless `--prompt` is used. |
 
 ## Flags
 

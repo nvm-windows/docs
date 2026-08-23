@@ -19,7 +19,7 @@ Usage: nvm uninstall (rm,un) <version> ... [flags]
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `<version> ...` | Yes | One or more [version specifiers](../features/version-resolution). Resolved before uninstall. |
+| `<version> ...` | Yes | One or more [version specifiers](../guide/version-resolution). Resolved before uninstall. |
 
 ## Flags
 

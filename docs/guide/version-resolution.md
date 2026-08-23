@@ -1,5 +1,6 @@
 ---
 title: Version Resolution
+sidebar_position: 1
 ---
 
 import VersionConstraintTable from '../_components/VersionConstraintTable.mdx';
@@ -102,4 +103,4 @@ nvm rtconfig 24 --file=package.json
 ## Related docs
 
 - [Commands](/commands)
-- [Command workflows](../guide/command-workflows)
+- [Command workflows](./command-workflows)

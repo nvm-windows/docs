@@ -18,7 +18,7 @@ nvm alias add <name> <version> [flags]
 | Argument | Required | Description |
 |----------|----------|-------------|
 | `<name>` | Yes | Alias name. Cannot contain spaces or use reserved names. |
-| `<version>` | Yes | Target [version specifier](../../features/version-resolution) to resolve and store. |
+| `<version>` | Yes | Target [version specifier](../../guide/version-resolution) to resolve and store. |
 
 ## Flags
 

@@ -30,7 +30,7 @@ Default subcommand when you pass a version directly (for example `nvm use 24`).
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `<version>` | Yes | [Version specifier](../../features/version-resolution). May install when missing unless `--local` is set. |
+| `<version>` | Yes | [Version specifier](../../guide/version-resolution). May install when missing unless `--local` is set. |
 
 ## Flags
 

@@ -1,6 +1,7 @@
 ---
 title: Desktop Notifications
 sidebar_position: 7
+tags: [native-integration]
 ---
 
 NVM for Windows uses native desktop notifications with the Windows Notification Center. Missed notifications stay in the Notification Center until acknowledged. Personal notification preferences are honored.

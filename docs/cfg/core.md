@@ -27,8 +27,8 @@ Use `nvm config docs --json` for machine-readable metadata.
 
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
-| `node_mirror` | `https://nodejs.org/dist` | One or more URLs | Mirror URL(s) for downloading Node.js. In `nvm config`, pass a comma-delimited list. In the registry (`MirrorNode`), store as **`REG_MULTI_SZ`** (one URL per entry) — not a single comma-separated `REG_SZ`. |
-| `npm_mirror` | `https://registry.npmjs.org` | One or more URLs | Mirror URL(s) for the npm registry fallback. Same rules: comma-delimited in `nvm config`; **`REG_MULTI_SZ`** (`MirrorNpm`) in the registry. |
+| `node_mirror` | `https://nodejs.org/dist` | One or more URLs | Mirror URL(s) for downloading Node.js. In `nvm config`, pass a comma-delimited list. In the registry (`MirrorNode`), store as **`REG_MULTI_SZ`** (one URL per entry) — not a single comma-separated `REG_SZ`. See [Download Mirrors](../features/mirrors). |
+| `npm_mirror` | `https://registry.npmjs.org` | One or more URLs | Mirror URL(s) for the npm registry fallback. Same rules: comma-delimited in `nvm config`; **`REG_MULTI_SZ`** (`MirrorNpm`) in the registry. See [Download Mirrors](../features/mirrors). |
 | `cache_downloads` | `false` | Boolean | Whether to cache downloaded files for offline use. |
 | `allow_download_cache_removal` | `true` | Boolean | Allow removing cached downloads. |
 | `allow_insecure_downloads` | `false` | Boolean | Allow expired/invalid SSL certificates when downloading assets. |

@@ -55,6 +55,10 @@ The Advanced Logging package for certified builds introduce comprehensive *struc
 
 Structured logs allow SIEM systems to capture and query events with far greater precision and predictability. For example, an SIEM query can quickly identify which versions of Node.js are still regularly used by developers/agents in your organization, when unsupported/EOL versions are installed or finally uninstalled, or which npm modules are installed most often.
 
+### Trust Artifacts
+
+The **Trust Artifacts** add-on provides supply-chain materials with certified releases — for example SBOM, provenance, and VEX reports — so security and procurement teams can review what ships in each build without treating those materials as a separate “Compliance” product tier.
+
 ### Policy Management
 
 The Governance package for certified builds introduce policy management. With these capabilities, it is possible to enforce security policies. For example:

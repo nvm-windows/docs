@@ -19,7 +19,7 @@ Usage: nvm rtconfig (rc) [<version>] [flags]
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `[<version>]` | No | [Version specifier](../features/version-resolution) to resolve and write. If omitted, uses the current active version. Pinning file formats: [Version Selectors](../features/version-resolution). |
+| `[<version>]` | No | [Version specifier](../guide/version-resolution) to resolve and write. If omitted, uses the current active version. Pinning file formats: [Version Selectors](../guide/version-resolution). |
 
 ## Flags
 

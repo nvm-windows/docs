@@ -1,13 +1,14 @@
 ---
 title: Event Logging
 sidebar_position: 6
+tags: [native-integration]
 ---
 
-Critical events, such as installations, configuration changes, and security events are logged natively in Windows Event Viewer. This allows for clear organization observability and auditing using tools most organizations already have.
+Critical events, such as installations, configuration changes, and security events are logged natively, available in Windows Event Viewer. This allows for clear organization observability and auditing using tools most organizations already have.
 
 ![1776532731980](/img/features/native/1776532731980.png)
 
-Only critical change events are logged by default. Additional logging is available through [configuration](../cfg/core#logging-and-announcements). It is possible to log every `node.exe` / `npm` / `npx` invocation.
+Only critical change events are logged by default. Additional logging is available through [configuration](../cfg/core#logging-and-announcements). It is possible to log every `node.exe` / `npm` / `npx` invocation (as well as other major package managers).
 
 :::warning[Basic Logging]
 Logs are written as plaintext entries to the Windows Application log (shown above), with generic event codes.

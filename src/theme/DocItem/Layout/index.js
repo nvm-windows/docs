@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 
 /** @typedef {{ edition: string | null, comment: string | null }} CertifiedBanner */
 
-const CERTIFIED_EDITIONS = ['Governance', 'Audit', 'Trust'];
+const CERTIFIED_EDITIONS = ['Governance', 'Audit', 'Trust', 'Trust Artifacts'];
 
 /**
  * @param {unknown} value

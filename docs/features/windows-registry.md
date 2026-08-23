@@ -1,6 +1,7 @@
 ---
-title: Windows Registry
+title: Windows Registry Integration
 sidebar_position: 8
+tags: [native-integration]
 ---
 
 As of v2.0.0, settings and preferences are stored in the registry under user keys. These can be modified with the [`nvm config`](../command/config) command. See [Basic Configuration](../cfg/core) for the full preference list.

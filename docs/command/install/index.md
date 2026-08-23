@@ -28,7 +28,7 @@ Default subcommand when you pass version arguments directly (for example `nvm in
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `<version> ...` | Yes | One or more [version specifiers](../../features/version-resolution). |
+| `<version> ...` | Yes | One or more [version specifiers](../../guide/version-resolution). |
 
 ## Flags
 
@@ -72,4 +72,4 @@ Installed Node.js v24.1.0
 - If `local_install_only` is enabled, installs are restricted to local sources.
 - Auto-install module list (`auto_installed_modules`) is applied during install.
 
-See also [nvm cache](../cache/) and [nvm use](../use/).
+See also [Local Installations](../../features/local-installations), [Air-gapped Installations](../../guide/air-gapped-installations), [nvm cache](../cache/), and [nvm use](../use/).
