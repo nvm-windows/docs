@@ -28,8 +28,7 @@ After NVM for Windows is [installed](../install/enterprise/intune), enforce sett
 1. Open the **Import ADMX** tab and select **Import**.
 1. Upload `NVMWindows.admx` and `en-US\NVMWindows.adml` from your deployment pack. No `Windows.admx` prerequisite is required.
 
-If deployment fails with error **131329** (0x20101):
-
+:::warning[error **131329** (0x20101)]
 1. On the device, run `certified\enhanced\policy\Get-NvmAdmxIngestDiagnostics.ps1` and note the **HRESULT** on `ADMX Ingestion` events (for example `0x8007000D` invalid ADMX data, `0x80070005` blocked registry path).
 1. Delete the prior NVM ADMX import in Intune, then re-import the updated template.
 1. Clear stale ingest state on the device, then sync again:
@@ -42,6 +41,7 @@ Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\PolicyManager\AdmxInstalled' -Recurse |
 ```
 
 Until ADMX ingest succeeds, deploy values with a **Custom** configuration profile (Registry CSP OMA-URIs). Value names and types are in the [Central Registry Reference](registry).
+:::
 
 ![alt text](/img/guide/deploy/policy/image-1.png)
 

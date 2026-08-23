@@ -1,38 +1,49 @@
 # What's new in v2
 
-## TLDR
+## High Level
 
-- Simplified permissions.
-- Modern workflows focused on automation, security, observaibility, & compliance.
-- Full rewrite from v1 (Go and Zig).
-- Two Builds: Community (MIT) & Certified (EULA).
-- Stewardship transfered to Author Software Inc.
+*   **No mandatory admin privileges**
+*   **Modern workflows without symlinks**
+*   **Version pinning** — .nvmrc, .node-version, package.json, or user-defined files
+*   **Faster downloads and installations**
+*   **Automatic installation of missing Node.js versions**
+*   **Developer and Enterprise-ready**
+*   **Fully rewritten for speed & maintainability** — Go and Zig
+*   **Dual Builds** — Community (MIT) & Certified (EULA)
+
+:::info[Code Signing Change]
+- Community builds are not code signed.
+- **Certified builds are 100% code-signed.**
+
+All signatures show "Author Software Inc" as the publisher. Project stewardship transfered to Author Software Inc, but remains managed by the same people.
+:::
 
 ## Community & Certified Builds
 
-The Community build remains free and open-source (MIT). Certified builds add signed installers, optional **Trust Artifacts** and **Governance** add-ons, and related controls (see [Choosing an Edition](../guide/builds/index.md)).
+The Community build remains free and open-source (MIT). Certified builds add signed installers, optional **Trust Artifacts**, **Advanced Logging**, and **Governance** add-ons, and related controls (see [Choosing an Edition](../guide/builds/index.md)).
 
 ## Node.js Installation
 
-- **Parallel simultaneous installations** — install multiple Node.js versions at once
-- **Smaller download sources** — compact `.7z` archives instead of larger historical formats
+- **Parallel installations** — install multiple Node.js versions at once
+- **Saller downloads (40%)** — uses compact `.7z` archives
 - **Native extraction** — faster installs with fewer external unpacker dependencies
-- **Local air-gapped downloads** — install from a local archive directory when offline or restricted ([Local Installations](./local-installations), [Air-gapped Installations](../guide/air-gapped-installations))
+- **Local air-gapped downloads** — install from a local archive directory when offline or restricted (see [Local Installations](./local-installations), [Air-gapped Installations](../guide/air-gapped-installations))
 - **Caching** — reuse downloaded/extracted assets on repeat installs ([Download Cache](./cache))
-- **Code-signed MSI installers** _(Certified Builds)_ — MSI/Intune packs for managed fleets ([Installers](../install/installers), [Choosing an Edition](../guide/builds/))
 
 :::tip[7-zip]
-NVM for Windows uses native 7-Zip if it is installed, which uses proprietary algorithms for increased extraction speed. [7-Zip is free to download](https://www.7-zip.org).
+While not required, NVM for Windows uses native 7-Zip for extraction if it is installed. 7-Zip's proprietary algorithms provide the fastet extraction speed. [7-Zip is free to download](https://www.7-zip.org).
+
+A slower embedded extractor is used if 7-Zip is not available.
 :::
 
 ## Operating modes
 
 The biggest functional change is the introduction of [operational modes](./modes).
 
-- **Lightweight shims**: Zig-built shims so Node and related tools (npm, npx, etc) commands resolve through NVM first
-- **Zero-latency link mode**: legacy junction/symlink PATH model when shim interception is not needed
+- **Lightweight shims**: Zig-built shims for Node and related tooling commands (npm, npx, etc)
+- **Zero-latency link mode**: junction/symlink PATH model when shim interception is not needed
 
-Shim mode unlocks per-directory version switching and other automation. **Link mode** remains for legacy use, but bypassing the esoteric permission models in v1.
+Shim mode unlocks per-directory version switching and other automation. **Link mode** remains for legacy use while bypassing the esoteric permission models from v1.
 
 ## Automation
 
@@ -43,7 +54,7 @@ Shim mode unlocks per-directory version switching and other automation. **Link m
 ## Preferences
 
 - **User-defined aliases** — aliases for versions or version groups via `nvm alias` ([Aliases](../cfg/aliases))
-- **User-defined default global modules** — configure packages installed with each new runtime (`auto_installed_modules`)
+- **User-defined default global modules** — configure packages installed with each new version (`auto_installed_modules`)
 - **Windows Registry preferences** — user prefs and (on certified builds) machine policy via `nvm config` ([Basic Configuration](../cfg/core), [Registry Policy Reference](../cfg/registry))
 
 ## Native Windows integrations
