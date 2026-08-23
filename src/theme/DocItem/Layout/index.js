@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 
 /** @typedef {{ edition: string | null, comment: string | null }} CertifiedBanner */
 
-const CERTIFIED_EDITIONS = ['Governance', 'Compliance', 'Distro'];
+const CERTIFIED_EDITIONS = ['Governance', 'Audit', 'Trust'];
 
 /**
  * @param {unknown} value
@@ -118,11 +118,11 @@ export default function LayoutWrapper(props) {
             <span className={styles.proBannerText}>
               {banner.edition ? (
                 <>
-                  Available in certified builds: <strong>{banner.edition.toLowerCase()}</strong> tier.
+                  Requires the <strong>{banner.edition.toLowerCase()}</strong> package.
                 </>
               ) : (
                 <>
-                  Available in <strong>certified builds</strong>.
+                  Available for <strong>certified builds</strong>.
                 </>
               )}
             </span>

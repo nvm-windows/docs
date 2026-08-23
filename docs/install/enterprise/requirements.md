@@ -7,7 +7,7 @@ import SymlinkPermissionExplainer from '../../_components/SymlinkPermissionExpla
 
 |Requirement|Guidance|
 |:-|:-|
-| **Installation&nbsp;Media** | Download your NVM for Windows deployment pack from the [customer portal](https://portal.author.io). |
+| **Installation&nbsp;Media** | Download NVM for Windows from the [customer portal](https://portal.author.io). The zip file contains everything you need. |
 | **Supported OS** | Windows 11[^1], Windows 2019+ |
 | **User Privileges** | No special permissions required, unless using [link mode](../../features/modes#link-mode) with UNC paths. |
 | **Proxy&nbsp;Domain&nbsp;Exceptions**<br/><br/><br/><br/> |1. licensing.author.io<br/>2. mirror.author.io _(if using Author Software Node.js mirror)_ <br/><br/>_Unnecessary in airgapped deployments._ |
@@ -26,8 +26,8 @@ import SymlinkPermissionExplainer from '../../_components/SymlinkPermissionExpla
 
 If your organization aggresively blocks traffic to domains, you must allow-list `licensing.author.io`. This domain provides license keys and public verification keys.
 
-If your organization plans to use the Author Software Node.js mirror service available in certified governance builds and above, `download.author.io` must also be allowed.
+If your organization plans to use the Author Software Node.js mirror service (available in the governance package), `mirror.author.io` must also be allowed.
 
+---
 
-
-[^1]: As an EOL operating system, Windows 10 is not technically supported. However; v2.0.0 works on Windows 10 in our lab tests with some visual variations from Windows 11.
+[^1]: As an EOL operating system, Windows 10 is not officially supported. However; v2.0.0 works on Windows 10 in our lab with some minor visual variations from Windows 11.

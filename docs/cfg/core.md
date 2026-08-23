@@ -12,17 +12,9 @@ nvm config docs
 
 On certified fleets, machine policy can override these values. See [Administrative Templates](ad) and the [registry policy reference](registry).
 
-:::tip[Live docs]
-`nvm config docs` (or `nvm cfg docs`) prints the same help text the CLI ships with. Prefer that when this page and your install disagree. Use `nvm config docs --json` for machine-readable metadata.
+:::tip[Structured Docs]
+Use `nvm config docs --json` for machine-readable metadata.
 :::
-
-## Value types
-
-| Type | Accepted values |
-|------|-----------------|
-| Boolean | `true`, `false`, `1`, `0` |
-| List | Comma-delimited strings |
-| Enum | Only values listed for that option |
 
 ## Mode and install location
 
@@ -35,32 +27,45 @@ On certified fleets, machine policy can override these values. See [Administrati
 
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
-| `node_mirror` | `https://nodejs.org/dist` | One or more URLs (comma-delimited) | Mirror URL(s) for downloading Node.js. Accepts a comma-delimited list. |
-| `npm_mirror` | `https://registry.npmjs.org` | One or more URLs (comma-delimited) | Mirror URL(s) for downloading npm. Accepts a comma-delimited list. |
+| `node_mirror` | `https://nodejs.org/dist` | One or more URLs | Mirror URL(s) for downloading Node.js. In `nvm config`, pass a comma-delimited list. In the registry (`MirrorNode`), store as **`REG_MULTI_SZ`** (one URL per entry) — not a single comma-separated `REG_SZ`. |
+| `npm_mirror` | `https://registry.npmjs.org` | One or more URLs | Mirror URL(s) for the npm registry fallback. Same rules: comma-delimited in `nvm config`; **`REG_MULTI_SZ`** (`MirrorNpm`) in the registry. |
 | `cache_downloads` | `false` | Boolean | Whether to cache downloaded files for offline use. |
 | `allow_download_cache_removal` | `true` | Boolean | Allow removing cached downloads. |
 | `allow_insecure_downloads` | `false` | Boolean | Allow expired/invalid SSL certificates when downloading assets. |
-| `auto_installed_modules` | _(none)_ | Comma-delimited npm package names | Comma-delimited list of global npm modules to automatically install with new Node.js versions. |
+| `auto_installed_modules` | _(none)_ | Comma-delimited npm package names | Comma-delimited list of global npm modules to automatically install with new Node.js versions. (`REG_MULTI_SZ` as `AutoInstallModuleList` under policy.) |
 
 ```powershell
 nvm config set node_mirror=https://npmmirror.com/mirrors/node
+nvm config set node_mirror=https://mirror.author.io/runtime/nodejs,https://nodejs.org/dist
 nvm config set cache_downloads=true
 nvm config set auto_installed_modules=typescript,prettier
 ```
 
-Proxy keys (`proxy`, `proxy_auth`, `proxy_auth_type`) are hidden from everyday `cfg docs` output. On certified builds they are usually set by policy — see [registry reference](registry).
+## Proxy
 
-## Project detection and auto behavior
-
-These options apply primarily in **shim** mode (and related `nvm rc` workflows).
+Proxies are automatically detected/applied from `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` environment variables.
 
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
-| `auto_detect` | `.nvmrc,.node-version,package.json` | Comma-delimited filenames | Project files to inspect for version (shim-only). |
+|`proxy`|_(none)_|URL|The plain text URL of the proxy. This is a hidden from everyday `cfg docs` output since it is usually auto-detected.|
+
+On certified builds proxies are usually set by policy (see [registry reference](registry)).
+
+:::warning[Corporate Proxies]
+The community build supports basic proxies. IWA, WPAD, and PAC proxies are supported in certified builds.
+:::
+
+## Project detection and auto behavior
+
+These options apply primarily in **shim** mode (and related `nvm rtconfig` workflows).
+
+| Option | Default | Values | Description |
+|--------|---------|--------|-------------|
+| `auto_detect` | `.nvmrc`, `.node-version`, `package.json` | Comma-delimited filenames | Project files to inspect for version (shim-only). |
 | `default_detect_file` | `.nvmrc` | Filename | The default file to write to when saving/pinning a version to a project. |
 | `auto_use` | `true` | Boolean | Automatically switch to auto-detected version to run the specified scripts without modifying the system version (shim-only). |
-| `auto_install` | `false` | Boolean | Automatically install missing auto-detected version (rc/shim-only). |
-| `auto_install_prompt` | `true` | Boolean | Prompt before automatically installing missing auto-detected version (rc/shim-only). |
+| `auto_install` | `false` | Boolean | Automatically install missing auto-detected version (rtconfig/shim-only). |
+| `auto_install_prompt` | `true` | Boolean | Prompt before automatically installing missing auto-detected version (rtconfig/shim-only). |
 
 ```powershell
 nvm config set auto_install=true auto_install_prompt=false
@@ -71,11 +76,7 @@ nvm config set auto_detect=.nvmrc,.node-version
 
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
-| `pm_mismatch_action` | `error` | `ignore`, `warn`, `error` | Action to take when a mismatch between npm and Node.js versions is detected during install or use: ignore, warn, or error. |
-
-- `error` — stop the operation (safest default)
-- `warn` — continue after a warning
-- `ignore` — stay silent
+| `pm_mismatch_action` | `error` | `ignore`, `warn`, `error` | Action to take when a mismatch between npm/pnpm/yarn and Node.js versions is detected during install or use:<br/><br/><ul><li>ignore: stay silent</li><li>warn: continue after a warning</li><li> error: stop the operation (safest default)</li></ul>|
 
 ## Logging and announcements
 
@@ -88,10 +89,6 @@ nvm config set auto_detect=.nvmrc,.node-version
 nvm config set log_executions=true
 nvm config set disable_announcements=true
 ```
-
-:::tip[See also]
-OS-level install and symlink privileges are separate. See [Permissions](../permissions).
-:::
 
 ## Related settings
 

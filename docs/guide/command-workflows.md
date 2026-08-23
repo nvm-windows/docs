@@ -1,6 +1,6 @@
 ---
 title: Command Workflows
-sidebar_position: 7
+sidebar_position: 2
 ---
 
 # Command Workflows
@@ -69,13 +69,13 @@ Set default version and create a local `.nvmrc` file:
 
 ```powershell
 nvm use 24
-nvm rc 24 --file=.nvmrc
+nvm rtconfig 24 --file=.nvmrc
 ```
 
 Or update package engines:
 
 ```powershell
-nvm rc 24 --file=package.json
+nvm rtconfig 24 --file=package.json
 ```
 
 ## 4) Download-Constrained Environments
@@ -84,7 +84,7 @@ Pre-cache artifacts:
 
 ```powershell
 nvm cache add 20 22 24
-nvm cache view
+nvm cache list
 ```
 
 Use cache controls during install:
@@ -149,7 +149,7 @@ nvm upgrade
 ## Related Docs
 
 - [Commands](../command/install)
-- [Version Specifiers](./version-resolution)
-- [Version Selectors](./version-resolution)
+- [Version Specifiers](../features/version-resolution)
+- [Version Selectors](../features/version-resolution)
 - [nvm config](../command/config)
-- [Operating Modes](./modes)
+- [Operating Modes](../features/modes)

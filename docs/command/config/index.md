@@ -22,7 +22,7 @@ Usage: nvm config (cfg) <command>
 | [`list`](./list) | `ls` | List all configuration values (default). |
 | [`get`](./get) | — | Get one or more values. |
 | [`set`](./set) | — | Set one or more values. |
-| [`reset`](./reset) | `rm` | Reset a value to its default. |
+| [`reset`](./reset) | `rm` | Reset one value or `reset all` to restore defaults (preserves `root`). |
 | [`docs`](./docs) | — | Show setting explanations. |
 
 ## `config set` value formats {/* #config-set-value-formats */}

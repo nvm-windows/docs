@@ -35,7 +35,7 @@ The community uninstaller removes:
 - User preferences under `HKCU\Software\Author Software\Preferences\nvm`
 - The `NVM_HOME` user environment variable and related `PATH` entries
 - The **NVM for Windows Sync** scheduled task
-- Per-version Apps entries (see [Windows Apps](/features/native#windows-apps))
+- Per-version Apps entries (see [Windows Apps](/features/windows-apps))
 
 Open a **new** terminal after uninstall so `PATH` and environment changes apply.
 
@@ -69,7 +69,7 @@ Community reinstall uses the [standard installer or winget](./installers#communi
 
 ## Certified Builds
 
-Certified builds install machine-wide to `%ProgramFiles%\Author Software\nvm` as an MSI/Intune Win32 package. Prefer MDM or GPO uninstall so detection and assignments stay consistent. See [enterprise requirements](./enterprise/requirements), [Intune](./enterprise/intune), [Active Directory](./enterprise/ad), and [Installers](./installers#certified-build).
+Certified builds install machine-wide to `%ProgramFiles%\Author Software\nvm` as an MSI/Intune Win32 package. MDM or GPO uninstallation is preferred so detection and assignments stay consistent. See [enterprise requirements](./enterprise/requirements), [Intune](./enterprise/intune), [Active Directory](./enterprise/ad), and [Installers](./installers#certified-build).
 
 :::warning[Scope of removal]
 Uninstalling certified NVM for Windows removes Node.js versions managed for that user (default storage: `%LOCALAPPDATA%\Author Software\nvm\installs`) and can affect every account on the device that relied on the machine install. Back up installs before fleet-wide removal. See the GPO warning in [Deploy with Active Directory](./enterprise/ad).

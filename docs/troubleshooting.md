@@ -8,10 +8,10 @@
 | `Blocked by this computer's policy.` | Policy-managed setting/operation | `nvm config list`; `nvm config get <key>` | Coordinate with IT policy owner; do not force local overrides |
 | `sync.exe not found` for `doctor` or `upgrade` | Missing/corrupt sync utility | `nvm env`; run `nvm doctor --list` | Reinstall/repair distribution so sync utility is restored |
 | Link mode fails to activate | Link/junction privilege or path issue | `nvm use link`; `nvm env` | Switch to shim (`nvm use shim`) or grant required link privileges |
-| Cache grows too large | Long-lived cache retention | `nvm cache view`; `nvm list cached` | `nvm cache remove version ...`; `nvm cache remove all` |
+| Cache grows too large | Long-lived cache retention | `nvm cache list`; `nvm list cached` | `nvm cache remove version ...`; `nvm cache remove all` |
 | Mirror unreachable warnings | Network/proxy/mirror issue | `nvm env` mirror reachability section | Set mirrors/proxy with `nvm config set node_mirror=... npm_mirror=... proxy=...` |
 | Alias command rejected | Reserved alias name used | `nvm alias list` | Choose non-reserved alias (`legacy`, `stable24`, etc.) |
-| `package.json not found` with `nvm rc --file=package.json` | Command run in wrong directory | `dir package.json` | Run command in project root or use `.nvmrc` target |
+| `package.json not found` with `nvm rtconfig --file=package.json` | Command run in wrong directory | `dir package.json` | Run command in project root or use `.nvmrc` target |
 
 ## Suggested Triage Flow
 

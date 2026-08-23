@@ -1,16 +1,18 @@
 ---
-title: rc
+title: rtconfig
 sidebar_position: 4
 ---
 
-# nvm rc
+# nvm rtconfig
 
 Create or update a run-command file (for example, `.nvmrc`).
+
+**Aliases:** `rc`
 
 ## Usage
 
 ```powershell
-Usage: nvm rc [<version>] [flags]
+Usage: nvm rtconfig (rc) [<version>] [flags]
 ```
 
 ## Arguments
@@ -31,22 +33,25 @@ Usage: nvm rc [<version>] [flags]
 
 ```powershell
 # write current active version to default detect file
-nvm rc
+nvm rtconfig
 
 # write explicit version to .nvmrc
+nvm rtconfig 24
+
+# same command via alias
 nvm rc 24
 
 # write to .node-version
-nvm rc 22.14.0 --file=.node-version
+nvm rtconfig 22.14.0 --file=.node-version
 
 # write package.json engines.node/npm
-nvm rc 24 --file=package.json
+nvm rtconfig 24 --file=package.json
 
 # install if missing before writing
-nvm rc 24 --install
+nvm rtconfig 24 --install
 
 # force no-install behavior for this command
-nvm rc 24 --no-install
+nvm rtconfig 24 --no-install
 ```
 
 ## Sample output
@@ -58,8 +63,8 @@ Successfully set .nvmrc Node.js version to v24.1.0
 ## Verified transcript (local run)
 
 ```powershell
-PS> nvm rc --help
-Usage: nvm rc [<version>] [flags]
+PS> nvm rtconfig --help
+Usage: nvm rtconfig (rc) [<version>] [flags]
 
 Flags:
 	-f, --file=.nvmrc

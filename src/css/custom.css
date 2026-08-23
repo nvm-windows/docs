@@ -120,3 +120,8 @@ pre[class*='language-powershell'] .token.operator,
 pre[class*='language-pwsh'] .token.operator {
   color: var(--terminal-color) !important;
 }
+
+/* Tab bar uses ul/li; markdown li+li margin misaligns inactive tabs. */
+.tabs__item + .tabs__item {
+  margin-top: 0;
+}

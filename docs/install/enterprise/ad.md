@@ -47,7 +47,7 @@ Upload the NVM for Windows MSI and MST files from your deployment package to a f
 1. Click on the "Deployment" tab and choose "Assigned" as the deployment type. Check "Uninstall this application when it falls out of the scope of management" if you wish to remove NVM for Windows when it no longer applies to users.
 
 :::warning[Automatic Uninstallation via GPO Consequences]
-Automatically uninstalling NVM for Windows when the application falls out of the scope of management may have an unintended critical impact on users erroneously removed from the installation scope.
+Automatically uninstalling NVM for Windows when the application falls out of the scope of management **may have an unintended critical impact** on users erroneously removed from the installation scope as descrribed below.
 
 Uninstalling NVM for Windows removes all Node.js versions managed by NVM for Windows. This includes any global modules users have installed in these Node.js versions. It is possible to backup the Node.js storage directory before removing. This folder can be manually restored if NVM for Windows needs to be reinstalled later.
 

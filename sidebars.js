@@ -54,15 +54,15 @@ const sidebars = {
       collapsed: true,
       collapsible: true,
       items: [
-        'features/about',
         'features/newv2',
         'features/modes',
-        'features/native',
-        'features/command-workflows',
+        'features/windows-apps',
         'features/cache',
         'features/version-resolution',
         'features/log',
         'features/notifications',
+        'features/windows-registry',
+        'features/proxy',
       ],
     },
     {
@@ -118,7 +118,7 @@ const sidebars = {
             'command/use/link',
           ],
         },
-        'command/rc',
+        'command/rtconfig',
         {
           type: 'category',
           label: 'list',
@@ -146,7 +146,7 @@ const sidebars = {
           link: {type: 'doc', id: 'command/cache/index'},
           items: [
             'command/cache/add',
-            'command/cache/view',
+            'command/cache/list',
             {
               type: 'category',
               label: 'remove',

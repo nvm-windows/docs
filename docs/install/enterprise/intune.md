@@ -1,11 +1,11 @@
 ---
-title: Deploy with Intune
+title: Deploy with Microsoft Intune
 certified: true
 ---
 
 # Deploy with Microsoft Intune
 
-Deploy NVM for Windows with the pre-built Win32 package from your [customer portal](https://portal.author.io) deployment pack. No file server required. The installer runs as **System** and accepts the EULA automatically (`ACCEPT_EULA=1`).
+Deploy NVM for Windows with the pre-built files found in the NVM for Windows download in the [customer portal](https://portal.author.io). No file server required. The installer runs as **System** and accepts the EULA automatically (`ACCEPT_EULA=1`).
 
 |File|Purpose|
 |:-|:-|
@@ -98,7 +98,7 @@ Unnecessary (skip).
 Unnecessary (skip) when deploying the first time. When deploying an update, configure **Supersedence** on this Win32 app so the new package replaces the previous one.
 
 :::warning[Upgrading from NVM for Windows v1]
-If your organization used NVM for Windows v1.1.7+, v2 will auto-migrate. Versions below 1.1.7 should be uninstalled, but users will lose their existing installations and settings.
+If your organization used NVM for Windows v1.1.7+, v2 will auto-migrate without supercedence. Versions below 1.1.7 should be uninstalled, but users will lose their existing installations and settings.
 
 If you created a custom Intune application from v1.1.7+, it needs to be superceded. See the maintenance guide for details.
 :::

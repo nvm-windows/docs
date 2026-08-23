@@ -1,9 +1,9 @@
 ---
-title: view
+title: list
 sidebar_position: 2
 ---
 
-# nvm cache view
+# nvm cache list
 
 List cache stores and their files.
 
@@ -12,7 +12,7 @@ List cache stores and their files.
 ## Usage
 
 ```powershell
-nvm cache view [name ...] [flags]
+nvm cache list [name ...] [flags]
 ```
 
 ## Arguments
@@ -30,8 +30,8 @@ nvm cache view [name ...] [flags]
 ## Examples
 
 ```powershell
-nvm cache view
-nvm cache view --json
+nvm cache list
+nvm cache list --json
 ```
 
 ## Sample output

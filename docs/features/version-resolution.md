@@ -29,7 +29,7 @@ Commands that accept version specifiers include:
 - [`nvm install`](../command/install)
 - [`nvm uninstall`](../command/uninstall)
 - [`nvm use`](../command/use)
-- [`nvm rc`](../command/rc)
+- [`nvm rtconfig`](../command/rtconfig)
 - [`nvm alias add`](../command/alias/add)
 - [`nvm cache add`](../command/cache/add)
 - [`nvm cache remove version`](../command/cache/remove/version)
@@ -87,19 +87,19 @@ In shim mode, NVM for Windows resolves the Node.js version from an auto-detect f
 
 ## Pinning a Node.js version to a project
 
-`nvm rc` creates auto-detect files automatically. It accepts a version specifier, resolves it, and
+`nvm rtconfig` creates auto-detect files automatically. It accepts a version specifier, resolves it, and
 writes the exact version to the auto-detect file.
 
 ```powershell
 # set the active version, then pin .nvmrc
 nvm use 24
-nvm rc 24 --file=.nvmrc
+nvm rtconfig 24 --file=.nvmrc
 
 # set package.json engines.node, engines.npm, and the equivalent devEngines properties
-nvm rc 24 --file=package.json
+nvm rtconfig 24 --file=package.json
 ```
 
 ## Related docs
 
 - [Commands](/commands)
-- [Command workflows](./command-workflows)
+- [Command workflows](../guide/command-workflows)

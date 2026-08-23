@@ -110,7 +110,7 @@ const config = {
             items: [
               {
                 label: 'Getting Started',
-                to: '/',
+                to: '/install/installers',
               },
               {
                 label: 'GitHub',

@@ -1,161 +1,68 @@
 # What's new in v2
 
-NVM for Windows 2 adds support for shim mode. In shim mode, NVM for Windows provides lightweight shims for commands like `node`, `npm`, and `corepack`. These shims make it possible to support new workflows such as per-directory version switching.
+NVM for Windows v2 is a full rewrite from v1.
 
-Link mode is still available for users who prefer the legacy behavior. Link mode is especially useful in air-gapped environments, or anywhere a simpler static link model is preferred.
+The Community build remains free and open-source (MIT). Certified builds add signed installers, compliance materials, & governance controls (see [Choosing an Edition](../guide/builds/index.md)).
 
-The Community Edition remains free and open-source. Commercial plans are available for organizations that need signed installers, compliance materials, governance controls, or custom support.
+## Highlights
+
+The biggest functional change is the introduction of [operational modes](./modes).
+
+
+**shim mode**: lightweight shims for `node`, `npm`, `corepack`, and related commands. That unlocks per-directory version switching and other automation. **Link mode** remains for legacy PATH junctions — useful in air-gapped or simpler static setups.
+
+
+
+Unless noted, features below are available in Community and all certified plans (Distribution, Compliance, Governance, Custom).
+
+## Node.js Installation
+
+- **Parallel simultaneous installations** — install multiple Node.js versions at once
+- **Smaller download sources** — compact `.7z` archives instead of larger historical formats
+- **Native extraction** — faster installs with fewer external unpacker dependencies
+- **Caching** — reuse downloaded/extracted assets on repeat installs ([Caching](./cache))
+- **Local air-gapped downloads** — install from a local archive directory when offline or restricted
+- **Code-signed MSI installers** _(Certified Builds)_ — MSI/Intune packs for managed fleets ([Installers](../install/installers), [Choosing an Edition](../guide/builds/))
+
+:::tip[7-zip]
+NVM for Windows uses native [7-Zip](https://www.7-zip.org/download.html) if it is installed. The 7-Zip extraction algorithms are proprietary, but faster and free.
+:::
+
+## Operating modes
+
+- **Lightweight shims** — Zig-built shims so Node-related commands resolve through NVM first ([Operating Modes](./modes))
+- **Zero-latency link mode** — legacy junction/symlink PATH model when shim interception is not needed
 
 ## Automation
 
-### Per-directory version switching
+- **Per-directory version switching** — select Node from the current directory (for example `.nvmrc`) in shim mode ([Version resolution](./version-resolution))
+- **Auto-install missing versions** — install a required version when a project needs one that is not present yet
+- **Auto-install default global modules** — optionally install a defined set of globals with each new Node.js version
 
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
+## Preferences
 
-NVM for Windows 2 can automatically select a Node.js version based on the current directory. This is enabled by shim mode, because commands like `node`, `npm`, and `corepack` pass through NVM for Windows before resolving to a specific runtime.
+- **User-defined aliases** — aliases for versions or version groups via `nvm alias` ([Aliases](../cfg/aliases))
+- **User-defined default global modules** — configure packages installed with each new runtime (`auto_installed_modules`)
+- **Windows Registry preferences** — user prefs and (on certified builds) machine policy via `nvm config` ([Basic Configuration](../cfg/core), [Registry Policy Reference](../cfg/registry))
 
-### Auto-install missing versions
+## Native Windows integrations
 
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
+- **Windows Apps** — installed Node.js versions appear in Apps & features ([Windows Apps](./windows-apps))
+- **Windows Event Viewer** — operational events in Event Viewer ([Event Logging](./log))
+- **Desktop Notification Center** — updates and notices in the Windows notification center ([Desktop Notifications](./notifications))
+- **Windows Registry** — user preferences stored under registry keys ([Windows Registry](./windows-registry))
 
-When a project requires a Node.js version that is not already installed, NVM for Windows 2 can install it automatically.
+## Security and governance
 
-### Auto-install default global modules
+_(Governance, Custom)_
 
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
+- **Restrict Node.js versions** — allow/block lists and firewall policies (for example block EOL) ([Download Mirror & Firewall](./proxy))
+- **Control NVM settings** — lock or override preferences with ADMX / GPO / Entra ([Administrative Templates](../cfg/ad))
+- **Advanced proxy support** — IWA (NTLM/Negotiate) and PAC/WPAD beyond basic HTTP proxy ([Download Mirror & Firewall](./proxy))
+- **Custom Node.js mirrors** — Author policy-aware mirror (`mirror.author.io`) or other approved mirrors with licensing
+- **Active Directory and Entra integration** — deploy/manage via AD and Intune ([Enterprise Deployment](../install/enterprise/requirements))
 
-NVM for Windows 2 can install user-defined default global modules when a new Node.js version is installed.
+## Compliance and observability
 
-## Speed
-
-### Parallel simultaneous installations
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-NVM for Windows 2 can install multiple Node.js versions at the same time.
-
-### Smaller download sources
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-NVM for Windows 2 supports smaller download sources using 7z archives.
-
-### Native extraction
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-NVM for Windows 2 uses native extraction to improve installation speed and reduce external dependencies.
-
-### Caching
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-NVM for Windows 2 can cache downloaded and extracted assets to avoid repeating the same work.
-
-### Lightweight shims
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-NVM for Windows 2 uses lightweight shims built with Zig.
-
-### Zero-latency link mode
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-Link mode remains available for users who want legacy behavior without shim-based command interception.
-
-## Native integrations
-
-### Windows Apps
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-NVM for Windows 2 integrates with Windows application behavior.
-
-### Windows Event Viewer
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-NVM for Windows 2 can write events to Windows Event Viewer.
-
-### Windows Registry
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-NVM for Windows 2 can use the Windows Registry for native Windows configuration.
-
-### Desktop Notification Center
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-NVM for Windows 2 can surface relevant events through the Windows Desktop Notification Center.
-
-## Customization
-
-### User-defined aliases
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-Users can define aliases for Node.js versions or version groups.
-
-### User-defined default global modules
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-Users can define global modules that should be installed automatically with new Node.js versions.
-
-### Local air-gapped downloads
-
-Available in: Community, Certified Distribution, Compliance, Governance, Custom
-
-NVM for Windows 2 can use local download sources in air-gapped or restricted environments.
-
-## Commercial features
-
-### Code-signed MSI installers
-
-Available in: Certified Distribution, Compliance, Governance, Custom
-
-Commercial distributions can provide code-signed MSI installers for managed Windows environments.
-
-### SBOM, provenance, and release materials
-
-Available in: Compliance, Governance, Custom
-
-Compliance plans include release materials such as SBOM and provenance documentation.
-
-### Fully auditable native logging
-
-Available in: Governance, Custom
-
-Governance plans provide native logging for audit and operational review.
-
-### Active Directory and Entra integration
-
-Available in: Governance, Custom
-
-Governance plans can integrate with Active Directory and Entra for centralized administration.
-
-### Restrict Node.js versions
-
-Available in: Governance, Custom
-
-Governance plans can restrict which Node.js versions are allowed, such as blocking end-of-life releases.
-
-### Control NVM for Windows settings
-
-Available in: Governance, Custom
-
-Governance plans can control NVM for Windows settings through centralized policy.
-
-### Advanced proxy support
-
-Available in: Governance, Custom
-
-Governance plans include advanced proxy support, including IWA.
-
-### Custom Node.js mirrors
-
-Available in: Governance, Custom
-
-Governance plans include support for custom Node.js mirrors.
+- **SBOM, provenance, and release materials** _(Compliance+)_ — supply-chain trust artifacts with release packs
+- **Fully auditable native logging** _(Governance, Custom)_ — structured logging for SIEM/audit ([Logging](./log), [Choosing an Edition](../guide/builds/))

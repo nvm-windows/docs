@@ -1,7 +1,7 @@
 ---
-title: rc
-sidebar_position: 4
-sidebar_label: "rc"
+title: list
+sidebar_position: 2
+sidebar_label: "list"
 ---
 
 # Перевод готовится
