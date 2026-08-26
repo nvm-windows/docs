@@ -10,7 +10,7 @@ Windows Apps runs a quiet uninstall command (`nvm uninstall <version> --from-app
 
 ![1776491546067](/img/features/install/1776491546067.png)
 
-The operating system recognizes each version as a bon-a-fide "official" installation.
+The operating system recognizes each version as a bona fide "official" installation.
 
 ## Added Cybersecurity Value
 

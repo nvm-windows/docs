@@ -25,7 +25,7 @@ The Community build remains free and open-source (MIT). Certified builds add sig
 ## Node.js Installation
 
 - **Parallel installations** — install multiple Node.js versions at once
-- **Saller downloads (40%)** — uses compact `.7z` archives
+- **Smaller downloads (40%)** — uses compact `.7z` archives
 - **Native extraction** — faster installs with fewer external unpacker dependencies
 - **Local air-gapped downloads** — install from a local archive directory when offline or restricted (see [Local Installations](./local-installations), [Air-gapped Installations](../guide/air-gapped-installations))
 - **Caching** — reuse downloaded/extracted assets on repeat installs ([Download Cache](./cache))
@@ -53,7 +53,7 @@ Shim mode unlocks per-directory version switching and other automation. **Link m
 
 ## Preferences
 
-- **User-defined aliases** — aliases for versions or version groups via `nvm alias` ([Aliases](../cfg/aliases))
+- **User-defined aliases** — aliases for versions via `nvm alias` ([Aliases](../cfg/aliases))
 - **User-defined default global modules** — configure packages installed with each new version (`auto_installed_modules`)
 - **Windows Registry preferences** — user prefs and (on certified builds) machine policy via `nvm config` ([Basic Configuration](../cfg/core), [Registry Policy Reference](../cfg/registry))
 
