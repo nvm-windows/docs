@@ -27,7 +27,7 @@ Usage: nvm uninstall (rm,un) <version> ... [flags]
 |------|-------|-------------|
 | `--purge` | | Remove matching cached download artifact(s) for each uninstalled version. |
 
-Internal automation flag `--notify` exists in source and is hidden from help.
+Internal automation flags `--notify` and `--from-apps` exist in source and are hidden from help. `--from-apps` is used by Windows Apps (ARP `QuietUninstallString`) for non-interactive removal.
 
 ## Examples
 

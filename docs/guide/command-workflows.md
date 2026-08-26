@@ -69,13 +69,13 @@ Set default version and create a local `.nvmrc` file:
 
 ```powershell
 nvm use 24
-nvm rtconfig 24 --file=.nvmrc
+nvm pin 24 --file=.nvmrc
 ```
 
 Or update package engines:
 
 ```powershell
-nvm rtconfig 24 --file=package.json
+nvm pin 24 --file=package.json
 ```
 
 ## 4) Download-Constrained Environments

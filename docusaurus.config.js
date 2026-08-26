@@ -76,6 +76,24 @@ const config = {
 
   themes: ['@docusaurus/theme-mermaid'],
 
+  plugins: [
+    [
+      '@writechoice/docusaurus-plugin-llms-txt',
+      {
+        // Defaults are true for these three; set explicitly for clarity.
+        generateLlmsTxt: true,
+        generateLlmsFullTxt: true,
+        generateMarkdownFiles: true,
+        description:
+          'NVM for Windows documentation — installers, features, configuration, and enterprise deployment.',
+        // Deploy uses Cloudflare Pages (`wrangler pages deploy ./build`).
+        // Writes functions/[[path]].js (Accept: text/markdown) plus MCP at /mcp.
+        deployTarget: null, //'cloudflare',
+        generateMcp: false,
+      },
+    ],
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({

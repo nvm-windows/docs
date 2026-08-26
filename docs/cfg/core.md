@@ -57,15 +57,15 @@ The community build supports basic proxies. IWA, WPAD, and PAC proxies are suppo
 
 ## Project detection and auto behavior
 
-These options apply primarily in **shim** mode (and related `nvm rtconfig` workflows).
+These options apply primarily in **shim** mode (and related `nvm pin` workflows).
 
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
 | `auto_detect` | `.nvmrc`, `.node-version`, `package.json` | Comma-delimited filenames | Project files to inspect for version (shim-only). |
 | `default_detect_file` | `.nvmrc` | Filename | The default file to write to when saving/pinning a version to a project. |
 | `auto_use` | `true` | Boolean | Automatically switch to auto-detected version to run the specified scripts without modifying the system version (shim-only). |
-| `auto_install` | `false` | Boolean | Automatically install missing auto-detected version (rtconfig/shim-only). |
-| `auto_install_prompt` | `true` | Boolean | Prompt before automatically installing missing auto-detected version (rtconfig/shim-only). |
+| `auto_install` | `false` | Boolean | Automatically install missing auto-detected version (`node` shim + proxy: npm/npx/yarn/pnpm/globals; also `nvm pin`). |
+| `auto_install_prompt` | `true` | Boolean | Prompt before automatically installing missing auto-detected version (`node` shim + proxy; also `nvm pin`). |
 
 ```powershell
 nvm config set auto_install=true auto_install_prompt=false

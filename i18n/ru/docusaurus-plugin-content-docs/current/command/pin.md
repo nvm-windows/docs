@@ -1,7 +1,7 @@
 ---
-title: rtconfig
+title: pin
 sidebar_position: 4
-sidebar_label: "rtconfig"
+sidebar_label: "pin"
 ---
 
 # Перевод готовится

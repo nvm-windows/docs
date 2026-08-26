@@ -36,7 +36,7 @@ These use Notification Center when the NVM process is **not** in the foreground:
 | `nvm config set` | _(empty)_ | key set to value |
 | `nvm alias add` | _(empty)_ | "&lt;name&gt;" now refers to vX.X.X |
 | `nvm alias remove` | _(empty)_ | &lt;count&gt; alias(es) removed successfully. |
-| `nvm rtconfig` | _(empty)_ | Success text for `.nvmrc`/`package.json` engines updates |
+| `nvm pin` | _(empty)_ | Success text for `.nvmrc`/`package.json` engines updates |
 | Symlink failure (Developer Mode off) | Help Enabling Symlinks |
 
 ## Sync notifications

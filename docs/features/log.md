@@ -10,10 +10,10 @@ Critical events, such as installations, configuration changes, and security even
 
 Only critical change events are logged by default. Additional logging is available through [configuration](../cfg/core#logging-and-announcements). It is possible to log every `node.exe` / `npm` / `npx` invocation (as well as other major package managers).
 
-:::warning[Basic Logging]
-Logs are written as plaintext entries to the Windows Application log (shown above), with generic event codes.
+:::warning[Event source registration]
+Community and certified builds both register an ETW provider (`NVMWindows.Events.man` + `NVMWindows.Events.dll` next to `nvm.exe`). Look under **Applications and Services Logs → NVM for Windows/Operational**, not only the classic Application log.
 
-If the NVM for Windows community installer is prevented from registering itself as a Windows event source, Application log entries are written as an "unknown" event source instead of "NVM for Windows". This is not an issue in certified distribution builds.
+If setup cannot elevate for `nvm --register-eventlog` (UAC canceled / non-admin), registration is skipped. Run that command later from an elevated terminal, or reinstall and accept the UAC prompt.
 :::
 
 :::tip[SIEM/Audit Logging]

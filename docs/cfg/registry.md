@@ -30,13 +30,15 @@ See [Administrative Templates](ad) for GPO and Intune deployment. Download ADMX/
 |**Allow install root change**|`AllowRootDirChange`|**Overridable.** Whether users may change the install root.<br /><br />- `0` = blocked<br />- `1` = allowed<br /><br />Default: `1`<br /><br />`REG_DWORD`|
 |**Allow native tool install**|`AllowToolInstall`|**Overridable.** Allow `nvm install native-tools` (Python, VS Build Tools, etc.) (shim-only).<br /><br />- `0` = blocked<br />- `1` = allowed<br /><br />Default: `1`<br /><br />`REG_DWORD`|
 |**Allowed code signers**|`AllowedSigners`|**Overridable** (`allowed_signers`). Additional trusted `node.exe` signers. OpenJS Foundation, Node.js Foundation, and Author Software are always trusted (shim-only). One signer name per entry.<br /><br />`REG_MULTI_SZ`|
+|**Allowed thumbprints**|`AllowedThumbprints`|**Overridable** (`allowed_thumbprints`). Optional SHA-1 Authenticode leaf thumbprints (hex; separators optional). When non-empty, `node.exe` must match a pin after org allowlist. Empty disables pinning.<br /><br />`REG_MULTI_SZ`|
+|**Authenticode revocation**|`AuthenticodeRevocation`|**Overridable** (`authenticode_revocation`). CRL/OCSP mode for Authenticode:<br /><br />- `online` = network retrieval (install/sign/seed only; default)<br />- `cached` = local URL cache only<br />- `disabled` = no revocation checks<br /><br />Shim runtime never uses `online` (clamped to `cached`). `AirGapped` forces `cached` when `online` would apply.<br /><br />Default: `online`<br /><br />`REG_SZ`|
 |**Auto-detect files**|`AutoDetect`|**Overridable** (`auto_detect`). Project files scanned for version pins (shim-only). Overrides defaults.<br /><br />Default:<br/>&nbsp;&nbsp;`.nvmrc`<br/>&nbsp;&nbsp;`.node-version`<br/>&nbsp;&nbsp;`package.json`<br /><br />`REG_MULTI_SZ`|
 |**Auto-install missing version**|`AutoInstall`|**Overridable** (`auto_install`). Auto-install missing detected versions (shim mode).<br /><br />- `0` = off<br />- `1` = on<br /><br />Default: `0`<br /><br />`REG_DWORD`|
 |**Auto-install global modules**|`AutoInstallModuleList`|**Overridable** (`auto_installed_modules`). Global npm modules installed with each new Node.js version. One module name per entry.<br /><br />`REG_MULTI_SZ`|
 |**Prompt before auto-install**|`AutoInstallPrompt`|**Overridable** (`auto_install_prompt`). Confirm before auto-installing (shim mode).<br /><br />- `0` = no prompt<br />- `1` = prompt<br /><br />Default: `1`<br /><br />`REG_DWORD`|
 |**Auto-use detected version**|`AutoUse`|**Overridable** (`auto_use`). Auto-switch to detected version when running commands (shim mode).<br /><br />- `0` = off<br />- `1` = on<br /><br />Default: `1`<br /><br />`REG_DWORD`|
 |**Cache downloads**|`CacheDownloads`|**Overridable** (`cache_downloads`). Cache downloaded Node.js versions for offline reuse.<br /><br />- `0` = off/false<br />- `1` = on/true<br /><br />Default: `0`<br /><br />`REG_DWORD`|
-|**Default detect file**|`DefaultDetectFile`|**Overridable** (`default_detect_file`). File written when pinning a version (`nvm rtconfig`) (shim-only).<br /><br />Default: `.nvmrc`<br /><br />`REG_SZ`|
+|**Default detect file**|`DefaultDetectFile`|**Overridable** (`default_detect_file`). File written when pinning a version (`nvm pin`) (shim-only).<br /><br />Default: `.nvmrc`<br /><br />`REG_SZ`|
 |**Disable announcements**|`DisableAnnouncements`|**Overridable** (`disable_announcements`). Suppress project and release announcements.<br /><br />- `0` = shown<br />- `1` = hidden<br /><br />Default: `0`<br /><br />`REG_DWORD`|
 |**Disallow eval/string code gen**|`DisableEvalAndStringExecution`|**Overridable** (`disable_eval_and_string_execution`). Shim prepends `--disallow-code-generation-from-strings`, blocking `eval()` and `new Function()` (shim-only). Does not affect `node:vm`.<br /><br />- `0` = off<br />- `1` = on<br /><br />Default: `0`<br /><br />`REG_DWORD`|
 |**Disable NVM upgrades**|`DisableUpgrade`|**Overridable.** Block in-app NVM upgrades (does not block AD/GPO package deployment).<br /><br />- `0` = allowed<br />- `1` = blocked<br /><br />Default: `0`<br /><br />`REG_DWORD`|
@@ -80,7 +82,7 @@ Several ADMX policies use inverted GPO labels (e.g. **Disable automatic version 
 Save as `nvm-policy.reg`, replace placeholder paths and URLs for your environment, then double-click or run `reg import nvm-policy.reg` from an elevated command prompt.
 
 :::warning[`REG_MULTI_SZ` keys]
-`MirrorNode`, `MirrorNpm`, `Aliases`, `AutoDetect`, `AutoInstallModuleList`, and `AllowedSigners` are **`REG_MULTI_SZ`** (one string per entry). A `.reg` line like `"MirrorNode"="url1,url2"` creates a wrong **`REG_SZ`**. Set those with ADMX, Registry CSP, or PowerShell (below) — not comma-joined `REG_SZ` values.
+`MirrorNode`, `MirrorNpm`, `Aliases`, `AutoDetect`, `AutoInstallModuleList`, `AllowedSigners`, and `AllowedThumbprints` are **`REG_MULTI_SZ`** (one string per entry). A `.reg` line like `"MirrorNode"="url1,url2"` creates a wrong **`REG_SZ`**. Set those with ADMX, Registry CSP, or PowerShell (below) — not comma-joined `REG_SZ` values.
 :::
 
 ```powershell

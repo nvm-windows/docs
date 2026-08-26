@@ -11,7 +11,7 @@
 | Cache grows too large | Long-lived cache retention | `nvm cache list`; `nvm list cached` | `nvm cache remove version ...`; `nvm cache remove all` |
 | Mirror unreachable warnings | Network/proxy/mirror issue | `nvm env` mirror reachability section | Set mirrors/proxy with `nvm config set node_mirror=... npm_mirror=... proxy=...` |
 | Alias command rejected | Reserved alias name used | `nvm alias list` | Choose non-reserved alias (`legacy`, `stable24`, etc.) |
-| `package.json not found` with `nvm rtconfig --file=package.json` | Command run in wrong directory | `dir package.json` | Run command in project root or use `.nvmrc` target |
+| `package.json not found` with `nvm pin --file=package.json` | Command run in wrong directory | `dir package.json` | Run command in project root or use `.nvmrc` target |
 
 ## Suggested Triage Flow
 

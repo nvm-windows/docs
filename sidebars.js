@@ -119,7 +119,7 @@ const sidebars = {
             'command/use/link',
           ],
         },
-        'command/rtconfig',
+        'command/pin',
         {
           type: 'category',
           label: 'list',

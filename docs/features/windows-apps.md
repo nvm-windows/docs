@@ -6,6 +6,8 @@ tags: [native-integration]
 
 Versions of Node.js installed with the `nvm install` command are visible in the Windows Apps screen. Versions can be uninstalled directly from this screen too.
 
+Windows Apps runs a quiet uninstall command (`nvm uninstall <version> --from-apps`) so removal works without an interactive terminal. Existing installs get this ARP entry refreshed the next time you run `nvm` (or after upgrade).
+
 ![1776491546067](/img/features/install/1776491546067.png)
 
 The operating system recognizes each version as a bon-a-fide "official" installation.

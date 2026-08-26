@@ -1,18 +1,16 @@
 ---
-title: rtconfig
+title: pin
 sidebar_position: 4
 ---
 
-# nvm rtconfig
+# nvm pin
 
 Create or update a run-command file (for example, `.nvmrc`).
-
-**Aliases:** `rc`
 
 ## Usage
 
 ```powershell
-Usage: nvm rtconfig (rc) [<version>] [flags]
+Usage: nvm pin [<version>] [flags]
 ```
 
 ## Arguments
@@ -33,38 +31,35 @@ Usage: nvm rtconfig (rc) [<version>] [flags]
 
 ```powershell
 # write current active version to default detect file
-nvm rtconfig
+nvm pin
 
 # write explicit version to .nvmrc
-nvm rtconfig 24
-
-# same command via alias
-nvm rc 24
+nvm pin 24
 
 # write to .node-version
-nvm rtconfig 22.14.0 --file=.node-version
+nvm pin 22.14.0 --file=.node-version
 
 # write package.json engines.node/npm
-nvm rtconfig 24 --file=package.json
+nvm pin 24 --file=package.json
 
 # install if missing before writing
-nvm rtconfig 24 --install
+nvm pin 24 --install
 
 # force no-install behavior for this command
-nvm rtconfig 24 --no-install
+nvm pin 24 --no-install
 ```
 
 ## Sample output
 
 ```powershell
-Successfully set .nvmrc Node.js version to v24.1.0
+Successfully pinned .nvmrc Node.js version to v24.1.0
 ```
 
 ## Verified transcript (local run)
 
 ```powershell
-PS> nvm rtconfig --help
-Usage: nvm rtconfig (rc) [<version>] [flags]
+PS> nvm pin --help
+Usage: nvm pin [<version>] [flags]
 
 Flags:
 	-f, --file=.nvmrc
