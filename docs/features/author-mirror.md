@@ -103,7 +103,7 @@ Rules matching your preferred conditions are applied to each request, providing 
 :::tip[Working in a Regulated Environment?]
 Organizations whose policies prevent storing any organization data on hosted services can disable hosted rules without impacting local rules processed by the mirror. Do this via the [Node Mirror configuration page](https://portal.author.io/nvm-windows/config).
 
-**Highly regulated organizations, or those with very strict compliance policies, can request this feature be removed entirely.** [Contact us](https://portal.author.io/contact) if you wish to remove hosted rules entirely.
+**Highly regulated organizations, or those with very strict compliance policies, can request this feature be removed entirely.** [Contact us](mailto:support@author.io) if you wish to remove hosted rules entirely.
 :::
 
 ## Local (and air-gapped) installs
