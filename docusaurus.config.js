@@ -8,6 +8,39 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+const algoliaAppId = process.env.ALGOLIA_APP_ID;
+const algoliaSearchApiKey = process.env.ALGOLIA_SEARCH_API_KEY;
+const algoliaIndexName = process.env.ALGOLIA_INDEX_NAME;
+const algoliaValues = [algoliaAppId, algoliaSearchApiKey, algoliaIndexName];
+const configuredAlgoliaValues = algoliaValues.filter(Boolean).length;
+
+if (
+  configuredAlgoliaValues > 0 &&
+  configuredAlgoliaValues < algoliaValues.length
+) {
+  throw new Error(
+    'Algolia DocSearch requires ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, and ALGOLIA_INDEX_NAME.',
+  );
+}
+
+const algolia =
+  configuredAlgoliaValues === algoliaValues.length
+    ? {
+        appId: algoliaAppId,
+        apiKey: algoliaSearchApiKey,
+        indexName: algoliaIndexName,
+        contextualSearch: true,
+        searchPagePath: 'search',
+      }
+    : undefined;
+
+const searchNavbarItem = algolia
+  ? /** @type {const} */ ({
+      type: 'search',
+      position: 'right',
+    })
+  : undefined;
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'nvm-windows Documentation',
@@ -97,6 +130,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      ...(algolia ? {algolia} : {}),
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       colorMode: {
@@ -113,6 +147,7 @@ const config = {
             type: 'localeDropdown',
             position: 'right',
           },
+          ...(searchNavbarItem ? [searchNavbarItem] : []),
           {
             href: 'https://github.com/nvm-windows/docs',
             label: 'GitHub',

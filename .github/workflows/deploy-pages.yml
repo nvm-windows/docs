@@ -30,6 +30,10 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          ALGOLIA_APP_ID: ${{ vars.ALGOLIA_APP_ID }}
+          ALGOLIA_SEARCH_API_KEY: ${{ vars.ALGOLIA_SEARCH_API_KEY }}
+          ALGOLIA_INDEX_NAME: ${{ vars.ALGOLIA_INDEX_NAME }}
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
