@@ -37,7 +37,7 @@ NVM for Windows is available as community and certified builds on amd64 (x64) an
 
 ## Certified Build
 
-Download the code-signed assets from the [customer portal](https://portal.author.io/downloads).
+Code-signed assets will be available for download in the customer portal.
 
 Certified builds are designed for remote installation through platforms like Active Directory and Microsoft Entra, but you can still install on a single computer using the MSI. See the Enterprise Deployment section to deploy NVM for Windows to many computers.
 
