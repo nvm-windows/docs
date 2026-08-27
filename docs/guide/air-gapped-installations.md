@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Air-gapped Installations
 
-This guide walks through installing Node.js with NVM for Windows when the target machine cannot reach public download mirrors (or must not).
+This guide walks through installing Node.js with NVM for Windows when the target machine cannot or must not reach public download mirrors.
 
 Feature background:
 
