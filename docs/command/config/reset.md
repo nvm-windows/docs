@@ -41,7 +41,7 @@ nvm config reset all [flags]
 
 **Preserved (not reset):**
 
-- `root` — install directory stays as configured
+- [`root`](../../cfg/core#mode-and-install-location) — install directory stays as configured
 - `active_version` — current default version pointer
 - `access_token`, `access_key` — licensing values (use `nvm license set` / `nvm license clear`)
 - Policy-managed options — skipped with a summary line

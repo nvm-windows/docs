@@ -23,7 +23,7 @@ Usage: nvm pin [<version>] [flags]
 
 | Flag | Short | Description |
 |------|-------|-------------|
-| `--file` | `-f` | Target file to write. Must be in configured `auto_detect` list. |
+| `--file` | `-f` | Target file to write. Must be in configured [`auto_detect`](../cfg/core#project-detection-and-auto-behavior) list. |
 | `--install` | `-i` | Install target version when missing. |
 | `--no-install` | `-n` | Do not auto-install missing version for this command. |
 

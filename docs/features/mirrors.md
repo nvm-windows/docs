@@ -11,7 +11,7 @@ This page covers basic mirror URLs and HTTP proxies available to Community and c
 
 | Option | Registry | Default |
 |--------|----------|---------|
-| `node_mirror` | `MirrorNode` | https://nodejs.org/dist |
+| [`node_mirror`](../cfg/core#downloads-and-mirrors) | `MirrorNode` | https://nodejs.org/dist |
 
 Used when `nvm install` (and related commands) need to fetch a Windows Node.js `.7z` and checksums, after any [local install](./local-installations)/[cache](./cache) miss.
 
@@ -26,8 +26,8 @@ nvm config get node_mirror
 
 Install resolution order:
 
-1. Local archive source (`local_dir`/version cache) when present (see [Local Installations](./local-installations) and [Download Cache](./cache)).
-2. Walk the ordered `node_mirror` list.
+1. Local archive source ([`local_dir`](../cfg/registry#available-registry-keys)/version cache) when present (see [Local Installations](./local-installations) and [Download Cache](./cache)).
+2. Walk the ordered [`node_mirror`](../cfg/core#downloads-and-mirrors) list.
 3. Stop at the **first successful** response.
 
 Put the preferred mirror first. A public fallback is useful if the primary host is unreachable.
@@ -38,9 +38,9 @@ Put the preferred mirror first. A public fallback is useful if the primary host 
 
 | Option | Registry | Default |
 |--------|----------|---------|
-| `npm_mirror` | `MirrorNpm` | https://registry.npmjs.org |
+| [`npm_mirror`](../cfg/core#downloads-and-mirrors) | `MirrorNpm` | https://registry.npmjs.org |
 
-`npm_mirror` is **not** used to download Node.js installers. In **shim** mode it supplies a fallback npm (and related package-manager) registry URL when the user or project has not already set one.
+[`npm_mirror`](../cfg/core#downloads-and-mirrors) is **not** used to download Node.js installers. In **shim** mode it supplies a fallback npm (and related package-manager) registry URL when the user or project has not already set one.
 
 Same list rules as Node mirrors: comma-delimited in `nvm config`; **`REG_MULTI_SZ`** for `MirrorNpm` in the registry.
 
@@ -56,15 +56,15 @@ Keep Node mirrors and npm registries as separate concerns.
 
 Corporate networks often require an HTTP(S) proxy between NVM and the mirror. Resolve order:
 
-1. Explicit `proxy`/`Proxy` setting (policy or config)
+1. Explicit [`proxy`](../cfg/core#proxy)/`Proxy` setting (policy or config)
 2. Process environment (`HTTP_PROXY`, `HTTPS_PROXY`, etc.)
 3. Internet Explorer/WinINET system proxy settings
 
 | Config | Registry | Notes |
 |:-|:-|:-|
-| `proxy` | `Proxy` | Proxy URL, e.g. `http://proxy.example.corp:8080` |
-| `proxy_auth` | `ProxyAuth` | `user:pass` or `Bearer YOUR_TOKEN` — stored **in plain text** |
-| `proxy_auth_type` | `ProxyAuthType` | `basic`, `bearer`, `ntlm`, `negotiate`, or `ntlm,negotiate` |
+| [`proxy`](../cfg/core#proxy) | `Proxy` | Proxy URL, e.g. `http://proxy.example.corp:8080` |
+| [`proxy_auth`](../cfg/registry#available-registry-keys) | `ProxyAuth` | `user:pass` or `Bearer YOUR_TOKEN` — stored **in plain text** |
+| [`proxy_auth_type`](../cfg/registry#available-registry-keys) | `ProxyAuthType` | `basic`, `bearer`, `ntlm`, `negotiate`, or `ntlm,negotiate` |
 
 | Capability | Community | Certified (Distribution/Audit) | Governance |
 |:-|:-:|:-:|:-:|

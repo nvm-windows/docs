@@ -35,7 +35,7 @@ This subcommand has no flags.
 
 | Detail | Description |
 |--------|-------------|
-| Policy | Blocked when `allow_tool_install` is disabled. |
+| Policy | Blocked when [`allow_tool_install`](../../cfg/registry#available-registry-keys) is disabled. |
 | Detection | Fails when no installed version includes `install_tools.bat`. |
 | Execution | Runs via `cmd.exe` in the detected tools directory. |
 

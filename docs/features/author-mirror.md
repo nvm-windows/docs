@@ -8,7 +8,7 @@ certified:
 
 Governance builds can limit which Node.js versions install via a **local firewall** (static allow/block lists) and Author Software's **policy-aware Node.js mirror** at `https://mirror.author.io/runtime/nodejs` (lifecycle rules such as blocking end-of-life releases).
 
-For everyday `node_mirror`/`npm_mirror` URLs and HTTP proxies, see [Download Mirrors](./mirrors).
+For everyday [`node_mirror`](../cfg/core#downloads-and-mirrors)/[`npm_mirror`](../cfg/core#downloads-and-mirrors) URLs and HTTP proxies, see [Download Mirrors](./mirrors).
 
 ## Firewall
 
@@ -26,7 +26,7 @@ The Author mirror adds another layer of protection against unapproved Node.js do
 The Author mirror is not available in air-gapped environments.
 :::
 
-Point `node_mirror` / `MirrorNode` at Author's mirror service: `https://mirror.author.io/runtime/nodejs`
+Point [`node_mirror`](../cfg/core#downloads-and-mirrors) / `MirrorNode` at Author's mirror service: `https://mirror.author.io/runtime/nodejs`
 
 Allow outbound HTTPS to:
 
@@ -43,7 +43,7 @@ On Author hosts, NVM may send:
 Set these with portal scripts/policy, not everyday `nvm config docs` keys. If the only configured mirror is Author and auth fails, install fails with an authorization error. With multiple mirrors, NVM can fall through to the next URL after a failed attempt (unless the failure is a hard auth denial on a solo Author mirror).
 
 :::warning[Fallback skips Author policy]
-If `nodejs.org` (or another non-Author host) is later in `node_mirror`, a failed Author request can fall through and download **without** Author lifecycle rules (`EOL`, hosted rulesets). Put Author first and omit public fallbacks when those rules must always apply.
+If `nodejs.org` (or another non-Author host) is later in [`node_mirror`](../cfg/core#downloads-and-mirrors), a failed Author request can fall through and download **without** Author lifecycle rules (`EOL`, hosted rulesets). Put Author first and omit public fallbacks when those rules must always apply.
 :::
 
 Optional: `ApplyVerboseLicenseMetadata` includes machine/user identity claims in mirror JWTs for auditing.
@@ -79,9 +79,9 @@ What this does:
 
 1. **Locally:** `20.x` / `22.x` match the allow list. `EOL` is not expanded, so an end-of-life release is **not** stopped on the client by that alias alone. Because a dynamic alias is present, the allow list is also **not** treated as exclusive: other versions can still pass the local check.
 1. **On `mirror.author.io`:** the client sends a license claim derived from these lists (including `NOT EOL`). The mirror rejects end-of-life archives.
-1. **On `nodejs.org` (or any non-Author mirror):** no Author JWT — `EOL` does nothing. Put Author first in `node_mirror`, or add static blocks (for example `16.x`) if you must enforce without the Author mirror.
+1. **On `nodejs.org` (or any non-Author mirror):** no Author JWT — `EOL` does nothing. Put Author first in [`node_mirror`](../cfg/core#downloads-and-mirrors), or add static blocks (for example `16.x`) if you must enforce without the Author mirror.
 
-Air-gapped/`local_install_only` installs never hit the mirror, so `EOL` is not enforced in local environments. Use static allow/block lists (or stage only approved archives).
+Air-gapped/[`local_install_only`](../cfg/registry#available-registry-keys) installs never hit the mirror, so `EOL` is not enforced in local environments. Use static allow/block lists (or stage only approved archives).
 
 
 ### 2. Hosted Rules
@@ -110,8 +110,8 @@ Organizations whose policies prevent storing any organization data on hosted ser
 
 | Config | Registry | Role |
 |:-|:-|:-|
-| `local_dir` | `LocalInstallDir` | Directory of pre-staged Node archives (+ checksums). Preferred over network when present. |
-| `local_install_only` | `LocalInstallOnly` | If on, **never** download; fail when the version is missing locally. |
+| [`local_dir`](../cfg/registry#available-registry-keys) | `LocalInstallDir` | Directory of pre-staged Node archives (+ checksums). Preferred over network when present. |
+| [`local_install_only`](../cfg/registry#available-registry-keys) | `LocalInstallOnly` | If on, **never** download; fail when the version is missing locally. |
 
 `AirGapped` is separate: it only forces **offline license JWKS** verification (`licensing.author.io` skipped). It does **not** by itself block Node downloads — use `LocalInstallOnly` (and/or remove remote mirrors) for install air-gaps. See [Local Installations](./local-installations) and [Air-gapped Installations](../guide/air-gapped-installations).
 
@@ -119,7 +119,7 @@ Organizations whose policies prevent storing any organization data on hosted ser
 
 | Topic | Doc |
 |:-|:-|
-| Basic `node_mirror` / `npm_mirror` | [Download Mirrors](./mirrors) |
+| Basic [`node_mirror`](../cfg/core#downloads-and-mirrors) / [`npm_mirror`](../cfg/core#downloads-and-mirrors) | [Download Mirrors](./mirrors) |
 | HTTP proxies | [Download Mirrors](./mirrors#http-proxies) |
 | User-facing config keys | [Basic Configuration](../cfg/core) |
 | Policy keys and `.reg` sample | [Registry Policy Reference](../cfg/registry) |

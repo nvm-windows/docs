@@ -36,8 +36,8 @@ Default subcommand when you pass a version directly (for example `nvm use 24`).
 
 | Flag | Short | Description |
 |------|-------|-------------|
-| `--install` | `-i` | Install the requested version if missing. Overrides `auto_install=false`. |
-| `--no-install` | `-n` | Do not install if missing. Overrides `auto_install=true`. |
+| `--install` | `-i` | Install the requested version if missing. Overrides [`auto_install=false`](../../cfg/core#project-detection-and-auto-behavior). |
+| `--no-install` | `-n` | Do not install if missing. Overrides [`auto_install=true`](../../cfg/core#project-detection-and-auto-behavior). |
 | `--local` | `-l` | Use latest **installed** match for a partial version. Never installs. |
 
 ## Examples

@@ -9,14 +9,14 @@ Caching helps when:
 
 - **Reinstalling often**: wipe/reinstall the same Node version without re-downloading.
 - **Flaky or metered networks**: keep a local copy so installs still work after a bad mirror or offline stretch
-- **Fleet/lab prep**: `nvm cache add` once, copy archives (or a shared `local_dir`) to other machines
+- **Fleet/lab prep**: `nvm cache add` once, copy archives (or a shared [`local_dir`](../cfg/registry#available-registry-keys)) to other machines
 - **Air-gapped installs**: prefetch on a connected host, then install offline ([Air-gapped Installations](../guide/air-gapped-installations))
 
 :::info[Local installations]
 Caching can cover a simple offline laptop. For teams and shared archives, prefer [Local Installations](./local-installations) and the [Air-gapped Installations](../guide/air-gapped-installations) guide.
 :::
 
-By default **`cache_downloads` is `false`**: a normal `nvm install` will **reuse** a cached archive if one exists, but will **not** write a new archive unless you pass `--cache` or enable the preference.
+By default **[`cache_downloads`](../cfg/core#downloads-and-mirrors) is `false`**: a normal `nvm install` will **reuse** a cached archive if one exists, but will **not** write a new archive unless you pass `--cache` or enable the preference.
 
 ```powershell
 nvm install 24 --cache
@@ -33,7 +33,7 @@ Under the NVM data root (parent of the install root; default `%LOCALAPPDATA%\Aut
 | Metadata | `.cache/metadata` | Sync/release index metadata (not install archives) |
 | HTTP | `.cache/http` | Short-lived HTTP bodies (for example SHASUM fetches) |
 
-If `local_dir` is set (see [registry policy](../cfg/registry)), that directory **replaces** `.cache/versions` as the archive source for installs.
+If [`local_dir`](../cfg/registry#available-registry-keys) is set (see [registry policy](../cfg/registry)), that directory **replaces** `.cache/versions` as the archive source for installs.
 
 ## Install behavior
 
@@ -43,7 +43,7 @@ If `local_dir` is set (see [registry policy](../cfg/registry)), that directory *
 | [`nvm install --no-cache`](../command/install/) | Do not use or write the default version cache |
 | [`cache_downloads=true`](../cfg/core#downloads-and-mirrors) | Always save successful downloads (unless `--no-cache`) |
 | [`nvm cache add`](../command/cache/add) | Download and cache **without** installing |
-| [`local_install_only`](../cfg/registry) | No network: install only from `local_dir`/cache hit |
+| [`local_install_only`](../cfg/registry#available-registry-keys) | No network: install only from [`local_dir`](../cfg/registry#available-registry-keys)/cache hit |
 
 Integrity on a cache hit is checked before reuse (local SHASUM beside the archive when present, download verify-cache, or live mirror SHASUM when online). A bad archive is removed and the install continues as a miss when network is allowed.
 

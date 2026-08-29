@@ -30,7 +30,7 @@ This command takes no arguments.
 |--------|-------------|
 | Backend | Delegates to `sync.exe upgrade` |
 | `--check` | Runs sync upgrade in check-only mode |
-| Policy | Upgrade execution blocked when `disable_upgrade=true`; check-only still allowed |
+| Policy | Upgrade execution blocked when [`disable_upgrade=true`](../cfg/registry#available-registry-keys); check-only still allowed |
 
 ## Examples
 

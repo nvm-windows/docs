@@ -19,4 +19,4 @@ Remove cached artifacts.
 
 ## Notes
 
-Removal can be blocked when `allow_download_cache_removal=false`.
+Removal can be blocked when [`allow_download_cache_removal=false`](../../../cfg/core#downloads-and-mirrors).

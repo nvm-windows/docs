@@ -26,7 +26,7 @@ This command has no flags.
 | Step | Detail |
 |------|--------|
 | Unlink | Removes the managed `.nodejs` target |
-| Settings | Sets `enabled=false` |
+| Settings | Sets [`enabled=false`](../cfg/core#related-settings) |
 | Installs | Installed Node.js versions remain on disk |
 
 ## Example
