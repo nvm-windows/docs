@@ -20,6 +20,10 @@ All signatures show "Author Software Inc" as the publisher. Project stewardship 
 
 ## Community & Certified Builds
 
+:::info[Certified Builds]
+Available September 2026.
+:::
+
 The Community build remains free and open-source (MIT). Certified builds add signed installers, optional **Trust Artifacts**, **Advanced Logging**, and **Governance** add-ons, and related controls (see [Choosing an Edition](../guide/builds/index.md)).
 
 ## Node.js Installation

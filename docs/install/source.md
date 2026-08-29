@@ -3,7 +3,7 @@
 Most users should install a prebuilt package instead — see [Installers](./installers).
 
 :::info[Community Build only]
-This guide covers the open-source/unsigned Inno Setup pipeline. [Certified builds](../guide/builds/) (signed MSI/Intune packs, ADMX, SBOM, etc.) are produced from private tooling and distributed through the [customer portal](https://portal.author.io).
+This guide covers the open-source/unsigned Inno Setup pipeline. [Certified builds](../guide/builds/) (signed MSI/Intune packs, ADMX, SBOM, etc.) are produced from private tooling and will be available through the [customer portal](https://portal.author.io) in September 2026.
 :::
 
 ## Prerequisites

@@ -53,7 +53,7 @@ Shim mode offers:
 - Lockdown Node.js/V8 permissions. (Optional)
 - Publisher trust: Verifies node.exe publisher to prevent untrusted node.exe swaps.
 - Native event logging.
-- Unified/configurable cooldown periods across all major package managers (npm/yarn/pnpm). _Requires governance add-on._
+- Unified/configurable cooldown periods across all major package managers (npm/yarn/pnpm). _Requires the Governance add-on, available September 2026._
 
 :::info
 Windows has a "universal latency tax". It uses [`CreateProcessW`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw) to launch _any_ executable. This tax is paid when the shim is launched and again when the shim runs `node.exe`. On average, `CreateProcessW` takes 15ms. The shim adds 1-3ms to identify the desired Node.js version and securely relay the command.

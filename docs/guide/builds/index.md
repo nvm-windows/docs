@@ -5,7 +5,7 @@ This guide details the differences between NVM for Windows community builds and 
 |Type|Audience|License|Availability|
 |:-|:-:|:-:|:-|
 |Community&nbsp;Build|Individuals|MIT|[nvm-windows.com](https://nvm-windows.com) or [github.com/nvm-windows](https://github.com/nvm-windows/nvm/releases)|
-|Certified&nbsp;Build|Organizations|EULA|[Customer Portal](https://portal.author.io)|
+|Certified&nbsp;Build|Organizations|EULA|September 2026 via [Customer Portal](https://portal.author.io)|
 
 ## Community Builds
 
@@ -21,7 +21,7 @@ _Example:_
 
 ## Certified Builds
 
-Certified builds are designed for teams and organizations who need to centralize software distribution, audit activity, comply with regulations, & enforce usage/security policies. These builds deliver the same application while adding meaningful management capabilities. Certified builds are available on [nvm-windows.com](https://nvm-windows.com).
+Certified builds are designed for teams and organizations who need to centralize software distribution, audit activity, comply with regulations, & enforce usage/security policies. These builds deliver the same application while adding meaningful management capabilities. Distribution will be through the [Customer Portal](https://portal.author.io).
 
 ### Key additions
 
