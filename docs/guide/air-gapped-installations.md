@@ -9,7 +9,7 @@ This guide walks through installing Node.js with NVM for Windows when the target
 
 Feature background:
 
-- [Local Installations](../features/local-installations) — `local_dir`/`local_install_only`
+- [Local Installations](../features/local-installations) — [`local_dir`](../cfg/registry#available-registry-keys)/[`local_install_only`](../cfg/registry#available-registry-keys)
 - [Download Cache](../features/cache) — `.cache/versions` and `nvm cache add`
 
 ## Choose a pattern
@@ -17,10 +17,10 @@ Feature background:
 | Pattern | Best for | How |
 |---------|----------|-----|
 | **Prefetch into default cache** | One laptop/few machines | `nvm cache add` on a connected host, copy `%LOCALAPPDATA%\Author Software\nvm\.cache\versions` |
-| **Shared `local_dir`** | Labs, fleets, USB/internal shares | Point every offline host at the same archive folder and set `local_install_only=true` |
+| **Shared [`local_dir`](../cfg/registry#available-registry-keys)** | Labs, fleets, USB/internal shares | Point every offline host at the same archive folder and set [`local_install_only=true`](../cfg/registry#available-registry-keys) |
 | **Policy-locked local source** | Certified/Governance fleets | Set `LocalInstallDir` + `LocalInstallOnly` via [registry policy](../cfg/registry) or ADMX |
 
-For more than a few people, prefer a shared `local_dir` (or policy) over copying personal cache folders.
+For more than a few people, prefer a shared [`local_dir`](../cfg/registry#available-registry-keys) (or policy) over copying personal cache folders.
 
 ## 1. Prefetch archives (connected host)
 
@@ -69,7 +69,7 @@ nvm config set local_install_only=true
 nvm config get local_dir local_install_only
 ```
 
-`local_dir` replaces the default version cache as the install source. With `local_install_only=true`, a missing archive fails instead of downloading.
+[`local_dir`](../cfg/registry#available-registry-keys) replaces the default version cache as the install source. With [`local_install_only=true`](../cfg/registry#available-registry-keys), a missing archive fails instead of downloading.
 
 ### Option B — copy into the default cache
 
@@ -77,7 +77,7 @@ Copy archives into:
 
 `%LOCALAPPDATA%\Author Software\nvm\.cache\versions\`
 
-Then still set `local_install_only=true` if you must block network fallback (without `local_dir`, installs look in that default cache first).
+Then still set [`local_install_only=true`](../cfg/registry#available-registry-keys) if you must block network fallback (without [`local_dir`](../cfg/registry#available-registry-keys), installs look in that default cache first).
 
 ### Option C — machine policy (certified)
 
@@ -100,16 +100,16 @@ Expected path: find archive → integrity check → extract. If the archive is m
 
 ## 5. Refresh versions later
 
-Repeat prefetch on a connected host when new Node releases are approved, update the share or media, then run `nvm install` again on offline hosts. No change to `local_dir` is required if the folder path stays the same.
+Repeat prefetch on a connected host when new Node releases are approved, update the share or media, then run `nvm install` again on offline hosts. No change to [`local_dir`](../cfg/registry#available-registry-keys) is required if the folder path stays the same.
 
 ## Troubleshooting
 
 | Symptom | Check |
 |---------|--------|
-| `not found in local install directory` | Exact version string; archive name `node-v…-win-….7z`; arch matches OS; `local_dir` path reachable |
+| `not found in local install directory` | Exact version string; archive name `node-v…-win-….7z`; arch matches OS; [`local_dir`](../cfg/registry#available-registry-keys) path reachable |
 | Integrity/SHASUM failure | Corrupt copy; missing or wrong SHASUM sidecar; re-copy from connected host |
-| Still tries network | Confirm `local_install_only=true` (or policy `LocalInstallOnly=1`) |
-| Works on one PC, not another | Arch mismatch (`x64` vs `arm64`); different `local_dir`; policy override |
+| Still tries network | Confirm [`local_install_only=true`](../cfg/registry#available-registry-keys) (or policy `LocalInstallOnly=1`) |
+| Works on one PC, not another | Arch mismatch (`x64` vs `arm64`); different [`local_dir`](../cfg/registry#available-registry-keys); policy override |
 
 ## Related
 
@@ -120,5 +120,5 @@ Repeat prefetch on a connected host when new Node releases are approved, update 
 - [Registry policy](../cfg/registry)
 
 :::info[`air_gapped` preference]
-`air_gapped` controls offline license/JWKS behavior for Author mirrors. It does **not** point Node installs at a local archive folder. Use `local_dir`/`local_install_only` (or the steps above) for that.
+[`air_gapped`](../cfg/registry#available-registry-keys) controls offline license/JWKS behavior for Author mirrors. It does **not** point Node installs at a local archive folder. Use [`local_dir`](../cfg/registry#available-registry-keys)/[`local_install_only`](../cfg/registry#available-registry-keys) (or the steps above) for that.
 :::

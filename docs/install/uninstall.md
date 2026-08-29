@@ -50,7 +50,7 @@ Use this only when the uninstaller is missing or fails.
    schtasks /Delete /TN "NVM for Windows Sync" /F
    ```
 
-1. Delete `%LOCALAPPDATA%\Author Software\nvm` (app files, installs, cache, shims). If you customized `root`/`InstallRoot`, delete that directory too (see [Basic Configuration](../cfg/core) and [registry reference](../cfg/registry)).
+1. Delete `%LOCALAPPDATA%\Author Software\nvm` (app files, installs, cache, shims). If you customized [`root`](../cfg/core#mode-and-install-location)/`InstallRoot`, delete that directory too (see [Basic Configuration](../cfg/core) and [registry reference](../cfg/registry)).
 1. Remove leftovers from the user environment:
 
    - Delete `NVM_HOME` (and legacy `NVM_SYMLINK` if present) from **User** environment variables.
@@ -64,7 +64,7 @@ Use this only when the uninstaller is missing or fails.
 1. Sign out/open a new terminal and confirm `nvm`, `node`, and `npm` are no longer resolved.
 
 :::tip[Reinstall later]
-Community reinstall uses the [standard installer or winget](./installers#community-build). Restoring a backed-up installs folder only works if you place it at the same `root` path the new install expects.
+Community reinstall uses the [standard installer or winget](./installers#community-build). Restoring a backed-up installs folder only works if you place it at the same [`root`](../cfg/core#mode-and-install-location) path the new install expects.
 :::
 
 ## Certified Builds

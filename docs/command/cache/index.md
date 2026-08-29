@@ -36,6 +36,6 @@ nvm cache remove all
 
 ## Notes
 
-- Removal can be blocked by policy (`allow_download_cache_removal=false`).
+- Removal can be blocked by policy ([`allow_download_cache_removal=false`](../../cfg/core#downloads-and-mirrors)).
 
 See [Download Cache](../../features/cache).

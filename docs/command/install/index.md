@@ -68,8 +68,8 @@ Installed Node.js v24.1.0
 
 ## Behavior notes
 
-- If `local_dir` is configured, installs use that location as the source/cache root.
-- If `local_install_only` is enabled, installs are restricted to local sources.
-- Auto-install module list (`auto_installed_modules`) is applied during install.
+- If [`local_dir`](../../cfg/registry#available-registry-keys) is configured, installs use that location as the source/cache root.
+- If [`local_install_only`](../../cfg/registry#available-registry-keys) is enabled, installs are restricted to local sources.
+- Auto-install module list ([`auto_installed_modules`](../../cfg/core#downloads-and-mirrors)) is applied during install.
 
 See also [Local Installations](../../features/local-installations), [Air-gapped Installations](../../guide/air-gapped-installations), [nvm cache](../cache/), and [nvm use](../use/).

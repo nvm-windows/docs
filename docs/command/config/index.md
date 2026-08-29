@@ -22,17 +22,17 @@ Usage: nvm config (cfg) <command>
 | [`list`](./list) | `ls` | List all configuration values (default). |
 | [`get`](./get) | — | Get one or more values. |
 | [`set`](./set) | — | Set one or more values. |
-| [`reset`](./reset) | `rm` | Reset one value or `reset all` to restore defaults (preserves `root`). |
+| [`reset`](./reset) | `rm` | Reset one value or `reset all` to restore defaults (preserves [`root`](../../cfg/core#mode-and-install-location)). |
 | [`docs`](./docs) | — | Show setting explanations. |
 
 ## `config set` value formats {/* #config-set-value-formats */}
 
 | Type | Accepted values | Examples |
 |------|-----------------|----------|
-| Boolean | `true`, `false`, `1`, `0` | `auto_install=true` |
-| List | Comma-delimited | `auto_detect=.nvmrc,.node-version,package.json` |
-| URL | Scheme and host required | `node_mirror=https://nodejs.org/dist` |
-| Mode | `shim` or `link` only | `mode=shim` |
+| Boolean | `true`, `false`, `1`, `0` | [`auto_install=true`](../../cfg/core#project-detection-and-auto-behavior) |
+| List | Comma-delimited | [`auto_detect=.nvmrc,.node-version,package.json`](../../cfg/core#project-detection-and-auto-behavior) |
+| URL | Scheme and host required | [`node_mirror=https://nodejs.org/dist`](../../cfg/core#downloads-and-mirrors) |
+| Mode | `shim` or `link` only | [`mode=shim`](../../cfg/core#mode-and-install-location) |
 
 Some settings are policy-managed; writes are blocked when policy controls the value.
 

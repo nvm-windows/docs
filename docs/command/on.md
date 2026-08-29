@@ -28,7 +28,7 @@ This command has no flags.
 | Link setup | Mode-aware `.nodejs` target configuration |
 | Link mode | Repairs link target when an active version exists |
 | Shim mode | Runs shim refresh after activation |
-| Settings | Sets `enabled=true` |
+| Settings | Sets [`enabled=true`](../cfg/core#related-settings) |
 
 ## Example
 

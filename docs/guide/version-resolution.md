@@ -70,7 +70,7 @@ Constraints can appear in the following project files:
 | `.node-version` | Exact version or constraint | Uses the same resolution path as `.nvmrc`. |
 | `package.json` `engines.node` | Exact version or semver constraint | Auto-detection resolves a version satisfying the Node.js engine constraint. |
 
-Configured auto-detect files come from `auto_detect`. By default, NVM for Windows checks
+Configured auto-detect files come from [`auto_detect`](../cfg/core#project-detection-and-auto-behavior). By default, NVM for Windows checks
 `.nvmrc`, `.node-version`, and `package.json`.
 
 ## Resolution order {/* #resolution-order */}
@@ -80,7 +80,7 @@ Configured auto-detect files come from `auto_detect`. By default, NVM for Window
 3. Partial versions expanded to the best matching concrete release
 4. Semver constraints resolved in constraint-aware flows (for example `engines.node` or caret/tilde ranges in detect files)
 5. Read version string from the configured detect file in the current directory tree (auto-detect)
-6. Apply `auto_use`, `auto_install`, and related config when switching or installing
+6. Apply [`auto_use`](../cfg/core#project-detection-and-auto-behavior), [`auto_install`](../cfg/core#project-detection-and-auto-behavior), and related config when switching or installing
 
 ## Auto-detect Node.js version by project
 
