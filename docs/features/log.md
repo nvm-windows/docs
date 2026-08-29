@@ -17,5 +17,5 @@ If setup cannot elevate for `nvm --register-eventlog` (UAC canceled / non-admin)
 :::
 
 :::tip[SIEM/Audit Logging]
-The **advanced logging** add-on writes structured entries, with well known SIEM event codes, to a dedicated native NVM for Windows log (not the Application log). This is designed for streamlined SIEM integration and straightforward querying.
+The **Advanced Logging** add-on will be available in September 2026. It writes structured entries, with well known SIEM event codes, to a dedicated native NVM for Windows log (not the Application log). This is designed for streamlined SIEM integration and straightforward querying.
 :::

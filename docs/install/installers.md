@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 # Installers
 
-NVM for Windows is available as community and certified builds on amd64 (x64) and arm64 devices. See [Choosing an Edition](../guide/builds/) to understand which is right for you.
+NVM for Windows offers community and certified builds on amd64 (x64) and arm64 devices. See [Choosing an Edition](../guide/builds/) to understand which is right for you.
 
 ## Community Build
 
@@ -37,7 +37,9 @@ NVM for Windows is available as community and certified builds on amd64 (x64) an
 
 ## Certified Build
 
-Code-signed assets will be available for download in the customer portal.
+:::info[Available September 2026]
+Code-signed Certified Build assets will be available from the customer portal.
+:::
 
 Certified builds are designed for remote installation through platforms like Active Directory and Microsoft Entra, but you can still install on a single computer using the MSI. See the Enterprise Deployment section to deploy NVM for Windows to many computers.
 

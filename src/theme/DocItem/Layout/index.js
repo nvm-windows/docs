@@ -118,11 +118,12 @@ export default function LayoutWrapper(props) {
             <span className={styles.proBannerText}>
               {banner.edition ? (
                 <>
-                  Requires the <strong>{banner.edition.toLowerCase()}</strong> package.
+                  Requires the <strong>{banner.edition.toLowerCase()}</strong> package.{' '}
+                  Available <strong>September 2026</strong>.
                 </>
               ) : (
                 <>
-                  Available for <strong>certified builds</strong>.
+                  Available <strong>September 2026</strong>.
                 </>
               )}
             </span>

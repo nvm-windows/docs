@@ -66,6 +66,10 @@ Corporate networks often require an HTTP(S) proxy between NVM and the mirror. Re
 | `proxy_auth` | `ProxyAuth` | `user:pass` or `Bearer YOUR_TOKEN` — stored **in plain text** |
 | `proxy_auth_type` | `ProxyAuthType` | `basic`, `bearer`, `ntlm`, `negotiate`, or `ntlm,negotiate` |
 
+:::info[Certified Builds]
+Available September 2026.
+:::
+
 | Capability | Community | Certified (Distribution/Audit) | Governance |
 |:-|:-:|:-:|:-:|
 | Proxy URL | ✓ | ✓ | ✓ |

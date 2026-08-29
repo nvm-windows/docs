@@ -52,7 +52,7 @@ Proxies are automatically detected/applied from `HTTP_PROXY`, `HTTPS_PROXY`, or 
 On certified builds proxies are usually set by policy (see [registry reference](registry)).
 
 :::warning[Corporate Proxies]
-The community build supports basic proxies. IWA, WPAD, and PAC proxies are supported in certified builds.
+The community build supports basic proxies. IWA, WPAD, and PAC proxies are supported in Certified Builds, available September 2026.
 :::
 
 ## Project detection and auto behavior

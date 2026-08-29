@@ -10,7 +10,7 @@ The community installer attempts to register NVM for Windows as an application e
 
 Windows requires administrative privileges to register an event source. The installer attempts to elevate privileges, triggering a UAC prompt. If the user account lacks these permissions (or refuses them), the event source will not be registered. Logs are still written to and readable from Windows Event Viewer with the aforementioned caveat.
 
-Most commnunity users have administrative rights on their own computer. For those who don't, such as users working on company computers or in highly regulated industries, consider using certified builds, which are not subject to this restriction.
+Most commnunity users have administrative rights on their own computer. For those who don't, such as users working on company computers or in highly regulated industries, consider using certified builds (available September 2026), which are not subject to this restriction.
 
 ## Link Operating Mode: UNC Paths
 
