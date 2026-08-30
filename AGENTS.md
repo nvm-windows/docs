@@ -238,10 +238,10 @@ Skip automation for a commit: include **`[skip-i18n]`** in the commit message.
 
 ### One-time setup (maintainers)
 
-**GitHub App** (repo or org):
+**GitHub App** (repo or org — same secrets as other nvm-windows workflows):
 
-- Repository variable: `APP_ID`
-- Repository secret: `APP_PRIVATE_KEY`
+- Repository secret: `GH_APP_CLIENT_ID` (App client ID)
+- Repository secret: `GH_APP_PRIVATE_KEY` (App private key PEM)
 - App permissions: Issues (read/write), Pull requests (read/write), Contents (read)
 
 **Copilot cloud agent** (Settings → Copilot → cloud agent):
