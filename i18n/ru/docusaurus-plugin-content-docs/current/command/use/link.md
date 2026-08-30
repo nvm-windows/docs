@@ -1,13 +1,33 @@
 ---
 title: link
 sidebar_position: 6
-sidebar_label: "link"
+sidebar_label: link
 ---
 
-# Перевод готовится
+# nvm use link
 
-:::info[Русская версия этой страницы пока недоступна]
-Выберите **English** в меню языка, чтобы прочитать актуальную документацию.
-:::
+Переключение NVM в режим работы **link**.
 
-Хотите помочь? [Предложите перевод на GitHub](https://github.com/nvm-windows/docs).
+## Использование
+
+```powershell
+nvm use link
+```
+
+## Аргументы
+
+Эта подкоманда не принимает аргументов.
+
+## Пример
+
+```powershell
+nvm use link
+```
+
+## Пример вывода
+
+```powershell
+successfully switched to link mode
+```
+
+См. [Режимы работы](../../features/modes).

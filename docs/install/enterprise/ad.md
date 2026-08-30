@@ -3,6 +3,8 @@ title: Deploy with Active Directory
 certified: true
 ---
 
+import DocImage from '@site/docs/_components/DocImage';
+
 # Deploy with Active Directory
 
 **What you'll need:**
@@ -16,7 +18,7 @@ GPO software installation reads the MSI and MST from a network share. Domain Com
 
 Upload the NVM for Windows MSI and MST files from your deployment package to a file server accessible to **Domain Computers** and any users in the GPO scope. Grant read access to those principals.
 
-<img src="/img/guide_fileserver.png" alt="Source Files" style={{ width: '95%', height: 'auto' }} />
+<DocImage src="/img/guide_fileserver.png" alt="Source Files" style={{ width: '95%', height: 'auto' }} />
 
 ### 1. Open the Group Policy Management Console
 
@@ -32,14 +34,14 @@ Upload the NVM for Windows MSI and MST files from your deployment package to a f
 1. If "Authenticated Users" is present under "Security Filtering", remove it.
 1. Click the "Delegation" tab. Assure `Domain Computers` and any groups you specified are in the list.
 
-<img src="/img/guide_gpo-create.png" alt="Create GPO" style={{ marginLeft: '2em', width: '80%', height: 'auto' }} />
+<DocImage src="/img/guide_gpo-create.png" alt="Create GPO" style={{ marginLeft: '2em', width: '80%', height: 'auto' }} />
 
 ### 3. Configure Group Policy Installation Package
 
 1. Right-click the GPO and select "Edit".
 1. Navigate to **Computer Configuration** > **Policies** > **Software Settings** > **Software installation**. Make sure to select the _Computer Configuration_ and not the user configuration. Unlike the public edition, NVM for Windows certified builds are installed at the machine level[^2].
 
-<img src="/img/guide_software_install_policy.png" alt="Find the GPO Software Installation Path" style={{ marginLeft: '2em', width: 'auto', height: 'auto' }} />
+<DocImage src="/img/guide_software_install_policy.png" alt="Find the GPO Software Installation Path" style={{ marginLeft: '2em', width: 'auto', height: 'auto' }} />
 
 3. Right-click "Software installation", then select "New > Package". This will open a file selection dialog.
 1. Navigate to the location on your file server where the NVM for Windows installation media was uploaded. Select the `.msi` file and press "Open". This will present a "Deploy Software" dialog.
@@ -59,7 +61,7 @@ Default storage directory: `%LOCALAPPDATA%\Author Software\nvm\installs`
 1. Press "OK" to close the window.
 1. In the GPO manager, navigate to **Computer Configuration** > **Policies** > **Administrative Templates** > **System** > **Group Policy**.
 
-<img src="/img/guide_loopback.png" alt="Enable Loopback Processing" style={{ marginLeft: '2em', width: '80%', height: 'auto' }} />
+<DocImage src="/img/guide_loopback.png" alt="Enable Loopback Processing" style={{ marginLeft: '2em', width: '80%', height: 'auto' }} />
 
 11. Double-click to open the policy, choose "Enabled", and choose **Merge** or **Replace**.
 1. Click "OK".

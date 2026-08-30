@@ -1,6 +1,6 @@
 ---
 title: Windows Registry Integration
-sidebar_position: 8
+sidebar_position: 6
 tags: [native-integration]
 ---
 

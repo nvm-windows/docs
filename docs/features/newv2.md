@@ -1,3 +1,9 @@
+---
+sidebar_label: What's new in v2
+title: What's new in v2
+sidebar_position: 1
+---
+
 # What's new in v2
 
 ## High Level
@@ -57,7 +63,7 @@ Shim mode unlocks per-directory version switching and other automation. **Link m
 
 ## Preferences
 
-- **User-defined aliases** — aliases for versions via `nvm alias` ([Aliases](../cfg/aliases))
+- **User-defined aliases** — aliases for versions via `nvm alias` ([alias command](../command/alias/))
 - **User-defined default global modules** — configure packages installed with each new version ([`auto_installed_modules`](../cfg/core#downloads-and-mirrors))
 - **Windows Registry preferences** — user prefs and (on certified builds) machine policy via `nvm config` ([Basic Configuration](../cfg/core), [Registry Policy Reference](../cfg/registry))
 

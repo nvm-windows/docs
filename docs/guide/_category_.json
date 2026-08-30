@@ -1,11 +1,8 @@
 {
-  "label": "Guides",
+  "position": 6,
   "collapsed": true,
-  "collapsible": true,
   "link": {
-    "type": "generated-index",
-    "title": "Guides",
-    "slug": "/guides",
-    "description": "Deep dives on NVM for Windows capabilities and workflows."
+    "type": "doc",
+    "id": "guide/index"
   }
 }

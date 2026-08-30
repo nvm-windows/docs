@@ -1,13 +1,15 @@
 ---
 title: Desktop Notifications
-sidebar_position: 7
+sidebar_position: 5
 tags: [native-integration]
 ---
+
+import DocImage from '@site/docs/_components/DocImage';
 
 NVM for Windows uses native desktop notifications with the Windows Notification Center. Missed notifications stay in the Notification Center until acknowledged. Personal notification preferences are honored.
 
 <div align="center">
-<img
+<DocImage
 	src="/img/features/native/native-notifications.png"
 	alt="Windows Notification Center"
 	style={{maxWidth: '980px'}}

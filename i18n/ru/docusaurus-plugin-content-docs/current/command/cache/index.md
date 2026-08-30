@@ -1,13 +1,42 @@
 ---
 title: cache
 sidebar_position: 9
-sidebar_label: "cache"
+sidebar_label: cache
 ---
 
-# Перевод готовится
+# nvm cache
 
-:::info[Русская версия этой страницы пока недоступна]
-Выберите **English** в меню языка, чтобы прочитать актуальную документацию.
-:::
+Просмотр кэшированных артефактов установки. Поведение по умолчанию при запуске `nvm cache` без подкоманды.
 
-Хотите помочь? [Предложите перевод на GitHub](https://github.com/nvm-windows/docs).
+**Псевдоним для list:** `ls`
+
+## Использование
+
+```powershell
+nvm cache [name ...] [flags]
+nvm cache list [name ...] [flags]
+```
+
+## Подкоманды
+
+| Подкоманда | Псевдонимы | Описание |
+|------------|------------|----------|
+| *(по умолчанию)* / [`list`](./list) | `ls` | Список хранилищ кэша и файлов. |
+| [`add`](./add) | — | Загрузить и закэшировать без установки. |
+| [`remove`](./remove/) | `rm` | Удалить кэшированные артефакты. |
+
+## Примеры
+
+```powershell
+nvm cache
+nvm cache list
+nvm cache add 24
+nvm cache remove version 24.1.0
+nvm cache remove all
+```
+
+## Примечания
+
+- Удаление может быть заблокировано политикой ([`allow_download_cache_removal=false`](../../cfg/core#downloads-and-mirrors)).
+
+См. [Кэш загрузок](../../features/cache).

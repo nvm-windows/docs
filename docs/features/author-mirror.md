@@ -1,8 +1,11 @@
 ---
 title: Version Firewall + Author Mirror
+sidebar_position: 8
 certified:
   edition: governance
 ---
+
+import DocImage from '@site/docs/_components/DocImage';
 
 # Version Firewall + Author Mirror
 
@@ -88,7 +91,7 @@ Air-gapped/[`local_install_only`](../cfg/registry#available-registry-keys) insta
 
 Hosted rules are configured through the customer portal:
 
-<img src="/img/features/proxy/mirror_ruleset_form.png" alt="Mirror Rulesets" style={{ display: 'block', width: '100%', height: 'auto', margin: '0 auto' }} />
+<DocImage src="/img/features/proxy/mirror_ruleset_form.png" alt="Mirror Rulesets" style={{ display: 'block', width: '100%', height: 'auto', margin: '0 auto' }} />
 
 These rules can be applied conditionally based on:
 

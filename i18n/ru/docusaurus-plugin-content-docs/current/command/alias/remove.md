@@ -1,13 +1,36 @@
 ---
 title: remove
 sidebar_position: 3
-sidebar_label: "remove"
+sidebar_label: remove
 ---
 
-# Перевод готовится
+# nvm alias remove
 
-:::info[Русская версия этой страницы пока недоступна]
-Выберите **English** в меню языка, чтобы прочитать актуальную документацию.
-:::
+Удаление одного или нескольких псевдонимов версий.
 
-Хотите помочь? [Предложите перевод на GitHub](https://github.com/nvm-windows/docs).
+**Псевдоним:** `rm`
+
+## Использование
+
+```powershell
+nvm alias remove <alias> [<alias> ...]
+```
+
+## Аргументы
+
+| Аргумент | Обязательный | Описание |
+|----------|--------------|----------|
+| `<alias> ...` | Да | Одно или несколько имён псевдонимов для удаления. |
+
+## Примеры
+
+```powershell
+nvm alias remove legacy
+nvm alias remove legacy stable
+```
+
+## Пример вывода
+
+```powershell
+1 alias removed successfully.
+```

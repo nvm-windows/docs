@@ -1,13 +1,28 @@
 ---
 title: docs
 sidebar_position: 5
-sidebar_label: "docs"
+sidebar_label: docs
 ---
 
-# Перевод готовится
+# nvm config docs
 
-:::info[Русская версия этой страницы пока недоступна]
-Выберите **English** в меню языка, чтобы прочитать актуальную документацию.
-:::
+Вывести встроенную документацию для каждого параметра конфигурации.
 
-Хотите помочь? [Предложите перевод на GitHub](https://github.com/nvm-windows/docs).
+## Использование
+
+```powershell
+nvm config docs [flags]
+```
+
+## Флаги
+
+| Флаг | Краткий | Описание |
+|------|---------|----------|
+| `--json` | | Метаданные параметров в формате JSON. |
+
+## Примеры
+
+```powershell
+nvm config docs
+nvm config docs --json
+```

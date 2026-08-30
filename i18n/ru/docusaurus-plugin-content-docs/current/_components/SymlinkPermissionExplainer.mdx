@@ -1,0 +1,7 @@
+Режим [link](/features/modes#link-mode) NVM for Windows использует NTFS junction для разрешения версий Node.js. Junction не требуют особых прав, но не поддерживают UNC-пути (сетевые шары, mapped drives). Если хранилище Node.js настроено на UNC-путь, NVM for Windows создаёт symlink вместо junction. Для этого ОС нужна привилегия `SeCreateSymbolicLinkPrivilege`.
+
+:::tip[Включение `SeCreateSymbolicLinkPrivilege`]
+- У пользователей с правами администратора эта привилегия есть по умолчанию.
+- Привилегия выдаётся при включении **[режима разработчика Windows](https://learn.microsoft.com/ru-ru/windows/advanced-settings/developer-mode)**.
+- Можно выдать через групповую политику: **Конфигурация компьютера** → **Параметры Windows** → **Параметры безопасности** → **Локальные политики** → **Назначение прав пользователя** → *Создание символьных ссылок*.
+:::

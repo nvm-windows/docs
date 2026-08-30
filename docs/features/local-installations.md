@@ -1,6 +1,6 @@
 ---
 title: Local Installations
-sidebar_position: 98
+sidebar_position: 9
 ---
 
 Local installations let NVM for Windows install Node.js from archives already on disk instead of (or before) contacting a download mirror. Use this for air-gapped hosts, shared lab mirrors, or any environment where outbound downloads are blocked or undesirable.

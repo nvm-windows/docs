@@ -1,13 +1,35 @@
 ---
 title: get
 sidebar_position: 2
-sidebar_label: "get"
+sidebar_label: get
 ---
 
-# Перевод готовится
+# nvm config get
 
-:::info[Русская версия этой страницы пока недоступна]
-Выберите **English** в меню языка, чтобы прочитать актуальную документацию.
-:::
+Получить одно или несколько значений конфигурации.
 
-Хотите помочь? [Предложите перевод на GitHub](https://github.com/nvm-windows/docs).
+## Использование
+
+```powershell
+nvm config get <name> [<name> ...] [flags]
+```
+
+## Аргументы
+
+| Аргумент | Обязательный | Описание |
+|----------|--------------|----------|
+| `<name> ...` | Да | Имена параметров конфигурации. |
+
+## Флаги
+
+| Флаг | Краткий | Описание |
+|------|---------|----------|
+| `--json` | | Вывести запрошенные ключи в формате JSON. |
+
+## Примеры
+
+```powershell
+nvm config get mode
+nvm config get mode root auto_install
+nvm config get mode root --json
+```

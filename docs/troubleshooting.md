@@ -1,3 +1,8 @@
+---
+sidebar_label: Troubleshooting
+sidebar_position: 7
+---
+
 # Troubleshooting
 
 | Symptom | Likely Cause | Verify | Fix |

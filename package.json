@@ -14,7 +14,9 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start --locale en",
+    "start:en": "docusaurus start --locale en",
     "start:ru": "docusaurus start --locale ru",
+    "preview": "npm run build && docusaurus serve",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "npm run build && wrangler pages deploy ./build --project-name=nvm-windows-docs --branch=main",

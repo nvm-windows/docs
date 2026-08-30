@@ -1,3 +1,8 @@
+---
+sidebar_label: Uninstall
+sidebar_position: 4
+---
+
 # Uninstall
 
 :::tip[NVM for Windows != Node.js]

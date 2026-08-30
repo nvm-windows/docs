@@ -1,13 +1,29 @@
 ---
 title: all
 sidebar_position: 3
-sidebar_label: "all"
+sidebar_label: all
 ---
 
-# Перевод готовится
+# nvm cache remove all
 
-:::info[Русская версия этой страницы пока недоступна]
-Выберите **English** в меню языка, чтобы прочитать актуальную документацию.
-:::
+Очистка кэшей метаданных и версий.
 
-Хотите помочь? [Предложите перевод на GitHub](https://github.com/nvm-windows/docs).
+## Использование
+
+```powershell
+nvm cache remove all
+```
+
+## Аргументы
+
+Эта подкоманда не принимает аргументов.
+
+## Флаги
+
+У этой подкоманды нет флагов.
+
+## Пример
+
+```powershell
+nvm cache remove all
+```

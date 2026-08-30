@@ -1,3 +1,8 @@
+---
+sidebar_label: Build from Source
+sidebar_position: 3
+---
+
 # Build from Source
 
 Most users should install a prebuilt package instead — see [Installers](./installers).

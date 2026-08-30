@@ -1,0 +1,10 @@
+{
+  "label": "Выбор редакции",
+  "collapsed": true,
+  "collapsible": true,
+  "position": 1,
+  "link": {
+    "type": "doc",
+    "id": "guide/builds/index"
+  }
+}

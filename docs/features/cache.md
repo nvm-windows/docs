@@ -1,6 +1,6 @@
 ---
 title: Download Cache
-sidebar_position: 99
+sidebar_position: 10
 ---
 
 NVM for Windows can keep downloaded Node.js archives on disk so later installs skip the network when a matching archive is already present. Manage that store with [`nvm cache`](../command/cache/), or turn automatic saving on with [`cache_downloads`](../cfg/core#downloads-and-mirrors).

@@ -1,3 +1,8 @@
+---
+sidebar_label: Permissions
+sidebar_position: 5
+---
+
 import SymlinkPermissionExplainer from './_components/SymlinkPermissionExplainer.mdx';
 
 # Permissions

@@ -1,6 +1,6 @@
 ---
 title: Download Mirrors
-sidebar_position: 9
+sidebar_position: 7
 ---
 
 NVM for Windows downloads Node.js archives from one or more **Node mirrors**, and can fall back to one or more **npm registry** URLs in shim mode. Set these with [`nvm config`](../command/config) (or machine policy on certified fleets).

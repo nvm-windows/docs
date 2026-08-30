@@ -1,13 +1,30 @@
 ---
 title: list
 sidebar_position: 1
-sidebar_label: "list"
+sidebar_label: list
 ---
 
-# Перевод готовится
+# nvm config list
 
-:::info[Русская версия этой страницы пока недоступна]
-Выберите **English** в меню языка, чтобы прочитать актуальную документацию.
-:::
+Список действующих значений конфигурации NVM.
 
-Хотите помочь? [Предложите перевод на GitHub](https://github.com/nvm-windows/docs).
+**Псевдонимы:** `cfg list`, `cfg ls`
+
+## Использование
+
+```powershell
+nvm config list [flags]
+```
+
+## Флаги
+
+| Флаг | Краткий | Описание |
+|------|---------|----------|
+| `--json` | | Вывести все параметры в формате JSON. |
+
+## Примеры
+
+```powershell
+nvm config list
+nvm config list --json
+```

@@ -1,13 +1,33 @@
 ---
 title: shim
 sidebar_position: 5
-sidebar_label: "shim"
+sidebar_label: shim
 ---
 
-# Перевод готовится
+# nvm use shim
 
-:::info[Русская версия этой страницы пока недоступна]
-Выберите **English** в меню языка, чтобы прочитать актуальную документацию.
-:::
+Переключение NVM в режим работы **shim**.
 
-Хотите помочь? [Предложите перевод на GitHub](https://github.com/nvm-windows/docs).
+## Использование
+
+```powershell
+nvm use shim
+```
+
+## Аргументы
+
+Эта подкоманда не принимает аргументов.
+
+## Пример
+
+```powershell
+nvm use shim
+```
+
+## Пример вывода
+
+```powershell
+successfully switched to shim mode
+```
+
+См. [Режимы работы](../../features/modes).

@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '@theme-original/DocItem/Layout';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
+import Translate from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
 /** @typedef {{ edition: string | null, comment: string | null }} CertifiedBanner */
@@ -104,6 +105,44 @@ function parseCertifiedBanner(frontMatter, tags) {
   return {edition, comment};
 }
 
+/**
+ * @param {{ edition: string | null }} props
+ */
+function CertifiedBannerText({edition}) {
+  const availability = (
+    <Translate
+      id="certifiedBanner.availability"
+      values={{
+        date: (
+          <strong>
+            <Translate id="certifiedBanner.releaseDate">September 2026</Translate>
+          </strong>
+        ),
+      }}>
+      {'Available {date}.'}
+    </Translate>
+  );
+
+  if (!edition) {
+    return availability;
+  }
+
+  return (
+    <Translate
+      id="certifiedBanner.requiresEdition"
+      values={{
+        edition: <strong>{edition.toLowerCase()}</strong>,
+        date: (
+          <strong>
+            <Translate id="certifiedBanner.releaseDate">September 2026</Translate>
+          </strong>
+        ),
+      }}>
+      {'Requires the {edition} package. Available {date}.'}
+    </Translate>
+  );
+}
+
 export default function LayoutWrapper(props) {
   const {frontMatter} = useDoc();
   const tags = frontMatter.tags ?? [];
@@ -114,18 +153,11 @@ export default function LayoutWrapper(props) {
       {banner && (
         <div className={styles.proBanner} role="note">
           <div className={styles.proBannerMain}>
-            <span className={styles.proBadge}>Certified Build</span>
+            <span className={styles.proBadge}>
+              <Translate id="certifiedBanner.badge">Certified Build</Translate>
+            </span>
             <span className={styles.proBannerText}>
-              {banner.edition ? (
-                <>
-                  Requires the <strong>{banner.edition.toLowerCase()}</strong> package.{' '}
-                  Available <strong>September 2026</strong>.
-                </>
-              ) : (
-                <>
-                  Available <strong>September 2026</strong>.
-                </>
-              )}
+              <CertifiedBannerText edition={banner.edition} />
             </span>
           </div>
           {banner.comment && (

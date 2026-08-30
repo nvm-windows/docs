@@ -1,3 +1,8 @@
+---
+sidebar_label: Basic Configuration
+sidebar_position: 1
+---
+
 # Basic Configuration
 
 User preferences live in the Windows registry. Manage them with [`nvm config`](../command/config) (alias: `nvm cfg`).

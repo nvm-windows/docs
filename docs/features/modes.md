@@ -1,5 +1,7 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
+title: Operating Modes
+sidebar_label: Operating Modes
 ---
 
 import SymlinkPermissionExplainer from '../_components/SymlinkPermissionExplainer.mdx';
