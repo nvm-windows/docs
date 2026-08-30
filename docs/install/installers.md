@@ -24,6 +24,10 @@ NVM for Windows offers community and certified builds on amd64 (x64) and arm64 d
 
   </TabItem>
   <TabItem value="winget" label="Winget">
+    :::warning[Coming Soon!]
+    We're still getting everything setup for winget.
+    :::
+
     ```powershell
       winget install nvm # MIT License
     ```
