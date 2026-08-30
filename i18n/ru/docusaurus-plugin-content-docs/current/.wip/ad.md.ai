@@ -1,0 +1,148 @@
+# Active Directory
+
+Certified-сборки могут блокировать настройки с помощью **machine policy** (ADMX/GPO или административные шаблоны Intune). Политика всегда имеет приоритет над пользовательскими настройками из [`nvm config`](../command/config).
+
+| Уровень | Расположение |
+|-------|----------|
+| Принудительная политика | `HKLM\SOFTWARE\Policies\Author Software\nvm` |
+| Пользовательские настройки | `HKCU\SOFTWARE\Author Software\Preferences\nvm` |
+
+Приоритет: **HKLM Policies** → пользовательские настройки. См. также [Core Configuration](core), где показаны те же параметры в локальном представлении/`nvm config`.
+
+:::info[Только Certified]
+Шаблоны ADMX и версии ACL-политик поставляются в certified (Governance) сборках из [клиентского портала](https://portal.author.io). Community-сборки используют только [Core Configuration](core).
+:::
+
+Шаги импорта и развёртывания (GPO / Intune) см. в [Administrative Templates](../guide/deploy/policy/administrative-templates). Полные типы значений реестра описаны в [Central Registry Reference](../guide/deploy/policy/registry).
+
+---
+
+## Дерево GPO
+
+После импорта `NVMWindows.admx` + `en-US\NVMWindows.adml`:
+
+**Computer Configuration → Administrative Templates → Author Software → NVM for Windows**
+
+```
+NVM for Windows
+├── Network
+├── Environment
+│   └── Shim mode
+└── Security
+    └── Shim mode
+```
+
+Дочерние разделы **Shim mode** применяются только при режиме `shim`. В режиме link эти значения реестра игнорируются.
+
+:::warning[Инвертированные подписи GPO]
+Некоторые политики используют отображаемые имена вида “Disable …”. В редакторе GPO состояние **Enabled** часто записывает `0` в реестр (функция выключена). В таблицах ниже указаны и **подпись GPO**, и фактическое **значение реестра**.
+:::
+
+---
+
+## Верхний уровень (NVM for Windows)
+
+| Политика GPO | Значение реестра | Ключ `nvm config` | Значения / примечания |
+|------------|----------------|------------------|----------------|
+| Disable Node.js version management | `Enabled` | `enabled` (через `nvm on`/`nvm off`) | **GPO Enabled** → `Enabled=0` (`nvm off`). **GPO Disabled** → `Enabled=1` (`nvm on`). Node.js не удаляется. |
+| Configure Node.js storage directory | `InstallRoot` | `root` | Строка пути. По умолчанию `%LOCALAPPDATA%\Author Software\nvm\installs`. |
+| Allow users to change the Node.js storage directory | `AllowRootDirChange` | `allow_root_dir_change` | `1` разрешить / `0` запретить. |
+| Configure local Node.js installation mirror source directory | `LocalInstallDir` | `local_dir` | Локальная папка архивов Node (air-gap / контролируемые носители). Переопределяет кэш. |
+| Use local mirror for all Node.js installations | `LocalInstallOnly` | `local_install_only` | `1` = установка только из `LocalInstallDir`. |
+
+---
+
+## Environment
+
+| Политика GPO | Значение реестра | Ключ `nvm config` | Значения / примечания |
+|------------|----------------|------------------|----------------|
+| Set operating mode | `OperatingMode` | `mode` | `shim` (рекомендуется) или `link`. Для политик ниже нужен shim. |
+| Configure custom version aliases | `Aliases` | `aliases` | По одному `alias=version` на строку (например, `stable=24.9.0`). Блокирует пользовательские alias. |
+| Configure auto-installed global npm modules | `AutoInstallModuleList` | `auto_installed_modules` | По одному имени npm-пакета на строку. |
+
+### Environment → Shim mode
+
+| Политика GPO | Значение реестра | Ключ `nvm config` | Значения / примечания |
+|------------|----------------|------------------|----------------|
+| Configure automatic version detection files | `AutoDetect` | `auto_detect` | По одному имени файла на строку в порядке приоритета. По умолчанию: `.nvmrc`, `.node-version`, `package.json`. Для JSON используется `engines` / `devEngines`. |
+| Configure default auto-detect file | `DefaultDetectFile` | `default_detect_file` | Файл, который записывает `nvm rc`. По умолчанию `.nvmrc`. |
+| Disable automatic version detection | `AutoUse` | `auto_use` | **GPO Enabled** → `AutoUse=0`. **GPO Disabled** → `AutoUse=1`. |
+| Disable automatic version installation | `AutoInstall` | `auto_install` | **GPO Enabled** → `AutoInstall=0`. **GPO Disabled** → `AutoInstall=1`. |
+| Always prompt before automatic installation | `AutoInstallPrompt` | `auto_install_prompt` | **GPO Enabled** → `1` (запрашивать). **GPO Disabled** → `0`. |
+| Disable native tool installation | `AllowToolInstall` | `allow_tool_install` | **GPO Enabled** → `AllowToolInstall=0` (блокирует `nvm install native-tools`). **GPO Disabled** → `1`. Нативные инструменты скачивают большие сторонние установщики (Python, VS Build Tools). |
+| Configure package manager mismatch action | `PackageManagerMismatchAction` | `pm_mismatch_action` | `error` (по умолчанию), `warn` или `ignore`. |
+
+---
+
+## Network
+
+| Политика GPO | Значение реестра | Ключ `nvm config` | Значения / примечания |
+|------------|----------------|------------------|----------------|
+| Configure proxy server address | `Proxy` | `proxy` | URL прокси. Basic/****** во всех certified-редакциях; IWA и PAC/WPAD требуют Governance. |
+| Configure proxy authentication type | `ProxyAuthType` | `proxy_auth_type` | `basic`, `ntlm`, `negotiate`, `ntlm,negotiate` или `bearer`. |
+| Configure proxy authentication value | `ProxyAuth` | `proxy_auth` | Одна строка: `user:pass` или `****** (хранится в открытом виде). |
+| Configure Node.js download mirror(s) | `MirrorNode` | `node_mirror` | По одному URL на строку; используется первое успешное зеркало. По умолчанию `https://nodejs.org/dist`. |
+| Configure npm registry mirror(s) | `MirrorNpm` | `npm_mirror` | По одному URL на строку. По умолчанию `https://registry.npmjs.org`. |
+| Always cache downloads | `CacheDownloads` | `cache_downloads` | **GPO Enabled** → `1`. **GPO Disabled** → `0`. |
+| Disable removal of cached downloads | `AllowDownloadCacheDelete` | `allow_download_cache_removal` | **GPO Enabled** → `AllowDownloadCacheDelete=0` (запрет удаления). **GPO Disabled** → `1`. |
+| Disable NVM for Windows upgrades | `DisableUpgrade` | `disable_upgrade` | **GPO Enabled** → `1` (запрет обновлений в приложении). Не блокирует развёртывание пакетов через AD/Intune. |
+| Disable project and release announcements | `DisableAnnouncements` | `disable_announcements` | **GPO Enabled** → `1`. Уведомления об истечении лицензии остаются. |
+
+---
+
+## Security
+
+| Политика GPO | Значение реестра | Ключ `nvm config` | Значения / примечания |
+|------------|----------------|------------------|----------------|
+| Configure allowed Node.js versions | `VersionAllowList` | _(только политика)_ | По одному правилу на строку. Точный semver, wildcard (`20.x`), alias, отрицание `!` / `NOT`. Некорректные правила блокируют всё. Разрешение имеет приоритет над блокировкой. Ключевые слова (`EOL`, `ALPHA`, `MAINTENANCE`) применяются через зеркала Author. |
+| Configure blocked Node.js versions | `VersionBlockList` | _(только политика)_ | Та же грамматика правил, что и в allow list. |
+| Disable insecure downloads | `AllowInsecureDownloads` | `allow_insecure_downloads` | **GPO Enabled** → `AllowInsecureDownloads=0` (блок bad TLS). **GPO Disabled** → `1` (разрешить). |
+| Include verbose identity metadata in mirror license tokens | `ApplyVerboseLicenseMetadata` | _(только политика)_ | **GPO Enabled** → включает `idp_username`, `idp_machine_name`, `idp_machine_id` в mirror JWT. По умолчанию выключено. **Не** задаёт `AccessToken` / `AccessKey`. |
+| Skip live license JWKS (air-gapped JWT verify) | `AirGapped` | `air_gapped` | **GPO Enabled** → проверка AccessToken только по offline JWKS (`JwksCose` или `nvm-jwks.cose`). Независимо от `LocalInstallOnly`. |
+
+### Security → Shim mode
+
+| Политика GPO | Значение реестра | Ключ `nvm config` | Значения / примечания |
+|------------|----------------|------------------|----------------|
+| Enable audit logging | `LogExecutions` | `log_executions` | **GPO Enabled** → логировать каждый запуск `node` в Windows Event Log. |
+| Enforce Node.js permission model | `EnforcePermissionModel` | `enforce_permission_model` | Shim добавляет `--permission` (Node 23+) или `--experimental-permission` (20–22). Режим deny-by-default; приложения должны передавать `--allow-*`. |
+| Prevent modification of global JavaScript prototypes | `FreezeV8GlobalObjects` | `freeze_v8_global_objects` | Shim добавляет `--frozen-intrinsics` (Node 12+). Увеличивает задержку запуска. |
+| Disallow dynamic code generation from strings | `DisableEvalAndStringExecution` | `disable_eval_and_string_execution` | Shim добавляет `--disallow-code-generation-from-strings` (блокирует `eval` / `new Function()`). |
+| Configure approved vendors (trusted code signers) | `AllowedSigners` | `allowed_signers` | Дополнительные значения Authenticode `O=` для `node.exe`. Всегда доверяются: OpenJS Foundation, Node.js Foundation, Author Software. По одному подписанту на строку. |
+| Configure npm package minimum release age | `NpmModuleMinimumAge` | _(только политика)_ | Минут с момента публикации до установки пакета через npm/pnpm/yarn. `0` или отсутствие значения = выключено. Применяется к настройке min-release-age каждого пакетного менеджера. |
+
+---
+
+## Нет в ADMX (разворачивается отдельно)
+
+Лицензионные секреты **не** являются ADMX-политиками. Разворачиваются стартовыми/ремедиационными скриптами или через повышенный `nvm license`:
+
+| Значение реестра | Назначение |
+|----------------|---------|
+| `AccessToken` | License JWT от Author (`Authorization: ****** |
+| `AccessKey` | Секрет аутентификации зеркала (Governance) |
+| `JwksCose` | Offline JWKS для проверки токенов в air-gapped среде |
+
+См. README пакета certified policy и [Administrative Templates](../guide/deploy/policy/administrative-templates) для `Set-NvmWindowsLicensing.ps1` / `Set-NvmWindowsAccessToken.ps1`.
+
+---
+
+## Краткая карта: инвертированные политики “Disable …”
+
+| В GPO: **Enabled** | Результат в реестре |
+|----------------------|-----------------|
+| Disable Node.js version management | `Enabled=0` |
+| Disable automatic version detection | `AutoUse=0` |
+| Disable automatic version installation | `AutoInstall=0` |
+| Disable native tool installation | `AllowToolInstall=0` |
+| Disable removal of cached downloads | `AllowDownloadCacheDelete=0` |
+| Disable insecure downloads | `AllowInsecureDownloads=0` |
+| Disable NVM for Windows upgrades | `DisableUpgrade=1` |
+| Disable project and release announcements | `DisableAnnouncements=1` |
+
+Если сомневаетесь, проверьте текущие значения:
+
+```powershell
+Get-ItemProperty 'HKLM:\SOFTWARE\Policies\Author Software\nvm'
+nvm config list
+```

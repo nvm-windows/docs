@@ -1,0 +1,10 @@
+{
+  "label": "Эксплуатация и сопровождение",
+  "collapsed": true,
+  "collapsible": true,
+  "position": 5,
+  "link": {
+    "type": "doc",
+    "id": "guide/deploy/operations/operations"
+  }
+}

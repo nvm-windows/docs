@@ -1,0 +1,11 @@
+{
+  "label": "Корпоративное развёртывание",
+  "key": "guide-enterprise-deployment",
+  "collapsed": false,
+  "collapsible": true,
+  "position": 2,
+  "link": {
+    "type": "doc",
+    "id": "guide/deploy/deploy"
+  }
+}
