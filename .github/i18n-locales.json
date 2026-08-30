@@ -3,6 +3,8 @@
   "sourceComponentsPath": "docs/_components",
   "themePaths": ["src/theme"],
   "issueLabel": "i18n-sync",
+  "copilotAssignee": "copilot-swe-agent[bot]",
+  "baseBranch": "main",
   "locales": [
     {
       "code": "ru",

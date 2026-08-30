@@ -1,174 +1,287 @@
-name: Sync Translations (i18n)
-
-# English doc changes on main → Copilot CLI syncs i18n mirrors and opens PR(s).
-# Uses org-billed GITHUB_TOKEN (copilot-requests: write) — no PAT, no issue assignment.
-
-on:
-  push:
-    branches: [main]
-    paths:
-      - 'docs/**'
-      - 'src/theme/**'
-      - '.github/i18n-locales.json'
-  pull_request:
-    types: [opened, ready_for_review]
-    paths:
-      - 'i18n/**'
-  workflow_dispatch:
-    inputs:
-      compare_all_docs:
-        description: List all English doc paths (full resync) instead of git diff only
-        type: boolean
-        default: false
-      base_ref:
-        description: Git ref to compare against HEAD (ignored when compare_all_docs is true)
-        type: string
-        default: HEAD~1
-      note:
-        description: Optional note included in the Copilot prompt
-        type: string
-        required: false
-
-concurrency:
-  group: i18n-translation-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: false
-
-jobs:
-  sync-translations:
-    name: Sync translations with Copilot
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' &&
-      !contains(github.event.head_commit.message, '[skip-i18n]'))
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    permissions:
-      contents: write
-      pull-requests: write
-      copilot-requests: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-
-      - name: List changed English source files
-        id: changed
-        env:
-          COMPARE_ALL_DOCS: ${{ github.event_name == 'workflow_dispatch' && inputs.compare_all_docs || 'false' }}
-          BASE_REF: ${{ github.event_name == 'workflow_dispatch' && inputs.base_ref || 'HEAD~1' }}
-        run: |
-          set -euo pipefail
-          if [ "$COMPARE_ALL_DOCS" = "true" ]; then
-            mapfile -t files < <(
-              git ls-files docs/ docs/_components/ src/theme/ 2>/dev/null || true
-            )
-          elif git rev-parse "$BASE_REF" >/dev/null 2>&1; then
-            mapfile -t files < <(git diff --name-only "$BASE_REF" HEAD)
-          elif git rev-parse HEAD~1 >/dev/null 2>&1; then
-            mapfile -t files < <(git diff --name-only HEAD~1 HEAD)
-          else
-            mapfile -t files < <(git diff-tree --no-commit-id --name-only -r HEAD)
-          fi
-          {
-            echo "files<<EOF"
-            printf '%s\n' "${files[@]}"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Build Copilot prompt
-        id: prepare
-        env:
-          I18N_COMMIT_SHA: ${{ github.sha }}
-          I18N_EVENT_NAME: ${{ github.event_name }}
-          I18N_DISPATCH_NOTE: ${{ github.event_name == 'workflow_dispatch' && inputs.note || '' }}
-          I18N_PUSH_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-          GITHUB_ACTOR: ${{ github.actor }}
-          I18N_CHANGED_FILES: ${{ steps.changed.outputs.files }}
-        run: node .github/scripts/i18n-sync-issues.mjs
-
-      - name: Sync i18n mirrors and open PR
-        if: steps.prepare.outputs.has_work == 'true'
-        uses: austenstone/copilot-cli@v4
-        with:
-          prompt: ${{ steps.prepare.outputs.copilot_prompt }}
-          fail-on-error: true
-          max-turns: 30
-          add-github-mcp-toolsets: pull_requests,issues
-          attachments: './AGENTS.md,./.github/copilot-instructions.md,./.github/i18n-locales.json'
-
-  request-review:
-    name: Request locale team review
-    if: >-
-      github.event_name == 'pull_request' &&
-      !github.event.pull_request.draft
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      issues: write
-      pull-requests: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Request review from locale teams
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const config = JSON.parse(fs.readFileSync('.github/i18n-locales.json', 'utf8'));
-            const pr = context.payload.pull_request;
-            const prLabels = new Set((pr.labels || []).map((label) => label.name));
-
-            const { data: files } = await github.rest.pulls.listFiles({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              per_page: 100,
-            });
-
-            const changedPaths = files.map((file) => file.filename);
-            const teams = new Set();
-
-            for (const locale of config.locales) {
-              const localePrefix = `i18n/${locale.code}/`;
-              const touchesLocale =
-                prLabels.has(locale.code) ||
-                changedPaths.some((path) => path.startsWith(localePrefix));
-
-              if (touchesLocale && locale.reviewTeam) {
-                teams.add(locale.reviewTeam);
-              }
-            }
-
-            if (teams.size === 0) {
-              core.info('No locale teams matched this PR; skipping review request.');
-              return;
-            }
-
-            const labelsToAdd = new Set(['i18n']);
-            for (const locale of config.locales) {
-              if (teams.has(locale.reviewTeam)) {
-                labelsToAdd.add(locale.code);
-                for (const label of locale.prLabels) {
-                  labelsToAdd.add(label);
-                }
-              }
-            }
-
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pr.number,
-              labels: [...labelsToAdd],
-            });
-
-            await github.rest.pulls.requestReviewers({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              team_reviewers: [...teams],
-            });
-
-            core.info(`Requested review from teams: ${[...teams].join(', ')}`);
-
+name: Sync Translations (i18n)
+
+# EN push → i18n-sync issue per locale → assign copilot-swe-agent via COPILOT_GITHUB_TOKEN (PAT).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'src/theme/**'
+      - '.github/i18n-locales.json'
+  pull_request:
+    types: [opened, ready_for_review]
+    paths:
+      - 'i18n/**'
+  workflow_dispatch:
+    inputs:
+      compare_all_docs:
+        description: List all English doc paths (full resync) instead of git diff only
+        type: boolean
+        default: false
+      base_ref:
+        description: Git ref to compare against HEAD (ignored when compare_all_docs is true)
+        type: string
+        default: HEAD~1
+      note:
+        description: Optional note included in sync issues
+        type: string
+        required: false
+
+concurrency:
+  group: i18n-translation-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  create-sync-issues:
+    name: Open and assign i18n-sync issues
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' &&
+      !contains(github.event.head_commit.message, '[skip-i18n]'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: List changed English source files
+        id: changed
+        env:
+          COMPARE_ALL_DOCS: ${{ github.event_name == 'workflow_dispatch' && inputs.compare_all_docs || 'false' }}
+          BASE_REF: ${{ github.event_name == 'workflow_dispatch' && inputs.base_ref || 'HEAD~1' }}
+        run: |
+          set -euo pipefail
+          if [ "$COMPARE_ALL_DOCS" = "true" ]; then
+            mapfile -t files < <(
+              git ls-files docs/ docs/_components/ src/theme/ 2>/dev/null || true
+            )
+          elif git rev-parse "$BASE_REF" >/dev/null 2>&1; then
+            mapfile -t files < <(git diff --name-only "$BASE_REF" HEAD)
+          elif git rev-parse HEAD~1 >/dev/null 2>&1; then
+            mapfile -t files < <(git diff --name-only HEAD~1 HEAD)
+          else
+            mapfile -t files < <(git diff-tree --no-commit-id --name-only -r HEAD)
+          fi
+          {
+            echo "files<<EOF"
+            printf '%s\n' "${files[@]}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Prepare issue payloads
+        id: prepare
+        env:
+          I18N_COMMIT_SHA: ${{ github.sha }}
+          I18N_EVENT_NAME: ${{ github.event_name }}
+          I18N_DISPATCH_NOTE: ${{ github.event_name == 'workflow_dispatch' && inputs.note || '' }}
+          I18N_PUSH_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          I18N_CHANGED_FILES: ${{ steps.changed.outputs.files }}
+        run: node .github/scripts/i18n-sync-issues.mjs
+
+      - name: Verify Copilot PAT secret
+        if: steps.prepare.outputs.has_work == 'true'
+        run: |
+          if [ -z "${{ secrets.COPILOT_GITHUB_TOKEN }}" ]; then
+            echo "::error::Missing repository secret COPILOT_GITHUB_TOKEN. See AGENTS.md → Automated i18n sync → Setup."
+            exit 1
+          fi
+
+      - name: Create issues and assign Copilot
+        if: steps.prepare.outputs.has_work == 'true'
+        uses: actions/github-script@v7
+        env:
+          ISSUES_JSON: ${{ steps.prepare.outputs.issues }}
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+        with:
+          script: |
+            const fs = require('fs');
+            const config = JSON.parse(fs.readFileSync('.github/i18n-locales.json', 'utf8'));
+            const items = JSON.parse(process.env.ISSUES_JSON);
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const repoSlug = `${owner}/${repo}`;
+            const assignee = config.copilotAssignee ?? 'copilot-swe-agent[bot]';
+            const baseBranch = config.baseBranch ?? 'main';
+            const copilotToken = process.env.COPILOT_GITHUB_TOKEN;
+
+            const agentAssignment = {
+              target_repo: repoSlug,
+              base_branch: baseBranch,
+              custom_instructions:
+                'Read AGENTS.md and .github/copilot-instructions.md. Patch i18n translation mirrors only; run npm ci && npm run build; open a PR to main.',
+            };
+
+            async function assignCopilot(issueNumber) {
+              const response = await fetch(
+                `https://api.github.com/repos/${owner}/${repo}/issues/${issueNumber}/assignees`,
+                {
+                  method: 'POST',
+                  headers: {
+                    Authorization: `Bearer ${copilotToken}`,
+                    Accept: 'application/vnd.github+json',
+                    'X-GitHub-Api-Version': '2022-11-28',
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    assignees: [assignee],
+                    agent_assignment: agentAssignment,
+                  }),
+                },
+              );
+
+              if (!response.ok) {
+                const detail = await response.text();
+                core.setFailed(
+                  `Could not assign ${assignee} to issue #${issueNumber} (${response.status}): ${detail}`,
+                );
+                return false;
+              }
+
+              core.info(`Assigned ${assignee} to issue #${issueNumber}`);
+              return true;
+            }
+
+            for (const item of items) {
+              const labelQuery = [item.labels[0], item.locale].join(',');
+              const { data: openIssues } = await github.rest.issues.listForRepo({
+                owner,
+                repo,
+                state: 'open',
+                labels: labelQuery,
+                per_page: 20,
+              });
+
+              const existing = openIssues.find((issue) =>
+                issue.title.startsWith(`i18n(${item.locale}):`),
+              );
+
+              if (existing) {
+                await github.rest.issues.update({
+                  owner,
+                  repo,
+                  issue_number: existing.number,
+                  state: 'closed',
+                  state_reason: 'not_planned',
+                });
+                core.info(`Closed superseded i18n-sync issue #${existing.number} for ${item.locale}`);
+              }
+
+              const createResponse = await fetch(
+                `https://api.github.com/repos/${owner}/${repo}/issues`,
+                {
+                  method: 'POST',
+                  headers: {
+                    Authorization: `Bearer ${copilotToken}`,
+                    Accept: 'application/vnd.github+json',
+                    'X-GitHub-Api-Version': '2022-11-28',
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    title: item.title,
+                    body: item.body,
+                    labels: item.labels,
+                    assignees: [assignee],
+                    agent_assignment: agentAssignment,
+                  }),
+                },
+              );
+
+              if (!createResponse.ok) {
+                const detail = await createResponse.text();
+                core.setFailed(
+                  `Could not create i18n-sync issue for ${item.locale} (${createResponse.status}): ${detail}`,
+                );
+                continue;
+              }
+
+              const created = await createResponse.json();
+              core.info(`Created i18n-sync issue #${created.number} for ${item.locale}`);
+
+              const alreadyAssigned = (created.assignees ?? []).some(
+                (user) => user.login === assignee,
+              );
+              if (!alreadyAssigned) {
+                await assignCopilot(created.number);
+              }
+            }
+
+  request-review:
+    name: Request locale team review
+    if: >-
+      github.event_name == 'pull_request' &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Request review from locale teams
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const config = JSON.parse(fs.readFileSync('.github/i18n-locales.json', 'utf8'));
+            const pr = context.payload.pull_request;
+            const prLabels = new Set((pr.labels || []).map((label) => label.name));
+
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              per_page: 100,
+            });
+
+            const changedPaths = files.map((file) => file.filename);
+            const teams = new Set();
+
+            for (const locale of config.locales) {
+              const localePrefix = `i18n/${locale.code}/`;
+              const touchesLocale =
+                prLabels.has(locale.code) ||
+                changedPaths.some((path) => path.startsWith(localePrefix));
+
+              if (touchesLocale && locale.reviewTeam) {
+                teams.add(locale.reviewTeam);
+              }
+            }
+
+            if (teams.size === 0) {
+              core.info('No locale teams matched this PR; skipping review request.');
+              return;
+            }
+
+            const labelsToAdd = new Set(['i18n']);
+            for (const locale of config.locales) {
+              if (teams.has(locale.reviewTeam)) {
+                labelsToAdd.add(locale.code);
+                for (const label of locale.prLabels) {
+                  labelsToAdd.add(label);
+                }
+              }
+            }
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              labels: [...labelsToAdd],
+            });
+
+            await github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              team_reviewers: [...teams],
+            });
+
+            core.info(`Requested review from teams: ${[...teams].join(', ')}`);

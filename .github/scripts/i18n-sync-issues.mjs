@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Builds a Copilot CLI prompt from changed English doc paths.
+ * Builds i18n-sync issue payloads and an optional Copilot CLI prompt.
  * Reads .github/i18n-locales.json and changed files from the environment.
  */
 
@@ -106,15 +106,9 @@ PR labels for this locale: ${locale.prLabels.map((l) => `\`${l}\``).join(', ')}
 Review team: \`@${repository.split('/')[0]}/${locale.reviewTeam}\``;
 }
 
-function buildCopilotPrompt() {
+function buildSharedHeader() {
   const commitUrl = `${serverUrl}/${repository}/commit/${commitSha}`;
-  const localeSections = config.locales.map(buildLocaleSection).join('\n\n');
-
-  return `# i18n translation sync
-
-English docs changed on \`main\`. Patch translation mirrors and open pull request(s).
-
-## Trigger commit
+  return `## Trigger commit
 
 - SHA: \`${commitSha}\`
 - Link: ${commitUrl}
@@ -122,32 +116,70 @@ English docs changed on \`main\`. Patch translation mirrors and open pull reques
 
 ## Required reading
 
-1. \`AGENTS.md\` (authoritative translation playbook)
+1. \`AGENTS.md\`
 2. \`.github/copilot-instructions.md\`
 3. \`.github/i18n-locales.json\`
-
-${localeSections}
 
 ## Task rules
 
 1. Translate **only changed sections** where a mirror already exists; full-translate new files.
 2. Run \`npm ci && npm run build\` — every configured locale must pass.
-3. Open pull request(s) to \`main\` using \`gh pr create\`. Use labels \`i18n\`, \`translation\`, and each locale code.
-4. **Never push to \`main\`.**
-5. Create a feature branch, commit mirror updates, then open the PR.`;
+3. Open pull request(s) to \`main\`. Use labels \`i18n\`, \`translation\`, and each locale code.
+4. **Never push to \`main\`.**`;
 }
 
-const prompt = buildCopilotPrompt();
+function buildIssueBody(locale) {
+  return `# i18n sync request (${locale.name} / \`${locale.code}\`)
+
+English docs changed on \`main\`.
+
+${buildSharedHeader()}
+
+${buildLocaleSection(locale)}
+
+---
+
+Copilot coding agent is assigned automatically by the workflow.`;
+}
+
+function buildCopilotPrompt() {
+  const localeSections = config.locales.map(buildLocaleSection).join('\n\n');
+  return `# i18n translation sync
+
+English docs changed on \`main\`. Patch translation mirrors and open pull request(s).
+
+${buildSharedHeader()}
+
+${localeSections}
+
+Create a feature branch, commit mirror updates, then open the PR with \`gh pr create\`.`;
+}
+
+const issues = config.locales.map((locale) => ({
+  locale: locale.code,
+  title: `i18n(${locale.code}): sync English docs @ ${commitSha.slice(0, 7)}`,
+  body: buildIssueBody(locale),
+  labels: [
+    ...new Set([
+      config.issueLabel,
+      locale.code,
+      ...locale.prLabels.filter((l) => l !== locale.code),
+    ]),
+  ],
+}));
+
+const copilotPrompt = buildCopilotPrompt();
 const promptFile = process.env.I18N_PROMPT_FILE;
 
 if (promptFile) {
-  fs.writeFileSync(promptFile, prompt, 'utf8');
+  fs.writeFileSync(promptFile, copilotPrompt, 'utf8');
 }
 
 if (!outputPath) {
-  console.log(prompt);
+  console.log(JSON.stringify({ issues, copilotPrompt }, null, 2));
   process.exit(0);
 }
 
 fs.appendFileSync(outputPath, 'has_work=true\n');
-fs.appendFileSync(outputPath, `copilot_prompt<<EOF\n${prompt}\nEOF\n`);
+fs.appendFileSync(outputPath, `issues<<EOF\n${JSON.stringify(issues)}\nEOF\n`);
+fs.appendFileSync(outputPath, `copilot_prompt<<EOF\n${copilotPrompt}\nEOF\n`);

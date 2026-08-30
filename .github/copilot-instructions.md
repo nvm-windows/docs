@@ -6,7 +6,7 @@ Read **`AGENTS.md`** at the repo root before editing. It is the authoritative tr
 
 ## Task
 
-When the **Sync Translations (i18n)** workflow runs (or when manually invoked with the same prompt):
+When assigned to an **`i18n-sync`** issue:
 
 1. Read the prompt for the triggering commit and list of changed English files.
 2. For each locale mentioned, patch the matching files under that locale's mirror path (see `.github/i18n-locales.json`).

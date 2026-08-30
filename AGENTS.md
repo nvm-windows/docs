@@ -215,46 +215,78 @@ Merge, then one agent runs `npm run build` and fixes cross-section link/anchor i
 
 ## Automated i18n sync
 
-English changes on `main` trigger **Copilot CLI** in GitHub Actions. Copilot patches locale mirrors and opens PR(s). Locale teams review via branch rulesets.
-
-**No PAT.** Assigning `copilot-swe-agent[bot]` from Actions requires a user PAT. This workflow runs Copilot CLI directly with `copilot-requests: write` (org-billed `GITHUB_TOKEN`).
-
-**Copilot Automations** only work on **private/internal** repos and do not assign the agent — not suitable for a public docs repo.
+English changes on `main` open **`i18n-sync` issues** and assign **`copilot-swe-agent[bot]`** via a personal PAT (`COPILOT_GITHUB_TOKEN`). Copilot opens translation PRs; locale teams review via branch rulesets.
 
 ### Repo files
 
 | File | Purpose |
 |------|---------|
-| `.github/workflows/i18n-translation.yml` | Runs Copilot CLI on EN push; requests team review on i18n PRs |
-| `.github/i18n-locales.json` | Locale paths, PR labels, review teams |
-| `.github/copilot-instructions.md` | Copilot rules (summary of this doc) |
-| `.github/scripts/i18n-sync-issues.mjs` | Builds Copilot prompt from git diff |
+| `.github/workflows/i18n-translation.yml` | Opens sync issues, assigns Copilot, requests team review on i18n PRs |
+| `.github/i18n-locales.json` | Locale paths, PR labels, review teams, Copilot assignee |
+| `.github/copilot-instructions.md` | Copilot agent rules (summary of this doc) |
+| `.github/scripts/i18n-sync-issues.mjs` | Builds issue bodies from git diff |
 
 ### Flow
 
 1. Commit changes English files under `docs/` (or `src/theme/`) on `main`.
-2. Workflow `Sync Translations (i18n)` builds a prompt from the diff and runs **Copilot CLI**.
-3. Copilot patches locale mirrors, runs `npm run build`, opens PR(s) to `main`.
-4. Same workflow requests review from the locale team (e.g. `docs_ru`) when the PR opens.
-5. Team reviews/edits PR; branch ruleset requires approval before merge.
+2. Workflow opens a fresh **`i18n-sync`** issue per locale and assigns Copilot (PAT).
+3. Copilot cloud agent patches locale mirrors and opens a PR.
+4. Workflow requests review from the locale team (e.g. `docs_ru`) when the PR opens.
+5. Team reviews/edits; branch ruleset requires approval before merge.
 
-Skip automation for a commit: include **`[skip-i18n]`** in the commit message.
+Skip automation: **`[skip-i18n]`** in commit message.
 
-**Manual run:** Actions → **Sync Translations (i18n)** → **Run workflow**. Options:
+**Manual run:** Actions → **Sync Translations (i18n)** → **Run workflow**.
 
-- **compare_all_docs** — list every English doc path (full resync trigger)
-- **base_ref** — custom git ref to diff against `HEAD` (default `HEAD~1`)
-- **note** — optional text added to the Copilot prompt
+### Setup — PAT walkthrough
 
-### One-time setup (maintainers)
+Requires a **personal Copilot subscription** on the GitHub account that owns the PAT. Usage bills to that account.
 
-**Org Copilot policy** (required):
+#### 1. Enable Copilot cloud agent on the repo
 
-1. Org → **Settings** → **Copilot** → **Policies**
-2. Enable **Copilot CLI**
-3. Enable **Allow use of Copilot CLI billed to the organization**
+`nvm-windows/docs` → **Settings** → **Copilot** → enable **Copilot coding agent** / cloud agent for this repository.
 
-**Branch ruleset:** require `docs_ru` (or per-locale team) approval on PRs touching `i18n/**`.
+(Org is free — this uses *your* personal Copilot seat, not org Copilot policies.)
+
+#### 2. Create a classic PAT
+
+1. Open https://github.com/settings/tokens/new (classic token, not fine-grained).
+2. **Note:** `nvm-windows-docs-i18n`
+3. **Expiration:** your choice (90 days is fine; set a calendar reminder to rotate).
+4. **Scopes:** check **`repo`** (full control of private repositories — needed for Copilot assignment API on org repos).
+5. **Generate token** → copy it once (you will not see it again).
+
+Fine-grained PATs often fail Copilot assignment with 403; classic `repo` scope is the reliable path.
+
+#### 3. Add repo secret
+
+```bash
+gh secret set COPILOT_GITHUB_TOKEN --repo nvm-windows/docs
+```
+
+Paste the PAT when prompted. Or: repo **Settings** → **Secrets and variables** → **Actions** → **New repository secret** → name `COPILOT_GITHUB_TOKEN`.
+
+#### 4. Push workflow + test
+
+1. Merge/push the updated `.github/workflows/i18n-translation.yml`.
+2. Actions → **Sync Translations (i18n)** → **Run workflow** (or push a small `docs/` change).
+3. Check job **Open and assign i18n-sync issues** — should log `Assigned copilot-swe-agent[bot] to issue #…`.
+4. Open the issue — assignee should be **Copilot**. A PR should appear within a few minutes.
+
+#### 5. Branch ruleset (one-time)
+
+Require `docs_ru` (or per-locale team) approval on PRs touching `i18n/**`.
+
+#### Troubleshooting
+
+| Error | Fix |
+|-------|-----|
+| `Missing repository secret COPILOT_GITHUB_TOKEN` | Complete step 3 |
+| `copilot-swe-agent not found` / 404 on assign | PAT owner needs active Copilot; enable cloud agent on repo (step 1) |
+| 403 on assign | Use **classic** PAT with `repo` scope, not fine-grained |
+| Issue created but no PR | Check Copilot session on issue; re-run workflow or assign @copilot manually once |
+
+**Always:** branch ruleset for locale team review on `i18n/**`.
 
 ## Adding a new language
 
@@ -386,7 +418,7 @@ Then (maintainers, one-time per locale):
 2. Add branch ruleset: require that team's approval on PRs touching `i18n/<locale>/**`.
 3. No workflow edit — `i18n-translation.yml` reads the config file.
 
-After English changes land on `main`, the workflow runs Copilot CLI to produce translation PRs for the new locale automatically.
+After English changes land on `main`, the workflow opens `i18n-sync` issues and assigns Copilot automatically (requires `COPILOT_GITHUB_TOKEN`).
 
 ### 8. Verify
 
