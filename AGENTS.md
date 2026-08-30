@@ -229,8 +229,8 @@ English changes on `main` trigger **i18n-sync issues** for Copilot cloud agent. 
 ### Flow
 
 1. Commit changes English files under `docs/` (or `src/theme/`) on `main`.
-2. Workflow `i18n translation` opens/updates an issue labeled **`i18n-sync`** + locale code (e.g. `ru`).
-3. **Copilot Automation** (configured in repo → Agents → Automations) runs on `i18n-sync` issues, patches locale mirrors, opens a PR.
+2. Workflow `Sync Translations (i18n)` opens a fresh issue labeled **`i18n-sync`** + locale code (e.g. `ru`). Superseded open issues for the same locale are closed first so Copilot Automation always gets an **issue created** event.
+3. **Copilot Automation** (repo → Agents → Automations) runs on new `i18n-sync` issues, patches locale mirrors, opens a PR. No PAT — billing goes to the automation owner’s Copilot seat.
 4. Same workflow requests review from the locale team (e.g. `docs_ru`) when the PR opens.
 5. Team reviews/edits PR; branch ruleset requires approval before merge.
 
@@ -244,18 +244,24 @@ Skip automation for a commit: include **`[skip-i18n]`** in the commit message.
 
 ### One-time setup (maintainers)
 
-**Workflow auth:** uses the built-in `GITHUB_TOKEN` (job permissions only — no GitHub App secrets required for this workflow).
+**Workflow auth:** `GITHUB_TOKEN` only (issues read/write). No PAT or GitHub App secrets.
 
-**Copilot cloud agent** (Settings → Copilot → cloud agent):
+**Copilot cloud agent:** enable on the repo (Settings → Copilot → cloud agent).
 
-- Enable cloud agent on the repo.
-- Optional: disable “Require approval for workflow runs” so `npm run build` runs on Copilot PRs without manual approve.
+**Copilot Automation** (required — this replaces PAT-based assignment):
 
-**Copilot Automation** (repo → Agents → Automations → New):
+Repo → **Agents** → **Automations** → **Create**:
 
-- **Trigger:** When an issue is created — filter: `label:i18n-sync`
-- **Tools:** push changes, create pull request (minimum required)
-- **Instructions:** point to `.github/copilot-instructions.md` (Copilot also reads this file automatically when present)
+| Field | Value |
+|-------|--------|
+| Trigger | **When an issue is created** |
+| Filter | `label:i18n-sync` |
+| Tools | **Push changes**, **Create pull request** (minimum) |
+| Prompt | Read the issue body. Follow `AGENTS.md` and `.github/copilot-instructions.md`. Patch the locale mirror paths listed in the issue, run `npm ci && npm run build`, open one PR to `main`. Never push to `main`. |
+
+Token usage bills to the **user who created the automation** (must have a Copilot seat). Copilot also reads `.github/copilot-instructions.md` automatically when present.
+
+Optional: disable “Require approval for workflow runs” so `npm run build` runs on Copilot PRs without manual approve.
 
 **Branch ruleset:** require `docs_ru` (or per-locale team) approval on PRs touching `i18n/**`.
 

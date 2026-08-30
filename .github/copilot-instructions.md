@@ -6,7 +6,7 @@ Read **`AGENTS.md`** at the repo root before editing. It is the authoritative tr
 
 ## Task
 
-When assigned an issue labeled **`i18n-sync`**:
+When an **`i18n-sync`** issue is opened (Copilot Automation trigger):
 
 1. Read the issue body for the triggering commit and list of changed English files.
 2. For each locale mentioned, patch the matching files under that locale's mirror path (see `.github/i18n-locales.json`).
