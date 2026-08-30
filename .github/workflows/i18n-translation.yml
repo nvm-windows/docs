@@ -9,6 +9,8 @@ on:
       - 'docs/**'
       - 'src/theme/**'
       - '.github/i18n-locales.json'
+      - '.github/workflows/i18n-translation.yml'
+      - '.github/scripts/i18n-sync-issues.mjs'
   pull_request:
     types: [opened, ready_for_review]
     paths:
@@ -83,6 +85,13 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           I18N_CHANGED_FILES: ${{ steps.changed.outputs.files }}
         run: node .github/scripts/i18n-sync-issues.mjs
+
+      - name: Report when nothing to sync
+        if: steps.prepare.outputs.has_work != 'true'
+        run: |
+          echo "::warning::No i18n-sync issue created."
+          echo "The git diff for this run had no changes under docs/, docs/_components/, or src/theme/."
+          echo "Push an English doc change on main, or re-run manually with compare_all_docs=true."
 
       - name: Verify Copilot PAT secret
         if: steps.prepare.outputs.has_work == 'true'
