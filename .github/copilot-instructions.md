@@ -6,9 +6,9 @@ Read **`AGENTS.md`** at the repo root before editing. It is the authoritative tr
 
 ## Task
 
-When an **`i18n-sync`** issue is opened (Copilot Automation trigger):
+When the **Sync Translations (i18n)** workflow runs (or when manually invoked with the same prompt):
 
-1. Read the issue body for the triggering commit and list of changed English files.
+1. Read the prompt for the triggering commit and list of changed English files.
 2. For each locale mentioned, patch the matching files under that locale's mirror path (see `.github/i18n-locales.json`).
 3. **Patch incrementally** — translate only sections that changed in English; preserve existing good translation elsewhere.
 4. Open **one pull request** per issue (or update the existing PR branch). **Never push to `main`.**

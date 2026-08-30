@@ -213,55 +213,46 @@ Return: files translated, anchor IDs added, build errors fixed.
 
 Merge, then one agent runs `npm run build` and fixes cross-section link/anchor issues.
 
-## Automated i18n sync (Option A)
+## Automated i18n sync
 
-English changes on `main` trigger **i18n-sync issues** for Copilot cloud agent. Copilot opens translation PRs; locale teams review via branch rulesets.
+English changes on `main` trigger **Copilot CLI** in GitHub Actions. Copilot patches locale mirrors and opens PR(s). Locale teams review via branch rulesets.
+
+**No PAT.** Assigning `copilot-swe-agent[bot]` from Actions requires a user PAT. This workflow runs Copilot CLI directly with `copilot-requests: write` (org-billed `GITHUB_TOKEN`).
+
+**Copilot Automations** only work on **private/internal** repos and do not assign the agent — not suitable for a public docs repo.
 
 ### Repo files
 
 | File | Purpose |
 |------|---------|
-| `.github/workflows/i18n-translation.yml` | Opens sync issues on EN push; requests team review on i18n PRs |
+| `.github/workflows/i18n-translation.yml` | Runs Copilot CLI on EN push; requests team review on i18n PRs |
 | `.github/i18n-locales.json` | Locale paths, PR labels, review teams |
-| `.github/copilot-instructions.md` | Copilot agent rules (summary of this doc) |
-| `.github/scripts/i18n-sync-issues.mjs` | Builds issue bodies from git diff |
+| `.github/copilot-instructions.md` | Copilot rules (summary of this doc) |
+| `.github/scripts/i18n-sync-issues.mjs` | Builds Copilot prompt from git diff |
 
 ### Flow
 
 1. Commit changes English files under `docs/` (or `src/theme/`) on `main`.
-2. Workflow `Sync Translations (i18n)` opens a fresh issue labeled **`i18n-sync`** + locale code (e.g. `ru`). Superseded open issues for the same locale are closed first so Copilot Automation always gets an **issue created** event.
-3. **Copilot Automation** (repo → Agents → Automations) runs on new `i18n-sync` issues, patches locale mirrors, opens a PR. No PAT — billing goes to the automation owner’s Copilot seat.
+2. Workflow `Sync Translations (i18n)` builds a prompt from the diff and runs **Copilot CLI**.
+3. Copilot patches locale mirrors, runs `npm run build`, opens PR(s) to `main`.
 4. Same workflow requests review from the locale team (e.g. `docs_ru`) when the PR opens.
 5. Team reviews/edits PR; branch ruleset requires approval before merge.
 
 Skip automation for a commit: include **`[skip-i18n]`** in the commit message.
 
-**Manual run:** Actions → **i18n translation** → **Run workflow**. Options:
+**Manual run:** Actions → **Sync Translations (i18n)** → **Run workflow**. Options:
 
 - **compare_all_docs** — list every English doc path (full resync trigger)
 - **base_ref** — custom git ref to diff against `HEAD` (default `HEAD~1`)
-- **note** — optional text added to the sync issue
+- **note** — optional text added to the Copilot prompt
 
 ### One-time setup (maintainers)
 
-**Workflow auth:** `GITHUB_TOKEN` only (issues read/write). No PAT or GitHub App secrets.
+**Org Copilot policy** (required):
 
-**Copilot cloud agent:** enable on the repo (Settings → Copilot → cloud agent).
-
-**Copilot Automation** (required — this replaces PAT-based assignment):
-
-Repo → **Agents** → **Automations** → **Create**:
-
-| Field | Value |
-|-------|--------|
-| Trigger | **When an issue is created** |
-| Filter | `label:i18n-sync` |
-| Tools | **Push changes**, **Create pull request** (minimum) |
-| Prompt | Read the issue body. Follow `AGENTS.md` and `.github/copilot-instructions.md`. Patch the locale mirror paths listed in the issue, run `npm ci && npm run build`, open one PR to `main`. Never push to `main`. |
-
-Token usage bills to the **user who created the automation** (must have a Copilot seat). Copilot also reads `.github/copilot-instructions.md` automatically when present.
-
-Optional: disable “Require approval for workflow runs” so `npm run build` runs on Copilot PRs without manual approve.
+1. Org → **Settings** → **Copilot** → **Policies**
+2. Enable **Copilot CLI**
+3. Enable **Allow use of Copilot CLI billed to the organization**
 
 **Branch ruleset:** require `docs_ru` (or per-locale team) approval on PRs touching `i18n/**`.
 
@@ -395,7 +386,7 @@ Then (maintainers, one-time per locale):
 2. Add branch ruleset: require that team's approval on PRs touching `i18n/<locale>/**`.
 3. No workflow edit — `i18n-translation.yml` reads the config file.
 
-After English changes land on `main`, the workflow opens `i18n-sync` issues; Copilot Automation produces translation PRs for the new locale automatically.
+After English changes land on `main`, the workflow runs Copilot CLI to produce translation PRs for the new locale automatically.
 
 ### 8. Verify
 
