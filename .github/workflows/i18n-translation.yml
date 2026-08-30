@@ -1,0 +1,201 @@
+name: i18n translation
+
+# Push to main opens i18n-sync issues for Copilot cloud agent automations.
+# Copilot opens translation PRs; request-review job notifies locale teams.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'src/theme/**'
+      - '.github/i18n-locales.json'
+  pull_request:
+    types: [opened, ready_for_review]
+    paths:
+      - 'i18n/**'
+
+concurrency:
+  group: i18n-translation-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  create-sync-issues:
+    name: Open i18n-sync issues
+    if: >-
+      github.event_name == 'push' &&
+      !contains(github.event.head_commit.message, '[skip-i18n]')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Mint GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: |
+            ${{ github.event.repository.name }}
+
+      - name: List changed English source files
+        id: changed
+        run: |
+          set -euo pipefail
+          if git rev-parse HEAD~1 >/dev/null 2>&1; then
+            mapfile -t files < <(git diff --name-only HEAD~1 HEAD)
+          else
+            mapfile -t files < <(git diff-tree --no-commit-id --name-only -r HEAD)
+          fi
+          {
+            echo "files<<EOF"
+            printf '%s\n' "${files[@]}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Prepare issue payloads
+        id: prepare
+        env:
+          I18N_COMMIT_SHA: ${{ github.sha }}
+          I18N_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          I18N_CHANGED_FILES: ${{ steps.changed.outputs.files }}
+        run: node .github/scripts/i18n-sync-issues.mjs
+
+      - name: Create or update sync issues
+        if: steps.prepare.outputs.issues != ''
+        uses: actions/github-script@v7
+        env:
+          ISSUES_JSON: ${{ steps.prepare.outputs.issues }}
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const items = JSON.parse(process.env.ISSUES_JSON);
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            for (const item of items) {
+              const labelQuery = [item.labels[0], item.locale].join(',');
+              const { data: openIssues } = await github.rest.issues.listForRepo({
+                owner,
+                repo,
+                state: 'open',
+                labels: labelQuery,
+                per_page: 20,
+              });
+
+              const existing = openIssues.find((issue) =>
+                issue.title.startsWith(`i18n(${item.locale}):`),
+              );
+
+              if (existing) {
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: existing.number,
+                  body: `### Additional English changes on \`${context.sha.slice(0, 7)}\`\n\n${item.body}`,
+                });
+                core.info(`Updated i18n-sync issue #${existing.number} for ${item.locale}`);
+                continue;
+              }
+
+              const { data: created } = await github.rest.issues.create({
+                owner,
+                repo,
+                title: item.title,
+                body: item.body,
+                labels: item.labels,
+              });
+              core.info(`Created i18n-sync issue #${created.number} for ${item.locale}`);
+            }
+
+  request-review:
+    name: Request locale team review
+    if: >-
+      github.event_name == 'pull_request' &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Mint GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: |
+            ${{ github.event.repository.name }}
+
+      - name: Request review from locale teams
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const fs = require('fs');
+            const config = JSON.parse(fs.readFileSync('.github/i18n-locales.json', 'utf8'));
+            const pr = context.payload.pull_request;
+            const prLabels = new Set((pr.labels || []).map((label) => label.name));
+
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              per_page: 100,
+            });
+
+            const changedPaths = files.map((file) => file.filename);
+            const teams = new Set();
+
+            for (const locale of config.locales) {
+              const localePrefix = `i18n/${locale.code}/`;
+              const touchesLocale =
+                prLabels.has(locale.code) ||
+                changedPaths.some((path) => path.startsWith(localePrefix));
+
+              if (touchesLocale && locale.reviewTeam) {
+                teams.add(locale.reviewTeam);
+              }
+            }
+
+            if (teams.size === 0) {
+              core.info('No locale teams matched this PR; skipping review request.');
+              return;
+            }
+
+            const labelsToAdd = new Set(['i18n']);
+            for (const locale of config.locales) {
+              if (teams.has(locale.reviewTeam)) {
+                labelsToAdd.add(locale.code);
+                for (const label of locale.prLabels) {
+                  labelsToAdd.add(label);
+                }
+              }
+            }
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              labels: [...labelsToAdd],
+            });
+
+            await github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              team_reviewers: [...teams],
+            });
+
+            core.info(`Requested review from teams: ${[...teams].join(', ')}`);

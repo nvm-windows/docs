@@ -1,0 +1,18 @@
+{
+  "sourcePath": "docs",
+  "sourceComponentsPath": "docs/_components",
+  "themePaths": ["src/theme"],
+  "issueLabel": "i18n-sync",
+  "locales": [
+    {
+      "code": "ru",
+      "name": "Russian",
+      "docsPath": "i18n/ru/docusaurus-plugin-content-docs/current",
+      "componentsPath": "i18n/ru/docusaurus-plugin-content-docs/current/_components",
+      "codeJsonPath": "i18n/ru/code.json",
+      "currentJsonPath": "i18n/ru/docusaurus-plugin-content-docs/current.json",
+      "reviewTeam": "docs_ru",
+      "prLabels": ["i18n", "translation", "ru"]
+    }
+  ]
+}
