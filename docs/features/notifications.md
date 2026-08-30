@@ -6,11 +6,13 @@ tags: [native-integration]
 
 NVM for Windows uses native desktop notifications with the Windows Notification Center. Missed notifications stay in the Notification Center until acknowledged. Personal notification preferences are honored.
 
+<div align="center">
 <img
-	src="/img/features/native/1776541489737.png"
+	src="/img/features/native/native-notifications.png"
 	alt="Windows Notification Center"
-	style={{width: '40%', maxWidth: '480px'}}
+	style={{maxWidth: '980px'}}
 />
+</div>
 
 ## When notifications appear
 

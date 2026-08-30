@@ -20,9 +20,9 @@ nvm cfg set mode=link
 
 ## Link Mode
 
-This mode uses links to locate the active system-wide version of `node.exe`. The link path is part of the `PATH`. Running [`nvm use`](../command/use) changes the _target_ of the link path, not the path itself. `PATH` never changes.
+This mode uses links to locate the active system-wide version of `node.exe`. The link is part of the `PATH`. Running [`nvm use`](../command/use) changes the _target_ of the link path, not the path itself. `PATH` never changes.
 
-Link mode offers the closest possible experience to running `node.exe` "as delivered" by [nodejs.org](https://nodejs.org). This mode offers zero latency. Link mode, by its nature, does not provide any advanced modern workflow features (shim mode does).
+Link mode offers an experience that is as close as possible to simply running `node.exe` "as delivered" by [nodejs.org](https://nodejs.org). It offers zero latency, but does not provide the advanced modern workflow features available in Shim Mode.
 
 Version 2.0.0 introduced the "fallback" link creation strategy.
 
@@ -41,11 +41,11 @@ NVM for Windows v2 will not attempt to elevate permissions (i.e. no UAC prompt) 
 
 ## Shim Mode (default)
 
-Shim mode offers a streamlined developer experience. The tradeoff is additional latency (~25-35ms total).
+Shim mode offers a new, streamlined developer experience. When compared with Link Mode, Shim Mode comes with the benefit of avoiding esoteric permission requirements, but at the cost of a small amount of additional latency (~25-35ms total). This latency is negligible for most use cases. For this reason, Shim Mode is recommended for most users.
 
 Most users won't notice or feel the impact of shim latency, making shim mode recommended for most users.
 
-Shim mode offers:
+Shim mode features:
 
 - Auto-use pinned versions via `.nvmrc`, `.node-version`, `package.json`, or other custom runtime config files.
 - Auto-install missing versions on `nvm use`. (Optional)

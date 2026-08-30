@@ -4,7 +4,7 @@ sidebar_position: 6
 tags: [native-integration]
 ---
 
-Critical events, such as installations, configuration changes, and security events are logged natively, available in Windows Event Viewer. This allows for clear organization observability and auditing using tools most organizations already have.
+Critical events, such as installations, configuration changes, and security events are logged natively, available in Windows Event Viewer. This allows for clear organization observability and auditing using tools most organizations already familiar with.
 
 ![1776532731980](/img/features/native/1776532731980.png)
 
