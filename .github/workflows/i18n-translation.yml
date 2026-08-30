@@ -1,4 +1,4 @@
-name: i18n translation
+name: Sync Translations (i18n)
 
 # Push to main opens i18n-sync issues for Copilot cloud agent automations.
 # Copilot opens translation PRs; request-review job notifies locale teams.
@@ -46,7 +46,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
