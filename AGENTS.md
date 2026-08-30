@@ -236,6 +236,12 @@ English changes on `main` trigger **i18n-sync issues** for Copilot cloud agent. 
 
 Skip automation for a commit: include **`[skip-i18n]`** in the commit message.
 
+**Manual run:** Actions → **i18n translation** → **Run workflow**. Options:
+
+- **compare_all_docs** — list every English doc path (full resync trigger)
+- **base_ref** — custom git ref to diff against `HEAD` (default `HEAD~1`)
+- **note** — optional text added to the sync issue
+
 ### One-time setup (maintainers)
 
 **GitHub App** (repo or org — same secrets as other nvm-windows workflows):

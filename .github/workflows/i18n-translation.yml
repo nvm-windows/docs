@@ -14,6 +14,20 @@ on:
     types: [opened, ready_for_review]
     paths:
       - 'i18n/**'
+  workflow_dispatch:
+    inputs:
+      compare_all_docs:
+        description: List all English doc paths (full resync) instead of git diff only
+        type: boolean
+        default: false
+      base_ref:
+        description: Git ref to compare against HEAD (ignored when compare_all_docs is true)
+        type: string
+        default: HEAD~1
+      note:
+        description: Optional note included in the i18n-sync issue
+        type: string
+        required: false
 
 concurrency:
   group: i18n-translation-${{ github.event.pull_request.number || github.sha }}
@@ -23,8 +37,9 @@ jobs:
   create-sync-issues:
     name: Open i18n-sync issues
     if: >-
-      github.event_name == 'push' &&
-      !contains(github.event.head_commit.message, '[skip-i18n]')
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' &&
+      !contains(github.event.head_commit.message, '[skip-i18n]'))
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -33,7 +48,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Check GitHub App secrets
         run: |
@@ -62,9 +77,18 @@ jobs:
 
       - name: List changed English source files
         id: changed
+        env:
+          COMPARE_ALL_DOCS: ${{ github.event_name == 'workflow_dispatch' && inputs.compare_all_docs || 'false' }}
+          BASE_REF: ${{ github.event_name == 'workflow_dispatch' && inputs.base_ref || 'HEAD~1' }}
         run: |
           set -euo pipefail
-          if git rev-parse HEAD~1 >/dev/null 2>&1; then
+          if [ "$COMPARE_ALL_DOCS" = "true" ]; then
+            mapfile -t files < <(
+              git ls-files docs/ docs/_components/ src/theme/ 2>/dev/null || true
+            )
+          elif git rev-parse "$BASE_REF" >/dev/null 2>&1; then
+            mapfile -t files < <(git diff --name-only "$BASE_REF" HEAD)
+          elif git rev-parse HEAD~1 >/dev/null 2>&1; then
             mapfile -t files < <(git diff --name-only HEAD~1 HEAD)
           else
             mapfile -t files < <(git diff-tree --no-commit-id --name-only -r HEAD)
@@ -79,7 +103,7 @@ jobs:
         id: prepare
         env:
           I18N_COMMIT_SHA: ${{ github.sha }}
-          I18N_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          I18N_COMMIT_MESSAGE: ${{ github.event_name == 'workflow_dispatch' && format('Manual dispatch by {0}{1}', github.actor, inputs.note && format(': {0}', inputs.note) || '') || github.event.head_commit.message }}
           I18N_CHANGED_FILES: ${{ steps.changed.outputs.files }}
         run: node .github/scripts/i18n-sync-issues.mjs
 
