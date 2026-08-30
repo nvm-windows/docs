@@ -2,5 +2,65 @@
   "version.label": {
     "message": "Текущая",
     "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Install": {
+    "message": "Установка",
+    "description": "The label for category 'Install' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.install-enterprise-deployment": {
+    "message": "Корпоративное развёртывание",
+    "description": "The label for category 'Enterprise Deployment' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Features": {
+    "message": "Возможности",
+    "description": "The label for category 'Features' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Configuration": {
+    "message": "Конфигурация",
+    "description": "The label for category 'Configuration' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Enterprise policy": {
+    "message": "Корпоративная политика",
+    "description": "The label for category 'Enterprise policy' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Команды": {
+    "message": "Команды",
+    "description": "The label for category 'Команды' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.install": {
+    "message": "install",
+    "description": "The label for category 'install' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.use": {
+    "message": "use",
+    "description": "The label for category 'use' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.list": {
+    "message": "list",
+    "description": "The label for category 'list' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.alias": {
+    "message": "alias",
+    "description": "The label for category 'alias' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.cache": {
+    "message": "cache",
+    "description": "The label for category 'cache' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.remove": {
+    "message": "remove",
+    "description": "The label for category 'remove' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.config": {
+    "message": "config",
+    "description": "The label for category 'config' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Guides": {
+    "message": "Руководства",
+    "description": "The label for category 'Guides' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Choosing an Edition": {
+    "message": "Выбор редакции",
+    "description": "The label for category 'Choosing an Edition' in sidebar 'tutorialSidebar'"
   }
 }

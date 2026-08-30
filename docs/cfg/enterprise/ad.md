@@ -16,13 +16,13 @@ NVM for Windows certified governance builds come with ADMX/ADML templates. Use t
 |ADML file| Provides the language text for the settings. Available at [portal.author.io](https://portal.author.io).|
 |Target path| `HKLM\Software\Policies\Author Software\nvm`|
 
-Download the ADMX/ADML from the [customer portal](https://portal.author.io). For Win32 app installation through Intune, see [Install → Intune](../../install/enterprise/intune).
+Download the ADMX/ADML from the [customer portal](https://portal.author.io). For Win32 app installation through Intune, see [Install → Intune](../install/enterprise/intune).
 
 ---
 
 ## Intune policy configuration
 
-After NVM for Windows is [installed](../../install/enterprise/intune), enforce settings with the imported administrative template.
+After NVM for Windows is [installed](../install/enterprise/intune), enforce settings with the imported administrative template.
 
 ### 1. Import ADMX and ADML
 

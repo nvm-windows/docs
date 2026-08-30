@@ -327,19 +327,15 @@
     "description": "The title of the tag list page"
   },
   "certifiedBanner.badge": {
-    "message": "Certified-сборка",
-    "description": "Badge label on pages that document certified-only features"
+    "message": "Certified-сборка"
   },
   "certifiedBanner.releaseDate": {
-    "message": "сентябрь 2026",
-    "description": "Release timeframe shown in the certified build banner"
+    "message": "сентябрь 2026"
   },
   "certifiedBanner.availability": {
-    "message": "Доступно {date}.",
-    "description": "Certified build banner when no edition package is specified"
+    "message": "Доступно {date}."
   },
   "certifiedBanner.requiresEdition": {
-    "message": "Требуется пакет {edition}. Доступно {date}.",
-    "description": "Certified build banner when a specific edition package is required"
+    "message": "Требуется пакет {edition}. Доступно {date}."
   }
 }

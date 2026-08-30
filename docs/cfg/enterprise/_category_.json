@@ -1,8 +1,5 @@
 {
+  "label": "Enterprise policy",
   "position": 2,
-  "collapsed": true,
-  "link": {
-    "type": "doc",
-    "id": "cfg/enterprise/index"
-  }
+  "collapsed": true
 }

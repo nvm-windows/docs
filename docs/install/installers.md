@@ -47,12 +47,12 @@ NVM for Windows offers community and certified builds on amd64 (x64) and arm64 d
 Code-signed Certified Build assets will be available from the customer portal.
 :::
 
-Certified builds are designed for remote installation through platforms like Active Directory and Microsoft Entra, but you can still install on a single computer using the MSI. See the Enterprise Deployment section to deploy NVM for Windows to many computers.
+Certified builds are designed for remote installation through platforms like Active Directory and Microsoft Entra, but you can still install on a single computer using the MSI. See [Enterprise Deployment](./enterprise/requirements) to deploy NVM for Windows to many computers.
 
 |File|Use Case|
 |:-|:-|
-|Intune|Deploy to a Microsoft Entra organization.|
-|MSI Installer|Install on a single computer or deploy a sitewide deployment.|
+|[Intune](./enterprise/intune)|Deploy to a Microsoft Entra organization.|
+|[MSI Installer](./enterprise/ad)|Install on a single computer or deploy a sitewide deployment.|
 
 ## Installing Node.js
 

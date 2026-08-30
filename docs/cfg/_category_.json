@@ -1,8 +1,5 @@
 {
+  "label": "Configuration",
   "position": 3,
-  "collapsed": true,
-  "link": {
-    "type": "doc",
-    "id": "cfg/index"
-  }
+  "collapsed": true
 }

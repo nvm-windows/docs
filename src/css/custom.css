@@ -125,3 +125,9 @@ pre[class*='language-pwsh'] .token.operator {
 .tabs__item + .tabs__item {
   margin-top: 0;
 }
+
+/* Markdown screenshots: keep aspect ratio when width/height attrs are present. */
+.theme-doc-markdown img {
+  max-width: 100%;
+  height: auto;
+}

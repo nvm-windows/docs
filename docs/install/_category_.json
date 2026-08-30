@@ -1,8 +1,5 @@
 {
+  "label": "Install",
   "position": 1,
-  "collapsed": false,
-  "link": {
-    "type": "doc",
-    "id": "install/index"
-  }
+  "collapsed": false
 }
