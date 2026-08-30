@@ -11,7 +11,7 @@ const configPath = path.join(process.cwd(), '.github/i18n-locales.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 const commitSha = process.env.I18N_COMMIT_SHA ?? '';
-const commitMessage = process.env.I18N_COMMIT_MESSAGE ?? '';
+const commitMessage = buildCommitMessage();
 const repository = process.env.GITHUB_REPOSITORY ?? '';
 const serverUrl = process.env.GITHUB_SERVER_URL ?? 'https://github.com';
 const changedFilesRaw = process.env.I18N_CHANGED_FILES ?? '';
@@ -20,6 +20,15 @@ const changedFiles = changedFilesRaw
   .split('\n')
   .map((line) => line.trim())
   .filter(Boolean);
+
+function buildCommitMessage() {
+  if (process.env.I18N_EVENT_NAME === 'workflow_dispatch') {
+    const actor = process.env.GITHUB_ACTOR ?? 'unknown';
+    const note = (process.env.I18N_DISPATCH_NOTE ?? '').trim();
+    return note ? `Manual dispatch by ${actor}: ${note}` : `Manual dispatch by ${actor}`;
+  }
+  return process.env.I18N_PUSH_COMMIT_MESSAGE ?? '';
+}
 
 if (changedFiles.length === 0) {
   console.log('No changed English source files; nothing to sync.');

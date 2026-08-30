@@ -103,7 +103,10 @@ jobs:
         id: prepare
         env:
           I18N_COMMIT_SHA: ${{ github.sha }}
-          I18N_COMMIT_MESSAGE: ${{ github.event_name == 'workflow_dispatch' && format('Manual dispatch by {0}{1}', github.actor, inputs.note && format(': {0}', inputs.note) || '') || github.event.head_commit.message }}
+          I18N_EVENT_NAME: ${{ github.event_name }}
+          I18N_DISPATCH_NOTE: ${{ github.event_name == 'workflow_dispatch' && inputs.note || '' }}
+          I18N_PUSH_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GITHUB_ACTOR: ${{ github.actor }}
           I18N_CHANGED_FILES: ${{ steps.changed.outputs.files }}
         run: node .github/scripts/i18n-sync-issues.mjs
 
