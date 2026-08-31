@@ -57,6 +57,6 @@ Now using Node.js v24.1.0 by default.
 
 ## Notes
 
-- Stores the current default and updates `last_version`.
+- Stores the current default and updates the last version.
 - In shim mode, a reshim runs after activation.
 - In link mode, `.nodejs` points to the linked active runtime path.
