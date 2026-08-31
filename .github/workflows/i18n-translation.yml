@@ -103,7 +103,7 @@ jobs:
 
       - name: Create issues and assign Copilot
         if: steps.prepare.outputs.has_work == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           ISSUES_JSON: ${{ steps.prepare.outputs.issues }}
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
@@ -232,10 +232,10 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Request review from locale teams
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
