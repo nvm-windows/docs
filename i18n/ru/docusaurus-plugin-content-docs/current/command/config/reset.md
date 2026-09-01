@@ -43,8 +43,6 @@ nvm config reset all [flags]
 **Сохраняются (не сбрасываются):**
 
 - [`root`](../../cfg/core#mode-and-install-location) — каталог установки остаётся настроенным
-- `active_version` — указатель текущей версии по умолчанию
-- `access_token`, `access_key` — значения лицензирования (используйте `nvm license set` / `nvm license clear`)
 - Параметры, управляемые политикой — пропускаются со строкой сводки
 
 ## Примеры
