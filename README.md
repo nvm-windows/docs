@@ -1,6 +1,6 @@
 # docs
 
-Documentation site for [NVM for Windows](https://github.com/nvm-windows/docs) (Docusaurus).
+This is the source of [docs.nvm-windows.com](https://docs.nvm-windows.com) (Docusaurus).
 
 ## Local development
 
@@ -11,4 +11,6 @@ npm start
 
 ## Translations
 
-Work is restricted to `i18n\<language>`.
+Work should be limited `i18n\<language>`.
+
+When the English documentation is updated, Copilot attempts to auto-translate the updates. These changes require review from the translation team. If you are contributing a new translation, please open an issue requesting a team be created for your language.
