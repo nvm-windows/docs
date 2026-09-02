@@ -5,7 +5,7 @@ This guide details the differences between NVM for Windows community builds and 
 |Type|Audience|License|Availability|
 |:-|:-:|:-:|:-|
 |Community&nbsp;Build|Individuals|MIT|[nvm-windows.com](https://nvm-windows.com) or [github.com/nvm-windows](https://github.com/nvm-windows/nvm/releases)|
-|Certified&nbsp;Build|Organizations|EULA|September 2026 via [Customer Portal](https://portal.author.io)|
+|Certified&nbsp;Build|Organizations|EULA|September 2026 via Customer Portal|
 
 ## Community Builds
 
