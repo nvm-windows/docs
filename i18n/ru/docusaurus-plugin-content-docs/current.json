@@ -62,5 +62,9 @@
   "sidebar.tutorialSidebar.category.Choosing an Edition": {
     "message": "Выбор редакции",
     "description": "The label for category 'Choosing an Edition' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Troubleshooting": {
+    "message": "Устранение неполадок",
+    "description": "The label for category 'Troubleshooting' in sidebar 'tutorialSidebar'"
   }
 }

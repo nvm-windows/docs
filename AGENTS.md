@@ -196,7 +196,7 @@ Build must pass **both** `en` and `ru` with zero link errors. Anchor warnings sh
 - **cfg/** — core, aliases, enterprise (ad, registry)
 - **guide/** — builds, version-resolution, air-gapped, command-workflows
 - **command/** — full tree (~37 pages)
-- **permissions.md**, **troubleshooting.md**
+- **permissions.md**, **troubleshooting/** (general + error-codes)
 - **Components:** `SymlinkPermissionExplainer.mdx`, `VersionConstraintTable.mdx`, `VersionSpecifierTable.mdx`
 - **Theme strings:** certified banner in `i18n/ru/code.json`
 

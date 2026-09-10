@@ -131,3 +131,9 @@ pre[class*='language-pwsh'] .token.operator {
   max-width: 100%;
   height: auto;
 }
+
+/* Hide homepage redirect doc from the sidebar (docs/index.mdx). */
+.theme-doc-sidebar-item-link.hidden,
+li.hidden {
+  display: none !important;
+}

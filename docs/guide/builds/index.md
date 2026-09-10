@@ -1,3 +1,8 @@
+---
+title: Choosing an Edition
+sidebar_label: Choosing an Edition
+---
+
 # Choosing an Edition
 
 This guide details the differences between NVM for Windows community builds and certified builds, to help readers choose the option best suited for them.

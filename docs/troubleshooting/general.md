@@ -1,9 +1,10 @@
 ---
-sidebar_label: Troubleshooting
-sidebar_position: 7
+title: General Troubleshooting
+sidebar_label: Common Issues
+sidebar_position: 1
 ---
 
-# Troubleshooting
+# General Troubleshooting
 
 | Symptom | Likely Cause | Verify | Fix |
 |:-|:-|:-|:-|
@@ -46,6 +47,8 @@ nvm doctor
 4. Apply targeted fix (install, use, config, cache, or mode).
 
 5. Re-verify with `nvm env` and `nvm doctor`.
+
+For coded events such as `NVM4305`, see [Error Codes](./error-codes).
 
 ## Enterprise Notes
 
