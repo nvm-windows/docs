@@ -61,6 +61,10 @@ Reset 18 configuration option(s) to default.
 Skipped 1 policy-managed option(s): node_mirror
 ```
 
+:::tip[Certified Builds]
+Сообщение «Skipped … policy-managed option(s)» появляется, когда ключ принадлежит Governance/политике машины. Community-установки сбрасывают только пользовательские preferences.
+:::
+
 ## Проверенная расшифровка (локальный запуск)
 
 ```powershell

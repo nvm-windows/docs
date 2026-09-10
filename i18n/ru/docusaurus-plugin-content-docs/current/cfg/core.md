@@ -15,7 +15,9 @@ nvm config reset auto_install
 nvm config docs
 ```
 
-На certified-флотах политика машины может переопределять эти значения. См. [Административные шаблоны](ad) и [справочник политик реестра](registry).
+:::tip[Certified Builds]
+На флотах Certified Builds политика машины (Governance ADMX / реестр) может переопределять эти значения. См. [Административные шаблоны](ad) и [справочник политик реестра](registry).
+:::
 
 :::tip[Структурированная документация]
 Используйте `nvm config docs --json` для машиночитаемых метаданных.
@@ -45,6 +47,10 @@ nvm config set node_mirror=https://mirror.author.io/runtime/nodejs,https://nodej
 nvm config set cache_downloads=true
 nvm config set auto_installed_modules=typescript,prettier
 ```
+
+:::tip[Certified Builds]
+`https://mirror.author.io/...` — зеркало Author с политиками _(Governance)_. Community-сборки используют публичные зеркала вроде `https://nodejs.org/dist`. См. [Version Firewall + Author Mirror](../features/author-mirror).
+:::
 
 ## Прокси \{#proxy}
 
@@ -88,7 +94,7 @@ nvm config set auto_detect=.nvmrc,.node-version
 | Параметр | По умолчанию | Значения | Описание |
 |--------|---------|--------|-------------|
 | `log_executions` | `false` | Boolean | Журналировать каждый вызов Node.js (например, `node file.js`). (только shim) |
-| `disable_announcements` | `false` | Boolean | Отключить объявления проекта и релизов. Предупреждения об истечении лицензии всё равно показываются. |
+| `disable_announcements` | `false` | Boolean | Отключить объявления проекта и релизов. На Certified Builds предупреждения об истечении коммерческой лицензии всё равно показываются. |
 
 ```powershell
 nvm config set log_executions=true
@@ -104,8 +110,8 @@ _(не перечислены в `cfg docs`)_
 | Псевдонимы версий (`stable=24.x` и т. д.) | Предпочтительно [`nvm alias`](../command/alias); значения хранятся как `aliases` |
 | Включение/отключение управления версиями | [`nvm on`](../command/on)/[`nvm off`](../command/off) (записывает `enabled`) |
 | Активная/последняя версия | Управляется [`nvm use`](../command/use) (`active_version`, `last_version`) |
-| Безопасность shim / флаги V8 | [Справочник реестра](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) |
-| Корпоративные блокировки (зеркала, списки разрешённых/заблокированных версий, прокси) | [Административные шаблоны](ad) и [политики реестра](registry) |
+| Безопасность shim / флаги V8 _(Governance)_ | [Справочник реестра](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) |
+| Блокировки Governance (зеркала, списки разрешённых/заблокированных версий, прокси) | [Административные шаблоны](ad) и [политики реестра](registry) — Certified Builds |
 
 ```powershell
 nvm config docs

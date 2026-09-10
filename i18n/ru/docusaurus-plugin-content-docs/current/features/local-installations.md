@@ -14,7 +14,7 @@ sidebar_position: 9
 | [`local_dir`](../cfg/registry#available-registry-keys) | `LocalInstallDir` | _(не задан)_ | Каталог архивов Node.js `.7z` как источник установки |
 | [`local_install_only`](../cfg/registry#available-registry-keys) | `LocalInstallOnly` | `false` | Устанавливать только из локального источника; ошибка, если архива нет |
 
-Обе — переопределяемые настройки (часто задаются [политикой машины](../cfg/registry) в certified-парках). Они скрыты из обычного вывода `nvm config docs`, но работают через `nvm config`:
+Обе — переопределяемые настройки (часто задаются [политикой машины](../cfg/registry) на флотах Certified Builds). Они скрыты из обычного вывода `nvm config docs`, но работают через `nvm config`:
 
 ```powershell
 nvm config set local_dir=D:\node-archives
@@ -22,8 +22,8 @@ nvm config set local_install_only=true
 nvm config get local_dir local_install_only
 ```
 
-:::tip[Политика]
-Корпоративные развёртывания обычно фиксируют эти параметры через Administrative Templates / политику реестра, чтобы все машины использовали одну общую шару архивов. См. [`LocalInstallDir` / `LocalInstallOnly`](../cfg/registry).
+:::tip[Certified Builds]
+Флоты Governance обычно фиксируют эти параметры через Administrative Templates / политику реестра, чтобы все машины использовали одну общую шару архивов. См. [`LocalInstallDir` / `LocalInstallOnly`](../cfg/registry). Community-хосты задают те же ключи через `nvm config`.
 :::
 
 ## Размещение архивов
@@ -66,6 +66,6 @@ nvm install 24.11.0
 - [`nvm install`](../command/install/) — флаги установки и заметки о локальном источнике
 - [Политика реестра](../cfg/registry) — `LocalInstallDir`, `LocalInstallOnly`
 
-:::info[`air_gapped`]
-Отдельная настройка [`air_gapped`](../cfg/registry#available-registry-keys) управляет офлайн-проверкой лицензии/JWKS для зеркал Author. Сама по себе она **не** перенаправляет установки Node.js в локальный каталог архивов — для этого используйте [`local_dir`](../cfg/registry#available-registry-keys) / [`local_install_only`](../cfg/registry#available-registry-keys).
+:::tip[Certified Builds]
+Отдельная настройка [`air_gapped`](../cfg/registry#available-registry-keys) управляет офлайн-проверкой лицензии/JWKS для зеркал Author _(Governance)_. Сама по себе она **не** перенаправляет установки Node.js в локальный каталог архивов — для этого используйте [`local_dir`](../cfg/registry#available-registry-keys) / [`local_install_only`](../cfg/registry#available-registry-keys).
 :::

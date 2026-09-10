@@ -31,7 +31,7 @@ This command takes no arguments.
 | Installation | NVM version, install path, upgrade policy |
 | Version management | Mode, active version, install/cache roots, sizes and counts |
 | Mirrors | Node and npm mirror URLs and reachability |
-| License | Optional license summary when available |
+| License | Optional commercial license summary when present _(Certified Builds)_ |
 
 ## Examples
 

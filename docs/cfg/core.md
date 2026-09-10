@@ -15,7 +15,9 @@ nvm config reset auto_install
 nvm config docs
 ```
 
-On certified fleets, machine policy can override these values. See [Administrative Templates](ad) and the [registry policy reference](registry).
+:::tip[Certified Builds]
+On Certified Builds fleets, machine policy (Governance ADMX / registry) can override these values. See [Administrative Templates](ad) and the [registry policy reference](registry).
+:::
 
 :::tip[Structured Docs]
 Use `nvm config docs --json` for machine-readable metadata.
@@ -45,6 +47,10 @@ nvm config set node_mirror=https://mirror.author.io/runtime/nodejs,https://nodej
 nvm config set cache_downloads=true
 nvm config set auto_installed_modules=typescript,prettier
 ```
+
+:::tip[Certified Builds]
+`https://mirror.author.io/...` is the Author policy-aware mirror _(Governance)_. Community builds use public mirrors such as `https://nodejs.org/dist`. See [Version Firewall + Author Mirror](../features/author-mirror).
+:::
 
 ## Proxy
 
@@ -88,7 +94,7 @@ nvm config set auto_detect=.nvmrc,.node-version
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
 | `log_executions` | `false` | Boolean | Whether to log every Node.js invocation (ex: `node file.js`). (shim-only) |
-| `disable_announcements` | `false` | Boolean | Whether to disable project and release announcements. License expiry warnings still run. |
+| `disable_announcements` | `false` | Boolean | Whether to disable project and release announcements. On Certified Builds, license expiry warnings still run when a commercial license is present. |
 
 ```powershell
 nvm config set log_executions=true
@@ -104,8 +110,8 @@ _(not listed in `cfg docs`)_
 | Version aliases (`stable=24.x`, etc.) | Prefer [`nvm alias`](../command/alias); values are stored as `aliases` |
 | Turn version management on/off | [`nvm on`](../command/on)/[`nvm off`](../command/off) (writes `enabled`) |
 | Active/last version | Managed by [`nvm use`](../command/use) (`active_version`, `last_version`) |
-| Shim security/V8 flags | [Registry reference](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) |
-| Enterprise locks (mirrors, version allow/block lists, proxies) | [Administrative Templates](ad) and [registry policies](registry) |
+| Shim security/V8 flags _(Governance)_ | [Registry reference](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) |
+| Governance locks (mirrors, version allow/block lists, proxies) | [Administrative Templates](ad) and [registry policies](registry) — Certified Builds |
 
 ```powershell
 nvm config docs

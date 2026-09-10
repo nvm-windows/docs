@@ -35,10 +35,12 @@ Usage: nvm config (cfg) <command>
 | URL | Требуются схема и хост | [`node_mirror=https://nodejs.org/dist`](../../cfg/core#downloads-and-mirrors) |
 | Mode | Только `shim` или `link` | [`mode=shim`](../../cfg/core#mode-and-install-location) |
 
-Некоторые параметры управляются политикой; запись блокируется, когда значение контролируется политикой.
+:::tip[Certified Builds]
+Некоторые параметры управляются политикой на Certified Builds; запись блокируется, когда значение контролирует Governance/политика машины. Community-установки не подчиняются HKLM-блокировкам политики.
+:::
 
 ## Примечания
 
 - `config set mode=...` использует тот же путь, что и `nvm use shim|link`.
 - `config set disable_announcements=...` также обновляет состояние запланированной задачи.
-- Секретные значения (например, `access_token`) маскируются в выводе.
+- Секретные значения (например, `access_token`) маскируются в выводе. `access_token` относится к коммерческому лицензированию Certified Builds, не к Community.

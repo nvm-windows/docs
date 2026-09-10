@@ -79,7 +79,11 @@ nvm config get local_dir local_install_only
 
 Затем всё равно задайте [`local_install_only=true`](../cfg/registry#available-registry-keys), если нужно заблокировать сетевой fallback (без [`local_dir`](../cfg/registry#available-registry-keys) установки сначала ищут в этом кэше).
 
-### Вариант C — политика машины (certified)
+### Вариант C — политика машины (Certified Builds)
+
+:::tip[Certified Builds]
+`LocalInstallDir` / `LocalInstallOnly` через ADMX или HKLM-политику требуют Certified Builds _(Governance)_. Community-хосты используют варианты A/B через `nvm config`.
+:::
 
 Задайте в реестре/ADMX:
 
@@ -119,6 +123,6 @@ node -v
 - [`nvm cache`](../command/cache/)
 - [Политика реестра](../cfg/registry)
 
-:::info[Настройка `air_gapped`]
-[`air_gapped`](../cfg/registry#available-registry-keys) управляет offline-поведением лицензии/JWKS для зеркал Author. Она **не** указывает установкам Node локальную папку архивов. Для этого используйте [`local_dir`](../cfg/registry#available-registry-keys)/[`local_install_only`](../cfg/registry#available-registry-keys) (или шаги выше).
+:::tip[Certified Builds]
+[`air_gapped`](../cfg/registry#available-registry-keys) управляет offline-поведением лицензии/JWKS для зеркал Author _(Governance)_. Она **не** указывает установкам Node локальную папку архивов. Для этого используйте [`local_dir`](../cfg/registry#available-registry-keys)/[`local_install_only`](../cfg/registry#available-registry-keys) (или шаги выше).
 :::

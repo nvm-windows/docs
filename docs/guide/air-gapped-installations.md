@@ -79,7 +79,11 @@ Copy archives into:
 
 Then still set [`local_install_only=true`](../cfg/registry#available-registry-keys) if you must block network fallback (without [`local_dir`](../cfg/registry#available-registry-keys), installs look in that default cache first).
 
-### Option C — machine policy (certified)
+### Option C — machine policy (Certified Builds)
+
+:::tip[Certified Builds]
+`LocalInstallDir` / `LocalInstallOnly` via ADMX or HKLM policy require Certified Builds _(Governance)_. Community hosts use Option A/B with `nvm config` instead.
+:::
 
 Set registry/ADMX:
 
@@ -119,6 +123,6 @@ Repeat prefetch on a connected host when new Node releases are approved, update 
 - [`nvm cache`](../command/cache/)
 - [Registry policy](../cfg/registry)
 
-:::info[`air_gapped` preference]
-[`air_gapped`](../cfg/registry#available-registry-keys) controls offline license/JWKS behavior for Author mirrors. It does **not** point Node installs at a local archive folder. Use [`local_dir`](../cfg/registry#available-registry-keys)/[`local_install_only`](../cfg/registry#available-registry-keys) (or the steps above) for that.
+:::tip[Certified Builds]
+[`air_gapped`](../cfg/registry#available-registry-keys) controls offline license/JWKS behavior for Author mirrors _(Governance)_. It does **not** point Node installs at a local archive folder. Use [`local_dir`](../cfg/registry#available-registry-keys)/[`local_install_only`](../cfg/registry#available-registry-keys) (or the steps above) for that.
 :::

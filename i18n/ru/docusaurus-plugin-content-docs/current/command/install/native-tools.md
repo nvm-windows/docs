@@ -36,7 +36,7 @@ nvm install native-tools
 
 | Деталь | Описание |
 |--------|----------|
-| Политика | Заблокировано, когда [`allow_tool_install`](../../cfg/registry#available-registry-keys) отключён. |
+| Политика | Заблокировано, когда [`allow_tool_install`](../../cfg/registry#available-registry-keys) отключён _(Certified Builds / политика машины)_. |
 | Обнаружение | Завершается ошибкой, если ни одна установленная версия не содержит `install_tools.bat`. |
 | Выполнение | Запускается через `cmd.exe` в обнаруженном каталоге инструментов. |
 

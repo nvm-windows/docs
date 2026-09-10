@@ -60,6 +60,10 @@ Reset 18 configuration option(s) to default.
 Skipped 1 policy-managed option(s): node_mirror
 ```
 
+:::tip[Certified Builds]
+"Skipped … policy-managed option(s)" appears when Governance/machine policy owns that key. Community installs reset user preferences only.
+:::
+
 ## Verified transcript (local run)
 
 ```powershell

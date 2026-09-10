@@ -14,7 +14,7 @@ This differs from the ordinary [download cache](./cache): [`local_dir`](../cfg/r
 | [`local_dir`](../cfg/registry#available-registry-keys) | `LocalInstallDir` | _(unset)_ | Directory of Node.js `.7z` archives used as the install source |
 | [`local_install_only`](../cfg/registry#available-registry-keys) | `LocalInstallOnly` | `false` | Install only from that local source; fail if the archive is missing |
 
-Both are overridable preferences (often set by [machine policy](../cfg/registry) on certified fleets). They are hidden from everyday `nvm config docs` output, but still work with `nvm config`:
+Both are overridable preferences (often set by [machine policy](../cfg/registry) on Certified Builds fleets). They are hidden from everyday `nvm config docs` output, but still work with `nvm config`:
 
 ```powershell
 nvm config set local_dir=D:\node-archives
@@ -22,8 +22,8 @@ nvm config set local_install_only=true
 nvm config get local_dir local_install_only
 ```
 
-:::tip[Policy]
-Enterprise deployments usually lock these under Administrative Templates / registry policy so every machine shares the same archive share. See [`LocalInstallDir` / `LocalInstallOnly`](../cfg/registry).
+:::tip[Certified Builds]
+Governance fleets usually lock these under Administrative Templates / registry policy so every machine shares the same archive share. See [`LocalInstallDir` / `LocalInstallOnly`](../cfg/registry). Community hosts set the same keys with `nvm config`.
 :::
 
 ## Archive layout
@@ -66,6 +66,6 @@ For end-to-end offline steps (prefetch → media/share → configure → install
 - [`nvm install`](../command/install/) — install flags and local-source notes
 - [Registry policy](../cfg/registry) — `LocalInstallDir`, `LocalInstallOnly`
 
-:::info[`air_gapped`]
-The separate [`air_gapped`](../cfg/registry#available-registry-keys) preference controls offline license/JWKS behavior for Author mirrors. It does **not** by itself redirect Node.js installs to a local archive folder — use [`local_dir`](../cfg/registry#available-registry-keys) / [`local_install_only`](../cfg/registry#available-registry-keys) for that.
+:::tip[Certified Builds]
+The separate [`air_gapped`](../cfg/registry#available-registry-keys) preference controls offline license/JWKS behavior for Author mirrors _(Governance)_. It does **not** by itself redirect Node.js installs to a local archive folder — use [`local_dir`](../cfg/registry#available-registry-keys) / [`local_install_only`](../cfg/registry#available-registry-keys) for that.
 :::

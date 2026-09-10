@@ -31,7 +31,7 @@ Usage: nvm upgrade [flags]
 |--------|----------|
 | Backend | Делегирует `sync.exe upgrade` |
 | `--check` | Запускает sync upgrade в режиме только проверки |
-| Policy | Выполнение обновления блокируется при [`disable_upgrade=true`](../cfg/registry#available-registry-keys); проверка без обновления по-прежнему разрешена |
+| Policy | Выполнение обновления блокируется при [`disable_upgrade=true`](../cfg/registry#available-registry-keys) _(Certified Builds / политика машины)_; проверка без обновления по-прежнему разрешена |
 
 ## Примеры
 

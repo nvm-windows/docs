@@ -52,10 +52,14 @@ NVM for Windows v2 не пытается повысить права (то ес�
 - Автовыбор закреплённых версий через `.nvmrc`, `.node-version`, `package.json` или другие пользовательские файлы конфигурации runtime.
 - Автоустановка отсутствующих версий при `nvm use`. (Опционально)
 - Единая обработка несовпадений менеджеров пакетов.
-- Ограничение прав Node.js/V8. (Опционально)
+- Ограничение прав Node.js/V8. (Опционально) _Требует Certified Builds с дополнением Governance._
 - Доверие издателю: проверка издателя node.exe, чтобы предотвратить подмену недоверенным node.exe.
 - Нативное журналирование событий.
 - Единые/настраиваемые периоды cooldown для всех основных менеджеров пакетов (npm/yarn/pnpm). _Требует дополнение Governance, доступно с сентября 2026._
+
+:::tip[Certified Builds]
+**Ограничение прав V8 / permission lockdown** в shim (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) и **cooldown** менеджеров пакетов — функции Governance. См. [политику реестра](../cfg/registry) и [Выбор редакции](../guide/builds/).
+:::
 
 :::info
 В Windows действует «универсальный налог на задержку». Любой исполняемый файл запускается через [`CreateProcessW`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw). Налог платится при запуске shim и снова, когда shim запускает `node.exe`. В среднем `CreateProcessW` занимает 15 мс. Shim добавляет 1–3 мс на определение нужной версии Node.js и безопасную передачу команды.
