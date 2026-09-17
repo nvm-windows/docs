@@ -69,7 +69,7 @@ Windows has a "universal latency tax". It uses [`CreateProcessW`](https://learn.
 |:-|:-:|:-:|
 |Latency[^1]|0ms|25-35ms|
 |System Version|:heavy_check_mark:|:heavy_check_mark:|
-|Automatic Installtion|:heavy_check_mark:|:heavy_check_mark:|
+|Automatic Installation|:heavy_check_mark:|:heavy_check_mark:|
 |Automatic Version Detection|:x:|:heavy_check_mark:|
 |Special Permissions<br/><br/>|[`SeCreateSymbolicLinkPrivilege`](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/create-symbolic-links)<br/>_for [UNC path](https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#unc-paths) symlinks_|None<br/><br/>|
 
