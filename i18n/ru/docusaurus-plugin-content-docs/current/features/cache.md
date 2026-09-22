@@ -3,7 +3,7 @@ title: Кэш загрузок
 sidebar_position: 10
 ---
 
-NVM for Windows может хранить скачанные архивы Node.js на диске, чтобы последующие установки не обращались к сети, если подходящий архив уже есть. Управляйте хранилищем через [`nvm cache`](../command/cache/) или включите автосохранение через [`cache_downloads`](../cfg/core#downloads-and-mirrors).
+NVM for Windows может хранить скачанные архивы Node.js на диске, чтобы последующие установки не обращались к сети, если подходящий архив уже есть. Управляйте хранилищем через [`nvm cache`](../command/nvm/cache/) или включите автосохранение через [`cache_downloads`](../cfg/core#downloads-and-mirrors).
 
 Кэш полезен, когда:
 
@@ -39,10 +39,10 @@ nvm install 24.11.0   # переиспользует кэшированный а
 
 | Флаг/настройка | Эффект |
 |----------------|--------|
-| [`nvm install --cache`](../command/install/) | Скачать (при необходимости) и **сохранить** архив |
-| [`nvm install --no-cache`](../command/install/) | Не использовать и не писать кэш версий по умолчанию |
+| [`nvm install --cache`](../command/nvm/install/) | Скачать (при необходимости) и **сохранить** архив |
+| [`nvm install --no-cache`](../command/nvm/install/) | Не использовать и не писать кэш версий по умолчанию |
 | [`cache_downloads=true`](../cfg/core#downloads-and-mirrors) | Всегда сохранять успешные загрузки (если нет `--no-cache`) |
-| [`nvm cache add`](../command/cache/add) | Скачать и закэшировать **без** установки |
+| [`nvm cache add`](../command/nvm/cache/add) | Скачать и закэшировать **без** установки |
 | [`local_install_only`](../cfg/registry#available-registry-keys) | Без сети: установка только из [`local_dir`](../cfg/registry#available-registry-keys)/попадания в кэш |
 
 При попадании в кэш целостность проверяется до переиспользования (локальный SHASUM рядом с архивом, verify-cache при загрузке или живой SHASUM зеркала онлайн). Плохой архив удаляется, установка продолжается как промах, если сеть разрешена.
@@ -66,6 +66,6 @@ nvm list cached            # список версий из кэшированн
 
 - [Изолированные установки](../guide/air-gapped-installations) — пошаговый офлайн-процесс
 - [Локальные установки](./local-installations)
-- Справка по команде: [`nvm cache`](../command/cache/)
+- Справка по команде: [`nvm cache`](../command/nvm/cache/)
 - Настройки: [`cache_downloads`](../cfg/core#downloads-and-mirrors), [`allow_download_cache_removal`](../cfg/core#downloads-and-mirrors)
 - Политика: [`LocalInstallDir`/`LocalInstallOnly`](../cfg/registry)

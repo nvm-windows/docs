@@ -67,6 +67,8 @@ These keys are part of the **Governance** feature set. They appear in the Govern
 |Name|Key|Description|
 |:-|:-|:-|
 |**Verbose mirror license metadata**|`ApplyVerboseLicenseMetadata`|When on, Author mirror license JWTs include identity claims (`idp_username`, `idp_machine_name`, `idp_machine_id`). Does not set `AccessToken`/`AccessKey`.<br /><br />- `0` = omit claims<br />- `1` = include claims<br /><br />Default: `0`<br /><br />`REG_DWORD`|
+|**Verbose firewall policy metadata**|`ApplyVerboseFirewallMetadata`|When on, HTTPS firewall policy JWTs include verbose identity claims (`idp_*`) plus npm/pnpm/yarn profile/config when available.<br /><br />- `0` = omit extra claims<br />- `1` = include claims<br /><br />Default: `0`<br /><br />`REG_DWORD`|
+|**Skip lockfile for module firewall**|`FirewallSkipLockfile`|When on, module firewall uses `package.json` only (ignores lockfiles for local matching and HTTPS POST bodies).<br /><br />- `0` = use lockfile when present (default)<br />- `1` = skip lockfile<br /><br />`REG_DWORD`|
 |**npm module minimum age**|`NpmModuleMinimumAge`|Minimum package publish age (cooldown), in minutes, for package manager installs (shim mode). Auto-converts for npm/pnpm/yarn.<br /><br />Default: `0` (disabled)<br /><br />`REG_DWORD`|
 |**Allowed Node.js versions**|`VersionAllowList`|Allow list for installs. Invalid entries fail enforcement. Allow wins over block. Also feeds Author-mirror JWT version claims (magic tokens such as `EOL`, `ALPHA`, `MAINTENANCE`, `ALL`).<br /><br />Supports exact semver, wildcards (e.g. `20.x`), aliases, and `NOT`/`!` negation (one rule per line).<br /><br />`REG_SZ`|
 |**Blocked Node.js versions**|`VersionBlockList`|Block list for installs. Same rule formats as `VersionAllowList`.<br /><br />`REG_SZ`|
@@ -120,6 +122,8 @@ Windows Registry Editor Version 5.00
 "AllowDownloadCacheDelete"=dword:00000000
 "AllowInsecureDownloads"=dword:00000000
 "ApplyVerboseLicenseMetadata"=dword:00000000
+"ApplyVerboseFirewallMetadata"=dword:00000000
+"FirewallSkipLockfile"=dword:00000000
 "DisableUpgrade"=dword:00000001
 "DisableAnnouncements"=dword:00000001
 

@@ -6,7 +6,7 @@ sidebar_position: 4
 # Удаление
 
 :::tip[NVM for Windows ≠ Node.js]
-Удаление NVM for Windows (приложения) с компьютера — не то же самое, что [`nvm uninstall`](../command/uninstall): эта команда удаляет только установленные версии Node.js, оставляя NVM for Windows.
+Удаление NVM for Windows (приложения) с компьютера — не то же самое, что [`nvm uninstall`](../command/nvm/uninstall): эта команда удаляет только установленные версии Node.js, оставляя NVM for Windows.
 :::
 
 :::warning[Сохраните установки Node.js!]
@@ -147,5 +147,5 @@ Remove or retire the application deployment in Configuration Manager so clients 
 |Требования enterprise|[Требования](./enterprise/requirements)|
 |Команда удаления Intune|[Развёртывание через Intune](./enterprise/intune)|
 |Удаление ПО через GPO|[Развёртывание через Active Directory](./enterprise/ad)|
-|Удалить только версии Node.js|[`nvm uninstall`](../command/uninstall)|
+|Удалить только версии Node.js|[`nvm uninstall`](../command/nvm/uninstall)|
 |Ключи политик|[Справочник реестра](../cfg/registry)|

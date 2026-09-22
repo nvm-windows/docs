@@ -6,7 +6,7 @@ sidebar_position: 4
 # Uninstall
 
 :::tip[NVM for Windows != Node.js]
-Uninstalling NVM for Windows (the application) from the computer is different from [`nvm uninstall`](../command/uninstall), which only removes installed Node.js versions while leaving NVM for Windows installed.
+Uninstalling NVM for Windows (the application) from the computer is different from [`nvm uninstall`](../command/nvm/uninstall), which only removes installed Node.js versions while leaving NVM for Windows installed.
 :::
 
 :::warning[Backup Node.js Installations!]
@@ -147,5 +147,5 @@ Uninstalling the MSI removes the product. Group Policy/Intune **configuration** 
 |Enterprise prerequisites|[Requirements](./enterprise/requirements)|
 |Intune uninstall command|[Deploy with Intune](./enterprise/intune)|
 |GPO software removal|[Deploy with Active Directory](./enterprise/ad)|
-|Remove Node.js versions only|[`nvm uninstall`](../command/uninstall)|
+|Remove Node.js versions only|[`nvm uninstall`](../command/nvm/uninstall)|
 |Policy keys|[Registry reference](../cfg/registry)|

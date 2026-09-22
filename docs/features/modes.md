@@ -22,7 +22,7 @@ nvm cfg set mode=link
 
 ## Link Mode
 
-This mode uses links to locate the active system-wide version of `node.exe`. The link is part of the `PATH`. Running [`nvm use`](../command/use) changes the _target_ of the link path, not the path itself. `PATH` never changes.
+This mode uses links to locate the active system-wide version of `node.exe`. The link is part of the `PATH`. Running [`nvm use`](../command/nvm/use) changes the _target_ of the link path, not the path itself. `PATH` never changes.
 
 Link mode offers an experience that is as close as possible to simply running `node.exe` "as delivered" by [nodejs.org](https://nodejs.org). It offers zero latency, but does not provide the advanced modern workflow features available in Shim Mode.
 

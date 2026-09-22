@@ -97,7 +97,7 @@ Hosted rules настраиваются через клиентский порт
 
 - Диапазонам IP-адресов
 - Географическому местоположению
-- Доменам (например, Active Directory Domain ID, Entra ID)
+- Доменам (например, Active Directory Domain SID, Entra Tenant ID) — см. [Как найти AD Domain ID или Entra Tenant ID](../guide/find-domain-tenant-id)
 - Учётной записи/SID пользователя
 - Назначенному Access Key (License Group)
 
@@ -127,5 +127,6 @@ Hosted rules настраиваются через клиентский порт
 | Пользовательские ключи конфигурации | [Базовая конфигурация](../cfg/core) |
 | Ключи политики и образец `.reg` | [Справочник политики реестра](../cfg/registry) |
 | Исключения firewall | [Требования](../install/enterprise/requirements) |
+| Найти AD Domain SID / Entra Tenant ID | [Как найти AD Domain ID или Entra Tenant ID](../guide/find-domain-tenant-id) |
 | Возможности edition | [Выбор edition](../guide/builds/) |
-| Проверка зеркал/прокси | [`nvm env`](../command/env) |
+| Проверка зеркал/прокси | [`nvm env`](../command/nvm/env) |

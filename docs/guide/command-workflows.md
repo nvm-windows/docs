@@ -148,8 +148,8 @@ nvm upgrade
 
 ## Related Docs
 
-- [Commands](../command/install)
+- [Commands](../command/nvm/install)
 - [Version Specifiers](./version-resolution)
 - [Version Selectors](./version-resolution)
-- [nvm config](../command/config)
+- [nvm config](../command/nvm/config)
 - [Operating Modes](../features/modes)

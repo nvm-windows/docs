@@ -3,7 +3,7 @@ title: Download Cache
 sidebar_position: 10
 ---
 
-NVM for Windows can keep downloaded Node.js archives on disk so later installs skip the network when a matching archive is already present. Manage that store with [`nvm cache`](../command/cache/), or turn automatic saving on with [`cache_downloads`](../cfg/core#downloads-and-mirrors).
+NVM for Windows can keep downloaded Node.js archives on disk so later installs skip the network when a matching archive is already present. Manage that store with [`nvm cache`](../command/nvm/cache/), or turn automatic saving on with [`cache_downloads`](../cfg/core#downloads-and-mirrors).
 
 Caching helps when:
 
@@ -39,10 +39,10 @@ If [`local_dir`](../cfg/registry#available-registry-keys) is set (see [registry 
 
 | Flag/setting | Effect |
 |----------------|--------|
-| [`nvm install --cache`](../command/install/) | Download (if needed) and **save** the archive |
-| [`nvm install --no-cache`](../command/install/) | Do not use or write the default version cache |
+| [`nvm install --cache`](../command/nvm/install/) | Download (if needed) and **save** the archive |
+| [`nvm install --no-cache`](../command/nvm/install/) | Do not use or write the default version cache |
 | [`cache_downloads=true`](../cfg/core#downloads-and-mirrors) | Always save successful downloads (unless `--no-cache`) |
-| [`nvm cache add`](../command/cache/add) | Download and cache **without** installing |
+| [`nvm cache add`](../command/nvm/cache/add) | Download and cache **without** installing |
 | [`local_install_only`](../cfg/registry#available-registry-keys) | No network: install only from [`local_dir`](../cfg/registry#available-registry-keys)/cache hit |
 
 Integrity on a cache hit is checked before reuse (local SHASUM beside the archive when present, download verify-cache, or live mirror SHASUM when online). A bad archive is removed and the install continues as a miss when network is allowed.
@@ -66,6 +66,6 @@ Uninstall with `--purge` can also drop the matching cached archive for that vers
 
 - [Air-gapped Installations](../guide/air-gapped-installations) — step-by-step offline workflow
 - [Local Installations](./local-installations)
-- Command reference: [`nvm cache`](../command/cache/)
+- Command reference: [`nvm cache`](../command/nvm/cache/)
 - Preferences: [`cache_downloads`](../cfg/core#downloads-and-mirrors), [`allow_download_cache_removal`](../cfg/core#downloads-and-mirrors)
 - Policy: [`LocalInstallDir`/`LocalInstallOnly`](../cfg/registry)

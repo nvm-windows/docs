@@ -3,7 +3,7 @@ title: Download Mirrors
 sidebar_position: 7
 ---
 
-NVM for Windows downloads Node.js archives from one or more **Node mirrors**, and can fall back to one or more **npm registry** URLs in shim mode. Set these with [`nvm config`](../command/config) (or machine policy on certified fleets).
+NVM for Windows downloads Node.js archives from one or more **Node mirrors**, and can fall back to one or more **npm registry** URLs in shim mode. Set these with [`nvm config`](../command/nvm/config) (or machine policy on certified fleets).
 
 This page covers basic mirror URLs and HTTP proxies available to Community and certified builds. For the Author policy-aware mirror and version firewall _(Governance)_, see [Version Firewall + Author Mirror](./author-mirror).
 

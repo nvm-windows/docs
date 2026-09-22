@@ -41,7 +41,7 @@ D:\node-archives\
 - Имя архива: `node-v{version}-win-{x64|arm64}.7z` (архитектура совпадает с машиной).
 - Опциональный файл SHASUM рядом с архивом: `SHASUMS256-v{version}-win-{arch}.txt`.
 
-На подключённой машине можно заполнить каталог через [`nvm cache add`](../command/cache/add) и скопировать `.cache/versions` (или указать этот путь как [`local_dir`](../cfg/registry#available-registry-keys) на офлайн-хосте).
+На подключённой машине можно заполнить каталог через [`nvm cache add`](../command/nvm/cache/add) и скопировать `.cache/versions` (или указать этот путь как [`local_dir`](../cfg/registry#available-registry-keys) на офлайн-хосте).
 
 ## Процесс установки
 
@@ -63,7 +63,7 @@ nvm install 24.11.0
 
 - [Изолированные установки](../guide/air-gapped-installations) — пошаговый офлайн-процесс
 - [Кэш загрузок](./cache) — хранилище `.cache/versions` по умолчанию и `--cache` / [`cache_downloads`](../cfg/core#downloads-and-mirrors)
-- [`nvm install`](../command/install/) — флаги установки и заметки о локальном источнике
+- [`nvm install`](../command/nvm/install/) — флаги установки и заметки о локальном источнике
 - [Политика реестра](../cfg/registry) — `LocalInstallDir`, `LocalInstallOnly`
 
 :::tip[Certified Builds]

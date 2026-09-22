@@ -23,6 +23,14 @@
     "message": "Корпоративная политика",
     "description": "The label for category 'Enterprise policy' in sidebar 'tutorialSidebar'"
   },
+  "sidebar.tutorialSidebar.category.Commands": {
+    "message": "Команды",
+    "description": "The label for category 'Commands' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.nvm": {
+    "message": "nvm",
+    "description": "The label for category 'nvm' in sidebar 'tutorialSidebar'"
+  },
   "sidebar.tutorialSidebar.category.Команды": {
     "message": "Команды",
     "description": "The label for category 'Команды' in sidebar 'tutorialSidebar'"

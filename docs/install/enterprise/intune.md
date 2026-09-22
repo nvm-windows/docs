@@ -1,5 +1,6 @@
 ---
 title: Deploy with Microsoft Intune
+sidebar_position: 2
 certified: true
 ---
 

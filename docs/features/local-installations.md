@@ -41,7 +41,7 @@ D:\node-archives\
 - Archive name: `node-v{version}-win-{x64|arm64}.7z` (arch matches the machine).
 - Optional SHASUM file beside the archive: `SHASUMS256-v{version}-win-{arch}.txt`.
 
-On a connected machine you can populate a folder with [`nvm cache add`](../command/cache/add) and copy `.cache/versions` (or set that path as [`local_dir`](../cfg/registry#available-registry-keys) on the offline host).
+On a connected machine you can populate a folder with [`nvm cache add`](../command/nvm/cache/add) and copy `.cache/versions` (or set that path as [`local_dir`](../cfg/registry#available-registry-keys) on the offline host).
 
 ## Install flow
 
@@ -63,7 +63,7 @@ For end-to-end offline steps (prefetch → media/share → configure → install
 
 - [Air-gapped Installations](../guide/air-gapped-installations) — step-by-step offline workflow
 - [Download Cache](./cache) — default `.cache/versions` store and `--cache` / [`cache_downloads`](../cfg/core#downloads-and-mirrors)
-- [`nvm install`](../command/install/) — install flags and local-source notes
+- [`nvm install`](../command/nvm/install/) — install flags and local-source notes
 - [Registry policy](../cfg/registry) — `LocalInstallDir`, `LocalInstallOnly`
 
 :::tip[Certified Builds]

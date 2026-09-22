@@ -3,7 +3,7 @@ title: Зеркала загрузок
 sidebar_position: 7
 ---
 
-NVM for Windows загружает архивы Node.js с одного или нескольких **Node mirrors** и в режиме shim может переключаться на один или несколько URL **npm registry**. Задавайте их через [`nvm config`](../command/config) (или политику машины в certified-парках).
+NVM for Windows загружает архивы Node.js с одного или нескольких **Node mirrors** и в режиме shim может переключаться на один или несколько URL **npm registry**. Задавайте их через [`nvm config`](../command/nvm/config) (или политику машины в certified-парках).
 
 Эта страница описывает базовые URL зеркал и HTTP-прокси для Community и certified-сборок. Для зеркала Node.js с политиками Author и version firewall _(Governance)_ см. [Version Firewall + Author Mirror](./author-mirror).
 

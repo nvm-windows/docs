@@ -123,7 +123,7 @@ Translate diagram **labels**, not structure:
 | ` ```text ` trees | `local-installations.md`, `air-gapped-installations.md` | Translate comments; keep paths/filenames |
 | GPO policy tree | `cfg/enterprise/ad.md` | Translate policy names + Windows path labels; note ADML may show English in editor until localized ADML is installed |
 | Repo tree | `install/source.md` | Translate `#` comments on each line |
-| CLI sample output | `command/env.md` | **Keep English** — matches real tool output |
+| CLI sample output | `command/nvm/env.md` | **Keep English** — matches real tool output |
 
 ### 7. Heading anchors (critical for MDX)
 
@@ -142,7 +142,7 @@ Add `\{#…}` on any heading targeted by links elsewhere. Common IDs:
 - `cfg/registry.md`: `available-registry-keys`, `governance-keys`
 - `install/enterprise/requirements.md`: `proxy-exceptions`
 - `permissions.md`: `community-installer-registered-event-source`
-- `command/config/reset.md`: `reset-all`
+- `command/nvm/config/reset.md`: `reset-all`
 - `install/uninstall.md`: `community-builds`
 
 After adding anchors, run `npm run build` and fix any broken-anchor warnings.
@@ -195,7 +195,7 @@ Build must pass **both** `en` and `ru` with zero link errors. Anchor warnings sh
 - **features/** — all pages
 - **cfg/** — core, aliases, enterprise (ad, registry)
 - **guide/** — builds, version-resolution, air-gapped, command-workflows
-- **command/** — full tree (~37 pages)
+- **command/** — `nvm/` CLI tree plus `node` and package-manager shim pages
 - **permissions.md**, **troubleshooting/** (general + error-codes)
 - **Components:** `SymlinkPermissionExplainer.mdx`, `VersionConstraintTable.mdx`, `VersionSpecifierTable.mdx`
 - **Theme strings:** certified banner in `i18n/ru/code.json`

@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Basic Configuration
 
-User preferences live in the Windows registry. Manage them with [`nvm config`](../command/config) (alias: `nvm cfg`).
+User preferences live in the Windows registry. Manage them with [`nvm config`](../command/nvm/config) (alias: `nvm cfg`).
 
 ```powershell
 nvm config list
@@ -107,9 +107,9 @@ _(not listed in `cfg docs`)_
 
 | Topic | Where |
 |-------|--------|
-| Version aliases (`stable=24.x`, etc.) | Prefer [`nvm alias`](../command/alias); values are stored as `aliases` |
-| Turn version management on/off | [`nvm on`](../command/on)/[`nvm off`](../command/off) (writes `enabled`) |
-| Active/last version | Managed by [`nvm use`](../command/use) (`active_version`, `last_version`) |
+| Version aliases (`stable=24.x`, etc.) | Prefer [`nvm alias`](../command/nvm/alias); values are stored as `aliases` |
+| Turn version management on/off | [`nvm on`](../command/nvm/on)/[`nvm off`](../command/nvm/off) (writes `enabled`) |
+| Active/last version | Managed by [`nvm use`](../command/nvm/use) (`active_version`, `last_version`) |
 | Shim security/V8 flags _(Governance)_ | [Registry reference](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) |
 | Governance locks (mirrors, version allow/block lists, proxies) | [Administrative Templates](ad) and [registry policies](registry) — Certified Builds |
 

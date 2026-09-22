@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Базовая конфигурация
 
-Пользовательские настройки хранятся в реестре Windows. Управляйте ими через [`nvm config`](../command/config) (псевдоним: `nvm cfg`).
+Пользовательские настройки хранятся в реестре Windows. Управляйте ими через [`nvm config`](../command/nvm/config) (псевдоним: `nvm cfg`).
 
 ```powershell
 nvm config list
@@ -107,9 +107,9 @@ _(не перечислены в `cfg docs`)_
 
 | Тема | Где |
 |-------|--------|
-| Псевдонимы версий (`stable=24.x` и т. д.) | Предпочтительно [`nvm alias`](../command/alias); значения хранятся как `aliases` |
-| Включение/отключение управления версиями | [`nvm on`](../command/on)/[`nvm off`](../command/off) (записывает `enabled`) |
-| Активная/последняя версия | Управляется [`nvm use`](../command/use) (`active_version`, `last_version`) |
+| Псевдонимы версий (`stable=24.x` и т. д.) | Предпочтительно [`nvm alias`](../command/nvm/alias); значения хранятся как `aliases` |
+| Включение/отключение управления версиями | [`nvm on`](../command/nvm/on)/[`nvm off`](../command/nvm/off) (записывает `enabled`) |
+| Активная/последняя версия | Управляется [`nvm use`](../command/nvm/use) (`active_version`, `last_version`) |
 | Безопасность shim / флаги V8 _(Governance)_ | [Справочник реестра](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) |
 | Блокировки Governance (зеркала, списки разрешённых/заблокированных версий, прокси) | [Административные шаблоны](ad) и [политики реестра](registry) — Certified Builds |
 

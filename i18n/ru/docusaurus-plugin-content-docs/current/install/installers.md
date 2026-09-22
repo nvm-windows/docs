@@ -51,8 +51,9 @@ Certified-сборки рассчитаны на удалённую устано
 
 |Файл|Сценарий|
 |:-|:-|
+|[Ручное развёртывание](./enterprise/manual)|Установка MSI (или скриптом) на один компьютер.|
 |[Intune](./enterprise/intune)|Развёртывание в организации Microsoft Entra.|
-|[MSI Installer](./enterprise/ad)|Установка на один компьютер или развёртывание на всю площадку.|
+|[Active Directory](./enterprise/ad)|Развёртывание на сайте через GPO Software Installation.|
 
 ## Установка Node.js
 

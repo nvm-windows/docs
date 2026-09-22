@@ -119,8 +119,8 @@ node -v
 
 - [Локальные установки](../features/local-installations)
 - [Кэш загрузок](../features/cache)
-- [`nvm install`](../command/install/)
-- [`nvm cache`](../command/cache/)
+- [`nvm install`](../command/nvm/install/)
+- [`nvm cache`](../command/nvm/cache/)
 - [Политика реестра](../cfg/registry)
 
 :::tip[Certified Builds]

@@ -55,8 +55,13 @@ Certified builds are designed for remote installation through platforms like Act
 
 |File|Use Case|
 |:-|:-|
+|[Deploy Manually](./enterprise/manual)|Install with the MSI (or a script) on one computer.|
 |[Intune](./enterprise/intune)|Deploy to a Microsoft Entra organization.|
-|[MSI Installer](./enterprise/ad)|Install on a single computer or deploy a sitewide deployment.|
+|[Active Directory](./enterprise/ad)|Deploy sitewide with GPO Software Installation.|
+
+:::note[Upgrading from v1 or community v2]
+The certified MSI installs to Program Files and updates machine `NVM_HOME` / PATH. Existing Node versions stay under LocalAppData. On first `nvm` launch, obsolete AppData app binaries are retired while `installs` are kept. The MSI does not run the community uninstaller. Legacy SYSTEM env cleanup and Windows Apps registration for existing versions run during install; `Remove-LegacySystemEnv.ps1` is backup remediation only.
+:::
 
 ## Installing Node.js
 

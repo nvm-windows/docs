@@ -27,13 +27,13 @@ Version specifiers are tokens passed to commands such as `install`, `use`, and
 
 Commands that accept version specifiers include:
 
-- [`nvm install`](../command/install)
-- [`nvm uninstall`](../command/uninstall)
-- [`nvm use`](../command/use)
-- [`nvm pin`](../command/pin)
-- [`nvm alias add`](../command/alias/add)
-- [`nvm cache add`](../command/cache/add)
-- [`nvm cache remove version`](../command/cache/remove/version)
+- [`nvm install`](../command/nvm/install)
+- [`nvm uninstall`](../command/nvm/uninstall)
+- [`nvm use`](../command/nvm/use)
+- [`nvm pin`](../command/nvm/pin)
+- [`nvm alias add`](../command/nvm/alias/add)
+- [`nvm cache add`](../command/nvm/cache/add)
+- [`nvm cache remove version`](../command/nvm/cache/remove/version)
 
 ### Examples
 

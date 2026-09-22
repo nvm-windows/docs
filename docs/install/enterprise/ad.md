@@ -1,5 +1,6 @@
 ---
 title: Deploy with Active Directory
+sidebar_position: 3
 certified: true
 ---
 

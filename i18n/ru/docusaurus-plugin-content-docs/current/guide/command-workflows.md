@@ -148,8 +148,8 @@ nvm upgrade
 
 ## Связанные материалы
 
-- [Команды](../command/install)
+- [Команды](../command/nvm/install)
 - [Спецификаторы версий](./version-resolution)
 - [Селекторы версий](./version-resolution)
-- [nvm config](../command/config)
+- [nvm config](../command/nvm/config)
 - [Режимы работы](../features/modes)

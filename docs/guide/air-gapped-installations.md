@@ -119,8 +119,8 @@ Repeat prefetch on a connected host when new Node releases are approved, update 
 
 - [Local Installations](../features/local-installations)
 - [Download Cache](../features/cache)
-- [`nvm install`](../command/install/)
-- [`nvm cache`](../command/cache/)
+- [`nvm install`](../command/nvm/install/)
+- [`nvm cache`](../command/nvm/cache/)
 - [Registry policy](../cfg/registry)
 
 :::tip[Certified Builds]

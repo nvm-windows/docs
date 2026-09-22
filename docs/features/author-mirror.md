@@ -97,7 +97,7 @@ These rules can be applied conditionally based on:
 
 - IP Address Range(s)
 - Geographic Location
-- Domains (e.g. Active Directory Domain ID, Entra ID)
+- Domains (e.g. Active Directory Domain SID, Entra Tenant ID) — see [Find Your AD Domain or Entra Tenant ID](../guide/find-domain-tenant-id)
 - User account/SID
 - Assigned Access Key (License Group)
 
@@ -127,5 +127,6 @@ Organizations whose policies prevent storing any organization data on hosted ser
 | User-facing config keys | [Basic Configuration](../cfg/core) |
 | Policy keys and `.reg` sample | [Registry Policy Reference](../cfg/registry) |
 | Firewall exceptions | [Requirements](../install/enterprise/requirements) |
+| Find AD Domain SID / Entra Tenant ID | [Find Your AD Domain or Entra Tenant ID](../guide/find-domain-tenant-id) |
 | Edition capabilities | [Choosing an Edition](../guide/builds/) |
-| Inspect mirrors/proxy | [`nvm env`](../command/env) |
+| Inspect mirrors/proxy | [`nvm env`](../command/nvm/env) |
