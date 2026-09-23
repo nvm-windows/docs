@@ -24,13 +24,15 @@ NVM for Windows доступен в community- и certified-сборках дл�
 
   </TabItem>
   <TabItem value="winget" label="Winget">
+    :::warning[Скоро!]
+    Мы всё ещё настраиваем публикацию в winget.
+    :::
+
     ```powershell
       winget install nvm # MIT License
     ```
 
-    :::info[Тихая установка]
-    Используйте этот вариант для установки без интерфейса с конфигурацией по умолчанию.
-    :::
+    `winget install` запускает community-установщик с `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART`. Дополнительные параметры установщика передавайте через `--custom`. См. [Тихая установка](#silent-install).
   </TabItem>
   <TabItem value="upgrade" label="Обновление с v1">
     Скачайте и запустите [установщик setup.exe](https://github.com/nvm-windows/nvm/releases) (лицензия MIT). Он автоматически переносит v1 на v2.
@@ -40,6 +42,46 @@ NVM for Windows доступен в community- и certified-сборках дл�
     :::
   </TabItem>
 </Tabs>
+
+## Тихая установка \{#silent-install}
+
+Community-установщик использует Inno Setup. Эти ключи работают для `nvm-<version>-x64-setup.exe` и `nvm-<version>-arm64-setup.exe`:
+
+|Ключ|Что делает|
+|:-|:-|
+|`/VERYSILENT`|Без мастера и без окна прогресса.|
+|`/SILENT`|Только окно прогресса. Без страниц мастера.|
+|`/SUPPRESSMSGBOXES`|Пропускает диалоговые окна. Используйте вместе с `/SILENT` или `/VERYSILENT`.|
+|`/NORESTART`|Не перезагружать компьютер после завершения установки.|
+
+```powershell
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+.\nvm-<version>-x64-setup.exe /SILENT /SUPPRESSMSGBOXES /NORESTART
+```
+
+Корневой каталог программы остаётся `%LOCALAPPDATA%\Author Software\nvm`. Если в тихом режиме задать другой путь через `/DIR`, установка завершится ошибкой [NVM4100](../troubleshooting/error-codes.md). Хранилище версий Node задаётся через `InstallRoot` (в мастере или `nvm config` после установки), а не через `/DIR`.
+
+Тихая установка пропускает страницу разрешений для хранилища. Если текущий `InstallRoot` не относится к безопасным управляемым путям и проверка ACL завершается ошибкой, установщик переносит хранилище в AppData. Если восстановить ACL всё равно не удаётся, тихая установка останавливается, если не передать `/ALLOWDEGRADEDACLS`.
+
+|Параметр|Допустимые значения|Что делает|
+|:-|:-|:-|
+|`/ALLOWDEGRADEDACLS`|`1`, `true`, `yes`|Завершает тихую установку, когда ACL хранилища Node нельзя усилить. Устанавливает `RuntimeACLDegraded`. Позже восстановите через `nvm doctor --autofix`.|
+
+```powershell
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /ALLOWDEGRADEDACLS=1
+```
+
+Списка задач нет. `/TASKS` не влияет на поведение.
+
+### Winget
+
+Когда пакет будет опубликован, `winget install nvm` использует перечисленные выше ключи very-silent. Передайте пользовательский параметр через `--custom` (он добавляется к этим ключам):
+
+```powershell
+winget install nvm --custom "/ALLOWDEGRADEDACLS=1"
+```
+
+`--override` заменяет стандартные ключи. Если используете его, добавьте `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART` вручную.
 
 ## Certified Build
 
