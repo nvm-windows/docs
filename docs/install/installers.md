@@ -32,9 +32,7 @@ NVM for Windows offers community and certified builds on amd64 (x64) and arm64 d
       winget install nvm # MIT License
     ```
 
-    :::info[Silent Installation]
-    Use this  option to silently install using the default configuration.
-    :::
+    `winget install` runs the community installer with `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART`. Extra installer parameters go in `--custom`. See [Silent install](#silent-install).
   </TabItem>
   <TabItem value="upgrade" label="Upgrade from v1">
     Download and run the [setup.exe installer](https://github.com/nvm-windows/nvm/releases) (MIT License). It automatically migrates v1 to v2.
@@ -44,6 +42,46 @@ NVM for Windows offers community and certified builds on amd64 (x64) and arm64 d
     :::
   </TabItem>
 </Tabs>
+
+## Silent install
+
+The community installer is Inno Setup. These switches work on `nvm-<version>-x64-setup.exe` and `nvm-<version>-arm64-setup.exe`:
+
+|Switch|What it does|
+|:-|:-|
+|`/VERYSILENT`|No wizard and no progress window.|
+|`/SILENT`|Progress window only. No wizard pages.|
+|`/SUPPRESSMSGBOXES`|Skip message boxes. Use with `/SILENT` or `/VERYSILENT`.|
+|`/NORESTART`|Do not reboot when the install finishes.|
+
+```powershell
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+.\nvm-<version>-x64-setup.exe /SILENT /SUPPRESSMSGBOXES /NORESTART
+```
+
+The program root stays `%LOCALAPPDATA%\Author Software\nvm`. A silent `/DIR` that points somewhere else aborts with [NVM4100](../troubleshooting/error-codes.md). Node version storage is `InstallRoot` (wizard, or `nvm config` after install), not `/DIR`.
+
+Silent install skips the storage-permissions page. If the current `InstallRoot` is not a safe managed path and the ACL check fails, the installer moves storage to AppData. If ACL repair still fails, the silent install stops unless you pass `/ALLOWDEGRADEDACLS`.
+
+|Parameter|Accepted values|What it does|
+|:-|:-|:-|
+|`/ALLOWDEGRADEDACLS`|`1`, `true`, `yes`|Finish a silent install when Node storage ACLs cannot be hardened. Sets `RuntimeACLDegraded`. Repair later with `nvm doctor --autofix`.|
+
+```powershell
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /ALLOWDEGRADEDACLS=1
+```
+
+There is no task list. `/TASKS` has no effect.
+
+### Winget
+
+When the package is published, `winget install nvm` uses the very-silent switches above. Pass the custom parameter with `--custom` (appended to those switches):
+
+```powershell
+winget install nvm --custom "/ALLOWDEGRADEDACLS=1"
+```
+
+`--override` replaces the default switches. Include `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART` yourself if you use it.
 
 ## Certified Build
 
