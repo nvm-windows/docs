@@ -34,7 +34,7 @@ nvm firewall deny module [--global] <entry>...
 
 ## Defaults
 
-- `TrustedModules` empty → `NOT ALL`
+- `TrustedModules` empty → `NOT ALL`, `npm`, `npx` (npm's own upgrade can re-sign; every other module stays untrusted)
 - `ApprovedModules` / `ApprovedGlobalModules` empty → `ALL`
 - `UntrustedModuleHandlerAction` → `prompt` (console Y/N when terminal foreground; otherwise native toast with **Trust** / **Cancel**. Yes adds module to HKCU `TrustedModules` and reshims). Set `allow` to auto-reshim with a quiet toast (no Trust/Cancel). Set `deny` to skip prompt / auto-reshim. `nvm reshim` / script re-sign skips disk-changed modules unless trusted or handler is `allow`.
 - Every untrusted-module change is audited as **NVM4406** (info, not error) in plain-text and structured logs, including when the handler is `allow` or the user accepts a prompt. Structured fields include `path`, `before_digest` / `after_digest`, and sizes when digests are unavailable (large binaries).
