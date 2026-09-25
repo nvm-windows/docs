@@ -1,9 +1,9 @@
 ---
-sidebar_label: Firewall
+sidebar_label: Брандмауэр
 sidebar_position: 6
 ---
 
-# NVM Firewall
+# Брандмауэр NVM
 
 Основные средства контроля для установки версий Node, установки npm-пакетов и доверия к самообновляющимся глобальным CLI.
 
@@ -52,7 +52,7 @@ nvm firewall deny module [--global] <entry>...
 
 Если список содержит единственный URL `https://…`, NVM отправляет POST на этот endpoint для удалённой проверки. Ожидается `200` (allow) или `403` (tab-delimited blocks: `name<TAB>date<TAB>reason`). TLS проверяется; опционально `TrustedFirewallSigners` / `TrustedFirewallThumbprint`. При таймаутах/ошибках работает fail closed.
 
-Аутентифицированные policy-серверы получают короткоживущий (2 минуты) firewall JWT в `Authorization: ****** Форма claim:
+Аутентифицированные policy-серверы получают короткоживущий (2 минуты) firewall JWT в заголовке Authorization. Форма claim:
 
 - `desktop.pwd` — абсолютный рабочий каталог
 - `nvm.shim` / `nvm.node_version` — проксируемая точка входа и активная версия Node
