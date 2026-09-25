@@ -46,7 +46,7 @@ nvm firewall deny module [--global] <entry>...
 1. Когда `FirewallSkipLockfile` = false (по умолчанию) и lockfile существует для активного shim, используются извлечённые пакеты lockfile для локальных правил и тела HTTPS POST (`text/plain`, имена построчно).
 2. Иначе отправляются сырые байты `package.json` (`application/json`) с заголовком `x-nvm-package-shasum` (SHA-256 в hex для файла). POST-тела, полученные из lock, не отправляют `x-nvm-package-shasum`.
 
-## HTTPS policy URL
+## HTTPS policy URL \{#https-policy-url}
 
 Если список содержит единственный URL `https://…`, NVM отправляет POST на этот endpoint для удалённой проверки. Ожидается `200` (allow) или `403` (tab-delimited blocks: `name<TAB>date<TAB>reason`). TLS проверяется; опционально `TrustedFirewallSigners` / `TrustedFirewallThumbprint`. При таймаутах/ошибках работает fail closed.
 
