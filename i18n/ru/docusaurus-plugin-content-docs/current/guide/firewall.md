@@ -7,8 +7,6 @@ sidebar_position: 6
 
 Основные средства контроля для установки версий Node, установки npm-пакетов и доверия к самообновляющимся глобальным CLI.
 
-> Страница-руководство для `feature-firewall`. Перед релизом дополните скриншотами ADMX и примерами HTTPS policy contract.
-
 ## Компоненты
 
 | Firewall | Редакция | Ключи | Эффект |
@@ -41,7 +39,7 @@ nvm firewall deny module [--global] <entry>...
 - `FirewallHTTPTimeoutSeconds` → `3`
 - `FirewallSkipLockfile` → `0` (false): использует ближайший lockfile при наличии (`package-lock.json` / `npm-shrinkwrap.json`, либо `pnpm-lock.yaml` / `yarn.lock` для соответствующих shim) для локального сопоставления и HTTPS policy POST; при `1` используется только `package.json`.
 
-## Bare install (`npm install` без имён пакетов)
+## Установка без указания пакетов (`npm install` без имён пакетов)
 
 Для расширяемых install-команд (`npm install`, `pnpm install`, `yarn` и аналогичных) NVM определяет модули из ближайшего манифеста проекта:
 
