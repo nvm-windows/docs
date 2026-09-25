@@ -46,7 +46,7 @@ nvm firewall deny module [--global] <entry>...
 1. Когда `FirewallSkipLockfile` = false (по умолчанию) и lockfile существует для активного shim, используются извлечённые пакеты lockfile для локальных правил и тела HTTPS POST (`text/plain`, имена построчно).
 2. Иначе отправляются сырые байты `package.json` (`application/json`) с заголовком `x-nvm-package-shasum` (SHA-256 в hex для файла). POST-тела, полученные из lock, не отправляют `x-nvm-package-shasum`.
 
-## HTTPS policy URL \{#https-policy-url}
+## URL политики HTTPS \{#https-policy-url}
 
 Если список содержит единственный URL `https://…`, NVM отправляет POST на этот endpoint для удалённой проверки. Ожидается `200` (allow) или `403` (tab-delimited blocks: `name<TAB>date<TAB>reason`). TLS проверяется; опционально `TrustedFirewallSigners` / `TrustedFirewallThumbprint`. При таймаутах/ошибках работает fail closed.
 
@@ -54,7 +54,7 @@ nvm firewall deny module [--global] <entry>...
 
 - `desktop.pwd` — абсолютный рабочий каталог
 - `nvm.shim` / `nvm.node_version` — проксируемая точка входа и активная версия Node
-- `npm` | `pnpm` | `yarn` — `{ user, config, authenticated? }` для активного менеджера пакетов (остальные семейства опускаются). `user` — строка имени пользователя npm, когда известна (`null` иначе): из npmrc `:username` / `_auth`, из JWT claims для **того же registry host**, что и основной credential, либо из локального identity cache. Если имя по-прежнему неизвестно при наличии credentials, NVM может один раз выполнить `npm whoami` (через `node` + `npm-cli.js`, в обход shim) и закешировать результат — на хуках login/whoami и при первом mint firewall JWT, где это нужно. Последующие mint выполняются офлайн. `authenticated` = `true`, когда в npmrc есть credentials (только локальная проверка). `npm logout` очищает cache. `config` — очищенное объединение npmrc/yarnrc.
+- `npm` | `pnpm` | `yarn` — `{ user, config, authenticated? }` для активного менеджера пакетов (остальные семейства опускаются). `user` — строка имени пользователя npm, когда известна (`null` иначе): из npmrc `:username` / `_auth`, из JWT-утверждений для **того же registry host**, что и основная учётная запись, либо из локального кэша идентификации. Если имя по-прежнему неизвестно при наличии учётных данных, NVM может один раз выполнить `npm whoami` (через `node` + `npm-cli.js`, в обход shim) и закешировать результат — на хуках login/whoami и при первом выпуске firewall JWT, где это нужно. Последующие выпуски выполняются офлайн. `authenticated` = `true`, когда в npmrc есть учётные данные (только локальная проверка). `npm logout` очищает кэш. `config` — очищенное объединение npmrc/yarnrc.
 
 Установите `ApplyVerboseFirewallMetadata`, чтобы также включать подробные identity claims (`idp_*`).
 
