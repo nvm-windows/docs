@@ -41,6 +41,52 @@ NVM for Windows доступен в community- и certified-сборках дл�
   </TabItem>
 </Tabs>
 
+## Тихая установка
+
+Community-установщик использует Inno Setup. Эти ключи работают для `nvm-<version>-x64-setup.exe` и `nvm-<version>-arm64-setup.exe`:
+
+|Ключ|Назначение|
+|:-|:-|
+|`/VERYSILENT`|Без мастера и без окна прогресса.|
+|`/SILENT`|Только окно прогресса, без страниц мастера.|
+|`/SUPPRESSMSGBOXES`|Пропускать диалоги. Используйте с `/SILENT` или `/VERYSILENT`.|
+|`/NORESTART`|Не перезагружать систему по завершении установки.|
+
+```powershell
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+.\nvm-<version>-x64-setup.exe /SILENT /SUPPRESSMSGBOXES /NORESTART
+```
+
+Корневой каталог программы остаётся `%LOCALAPPDATA%\Author Software\nvm`. Тихая установка с `/DIR` в другой путь прерывается с [NVM4100](../troubleshooting/error-codes.md). Хранилище версий Node задаётся через `InstallRoot` (в мастере или через `nvm config` после установки), а не через `/DIR`.
+
+Тихая установка пропускает страницу проверки прав для хранилища. Если текущий `InstallRoot` не является безопасным управляемым путём и проверка ACL не проходит, установщик переносит хранилище в AppData. Если восстановление ACL всё равно не удаётся, тихая установка останавливается, если не передан `/ALLOWDEGRADEDACLS`.
+
+|Параметр|Допустимые значения|Назначение|
+|:-|:-|:-|
+|`/ALLOWDEGRADEDACLS`|`1`, `true`, `yes`|Завершает тихую установку, когда ACL хранилища Node нельзя усилить. Устанавливает `RuntimeACLDegraded`. Позже исправьте через `nvm doctor --autofix`.|
+|`/OFFICIALNODE`|`adopt`, `drop`, `ignore`|Что делать с официальной установкой Node.js (не NVM). По умолчанию **`ignore`**: оставить её на диске и поставить NVM выше в PATH. `adopt` копирует эту версию и ваши глобальные модули `%APPDATA%\npm` в хранилище NVM. `drop` удаляет официальную Node.js без копирования (тихий `msiexec /x`, если это MSI).|
+
+Если обнаружена официальная Node.js, мастер показывает строку вроде `Node.js 22.20.0 detected with 14 global modules (128 MB)` и те же три варианта. Тихая установка и winget пропускают эту страницу и используют `/OFFICIALNODE` (по умолчанию `ignore`).
+
+```powershell
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /ALLOWDEGRADEDACLS=1
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /OFFICIALNODE=adopt
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /OFFICIALNODE=drop
+```
+
+Список задач отсутствует. `/TASKS` не влияет на установку.
+
+### Winget
+
+После публикации пакета `winget install nvm` использует приведённые выше ключи very-silent. Передайте пользовательский параметр через `--custom` (он добавляется к этим ключам):
+
+```powershell
+winget install nvm --custom "/ALLOWDEGRADEDACLS=1"
+winget install nvm --custom "/OFFICIALNODE=adopt"
+```
+
+`--override` заменяет ключи по умолчанию. Если используете его, добавьте `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART` вручную.
+
 ## Certified Build
 
 :::info[Доступно с сентября 2026]
@@ -54,6 +100,10 @@ Certified-сборки рассчитаны на удалённую устано
 |[Ручное развёртывание](./enterprise/manual)|Установка MSI (или скриптом) на один компьютер.|
 |[Intune](./enterprise/intune)|Развёртывание в организации Microsoft Entra.|
 |[Active Directory](./enterprise/ad)|Развёртывание на сайте через GPO Software Installation.|
+
+:::note[Обновление с v1 или community v2]
+Сертифицированный MSI устанавливается в Program Files и обновляет системные `NVM_HOME` / PATH. Существующие версии Node остаются в LocalAppData. При первом запуске `nvm` устаревшие бинарники приложений из AppData удаляются, а `installs` сохраняются. MSI не запускает community-деинсталлятор. Он также регистрирует ETW Event Provider и очищает legacy SYSTEM env во время установки. Скрипты в `Remediation/` (`machine-startup.ps1`, `Register-EventLogSource.ps1`, `Remove-LegacySystemEnv.ps1`) — только резервные, не добавляйте их в GPO startup.
+:::
 
 ## Установка Node.js
 
