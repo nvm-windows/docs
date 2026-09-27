@@ -66,9 +66,14 @@ Silent install skips the storage-permissions page. If the current `InstallRoot` 
 |Parameter|Accepted values|What it does|
 |:-|:-|:-|
 |`/ALLOWDEGRADEDACLS`|`1`, `true`, `yes`|Finish a silent install when Node storage ACLs cannot be hardened. Sets `RuntimeACLDegraded`. Repair later with `nvm doctor --autofix`.|
+|`/OFFICIALNODE`|`adopt`, `drop`, `ignore`|What to do with an official Node.js install (not NVM). Default **`ignore`**: leave it on disk and put NVM first on PATH. `adopt` copies that version and your `%APPDATA%\npm` global modules into NVM storage. `drop` uninstalls official Node.js without copying (silent `msiexec /x` when it is an MSI).|
+
+If official Node.js is present, the wizard shows a line like `Node.js 22.20.0 detected with 14 global modules (128 MB)` and the same three choices. Silent / winget installs skip that page and use `/OFFICIALNODE` (default `ignore`).
 
 ```powershell
 .\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /ALLOWDEGRADEDACLS=1
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /OFFICIALNODE=adopt
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /OFFICIALNODE=drop
 ```
 
 There is no task list. `/TASKS` has no effect.
@@ -79,6 +84,7 @@ When the package is published, `winget install nvm` uses the very-silent switche
 
 ```powershell
 winget install nvm --custom "/ALLOWDEGRADEDACLS=1"
+winget install nvm --custom "/OFFICIALNODE=adopt"
 ```
 
 `--override` replaces the default switches. Include `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART` yourself if you use it.
@@ -98,7 +104,7 @@ Certified builds are designed for remote installation through platforms like Act
 |[Active Directory](./enterprise/ad)|Deploy sitewide with GPO Software Installation.|
 
 :::note[Upgrading from v1 or community v2]
-The certified MSI installs to Program Files and updates machine `NVM_HOME` / PATH. Existing Node versions stay under LocalAppData. On first `nvm` launch, obsolete AppData app binaries are retired while `installs` are kept. The MSI does not run the community uninstaller. Legacy SYSTEM env cleanup and Windows Apps registration for existing versions run during install; `Remove-LegacySystemEnv.ps1` is backup remediation only.
+The certified MSI installs to Program Files and updates machine `NVM_HOME` / PATH. Existing Node versions stay under LocalAppData. On first `nvm` launch, obsolete AppData app binaries are retired while `installs` are kept. The MSI does not run the community uninstaller. It also registers the ETW event provider and clears legacy SYSTEM env during install. `Remediation/` scripts (`machine-startup.ps1`, `Register-EventLogSource.ps1`, `Remove-LegacySystemEnv.ps1`) are backup only — do not add them to GPO startup.
 :::
 
 ## Installing Node.js
