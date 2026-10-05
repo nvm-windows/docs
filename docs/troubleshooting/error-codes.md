@@ -28,6 +28,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4408** | Module firewall allowed install | Audit (non-error): proxy evaluated module policy and allowed the install |
 | **NVM4409** | Firewall remote authority unreachable | HTTPS policy host refused the connection, timed out, or could not be resolved |
 | **NVM4410** | Firewall policy mutated | Audit: `nvm firewall` changed a policy list |
+| **NVM4501** | Network deadline exceeded | Informational: a catalog, mirror, reachability, or download attempt used up its millisecond budget. Structured event `network.deadline_exceeded` (certified builds with audit, compliance, or governance logging) |
 
 ## Ranges
 
@@ -36,6 +37,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM41xx** | Installer / Community layout and support boundary |
 | **NVM43xx** | Runtime Node trust, activation, and package-manager gatekeeping |
 | **NVM44xx** | NVM Firewall (version / module / trust policy) |
+| **NVM45xx** | Network deadlines |
 
 ## Tips
 
@@ -43,5 +45,6 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 - **NVM4304** is success/recovery telemetry, not a failure.
 - **NVM4406** is an audit/info event for untrusted-module changes (including when allow/prompt accepts the change), not a failure. Structured payload includes `path`, `before_digest` / `after_digest` (SHA-256 hex when available), and `before_size` / `after_size`.
 - **NVM4407** and **NVM4408** are audit/info events for module-firewall allow paths (remote HTTPS policy vs local/remote install evaluation), not failures.
+- **NVM4501** is informational, not a failure. The plaintext error names `TimeoutCatalogMs` and `TimeoutCatalogMirrorMs` (or `TimeoutDownloadMs` / `TimeoutReachabilityMs`) and where that budget came from: `machine policy`, `machine settings`, `your settings`, `default`, or `command flag`.
 - Structured execution and install audits (for example `nodejs.executed`, `package_manager.executed`, `package_manager.install`, and related security events) may include `project_name`, `project_path`, `parent_process`, `parent_pid`, and `sid` when the host can resolve them; fields may be empty or `unknown` when not available.
 - Symptom-based fixes without a code: [General Troubleshooting](./general).
