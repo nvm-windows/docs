@@ -93,7 +93,7 @@ nvm config set auto_detect=.nvmrc,.node-version
 
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
-| `log_executions` | `false` | Boolean | Whether to log every Node.js invocation (ex: `node file.js`). (shim-only) |
+| `log_executions` | `false` | Boolean | Log each `node.exe` launch as `nodejs.executed` (shim-only). Certified builds also log package-manager commands as `package_manager.executed`. |
 | `disable_announcements` | `false` | Boolean | Whether to disable project and release announcements. On Certified Builds, license expiry warnings still run when a commercial license is present. |
 
 ```powershell
