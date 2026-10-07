@@ -66,6 +66,8 @@ Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\PolicyManager\AdmxInstalled' -Recurse |
 
 ## Развёртывание групповой политики (GPO)
 
+Политики ADMX не включают секреты лицензии и не заменяют ETW/очистку env. MSI уже регистрирует провайдер событий и очищает устаревшие SYSTEM env. GPO startup: `Set-NvmWindowsLicensing.ps1` с AccessToken **и** Default private key (`AccessKey`). Если ключа нет, создайте **Default** на портале. **Не** добавляйте скрипты `Remediation/` в GPO.
+
 :::info[Доступ к контроллеру домена]
 Для задач в этом разделе нужен доступ к контроллеру домена.
 :::

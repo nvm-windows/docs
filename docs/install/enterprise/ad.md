@@ -69,6 +69,22 @@ Default storage directory: `%LOCALAPPDATA%\Author Software\nvm\installs`
 
 **Congratulations, you've created a group policy that will install NVM for Windows on user computers.**
 
+The MSI already registers the ETW event provider and clears legacy SYSTEM `NVM_HOME` / `NVM_SYMLINK` plus community Machine PATH. Do **not** add `Remediation/machine-startup.ps1`, `Register-EventLogSource.ps1`, or `Remove-LegacySystemEnv.ps1` to this GPO.
+
+### 4. License the fleet
+
+The MSI does not write the organization AccessToken or private key. Author shows a private key **once** at create time and does not store it.
+
+If the organization has no private key, create one named **Default** in [portal.author.io](https://portal.author.io) (NVM for Windows → Private Keys) and save the revealed secret. Author does not re-serve private keys. The enterprise wizard can use a key file from pre-downloaded assets, browse for a saved key, or create a new key and write `nvm-windows-private-key-<name>.key` to the Desktop (`<name>` is the snake_case key name, e.g. `nvm-windows-private-key-default.key`).
+
+Add a **Computer Configuration** startup script that applies **both** secrets as command values (not files on the software share):
+
+```text
+powershell.exe -ExecutionPolicy Bypass -File \\fileserver\software\nvm-windows\2.0.1\Licensing\Set-NvmWindowsLicensing.ps1 -AccessToken "<jwt-from-portal>" -AccessKey "<Default-private-key>" -JwksCoseUrl "https://assets.nvm-windows.com/nvm-jwks.cose"
+```
+
+Certified packs that only ship `Set-NvmWindowsAccessToken.ps1` still need the AccessToken + JWKS call; write `AccessKey` to `HKLM\SOFTWARE\Policies\Author Software\nvm` as REG_BINARY (UTF-8), or use `Set-NvmWindowsLicensing.ps1` from the Governance pack. See the [license secret notes](../../cfg/enterprise/registry.md).
+
 :::tip[Update Client Device]
 Run `gpupdate /force` in a terminal on the client device to immediately apply the policy.
 :::

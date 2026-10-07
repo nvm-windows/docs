@@ -74,7 +74,7 @@ certified:
 |**Blocked Node.js versions**|`VersionBlockList`|Block list для установок. Те же форматы правил, что у `VersionAllowList`.<br /><br />`REG_SZ`|
 
 :::info[License secrets]
-`AccessToken`, `AccessKey` и `JwksCose` **не** являются политиками ADMX. Развёртывайте скриптами портала (`Set-NvmWindowsAccessToken.ps1` на stock certified build; `Set-NvmWindowsLicensing.ps1` для governance builds, также задаёт `AccessKey` для зеркал Author) или `nvm license`.
+`AccessToken`, `AccessKey` и `JwksCose` **не** являются политиками ADMX. Развёртывайте скриптами портала (`Set-NvmWindowsAccessToken.ps1` на stock certified build; `Set-NvmWindowsLicensing.ps1` для governance builds, также задаёт `AccessKey` для зеркал Author) или `nvm license`. Если у организации нет private key, создайте ключ **Default** на портале и сохраните `Default-nvm-windows-private-key`; передайте секрет как `-AccessKey`. Author не выдаёт ключ повторно. **Не** добавляйте скрипты `Remediation/` в GPO startup — MSI уже регистрирует ETW-провайдер и очищает устаревшие SYSTEM env.
 :::
 
 :::tip[GPO vs значения реестра]

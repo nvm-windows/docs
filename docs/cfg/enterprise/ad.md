@@ -66,6 +66,8 @@ You can also deploy individual registry values with a **Settings catalog** or **
 
 ## Group Policy (GPO) Deployment
 
+ADMX policies do not include licensing secrets or ETW/env remediation. The MSI already registers the event provider and clears legacy SYSTEM env. GPO startup is for `Set-NvmWindowsLicensing.ps1` with AccessToken **and** the Default private key (`AccessKey`), or `Set-NvmWindowsAccessToken.ps1` plus an AccessKey REG_BINARY write. Create a **Default** private key in the portal if the organization has none. Do **not** add `Remediation/` scripts to the GPO.
+
 :::info[Domain Controller Access]
 You will need access to your domain controller to perform the tasks in this section.
 :::

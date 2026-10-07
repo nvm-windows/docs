@@ -69,6 +69,22 @@ import DocImage from '@site/docs/_components/DocImage';
 
 **Готово — групповая политика установит NVM for Windows на компьютеры пользователей.**
 
+MSI уже регистрирует ETW-провайдер и очищает устаревшие SYSTEM `NVM_HOME` / `NVM_SYMLINK` и community Machine PATH. **Не** добавляйте в эту GPO `Remediation/machine-startup.ps1`, `Register-EventLogSource.ps1` или `Remove-LegacySystemEnv.ps1`.
+
+### 4. Лицензирование парка
+
+MSI не записывает организационный AccessToken и private key. Author показывает private key **один раз** при создании.
+
+Если у организации нет ключа, создайте ключ с именем **Default** на [portal.author.io](https://portal.author.io) и сохраните секрет. Author не отдаёт ключ повторно. Мастер берёт файл из заранее скачанных assets, позволяет выбрать сохранённый ключ или создаёт новый и пишет `nvm-windows-private-key-<name>.key` на рабочий стол (`<name>` — snake_case имя ключа, например `nvm-windows-private-key-default.key`).
+
+Скрипт запуска **Computer Configuration** должен передать **оба** секрета как значения команды (не файлы на software share):
+
+```text
+powershell.exe -ExecutionPolicy Bypass -File \\fileserver\software\nvm-windows\2.0.1\Licensing\Set-NvmWindowsLicensing.ps1 -AccessToken "<jwt-from-portal>" -AccessKey "<Default-private-key>" -JwksCoseUrl "https://assets.nvm-windows.com/nvm-jwks.cose"
+```
+
+См. [секреты лицензии](../../cfg/enterprise/registry.md).
+
 :::tip[Обновить клиент]
 На клиенте выполните `gpupdate /force`, чтобы применить политику сразу.
 :::

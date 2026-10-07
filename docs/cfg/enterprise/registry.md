@@ -74,7 +74,7 @@ These keys are part of the **Governance** feature set. They appear in the Govern
 |**Blocked Node.js versions**|`VersionBlockList`|Block list for installs. Same rule formats as `VersionAllowList`.<br /><br />`REG_SZ`|
 
 :::info[License secrets]
-`AccessToken`, `AccessKey`, and `JwksCose` are **not** ADMX policies. Deploy with portal scripts (`Set-NvmWindowsAccessToken.ps1` on stock certified build; `Set-NvmWindowsLicensing.ps1` for governance builds, which also sets `AccessKey` for Author mirrors) or `nvm license`.
+`AccessToken`, `AccessKey`, and `JwksCose` are **not** ADMX policies. Deploy with portal scripts (`Set-NvmWindowsAccessToken.ps1` on stock certified build; `Set-NvmWindowsLicensing.ps1` for governance builds, which also sets `AccessKey` for Author mirrors) or `nvm license`. If the organization has no private key, create one named **Default** in the portal and save `Default-nvm-windows-private-key`; pass that secret as `-AccessKey`. Author does not re-serve private keys. Do **not** add `Remediation/` scripts to GPO startup — the MSI already registers the ETW provider and clears legacy SYSTEM env.
 :::
 
 :::tip[GPO vs registry values]
