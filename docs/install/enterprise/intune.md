@@ -12,6 +12,7 @@ Deploy NVM for Windows with the pre-built files found in the NVM for Windows dow
 |:-|:-|
 |`nvm-windows-<version>-certified-amd64.intunewin`|Upload to Intune as the Win32 app package|
 |`nvm-windows-<version>-certified-amd64.intune.json`|Reference for install commands, detection rules, return codes, and MSI metadata|
+|`product-logo.png`|Upload this file as the Company Portal logo.|
 
 Complete [Prerequisites](./requirements) first. After installation, continue to [Configure policies](../../cfg/ad).
 
@@ -34,6 +35,10 @@ Use the values from the companion `.intune.json` file:
 |Publisher|`Author Software Inc.`|
 |Version|`<version>`|
 |Description|Certified build for amd64. See `.intune.json` for the exact string shipped with your package.|
+|Logo|`product-logo.png`|
+
+Upload `product-logo.png` from the deployment pack in the **Logo** field.
+Company Portal shows that image on the app tile in Available apps.
 
 ![App information](/img/install/image.png)
 
