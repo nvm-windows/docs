@@ -211,9 +211,9 @@ Walkthrough: [Version Firewall + Author Mirror](../features/author-mirror). Doma
 
 ## 7. Auditing and native integrations
 
-Critical install, config, and security events go to Windows Event Viewer on Community and Certified builds. Optional **Advanced Logging** (Certified add-on) targets SIEM-friendly structured codes. Per-invocation logging is available via [`LogExecutions`](../cfg/registry#available-registry-keys) in shim mode.
+Critical install, config, and security events go to Windows Event Viewer on Community and Certified builds. Optional **Advanced Logging** (Certified add-on) targets SIEM-friendly structured codes.
 
-See [Event Logging](../features/log). Broader product context (including native integrations): [Why we rewrote NVM for Windows](https://medium.com/@goldglovecb/why-we-rewrote-nvm-for-windows-3b6fa5be3e7f) (external).
+Set [`LogExecutions`](../cfg/registry#available-registry-keys) to `1` in shim mode to record `nodejs.executed` on Community and Certified builds. Certified builds also record `package_manager.executed` for package-manager commands, and `package_manager.install` when the module firewall allows or blocks an install. Community builds enforce that firewall and omit those two events. See [Event Logging](../features/log). Broader product context (including native integrations): [Why we rewrote NVM for Windows](https://medium.com/@goldglovecb/why-we-rewrote-nvm-for-windows-3b6fa5be3e7f) (external).
 
 ## Related
 

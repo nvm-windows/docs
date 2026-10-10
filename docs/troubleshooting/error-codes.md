@@ -20,14 +20,15 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4306** | Delegated command trust failed | Proxy refuses a package-manager or script entrypoint that is unknown, unsigned, or fails delegated-command trust checks |
 | **NVM4401** | Firewall remote authority unauthorized | HTTPS policy URL returned **401**; the remote denied access for this user/client |
 | **NVM4402** | Firewall remote validation failed | HTTPS policy URL TLS failure, unexpected HTTP status, or helper spawn/config error |
-| **NVM4403** | Module firewall blocked install | Local or remote **403** policy deny (`ApprovedModules` / `ApprovedGlobalModules`) |
+| **NVM4403** | Module firewall blocked install | Local or remote **403** policy deny (`ApprovedModules` / `ApprovedGlobalModules`). Certified builds also write structured event `package_manager.install`. |
 | **NVM4404** | Firewall elevation required | Mutating firewall command run without administrator rights |
 | **NVM4405** | Invalid firewall rule | Malformed TrustedModules / ApprovedModules entry |
 | **NVM4406** | Untrusted module changed | Audit (non-error): untrusted global CLI entrypoint changed; logged for deny, allow, and prompt accept/decline |
 | **NVM4407** | Remote policy allowed | Audit (non-error): HTTPS module-firewall remote check allowed the install |
-| **NVM4408** | Module firewall allowed install | Audit (non-error): proxy evaluated module policy and allowed the install |
+| **NVM4408** | Module firewall allowed install | Audit (non-error), Certified builds only: proxy evaluated module policy and allowed the install. Structured event `package_manager.install`. |
 | **NVM4409** | Firewall remote authority unreachable | HTTPS policy host refused the connection, timed out, or could not be resolved |
 | **NVM4410** | Firewall policy mutated | Audit: `nvm firewall` changed a policy list |
+| **NVM4501** | Network deadline exceeded | Informational: a catalog, mirror, reachability, or download attempt used up its millisecond budget. Structured event `network.deadline_exceeded` (certified builds with audit, compliance, or governance logging) |
 
 ## Ranges
 
@@ -36,6 +37,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM41xx** | Installer / Community layout and support boundary |
 | **NVM43xx** | Runtime Node trust, activation, and package-manager gatekeeping |
 | **NVM44xx** | NVM Firewall (version / module / trust policy) |
+| **NVM45xx** | Network deadlines |
 
 ## Tips
 
@@ -43,5 +45,8 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 - **NVM4304** is success/recovery telemetry, not a failure.
 - **NVM4406** is an audit/info event for untrusted-module changes (including when allow/prompt accepts the change), not a failure. Structured payload includes `path`, `before_digest` / `after_digest` (SHA-256 hex when available), and `before_size` / `after_size`.
 - **NVM4407** and **NVM4408** are audit/info events for module-firewall allow paths (remote HTTPS policy vs local/remote install evaluation), not failures.
-- Structured execution and install audits (for example `nodejs.executed`, `package_manager.executed`, `package_manager.install`, and related security events) may include `project_name`, `project_path`, `parent_process`, `parent_pid`, and `sid` when the host can resolve them; fields may be empty or `unknown` when not available.
+- **NVM4501** is informational, not a failure. The plaintext error names `TimeoutCatalogMs` and `TimeoutCatalogMirrorMs` (or `TimeoutDownloadMs` / `TimeoutReachabilityMs`) and where that budget came from: `machine policy`, `machine settings`, `your settings`, `default`, or `command flag`.
+- Structured execution and install audits may include `project_name`, `project_path`, `parent_process`, `parent_pid`, and `sid` when the host can resolve them. A missing value is empty or `unknown`.
+- `nodejs.executed` is written on Community and Certified builds when `LogExecutions` is `1`.
+- `package_manager.executed` and `package_manager.install` are written on Certified builds only. `package_manager.executed` requires `LogExecutions` = `1`. `package_manager.install` records an allowed install (**NVM4408**) or a blocked install (**NVM4403**).
 - Symptom-based fixes without a code: [General Troubleshooting](./general).
