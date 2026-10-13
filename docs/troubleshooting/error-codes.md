@@ -18,6 +18,11 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4304** | Full verification recovered | Informational follow-up after **NVM4303**: full verification succeeded and the cache was restored |
 | **NVM4305** | Package-manager launch blocked (unsafe Node directory) | Proxy blocks `npm` / `yarn` / `pnpm` (and similar) because the active Node version directory fails cross-user write / trust checks; often fixed with `nvm doctor --autofix` or a private install root |
 | **NVM4306** | Delegated command trust failed | Proxy refuses a package-manager or script entrypoint that is unknown, unsigned, or fails delegated-command trust checks |
+| **NVM4307** | Auto-install prompt failed | Shim could not read the yes/no prompt before `nvm install`. Run `nvm install <version>` |
+| **NVM4308** | Auto-install could not find nvm.exe | Shim searched `NVM_HOME`, the shim directory, and `%LOCALAPPDATA%\Author Software\nvm`. Set `NVM_HOME` to the folder that contains `nvm.exe` |
+| **NVM4309** | Auto-install could not start nvm.exe | `nvm.exe` was found, but the process did not start. The message includes that path |
+| **NVM4310** | Auto-install command failed | `nvm install <version>` exited with a non-zero code. The message includes that code. Output from `nvm.exe` is still shown |
+| **NVM4311** | Auto-install did not leave a usable Node.js | `nvm install` returned success, but the shim still cannot resolve that version |
 | **NVM4401** | Firewall remote authority unauthorized | HTTPS policy URL returned **401**; the remote denied access for this user/client |
 | **NVM4402** | Firewall remote validation failed | HTTPS policy URL TLS failure, unexpected HTTP status, or helper spawn/config error |
 | **NVM4403** | Module firewall blocked install | Local or remote **403** policy deny (`ApprovedModules` / `ApprovedGlobalModules`) |
@@ -34,7 +39,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | Range | Role |
 |:-|:-|
 | **NVM41xx** | Installer / Community layout and support boundary |
-| **NVM43xx** | Runtime Node trust, activation, and package-manager gatekeeping |
+| **NVM43xx** | Runtime Node trust, activation, auto-install, and package-manager gatekeeping |
 | **NVM44xx** | NVM Firewall (version / module / trust policy) |
 
 ## Tips
