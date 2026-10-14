@@ -5,7 +5,7 @@
 |Тип|Аудитория|Лицензия|Доступность|
 |:-|:-:|:-:|:-|
 |Community&nbsp;Build|Частные разработчики|MIT|[nvm-windows.com](https://nvm-windows.com) или [github.com/nvm-windows](https://github.com/nvm-windows/nvm/releases)|
-|Certified&nbsp;Build|Организации|EULA|С сентября 2026 через [клиентский портал](https://portal.author.io)|
+|Certified&nbsp;Build|Организации|EULA|С сентября 2026 через клиентский портал|
 
 ## Community-сборки
 
