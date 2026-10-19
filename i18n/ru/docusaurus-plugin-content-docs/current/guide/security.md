@@ -128,7 +128,10 @@ NVM **сейчас не** применяет allow/deny list **пакетов** 
 
 | Политика | Эффект |
 |:-|:-|
-| `EnforcePermissionModel` | Добавляет `--permission` (Node 23+) или `--experimental-permission` (20–22). Default-deny FS/network, пока процесс не передаст `--allow-*`. NVM не внедряет grants. |
+| `EnforcePermissionModel` | Добавляет `--permission` (Node 23+) или `--experimental-permission` (20–22). Default-deny FS/network, пока процесс не передаст `--allow-*`. NVM внедряет grants только из `DefaultPermissionGrants`. |
+| `PermissionGrantAudit` | Одно событие `nodejs.permission_grants`, если вызывающий передал `--allow-*` или флаг permission, либо если политика добавила или удалила allow-флаги. `permission_allow` хранит supplied, applied и removed. Также пишется, когда включён `EnforcePermissionModel`. Не блокирует. Тот же объект есть в `nodejs.executed`, когда включён `LogExecutions`. |
+| `DefaultPermissionGrants` | Токены argv после флага permission, когда shim сам добавляет этот флаг. Пустой список ничего не добавляет. |
+| `AllowedPermissionGrants` | Если список не пуст, удаляет токены `--allow-*` вызывающего, которых нет в списке. Пустой список оставляет эти флаги. Только когда shim сам добавляет флаг permission. |
 | `FreezeV8GlobalObjects` | Добавляет `--frozen-intrinsics` |
 | `DisableEvalAndStringExecution` | Добавляет `--disallow-code-generation-from-strings` (блокирует `eval` / `new Function`; не покрывает `node:vm`) |
 

@@ -125,6 +125,9 @@ Computer Configuration
                     └── Shim mode
                         ├── Enable audit logging
                         ├── Enforce Node.js permission model
+                        ├── Audit Node.js permission grants
+                        ├── Default Node.js permission grants
+                        ├── Allowed Node.js permission grants
                         ├── Prevent modification of global JavaScript prototypes
                         ├── Disallow dynamic code generation from strings
                         └── Configure npm package minimum release age

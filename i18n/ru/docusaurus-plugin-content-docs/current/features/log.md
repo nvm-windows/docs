@@ -10,6 +10,8 @@ tags: [native-integration]
 
 По умолчанию журналируются только критические события изменений. Дополнительное журналирование доступно через [конфигурацию](../cfg/core#logging-and-announcements). Можно логировать каждый вызов `node.exe` / `npm` / `npx` (и других основных менеджеров пакетов).
 
+Установите `LogExecutions` в `1`, чтобы записывать каждый запуск `node.exe`. Имя события — `nodejs.executed`. Если allow-флаги были переданы, добавлены или удалены, событие содержит `permission_allow.supplied`, `permission_allow.applied` и `permission_allow.removed`.
+
 :::warning[Регистрация источника событий]
 Community и Certified Builds регистрируют ETW provider (`NVMWindows.Events.man` + `NVMWindows.Events.dll` рядом с `nvm.exe`). Смотрите **Applications and Services Logs → NVM for Windows/Operational**, а не только классический Application log.
 

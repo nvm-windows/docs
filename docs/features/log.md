@@ -10,6 +10,8 @@ Critical events — installations, configuration changes, and security events �
 
 Only critical change events are logged by default. Additional logging is available through [configuration](../cfg/core#logging-and-announcements). It is possible to log every `node.exe` / `npm` / `npx` invocation (as well as other major package managers).
 
+Set `LogExecutions` to `1` to record each `node.exe` launch. The event name is `nodejs.executed`. When permission allow flags were supplied, applied, or removed, that event includes `permission_allow.supplied`, `permission_allow.applied`, and `permission_allow.removed`.
+
 :::warning[Event source registration]
 Community and Certified Builds both register an ETW provider (`NVMWindows.Events.man` + `NVMWindows.Events.dll` next to `nvm.exe`). Look under **Applications and Services Logs → NVM for Windows/Operational**, not only the classic Application log.
 

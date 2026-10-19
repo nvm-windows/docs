@@ -185,7 +185,10 @@ Most teams never pass Node’s permission model flags. Governance policy can for
 
 | Policy | Effect |
 |:-|:-|
-| `EnforcePermissionModel` | Prepend `--permission` (Node 23+) or `--experimental-permission` (20–22). Default-deny FS/network until the process passes `--allow-*`. NVM does not inject grants. |
+| `EnforcePermissionModel` | Prepend `--permission` (Node 23+) or `--experimental-permission` (20–22). Default-deny FS/network until the process passes `--allow-*`. NVM injects grants only from `DefaultPermissionGrants`. |
+| `PermissionGrantAudit` | Write one `nodejs.permission_grants` event when the caller passes `--allow-*` or a permission flag, or when policy applies or removes allow flags. `permission_allow` records supplied, applied, and removed tokens. Also written when `EnforcePermissionModel` is on. Does not block. The same object is on `nodejs.executed` when `LogExecutions` is on. |
+| `DefaultPermissionGrants` | argv tokens inserted after the permission flag when the shim injects that flag. Empty adds nothing. |
+| `AllowedPermissionGrants` | When non-empty, drop caller `--allow-*` tokens that are not listed. Empty leaves those flags unchanged. Used only when the shim injects the permission flag. |
 | `FreezeV8GlobalObjects` | Prepend `--frozen-intrinsics` |
 | `DisableEvalAndStringExecution` | Prepend `--disallow-code-generation-from-strings` (blocks `eval` / `new Function`; does not cover `node:vm`) |
 
