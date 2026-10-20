@@ -12,6 +12,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 |:-|:-|:-|
 | **NVM4100** | Silent install rejected a custom program directory | Community Inno Setup runs with `/SILENT` or `/VERYSILENT` and a non-default `/DIR` (program root must stay under LocalAppData) |
 | **NVM4101** | Community build running outside its trusted program root | Community `nvm.exe` (or doctor) detects the process is not under `%LOCALAPPDATA%\Author Software\nvm`; advisory warning, not a hard block |
+| **NVM4116** | Community Inno refused a machine-triggered install | Setup ran as `NT AUTHORITY\SYSTEM`, a Microsoft fleet host was in the process ancestor chain (Intune IME, AgentExecutor, Task Scheduler, Group Policy script, or Configuration Manager), or a silent install had no real console and no Microsoft Store ancestor. Per-user LocalAppData only. Typed WinGet, Microsoft Store, and a double-click of the EXE are not this code. Setup writes Application event 4116 and logs the trigger. |
 | **NVM4301** | Node.js integrity verification failed | Shim or node launcher refuses to run `node.exe` because Authenticode / trust checks failed; reinstall with `nvm install <ver> --force` is the usual recovery |
 | **NVM4302** | Link-mode activation blocked | `nvm use` (link mode) rejects a version directory that is unsafe (for example writable by other users or a reparse point) or whose `node.exe` cannot be verified |
 | **NVM4303** | Verify-cache state changed | Trusted verify-cache material for a Node binary no longer matches; NVM requires a full verification pass before trusting the binary again |
@@ -45,6 +46,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 ## Tips
 
 - Codes appear in user-facing text as `Event code: NVM####` and may also be logged to the Windows Application log or NVM operational channels (edition-dependent).
+- **NVM4116** means setup refused to start. Community Inno blocked a machine-triggered install. Use Certified Builds for Intune, MSI, or IT-managed deployment. For a personal install, use a community installer from the docs. The Application log records event 4116 and the trigger.
 - **NVM4304** is success/recovery telemetry, not a failure.
 - **NVM4406** is an audit/info event for untrusted-module changes (including when allow/prompt accepts the change), not a failure. Structured payload includes `path`, `before_digest` / `after_digest` (SHA-256 hex when available), and `before_size` / `after_size`.
 - **NVM4407** and **NVM4408** are audit/info events for module-firewall allow paths (remote HTTPS policy vs local/remote install evaluation), not failures.
