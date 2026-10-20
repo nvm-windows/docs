@@ -19,3 +19,12 @@ If setup cannot elevate for `nvm --register-eventlog` (UAC canceled / non-admin)
 :::tip[Certified Builds — Advanced Logging]
 The **Advanced Logging** add-on (Certified Builds, available September 2026) writes structured entries with well-known SIEM event codes to a dedicated native NVM for Windows log (not the Application log). Use it for fleet SIEM integration and audit querying.
 :::
+
+## Malware feed
+
+These events are written only when advanced logging is on. They use Windows Event ID 120 on `NVM for Windows/Operational`. A block still prints in the terminal when that license is off, and that block does not write `package_manager.install`.
+
+| Code | Event | Payload |
+|------|--------|---------|
+| **NVM4601** | `malware.definitions_updated` | `added`, `removed`, `seq`, `previous_seq` |
+| **NVM4602** | `malware.package_blocked` | package name, version when known, command |

@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # nvm cache remove all
 
-Clear both metadata and versions caches.
+Clear metadata, versions, malware scan stamps, and `malware.db`.
 
 ## Usage
 

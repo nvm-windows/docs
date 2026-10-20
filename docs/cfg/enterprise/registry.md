@@ -52,6 +52,11 @@ See [Administrative Templates](ad) for GPO and Intune deployment. Download ADMX/
 |**Local install source**|`LocalInstallDir`|**Overridable** (`local_dir`). Alternate local directory for Node.js archives (air-gapped mirrors). Overrides cache.<br /><br />`REG_SZ`|
 |**Local install only**|`LocalInstallOnly`|**Overridable** (`local_install_only`). Restrict installs to `LocalInstallDir` only.<br /><br />- `0` = off<br />- `1` = on<br /><br />Default: `0`<br /><br />`REG_DWORD`|
 |**Audit logging**|`LogExecutions`|**Overridable** (`log_executions`). Log every Node.js invocation to the Windows Event Log (shim-only). Most useful on **Audit+** (structured ETW).<br /><br />- `0` = off<br />- `1` = on<br /><br />Default: `0`<br /><br />`REG_DWORD`|
+|**Skip malware checks**|`SkipMalwareChecks`|**Overridable** (`skip_malware_checks`). Skip malware checks for package-manager and node shims. The definition file still updates. HKLM wins over HKCU.<br /><br />- `0` = check<br />- `1` = skip<br /><br />Default: `0`<br /><br />`REG_DWORD`|
+|**Notify malware definitions**|`NotifyMalwareDefinitions`|**Overridable** (`notify_malware_definitions`). Certified only. Silent toast after definitions change. HKLM can force it off.<br /><br />- `0` = hide<br />- `1` = show<br /><br />Default: `1`<br /><br />`REG_DWORD`|
+|**Malware allow list**|`MalwareAllowList`|HKLM only. Patterns that clear an OpenSSF hit. Byte-for-byte. A `*` clears every OpenSSF hit. Does not clear an organization block. Empty allows nothing.<br /><br />`REG_MULTI_SZ`|
+|**Malware block list**|`MalwareBlockList`|Certified only. HKLM patterns that always block, or one `https://` policy URL. Community builds ignore this list.<br /><br />`REG_MULTI_SZ`|
+|**Malware trust conflict**|`MalwareTrustConflict`|Certified only. **Overridable** (`malware_trust_conflict`). `prevent` (default) blocks a trusted or approved OpenSSF hit. `continue` lets that explicit trust or approval through. HKLM wins over HKCU.<br /><br />`REG_SZ`|
 |**Node.js download mirrors**|`MirrorNode`|**Overridable** (`node_mirror`). Ordered mirror list; first successful response wins. See [Download Mirrors](../features/mirrors). Author `*.author.io` mirrors need Governance licensing — see [Version Firewall + Author Mirror](../features/author-mirror).<br /><br />Default: `https://nodejs.org/dist`<br /><br />`REG_MULTI_SZ`|
 |**npm registry mirrors**|`MirrorNpm`|**Overridable** (`npm_mirror`). Ordered npm registry list. Used as shim registry fallback.<br /><br />Default: `https://registry.npmjs.org`<br /><br />`REG_MULTI_SZ`|
 |**Operating mode**|`OperatingMode`|**Overridable** (`mode`). How NVM for Windows manages Node.js versions.<br /><br />**Shim** (recommended) uses signed shims to intercept `node`, `npm`, `npx`, `yarn`, and `pnpm`. Required for runtime policies (audit logging, auto-detect, ACL).<br /><br />**Link** uses NTFS junctions/symlinks on PATH.<br /><br />Default: `shim`<br /><br />`REG_SZ`|
@@ -126,6 +131,9 @@ Windows Registry Editor Version 5.00
 "FirewallSkipLockfile"=dword:00000000
 "DisableUpgrade"=dword:00000001
 "DisableAnnouncements"=dword:00000001
+"SkipMalwareChecks"=dword:00000000
+"NotifyMalwareDefinitions"=dword:00000001
+"MalwareTrustConflict"="prevent"
 
 ; --- Shim runtime (requires OperatingMode=shim) ---
 "DefaultDetectFile"=".nvmrc"

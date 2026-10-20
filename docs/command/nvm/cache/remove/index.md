@@ -15,7 +15,8 @@ Remove cached artifacts.
 |------------|-------------|
 | [`version`](./version) | Remove cached Node.js archives (default). |
 | [`metadata`](./metadata) | Remove cached metadata files. |
-| [`all`](./all) | Clear metadata and versions caches. |
+| [`all`](./all) | Clear metadata, versions, malware stamps, and `malware.db`. |
+| [`malware`](./malware) | Remove malware scan stamps, or `malware.db` when you pass that path. |
 
 ## Notes
 

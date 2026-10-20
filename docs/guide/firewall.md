@@ -16,6 +16,8 @@ Frontline controls for Node version installs, npm package installs, and self-upd
 | Version | Certified | `VersionAllowList` / `VersionBlockList` | Block `nvm install` of disallowed Node versions |
 | Module | Certified | `ApprovedModules` / `ApprovedGlobalModules` | Block npm/pnpm/yarn/npx install of disallowed packages (shim mode) |
 | Trust | Community + Certified | `TrustedModules`, `UntrustedModuleHandlerAction` | Auto-reshim or prompt when a global CLI self-updates |
+| Malware, surface | Community + Certified | `SkipMalwareChecks`, `MalwareAllowList` | Block an OpenSSF hit on the named package or on direct `package.json` dependencies. Default on |
+| Malware, lockfile | Certified | `MalwareBlockList`, `MalwareTrustConflict` | Also scan the lockfile. An organization block list and trust conflict apply only here |
 
 ## Commands
 
