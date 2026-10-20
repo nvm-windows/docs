@@ -12,6 +12,7 @@ NVM for Windows использует стабильные коды `NVM####` в 
 |:-|:-|:-|
 | **NVM4100** | Тихая установка отклонила нестандартный каталог программы | Community Inno Setup с `/SILENT` или `/VERYSILENT` и нестандартным `/DIR` (корень программы должен оставаться под LocalAppData) |
 | **NVM4101** | Community-сборка запущена вне доверенного корня программы | Community `nvm.exe` (или doctor) видит процесс не под `%LOCALAPPDATA%\Author Software\nvm`; предупреждение, не жёсткая блокировка |
+| **NVM4116** | Community Inno отказал в машинной установке | Установщик запущен как `NT AUTHORITY\SYSTEM`, в цепочке предков есть хост Microsoft fleet (Intune IME, AgentExecutor, Task Scheduler, скрипт Group Policy или Configuration Manager), либо тихая установка без настоящей консоли и без предка Microsoft Store. Только per-user LocalAppData. Обычный WinGet из терминала, Microsoft Store и двойной щелчок по EXE — не этот код. В Application log пишется событие 4116 и триггер. |
 | **NVM4301** | Проверка целостности Node.js не прошла | Shim или node launcher отказывается запускать `node.exe` из‑за сбоя Authenticode / trust; обычно помогает `nvm install <ver> --force` |
 | **NVM4302** | Блокировка активации в режиме link | `nvm use` (link) отклоняет небезопасный каталог версии (например, доступен другим пользователям на запись или reparse point) либо непроверенный `node.exe` |
 | **NVM4303** | Изменилось состояние verify-cache | Материал trusted verify-cache для Node-бинарника больше не совпадает; нужна полная повторная проверка |
@@ -40,6 +41,7 @@ NVM for Windows использует стабильные коды `NVM####` в 
 ## Подсказки
 
 - Коды встречаются в тексте как `Event code: NVM####` и могут попадать в Application log или operational-каналы NVM (зависит от edition).
+- **NVM4116** означает, что установка не началась. Community Inno заблокировал машинную установку. Для Intune, MSI и IT-managed используйте Certified Builds. Для личной установки используйте community-установщик из документации. В Application log — событие 4116 и триггер.
 - **NVM4304** — успешное/восстановительное событие, не ошибка.
 - **NVM4406** — audit/info о смене недоверенного модуля (в т.ч. при allow или accept prompt), не ошибка.
 - **NVM4407** и **NVM4408** — audit/info о разрешённых module-firewall install (remote HTTPS vs локальная/remote оценка), не ошибки.
