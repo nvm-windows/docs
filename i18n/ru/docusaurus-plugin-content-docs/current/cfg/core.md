@@ -88,6 +88,7 @@ nvm config set auto_detect=.nvmrc,.node-version
 | Параметр | По умолчанию | Значения | Описание |
 |--------|---------|--------|-------------|
 | `pm_mismatch_action` | `error` | `ignore`, `warn`, `error` | Действие при несовпадении версий npm/pnpm/yarn и Node.js во время install или use:<br/><br/><ul><li>ignore: без сообщений</li><li>warn: продолжить после предупреждения</li><li> error: остановить операцию (самый безопасный вариант по умолчанию)</li></ul>|
+| `shim_bun` | Community: `false`<br/>Certified Builds: `true` | Boolean | Оборачивает `bun` и `bunx`, чтобы проверки OpenSSF malware работали, когда bun используется как менеджер пакетов. NVM for Windows не устанавливает bun и не переключает версии bun. `false` снимает shim. HKLM `ShimBun` имеет приоритет над HKCU. См. [Package Manager Shims](../command/package-manager-shims#bun-malware-wrap). |
 
 ## Журналирование и объявления \{#logging-and-announcements}
 

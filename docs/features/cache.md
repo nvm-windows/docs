@@ -31,6 +31,7 @@ Under the NVM data root (parent of the install root; default `%LOCALAPPDATA%\Aut
 |-------|------|----------|
 | Versions | `.cache/versions` | Node.js `.7z` archives (`node-v{version}-win-{x64\|arm64}.7z`) |
 | Metadata | `.cache/metadata` | Sync/release index metadata (not install archives) |
+| Malware scans | `.cache/malware-scan` | One stamp per scanned lockfile. `malware.db` itself lives in the data root, next to this `.cache` directory |
 | HTTP | `.cache/http` | Short-lived HTTP bodies (for example SHASUM fetches) |
 
 If [`local_dir`](../cfg/registry#available-registry-keys) is set (see [registry policy](../cfg/registry)), that directory **replaces** `.cache/versions` as the archive source for installs.
@@ -54,6 +55,9 @@ nvm cache                  # list (alias: nvm cache list/ls)
 nvm cache add 24 lts       # prefetch archives
 nvm cache remove version 24.1.0
 nvm cache remove metadata
+nvm cache list malware
+nvm cache remove malware
+nvm cache remove malware --prompt
 nvm cache remove all
 nvm list cached            # versions view of cached archives
 ```

@@ -33,6 +33,8 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4408** | Module firewall allowed install | Audit (non-error): proxy evaluated module policy and allowed the install |
 | **NVM4409** | Firewall remote authority unreachable | HTTPS policy host refused the connection, timed out, or could not be resolved |
 | **NVM4410** | Firewall policy mutated | Audit: `nvm firewall` changed a policy list |
+| **NVM4601** | Malware definitions updated | Informational, advanced logging only. A successful `malware.db` write changed the database. Payload: `added`, `removed`, `seq`, `previous_seq`. Windows Event ID 120 |
+| **NVM4602** | Malicious package blocked | Informational, advanced logging only. The shim blocked a package before the install audit. Payload includes the package name, version when known, and command. The terminal message still prints without the advanced logging license. Windows Event ID 120 |
 
 ## Ranges
 
@@ -41,6 +43,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM41xx** | Installer / Community layout and support boundary |
 | **NVM43xx** | Runtime Node trust, activation, auto-install, and package-manager gatekeeping |
 | **NVM44xx** | NVM Firewall (version / module / trust policy) |
+| **NVM46xx** | Malware feed. Informational and advanced logging only |
 
 ## Tips
 

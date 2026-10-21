@@ -7,7 +7,7 @@ slug: /command/package-manager-shims
 
 # Package Manager Shims
 
-В режиме **shim** менеджеры пакетов не запускаются напрямую из каталога активной версии Node.js. NVM for Windows ставит в `PATH` hardlink (или копии) одного Zig-бинарника — **`proxy.exe`** — под именами вроде `npm.exe`, `npx.exe`, `yarn.exe` и `pnpm.exe`.
+В режиме **shim** менеджеры пакетов не запускаются напрямую из каталога активной версии Node.js. NVM for Windows ставит в `PATH` hardlink (или копии) одного Zig-бинарника — **`proxy.exe`** — под именами вроде `npm.exe`, `npx.exe`, `yarn.exe`, `pnpm.exe` и (если включено) `bun.exe` / `bunx.exe`.
 
 Proxy разрешает активную версию Node.js (те же правила, что у [node shim](/command/node)), проверяет доверие, затем делегирует соответствующему инструменту в этой установке.
 
@@ -40,6 +40,7 @@ Proxy разрешает активную версию Node.js (те же пра
 | `pnpm` | `pnpm.cmd` / `.exe` (также сканируется `PNPM_HOME\bin`) |
 | `yarn` | `yarn.cmd` / `.exe` |
 | `corepack` | entry `corepack` / `node_modules/corepack/dist/corepack.js` (если есть) |
+| `bun` / `bunx` | Уже установленный bun. См. [обёртка bun](#bun-malware-wrap). |
 
 Те же флаги `--nvm-*` работают на этих командах:
 
@@ -52,6 +53,19 @@ pnpm --nvm-shim-version
 При включённом `auto_install` отсутствующие auto-detected версии Node предлагаются/устанавливаются так же, как для `node`.
 
 После операций, затрагивающих globals (например `npm install -g`, yarn global/dlx/plugins, corepack enable/use), proxy может вызвать **reshim**, чтобы появились новые [shim глобальных CLI](/command/global-module-shims).
+
+## Обёртка bun \{#bun-malware-wrap}
+
+NVM for Windows не устанавливает bun и не переключает версии bun. Если `shim_bun` включён, `reshim` ставит `bun.exe` и `bunx.exe` в `PATH` как копии `proxy.exe`. Proxy находит уже установленный bun и применяет те же проверки OpenSSF malware, что для npm, pnpm и yarn.
+
+Проверки malware идут для `bun install` / `i` / `add` / `x` / `create` / `update` и для каждого вызова `bunx`. `bun test`, `bun run` и остальные команды bun проходят без сканирования пакетов.
+
+По умолчанию: **выкл** в Community, **вкл** в Certified Builds. HKLM `ShimBun` имеет приоритет над HKCU.
+
+```powershell
+nvm config set shim_bun=false
+nvm reshim
+```
 
 ## Проверка целостности
 
@@ -94,6 +108,7 @@ Shim блокирует запуск при провале проверок до
     npx.exe
     yarn.exe
     pnpm.exe
+    bun.exe / bunx.exe      # если shim_bun включён
     <global-cli>.exe        # см. Global Module Shims
     node.exe                # отдельный node shim
   .verify/                  # материал публичного ключа verify-cache

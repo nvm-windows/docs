@@ -88,13 +88,20 @@ nvm config set auto_detect=.nvmrc,.node-version
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
 | `pm_mismatch_action` | `error` | `ignore`, `warn`, `error` | Action to take when a mismatch between npm/pnpm/yarn and Node.js versions is detected during install or use:<br/><br/><ul><li>ignore: stay silent</li><li>warn: continue after a warning</li><li> error: stop the operation (safest default)</li></ul>|
+| `shim_bun` | Community: `false`<br/>Certified Builds: `true` | Boolean | Wrap `bun` and `bunx` so OpenSSF malware checks run when bun is used as a package manager. NVM for Windows does not install bun and does not switch bun versions. Set `false` to remove the shims. HKLM `ShimBun` wins over HKCU. See [Package Manager Shims](../command/package-manager-shims#bun-malware-wrap). |
+
+```powershell
+nvm config set shim_bun=false
+```
 
 ## Logging and announcements
 
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
 | `log_executions` | `false` | Boolean | Whether to log every Node.js invocation (ex: `node file.js`). (shim-only) |
-| `disable_announcements` | `false` | Boolean | Whether to disable project and release announcements. On Certified Builds, license expiry warnings still run when a commercial license is present. |
+| `disable_announcements` | `false` | Boolean | Whether to disable project and release announcements. On Certified Builds, license expiry warnings still run when a commercial license is present. This does not suppress malware definition or malware block notifications. |
+| `skip_malware_checks` | `false` | Boolean | Skip malware checks for package-manager and node shims. The definition file still updates. HKLM `SkipMalwareChecks` wins over HKCU. |
+| `notify_malware_definitions` | `true` | Boolean | Certified only. Show a silent notification after malware definitions change. HKLM can force it off. |
 
 ```powershell
 nvm config set log_executions=true

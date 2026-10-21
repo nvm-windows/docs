@@ -19,7 +19,7 @@ nvm cache list [name ...] [flags]
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `[name ...]` | No | Filter by cache name (for example `versions`, `metadata`). |
+| `[name ...]` | No | Filter by cache name (for example `versions`, `metadata`, `malware`). `malware` lists one row per lockfile stamp plus `malware.db`. |
 
 ## Flags
 

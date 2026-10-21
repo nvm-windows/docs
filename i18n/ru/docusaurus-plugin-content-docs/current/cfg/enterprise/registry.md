@@ -43,6 +43,11 @@ certified:
 |**Cache downloads**|`CacheDownloads`|**Overridable** (`cache_downloads`). Кэшировать загруженные версии Node.js для офлайн-использования.<br /><br />- `0` = выкл./false<br />- `1` = вкл./true<br /><br />По умолчанию: `0`<br /><br />`REG_DWORD`|
 |**Default detect file**|`DefaultDetectFile`|**Overridable** (`default_detect_file`). Файл, записываемый при закреплении версии (`nvm pin`) (только shim).<br /><br />По умолчанию: `.nvmrc`<br /><br />`REG_SZ`|
 |**Disable announcements**|`DisableAnnouncements`|**Overridable** (`disable_announcements`). Скрыть объявления проекта и релизов.<br /><br />- `0` = показывать<br />- `1` = скрывать<br /><br />По умолчанию: `0`<br /><br />`REG_DWORD`|
+|**Пропускать проверки malware**|`SkipMalwareChecks`|**Overridable** (`skip_malware_checks`). Не проверять пакеты и `node` по списку malware. Файл определений всё равно обновляется. HKLM важнее HKCU.<br /><br />- `0` = проверять<br />- `1` = пропустить<br /><br />По умолчанию: `0`<br /><br />`REG_DWORD`|
+|**Уведомлять об обновлении определений**|`NotifyMalwareDefinitions`|**Overridable** (`notify_malware_definitions`). Только Certified. Тихое уведомление после смены определений. HKLM может отключить его.<br /><br />- `0` = скрыть<br />- `1` = показать<br /><br />По умолчанию: `1`<br /><br />`REG_DWORD`|
+|**Список разрешённых malware-имён**|`MalwareAllowList`|Только HKLM. Шаблоны, которые снимают попадание OpenSSF. Сравнение по байтам. `*` снимает все попадания OpenSSF и не снимает блок организации.<br /><br />`REG_MULTI_SZ`|
+|**Список блокировки malware**|`MalwareBlockList`|Только Certified. Шаблоны HKLM, которые всегда блокируют, или один URL `https://`. Community игнорирует этот список.<br /><br />`REG_MULTI_SZ`|
+|**Конфликт доверия malware**|`MalwareTrustConflict`|Только Certified. **Overridable** (`malware_trust_conflict`). `prevent` (по умолчанию) блокирует доверенное или одобренное имя из OpenSSF. `continue` пропускает такое явное доверие. HKLM важнее HKCU.<br /><br />`REG_SZ`|
 |**Disallow eval/string code gen**|`DisableEvalAndStringExecution`|**Overridable** (`disable_eval_and_string_execution`). Shim добавляет `--disallow-code-generation-from-strings`, блокируя `eval()` и `new Function()` (только shim). Не влияет на `node:vm`.<br /><br />- `0` = выкл.<br />- `1` = вкл.<br /><br />По умолчанию: `0`<br /><br />`REG_DWORD`|
 |**Disable NVM upgrades**|`DisableUpgrade`|**Overridable.** Блокировать обновления NVM в приложении (не блокирует развёртывание пакетов AD/GPO).<br /><br />- `0` = разрешено<br />- `1` = заблокировано<br /><br />По умолчанию: `0`<br /><br />`REG_DWORD`|
 |**Disable version management**|`Enabled`|**Overridable** (`nvm on`/`nvm off`). Принудительно включает или отключает управление версиями. При выкл. NVM не управляет и не перенаправляет команды Node.js.<br /><br />- `0` = выкл. (`nvm off`)<br />- `1` = вкл.<br /><br />По умолчанию: `1`<br /><br />`REG_DWORD`|
@@ -126,6 +131,9 @@ Windows Registry Editor Version 5.00
 "FirewallSkipLockfile"=dword:00000000
 "DisableUpgrade"=dword:00000001
 "DisableAnnouncements"=dword:00000001
+"SkipMalwareChecks"=dword:00000000
+"NotifyMalwareDefinitions"=dword:00000001
+"MalwareTrustConflict"="prevent"
 
 ; --- Shim runtime (requires OperatingMode=shim) ---
 "DefaultDetectFile"=".nvmrc"

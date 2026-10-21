@@ -9,7 +9,7 @@ slug: /command/global-module-shims
 
 In **shim** mode, globally installed CLI tools (anything that ships a `.cmd` next to the active Node install — for example `tsc`, `eslint`, `prettier`) are not invoked from that folder directly. NVM for Windows places a hardlink (or copy) of **`proxy.exe`** on `PATH` as `{DataRoot}/.shim/{name}.exe`.
 
-Package managers (`npm`, `npx`, `yarn`, `pnpm`, `corepack`) use the same `proxy.exe` binary; see [Package Manager Shims](/command/package-manager-shims). The [node shim](/command/node) is a separate binary.
+Package managers (`npm`, `npx`, `yarn`, `pnpm`, `corepack`, and bun when `shim_bun` is on) use the same `proxy.exe` binary; see [Package Manager Shims](/command/package-manager-shims). The [node shim](/command/node) is a separate binary.
 
 ## How a global command is shimmed
 
