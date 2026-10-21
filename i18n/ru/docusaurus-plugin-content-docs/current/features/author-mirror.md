@@ -116,7 +116,7 @@ Hosted rules настраиваются через клиентский порт
 | [`local_dir`](../cfg/registry#available-registry-keys) | `LocalInstallDir` | Каталог предразмещённых архивов Node (+ checksums). Предпочтительнее сети, если есть. |
 | [`local_install_only`](../cfg/registry#available-registry-keys) | `LocalInstallOnly` | Если включено, **никогда** не загружать; ошибка при отсутствии версии локально. |
 
-`AirGapped` отдельно: только принудительная **офлайн-проверка license JWKS** (`licensing.author.io` пропускается). Сама по себе **не** блокирует загрузки Node — для air-gap установок используйте `LocalInstallOnly` (и/или уберите удалённые зеркала). См. [Локальные установки](./local-installations) и [Изолированные установки](../guide/air-gapped-installations).
+`AirGapped` отдельно: только принудительная **офлайн-проверка license JWKS** (`licensing.author.io` пропускается). Сама по себе **не** блокирует загрузки Node — для air-gap установок используйте `LocalInstallOnly` (и/или уберите удалённые зеркала). Если `AirGapped` включён и `malware.db` нет, shim пропускает проверки malware. См. [Локальные установки](./local-installations) и [Изолированные установки](../guide/air-gapped-installations).
 
 ## См. также
 

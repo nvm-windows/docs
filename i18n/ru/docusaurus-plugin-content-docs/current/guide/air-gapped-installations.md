@@ -125,4 +125,6 @@ node -v
 
 :::tip[Certified Builds]
 [`air_gapped`](../cfg/registry#available-registry-keys) управляет offline-поведением лицензии/JWKS для зеркал Author _(Governance)_. Она **не** указывает установкам Node локальную папку архивов. Для этого используйте [`local_dir`](../cfg/registry#available-registry-keys)/[`local_install_only`](../cfg/registry#available-registry-keys) (или шаги выше).
+
+Если `AirGapped` включён и `malware.db` нет на диске, shim пропускает проверки malware. Скопируйте действующий `malware.db` в корень данных NVM, если проверки нужны. Повреждённый файл всё равно блокирует.
 :::

@@ -31,7 +31,7 @@ Under the NVM data root (parent of the install root; default `%LOCALAPPDATA%\Aut
 |-------|------|----------|
 | Versions | `.cache/versions` | Node.js `.7z` archives (`node-v{version}-win-{x64\|arm64}.7z`) |
 | Metadata | `.cache/metadata` | Sync/release index metadata (not install archives) |
-| Malware scans | `.cache/malware-scan` | One stamp per scanned lockfile. `malware.db` itself lives in the data root, next to this `.cache` directory |
+| Malware scans | `.cache/malware-scan` | One stamp per scanned lockfile. `malware.db` itself lives in the data root, next to this `.cache` directory. If `AirGapped` is on and `malware.db` is missing, the shim skips the scan. |
 | HTTP | `.cache/http` | Short-lived HTTP bodies (for example SHASUM fetches) |
 
 If [`local_dir`](../cfg/registry#available-registry-keys) is set (see [registry policy](../cfg/registry)), that directory **replaces** `.cache/versions` as the archive source for installs.

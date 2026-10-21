@@ -125,4 +125,6 @@ Repeat prefetch on a connected host when new Node releases are approved, update 
 
 :::tip[Certified Builds]
 [`air_gapped`](../cfg/registry#available-registry-keys) controls offline license/JWKS behavior for Author mirrors _(Governance)_. It does **not** point Node installs at a local archive folder. Use [`local_dir`](../cfg/registry#available-registry-keys)/[`local_install_only`](../cfg/registry#available-registry-keys) (or the steps above) for that.
+
+When `AirGapped` is on and `malware.db` is not on disk, the shim skips malware scans. Copy a valid `malware.db` into the NVM data root if you want those checks. An invalid file still blocks.
 :::
