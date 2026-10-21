@@ -66,7 +66,7 @@ The shim adds roughly 1–3 ms of resolution work. Windows still pays `CreatePro
 
 ## Related
 
-- [Package Manager Shims](/command/package-manager-shims) — `proxy.exe` for npm/npx/yarn/pnpm
+- [Package Manager Shims](/command/package-manager-shims) — `proxy.exe` for npm/npx/yarn/pnpm and optional bun
 - [Global Module Shims](/command/global-module-shims) — `proxy.exe` hardlinks for global CLIs
 - [`nvm use shim`](/command/nvm/use/shim)
 - [Error Codes](/troubleshooting/error-codes) — NVM4301 and related security codes

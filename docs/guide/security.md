@@ -131,7 +131,7 @@ v2’s primary runtime shims are:
 | Binary | Role |
 |:-|:-|
 | `.shim\node.exe` | Resolves version, verifies trust, applies optional security flags, spawns real Node |
-| `utils\proxy.exe` | Same trust path for npm / npx / yarn / pnpm and [global module](../command/global-module-shims) CLIs |
+| `utils\proxy.exe` | Same trust path for npm / npx / yarn / pnpm / bun (when `shim_bun` is on) and [global module](../command/global-module-shims) CLIs |
 
 (`reshim.exe` is a helper, not a day-to-day command shim.)
 
@@ -220,7 +220,7 @@ See [Event Logging](../features/log). Broader product context (including native 
 | Topic | Doc |
 |:-|:-|
 | Shim behavior | [node (shim)](../command/node) |
-| npm / yarn / pnpm shims | [Package Manager Shims](../command/package-manager-shims) |
+| npm / yarn / pnpm / bun shims | [Package Manager Shims](../command/package-manager-shims) |
 | Shim vs link | [Operating Modes](../features/modes) |
 | Policy keys | [Registry Policy Reference](../cfg/registry) |
 | Version firewall / mirror | [Author Mirror](../features/author-mirror) |
