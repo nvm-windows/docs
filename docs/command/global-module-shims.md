@@ -58,7 +58,7 @@ Global shims use the same fail-closed trust path as package managers:
 | Delegated `.cmd` / `.bat` / `.exe` | Script trust cache (SHA-256 + TPM-signed entry) or verify-cache for `.exe` — failure → **NVM4306** |
 | Untrusted self-update | Entrypoint change while not on `TrustedModules` → **NVM4406** audit (deny / allow / prompt); see [Firewall](/guide/firewall) |
 
-Trust entries are written at install, activation, and reshim. Details: [Package Manager Shims — Integrity](/command/package-manager-shims#integrity-verification).
+Trust entries are written at install, activation, and reshim. If a global CLI self-update is blocked (**NVM4306**), run `nvm firewall trust module <name>`. `nvm reshim` alone does not keep the module trusted after the next self-update. Details: [Package Manager Shims — Integrity](/command/package-manager-shims#integrity-verification).
 
 ## Layout
 
