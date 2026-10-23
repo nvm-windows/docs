@@ -100,7 +100,7 @@ Same verify-cache / Authenticode path as the [node shim](/command/node). Cache s
 | Delegated `.exe` | Same verify-cache path used for `node.exe` |
 | Delegated `.cmd` / `.bat` | SHA-256 + TPM-signed script trust cache entry |
 
-Trust entries are written when versions are installed, activated, or reshimed (`SignVersionScripts` / `nvm` sign hooks). If a script changed since it was trusted, or no trust entry exists, launch is blocked (**NVM4306**). Remedy: `nvm reshim`, reinstall the version, or `nvm doctor --autofix` as appropriate.
+Trust entries are written when versions are installed, activated, or reshimed (`SignVersionScripts` / `nvm` sign hooks). If a script changed since it was trusted, or no trust entry exists, launch is blocked (**NVM4306**). If you trust the change, run `nvm firewall trust module <name>`. `nvm reshim` alone does not keep the module trusted after the next self-update. You can also reinstall the version or run `nvm doctor --autofix` as appropriate.
 
 :::warning
 `node.exe` trust alone is not enough for package managers. Entrypoint scripts must also match the script trust cache (SEC-04).

@@ -58,7 +58,7 @@ tsc --nvm-use=22 --version
 | Делегированный `.cmd` / `.bat` / `.exe` | Script trust cache (SHA-256 + TPM-подпись) или verify-cache для `.exe` — отказ → **NVM4306** |
 | Недоверенный self-update | Смена entrypoint вне `TrustedModules` → аудит **NVM4406** (deny / allow / prompt); см. [Firewall](/guide/firewall) |
 
-Записи доверия пишутся при install, activation и reshim. Подробнее: [Package Manager Shims — Integrity](/command/package-manager-shims#integrity-verification).
+Записи доверия пишутся при install, activation и reshim. Если self-update global CLI блокируется (**NVM4306**), выполните `nvm firewall trust module <name>`. Одного `nvm reshim` недостаточно, чтобы модуль оставался доверенным после следующего self-update. Подробнее: [Package Manager Shims — Integrity](/command/package-manager-shims#integrity-verification).
 
 ## Размещение
 

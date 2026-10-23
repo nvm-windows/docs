@@ -17,7 +17,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4303** | Verify-cache state changed | Trusted verify-cache material for a Node binary no longer matches; NVM requires a full verification pass before trusting the binary again |
 | **NVM4304** | Full verification recovered | Informational follow-up after **NVM4303**: full verification succeeded and the cache was restored |
 | **NVM4305** | Package-manager launch blocked (unsafe Node directory) | Proxy blocks `npm` / `yarn` / `pnpm` (and similar) because the active Node version directory fails cross-user write / trust checks; often fixed with `nvm doctor --autofix` or a private install root |
-| **NVM4306** | Delegated command trust failed | Proxy refuses a package-manager or script entrypoint that is unknown, unsigned, or fails delegated-command trust checks |
+| **NVM4306** | Delegated command trust failed | Proxy refuses a package-manager or script entrypoint that is unknown, unsigned, or fails delegated-command trust checks. If you trust the change, run `nvm firewall trust module <name>`. `nvm reshim` alone does not keep the module trusted after the next self-update. A toast timeout prints a no-answer message and posts a silent desktop notification. |
 | **NVM4307** | Auto-install prompt failed | Shim could not read the yes/no prompt before `nvm install`. Run `nvm install <version>` |
 | **NVM4308** | Auto-install could not find nvm.exe | Shim searched `NVM_HOME`, the shim directory, and `%LOCALAPPDATA%\Author Software\nvm`. Set `NVM_HOME` to the folder that contains `nvm.exe` |
 | **NVM4309** | Auto-install could not start nvm.exe | `nvm.exe` was found, but the process did not start. The message includes that path |
