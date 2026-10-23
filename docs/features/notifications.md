@@ -28,6 +28,20 @@ Background cases that still notify include:
 
 News and updates can be turned off with [`disable_announcements`](../cfg/core#logging-and-announcements). License expiry notifications are **not** suppressed by that setting.
 
+## Categories (Windows Settings)
+
+Release, pre-release, and news toasts are registered as Windows toast collections. Mute one type from the toast ellipsis or **Settings → System → Notifications → NVM for Windows**. Unmute from the same Settings page. `nvm config` cannot flip an OS mute.
+
+| Collection | What it covers | Default |
+|------------|----------------|---------|
+| Releases | General and hotfix product versions (`x.y.z`, `x.y.z-hotfix.N`) | On |
+| Pre-releases | Alpha, beta, rc, and other hyphenated product versions | On |
+| News | Project news feed | On |
+
+Security, firewall, license, setup, and activity toasts have **no** collection. They stay on the default notifier so Windows has no per-type mute. Master Off for NVM, Focus Assist, and GPO still apply.
+
+Sparse identity (an identity-only `.msix` registered per-user, no extra UAC) is what makes collections appear. If registration fails (sideload GPO, missing package), toasts still fire through the AUMID.
+
 ## CLI notifications
 
 These use Notification Center when the NVM process is **not** in the foreground:
