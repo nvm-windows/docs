@@ -12,6 +12,7 @@ NVM for Windows использует стабильные коды `NVM####` в 
 |:-|:-|:-|
 | **NVM4100** | Тихая установка отклонила нестандартный каталог программы | Community Inno Setup с `/SILENT` или `/VERYSILENT` и нестандартным `/DIR` (корень программы должен оставаться под LocalAppData) |
 | **NVM4101** | Community-сборка запущена вне доверенного корня программы | Community `nvm.exe` (или doctor) видит процесс не под `%LOCALAPPDATA%\Author Software\nvm`; предупреждение, не жёсткая блокировка |
+| **NVM4116** | Машинный запуск community-установки | Community Inno Setup прервал установку под контролем машины (SYSTEM, Intune, GPO, Планировщик заданий или ConfigMgr). Пользовательские установки работают: мастер setup, Microsoft Store, WinGet, UniGetUI/WingetUI или обычный терминал. Для IT-развёртывания используйте [Certified Builds](https://nvm-windows.com/certified). |
 | **NVM4301** | Проверка целостности Node.js не прошла | Shim или node launcher отказывается запускать `node.exe` из‑за сбоя Authenticode / trust; обычно помогает `nvm install <ver> --force` |
 | **NVM4302** | Блокировка активации в режиме link | `nvm use` (link) отклоняет небезопасный каталог версии (например, доступен другим пользователям на запись или reparse point) либо непроверенный `node.exe` |
 | **NVM4303** | Изменилось состояние verify-cache | Материал trusted verify-cache для Node-бинарника больше не совпадает; нужна полная повторная проверка |

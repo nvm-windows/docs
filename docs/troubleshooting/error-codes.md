@@ -12,6 +12,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 |:-|:-|:-|
 | **NVM4100** | Silent install rejected a custom program directory | Community Inno Setup runs with `/SILENT` or `/VERYSILENT` and a non-default `/DIR` (program root must stay under LocalAppData) |
 | **NVM4101** | Community build running outside its trusted program root | Community `nvm.exe` (or doctor) detects the process is not under `%LOCALAPPDATA%\Author Software\nvm`; advisory warning, not a hard block |
+| **NVM4116** | Machine-triggered community installation | Community Inno Setup aborted a machine-controlled install (SYSTEM, Intune, GPO, Task Scheduler, or ConfigMgr). User-controlled installs still work: the setup wizard, Microsoft Store, WinGet, UniGetUI/WingetUI, or a real terminal. Use [Certified Builds](https://nvm-windows.com/certified) for IT-managed deployment. |
 | **NVM4301** | Node.js integrity verification failed | Shim or node launcher refuses to run `node.exe` because Authenticode / trust checks failed; reinstall with `nvm install <ver> --force` is the usual recovery |
 | **NVM4302** | Link-mode activation blocked | `nvm use` (link mode) rejects a version directory that is unsafe (for example writable by other users or a reparse point) or whose `node.exe` cannot be verified |
 | **NVM4303** | Verify-cache state changed | Trusted verify-cache material for a Node binary no longer matches; NVM requires a full verification pass before trusting the binary again |
