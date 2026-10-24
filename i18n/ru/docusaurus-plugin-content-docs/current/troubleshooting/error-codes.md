@@ -18,6 +18,7 @@ NVM for Windows использует стабильные коды `NVM####` в 
 | **NVM4304** | Полная проверка восстановлена | Информационное продолжение после **NVM4303**: полная проверка прошла, кэш восстановлен |
 | **NVM4305** | Запуск package manager заблокирован (небезопасный каталог Node) | Proxy блокирует `npm` / `yarn` / `pnpm` (и аналоги), потому что каталог активной версии не проходит проверки cross-user write / trust; часто помогает `nvm doctor --autofix` или частный install root |
 | **NVM4306** | Сбой доверия к делегированной команде | Proxy отклоняет entrypoint package manager или скрипт: неизвестный, без подписи или не проходит delegated-command trust. Если вы доверяете изменению, выполните `nvm firewall trust module <name>`. Одного `nvm reshim` недостаточно, чтобы модуль оставался доверенным после следующего self-update. При таймауте toast NVM печатает сообщение no-answer и шлёт тихое desktop-уведомление. |
+| **NVM4313** | Отказ в пути хранения Node.js | `nvm config set root=` или страница установщика Node-storage выбрала Windows, Program Files, профиль, папку программы NVM или родителя этих путей. Удаление также не удаляет такой путь. Используйте отдельный каталог, например `%LOCALAPPDATA%\Author Software\nvm\installs` |
 | **NVM4401** | Удалённый firewall authority: unauthorized | HTTPS policy URL вернул **401**; remote отказал в доступе этому пользователю/клиенту |
 | **NVM4402** | Сбой удалённой проверки firewall | HTTPS policy URL: TLS failure, неожиданный HTTP-статус или ошибка helper/config |
 | **NVM4403** | Module firewall заблокировал установку | Локальный или удалённый **403** policy deny (`ApprovedModules` / `ApprovedGlobalModules`) |
@@ -34,7 +35,7 @@ NVM for Windows использует стабильные коды `NVM####` в 
 | Диапазон | Назначение |
 |:-|:-|
 | **NVM41xx** | Установщик / граница поддержки Community layout |
-| **NVM43xx** | Runtime trust Node, активация и gatekeeping package manager |
+| **NVM43xx** | Runtime trust Node, активация, gatekeeping package manager и путь хранения Node |
 | **NVM44xx** | NVM Firewall (version / module / trust policy) |
 
 ## Подсказки

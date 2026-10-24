@@ -28,7 +28,7 @@ Use `nvm config docs --json` for machine-readable metadata.
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
 | `mode` | `shim` | `shim`, `link` | Specifies how Node.js commands and versions are managed, either through shim-based routing or direct junction/symlink linking. Same as `nvm use shim`/`nvm use link`. See [Operating Modes](../features/modes). |
-| `root` | `%LOCALAPPDATA%\Author Software\nvm\installs` | Directory path | Root directory where Node.js versions are installed. Changing this does not move existing installs; migrate files yourself or reinstall versions. |
+| `root` | `%LOCALAPPDATA%\Author Software\nvm\installs` | Directory path | Root directory where Node.js versions are installed. Changing this does not move existing installs; migrate files yourself or reinstall versions. Windows, Program Files, profile folders, the NVM program folder, and parents of those paths are refused (**NVM4313**). |
 
 ## Downloads and mirrors
 
