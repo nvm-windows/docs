@@ -146,7 +146,7 @@ jobs:
 
               if (!response.ok) {
                 const detail = await response.text();
-                core.setFailed(
+                core.warning(
                   `Could not assign ${assignee} to issue #${issueNumber} (${response.status}): ${detail}`,
                 );
                 return false;
@@ -195,8 +195,6 @@ jobs:
                     title: item.title,
                     body: item.body,
                     labels: item.labels,
-                    assignees: [assignee],
-                    agent_assignment: agentAssignment,
                   }),
                 },
               );
@@ -286,11 +284,16 @@ jobs:
               labels: [...labelsToAdd],
             });
 
-            await github.rest.pulls.requestReviewers({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              team_reviewers: [...teams],
-            });
-
-            core.info(`Requested review from teams: ${[...teams].join(', ')}`);
+            try {
+              await github.rest.pulls.requestReviewers({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                team_reviewers: [...teams],
+              });
+              core.info(`Requested review from teams: ${[...teams].join(', ')}`);
+            } catch (error) {
+              core.warning(
+                `Could not request review from ${[...teams].join(', ')}: ${error.message}`,
+              );
+            }
