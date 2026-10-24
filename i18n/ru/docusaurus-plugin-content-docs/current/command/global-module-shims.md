@@ -15,13 +15,13 @@ slug: /command/global-module-shims
 
 1. Устанавливаете глобальный пакет (например `npm install -g typescript`).
 2. Установка (или позже proxy-triggered **reshim**) сканирует basenames `*.cmd` в каталоге активной версии Node.
-3. Для инструментов pnpm `reshim` также сканирует `PNPM_HOME\bin`, если задан, и всегда обеспечивает shim `pnpm`.
+3. Для инструментов pnpm `reshim` также сканирует `PNPM_HOME\bin`, если задан, и всегда обеспечивает shim `pnpm`. Для инструментов Yarn Classic `yarn global` `reshim` также сканирует `%LOCALAPPDATA%\Yarn\bin`. Yarn 2+ не использует `yarn global`.
 4. Для каждого найденного имени создаётся `{DataRoot}/.shim/{name}.exe` как hardlink/копия `{DataRoot}/proxy.exe`.
 5. Запуск `my-global-tool` попадает в proxy. Proxy:
    - Разбирает `--nvm-use` / `--nvm-which` / `--nvm-shim-version` (те же флаги, что у node shim)
    - Разрешает активную версию Node.js
    - Проверяет доверие (self, `node.exe`, делегированная цель)
-   - Находит `my-global-tool.cmd` / `.exe` / `.bat` в этой установке и запускает
+   - Находит `my-global-tool.cmd` / `.exe` / `.bat` в этой установке или в `%LOCALAPPDATA%\Yarn\bin` для глобальных CLI Yarn Classic и запускает
 
 Встроенный prewarm-список: `node`, `npm`, `npx`, `yarn`, `pnpm`. Остальные globals появляются после install + reshim.
 
@@ -31,6 +31,9 @@ npm install -g typescript
 tsc --version
 tsc --nvm-which --version
 tsc --nvm-use=22 --version
+
+yarn global add @vue/cli
+vue --version
 ```
 
 :::tip

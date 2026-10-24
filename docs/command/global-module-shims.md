@@ -15,13 +15,13 @@ Package managers (`npm`, `npx`, `yarn`, `pnpm`, `corepack`, and bun when `shim_b
 
 1. You install a global package (for example `npm install -g typescript`).
 2. The install (or a later proxy-triggered **reshim**) scans `*.cmd` basenames under the active Node version directory.
-3. For pnpm-related tools, `reshim` also scans `PNPM_HOME\bin` when set, and always ensures a `pnpm` shim exists.
+3. For pnpm-related tools, `reshim` also scans `PNPM_HOME\bin` when set, and always ensures a `pnpm` shim exists. For Yarn Classic `yarn global` tools, `reshim` also scans `%LOCALAPPDATA%\Yarn\bin`. Yarn 2+ does not use `yarn global`.
 4. For each discovered name, `{DataRoot}/.shim/{name}.exe` is created as a hardlink/copy of `{DataRoot}/proxy.exe`.
 5. Running `my-global-tool` hits the proxy. The proxy:
    - Parses `--nvm-use` / `--nvm-which` / `--nvm-shim-version` (same flags as the node shim)
    - Resolves the active Node.js version
    - Verifies trust (self, `node.exe`, delegated target)
-   - Locates `my-global-tool.cmd` / `.exe` / `.bat` under that install and spawns it
+   - Locates `my-global-tool.cmd` / `.exe` / `.bat` under that install, or under `%LOCALAPPDATA%\Yarn\bin` for Yarn Classic globals, and spawns it
 
 Built-in prewarm list includes `node`, `npm`, `npx`, `yarn`, and `pnpm`. Other globals appear after install + reshim.
 
@@ -31,6 +31,9 @@ npm install -g typescript
 tsc --version
 tsc --nvm-which --version
 tsc --nvm-use=22 --version
+
+yarn global add @vue/cli
+vue --version
 ```
 
 :::tip
