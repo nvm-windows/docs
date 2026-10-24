@@ -52,7 +52,7 @@ pnpm --nvm-shim-version
 
 When `auto_install` is enabled, missing auto-detected Node versions prompt/install the same way as `node` for these managers.
 
-After global-affecting operations (for example `npm install -g`, yarn global/dlx/plugins, corepack enable/use), the proxy may trigger **reshim** so new [global CLI shims](/command/global-module-shims) are created.
+After global-affecting operations (for example `npm install -g`, yarn global/dlx/plugins, corepack enable/use), the proxy may trigger **reshim** so new [global CLI shims](/command/global-module-shims) are created. Yarn Classic writes those CLIs to `%LOCALAPPDATA%\Yarn\bin`. `reshim` and the proxy read that directory. Yarn 2+ does not use `yarn global`.
 
 ## Bun malware wrap
 
