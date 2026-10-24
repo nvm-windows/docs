@@ -99,7 +99,7 @@ nvm config set shim_bun=false
 | Option | Default | Values | Description |
 |--------|---------|--------|-------------|
 | `log_executions` | `false` | Boolean | Whether to log every Node.js invocation (ex: `node file.js`). (shim-only) |
-| `disable_announcements` | `false` | Boolean | Whether to disable project and release announcements. On Certified Builds, license expiry warnings still run when a commercial license is present. This does not suppress malware definition or malware block notifications. |
+| `disable_announcements` | `false` | Boolean | Whether to disable project and release announcements. On Certified Builds, license expiry warnings still run when a commercial license is present. This does not suppress malware definition or malware block notifications. Per-type mute for Releases / Pre-releases / News is Windows Settings, not a config key — see [Desktop Notifications](../features/notifications#categories-windows-settings). |
 | `skip_malware_checks` | `false` | Boolean | Skip malware checks for package-manager and node shims. The definition file still updates. HKLM `SkipMalwareChecks` wins over HKCU. |
 | `notify_malware_definitions` | `true` | Boolean | Certified only. Show a silent notification after malware definitions change. HKLM can force it off. |
 
