@@ -59,7 +59,7 @@ Community-деинсталлятор удаляет:
 1. Удалите пакет sparse identity, если он ещё зарегистрирован:
 
    ```powershell
-   Get-AppxPackage -Name AuthorSoftware.NVMWindows | Remove-AppxPackage
+   Get-AppxPackage -Name AuthorSoftware.NVMWindows* | Remove-AppxPackage
    ```
 
 1. Удалите `%LOCALAPPDATA%\Author Software\nvm` (файлы приложения, установки, кэш, shim). Если меняли [`root`](../cfg/core#mode-and-install-location)/`InstallRoot`, удалите и этот каталог (см. [Базовая конфигурация](../cfg/core) и [справочник реестра](../cfg/registry)).
@@ -133,10 +133,10 @@ Remove or retire the application deployment in Configuration Manager so clients 
 
    Код продукта указан в MSI/`.intune.json` портала (`msiInformation.productCode`).
 1. Убедитесь, что `%ProgramFiles%\Author Software\nvm` удалён (путь detection для Intune).
-1. Проверьте удаление per-user данных. MSI выполняет очистку и удаляет `%LOCALAPPDATA%\Author Software\nvm` для пользователя, выполнившего удаление. Если AppData остался (например, другой профиль на том же ПК), удалите `%LOCALAPPDATA%\Author Software\nvm` этого профиля под этим пользователем или скриптом с повышенными правами для каждого профиля. Переход с community также снимает регистрацию `AuthorSoftware.NVMWindows` до удаления этих файлов; первый запуск certified повторяет очистку, если MSI шёл от SYSTEM. Снять leftover identity сразу:
+1. Проверьте удаление per-user данных. MSI выполняет очистку и удаляет `%LOCALAPPDATA%\Author Software\nvm` для пользователя, выполнившего удаление. Если AppData остался (например, другой профиль на том же ПК), удалите `%LOCALAPPDATA%\Author Software\nvm` этого профиля под этим пользователем или скриптом с повышенными правами для каждого профиля. Переход с community снимает регистрацию `AuthorSoftware.NVMWindows` до удаления этих файлов; первый запуск certified повторяет очистку, если MSI шёл от SYSTEM. Обратный переход на community снимает `AuthorSoftware.NVMWindows.Certified` после удаления Program Files `nvm.exe`; первый запуск community повторяет, если deprovision MSI шёл от SYSTEM. Снять leftover identity сразу:
 
    ```powershell
-   Get-AppxPackage -Name AuthorSoftware.NVMWindows | Remove-AppxPackage
+   Get-AppxPackage -Name AuthorSoftware.NVMWindows* | Remove-AppxPackage
    ```
 1. Опциональная очистка политик (**не** выполняется автоматически при удалении MSI):
 

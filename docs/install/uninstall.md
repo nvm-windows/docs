@@ -59,7 +59,7 @@ Use this only when the uninstaller is missing or fails.
 1. Remove the sparse identity package if it is still registered:
 
    ```powershell
-   Get-AppxPackage -Name AuthorSoftware.NVMWindows | Remove-AppxPackage
+   Get-AppxPackage -Name AuthorSoftware.NVMWindows* | Remove-AppxPackage
    ```
 
 1. Delete `%LOCALAPPDATA%\Author Software\nvm` (app files, installs, cache, shims). If you customized [`root`](../cfg/core#mode-and-install-location)/`InstallRoot`, delete that directory too (see [Basic Configuration](../cfg/core) and [registry reference](../cfg/registry)).
@@ -133,10 +133,10 @@ For a single device (lab machine, break-glass, or non-MDM install):
 
    Product code is listed in your portal MSI/`.intune.json` (`msiInformation.productCode`).
 1. Confirm `%ProgramFiles%\Author Software\nvm` is gone (detection path used by Intune).
-1. Confirm per-user data is removed. The MSI runs a cleanup action that deletes `%LOCALAPPDATA%\Author Software\nvm` for the user context that performed uninstall. If AppData remains (for example another user profile on the same PC), delete that profile’s `%LOCALAPPDATA%\Author Software\nvm` while signed in as that user, or remove it with an elevated script that targets each profile. Switching from community also unregisters `AuthorSoftware.NVMWindows` before those files are deleted; first certified launch retries that cleanup if the MSI ran as SYSTEM. To remove a leftover identity immediately:
+1. Confirm per-user data is removed. The MSI runs a cleanup action that deletes `%LOCALAPPDATA%\Author Software\nvm` for the user context that performed uninstall. If AppData remains (for example another user profile on the same PC), delete that profile’s `%LOCALAPPDATA%\Author Software\nvm` while signed in as that user, or remove it with an elevated script that targets each profile. Switching from community unregisters `AuthorSoftware.NVMWindows` before those files are deleted; first certified launch retries that cleanup if the MSI ran as SYSTEM. Switching back to community unregisters `AuthorSoftware.NVMWindows.Certified` after Program Files `nvm.exe` is gone; first community launch retries if MSI deprovision ran as SYSTEM. To remove a leftover identity immediately:
 
    ```powershell
-   Get-AppxPackage -Name AuthorSoftware.NVMWindows | Remove-AppxPackage
+   Get-AppxPackage -Name AuthorSoftware.NVMWindows* | Remove-AppxPackage
    ```
 1. Optional policy cleanup (does **not** happen automatically with MSI uninstall):
 
