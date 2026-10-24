@@ -231,7 +231,7 @@ English changes on `main` open **`i18n-sync` issues** and assign **`copilot-swe-
 1. Commit changes English files under `docs/` (or `src/theme/`) on `main`.
 2. Workflow opens a fresh **`i18n-sync`** issue per locale and assigns Copilot (PAT).
 3. Copilot cloud agent patches locale mirrors and opens a PR.
-4. Workflow requests review from the locale team (e.g. `docs_ru`) when the PR opens.
+4. Workflow requests review from the locale team (e.g. `docs-ru`) when the PR opens.
 5. Team reviews/edits; branch ruleset requires approval before merge.
 
 Skip automation: **`[skip-i18n]`** in commit message.
@@ -275,7 +275,7 @@ Paste the PAT when prompted. Or: repo **Settings** → **Secrets and variables**
 
 #### 5. Branch ruleset (one-time)
 
-Require `docs_ru` (or per-locale team) approval on PRs touching `i18n/**`.
+Require `docs-ru` (or per-locale team) approval on PRs touching `i18n/**`.
 
 #### Troubleshooting
 

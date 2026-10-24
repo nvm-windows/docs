@@ -13,7 +13,7 @@
       "componentsPath": "i18n/ru/docusaurus-plugin-content-docs/current/_components",
       "codeJsonPath": "i18n/ru/code.json",
       "currentJsonPath": "i18n/ru/docusaurus-plugin-content-docs/current.json",
-      "reviewTeam": "docs_ru",
+      "reviewTeam": "docs-ru",
       "prLabels": ["i18n", "translation", "ru"]
     }
   ]

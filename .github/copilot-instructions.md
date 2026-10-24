@@ -42,4 +42,4 @@ If a mirror file does not exist, create it from the English source and translate
 - [ ] PR targets `main` from a feature branch
 - [ ] Do not modify English source files in `docs/` unless the issue explicitly asks
 
-Translators on `@nvm-windows/docs_ru` (and future locale teams) will review the PR. Make the diff easy to review: minimal, focused changes.
+Translators on `@nvm-windows/docs-ru` (and future locale teams) will review the PR. Make the diff easy to review: minimal, focused changes.
