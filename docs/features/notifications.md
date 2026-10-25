@@ -30,11 +30,12 @@ News and updates can be turned off with [`disable_announcements`](../cfg/core#lo
 
 ## Categories (Windows Settings)
 
-Release, pre-release, and news toasts are registered as Windows toast collections. Mute one type from the toast ellipsis or **Settings → System → Notifications → NVM for Windows**. Unmute from the same Settings page. `nvm config` cannot flip an OS mute.
+Release, hotfix, pre-release, and news toasts are registered as Windows toast collections. Mute one type from the toast ellipsis or **Settings → System → Notifications → NVM for Windows**. Unmute from the same Settings page. `nvm config` cannot flip an OS mute.
 
 | Collection | What it covers | Default |
 |------------|----------------|---------|
-| Releases | General and hotfix product versions (`x.y.z`, `x.y.z-hotfix.N`) | On |
+| Releases | General product versions (`x.y.z`) | On |
+| Hotfixes | Hotfix product versions (`x.y.z-hotfix.N`) on the same major.minor.patch as the installed NVM | On |
 | Pre-releases | Alpha, beta, rc, and other hyphenated product versions | On |
 | News | Project news feed | On |
 
