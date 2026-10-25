@@ -96,6 +96,7 @@ nvm config set auto_detect=.nvmrc,.node-version
 |--------|---------|--------|-------------|
 | `log_executions` | `false` | Boolean | Журналировать каждый вызов Node.js (например, `node file.js`). (только shim) |
 | `disable_announcements` | `false` | Boolean | Отключить объявления проекта и релизов. На Certified Builds предупреждения об истечении коммерческой лицензии всё равно показываются. Mute по типу для Releases / Hotfixes / Pre-releases / News — это параметры Windows, не ключ config. См. [Уведомления](../features/notifications#категории-параметры-windows). |
+| `skip_malware_checks` | `false` | Boolean | Пропускать проверки malware для shim менеджеров пакетов и node. Файл определений всё равно обновляется. HKLM `SkipMalwareChecks` важнее HKCU. `AirGapped` без доверенного `malware.db` тоже пропускает, без этого ключа. |
 
 ```powershell
 nvm config set log_executions=true

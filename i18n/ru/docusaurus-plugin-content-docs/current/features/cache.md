@@ -31,6 +31,7 @@ nvm install 24.11.0   # переиспользует кэшированный а
 |-------|------|----------|
 | Версии | `.cache/versions` | Архивы Node.js `.7z` (`node-v{version}-win-{x64\|arm64}.7z`) |
 | Метаданные | `.cache/metadata` | Метаданные индекса sync/release (не архивы установки) |
+| Сканы malware | `.cache/malware-scan` | Одна метка на просканированный lockfile. Live `malware.db` + `head.cose` в корне данных. Certified MSI также кладёт seed в Program Files. Если `AirGapped` включён и нет доверенного db, shim пропускает скан. |
 | HTTP | `.cache/http` | Кратковременные HTTP-тела (например, загрузки SHASUM) |
 
 Если задан [`local_dir`](../cfg/registry#available-registry-keys) (см. [политику реестра](../cfg/registry)), этот каталог **заменяет** `.cache/versions` как источник архивов для установки.

@@ -116,7 +116,7 @@ Organizations whose policies prevent storing any organization data on hosted ser
 | [`local_dir`](../cfg/registry#available-registry-keys) | `LocalInstallDir` | Directory of pre-staged Node archives (+ checksums). Preferred over network when present. |
 | [`local_install_only`](../cfg/registry#available-registry-keys) | `LocalInstallOnly` | If on, **never** download; fail when the version is missing locally. |
 
-`AirGapped` is separate: it only forces **offline license JWKS** verification (`licensing.author.io` skipped). It does **not** by itself block Node downloads — use `LocalInstallOnly` (and/or remove remote mirrors) for install air-gaps. See [Local Installations](./local-installations) and [Air-gapped Installations](../guide/air-gapped-installations).
+`AirGapped` is separate: it only forces **offline license JWKS** verification (`licensing.author.io` skipped). It does **not** by itself block Node downloads — use `LocalInstallOnly` (and/or remove remote mirrors) for install air-gaps. When `AirGapped` is on and no trusted `malware.db` exists, the shim skips malware scans. See [Local Installations](./local-installations) and [Air-gapped Installations](../guide/air-gapped-installations).
 
 ## Related
 
