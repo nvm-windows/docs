@@ -35,7 +35,7 @@ Release, hotfix, pre-release, and news toasts are registered as Windows toast co
 | Collection | What it covers | Default |
 |------------|----------------|---------|
 | Releases | General product versions (`x.y.z`) | On |
-| Hotfixes | Hotfix product versions (`x.y.z-hotfix.N`) on the same major.minor.patch as the installed NVM | On |
+| Hotfixes | Hotfix product versions (`x.y.z-hotfix.N`) on the same major.minor.patch as the installed NVM. Body is the release summary. | On |
 | Pre-releases | Alpha, beta, rc, and other hyphenated product versions | On |
 | News | Project news feed | On |
 
@@ -66,6 +66,7 @@ Scheduled maintenance can also display notifications:
 |--------|--------|--------|
 | News feed | Feed entry title | Body is the entry description with links; skipped when [`disable_announcements`](../cfg/core#logging-and-announcements) is true |
 | Update available | Update Available | Version availability with View/Upgrade links; skipped when [`disable_announcements`](../cfg/core#logging-and-announcements) is true |
+| Hotfix available | Hotfix available | Body is the hotfix release summary (what the hotfix fixes). If that summary is missing, the body is the version line. Same View/Upgrade links. Only for a hotfix on the installed major.minor.patch. Skipped when [`disable_announcements`](../cfg/core#logging-and-announcements) is true |
 | License expiry<br/>_(certified builds)_ | Expiration warning | Not suppressed by [`disable_announcements`](../cfg/core#logging-and-announcements); at most one notification per milestone/day. |
 | Malware definitions<br/>_(certified builds)_ | Malware definitions updated | Silent. Body is the added and removed counts. **Don't show again** sets `notify_malware_definitions` to false. Not suppressed by [`disable_announcements`](../cfg/core#logging-and-announcements). |
 | Malware block, console in the background | Malicious package blocked | Audible (`Notification.Reminder`). Names at most three packages, then `and N more`. Not suppressed by [`disable_announcements`](../cfg/core#logging-and-announcements). On a community build joined to Active Directory, Entra, or Google Workspace, the body adds: `Certified keeps a record of blocks like this for your security tools.` |
