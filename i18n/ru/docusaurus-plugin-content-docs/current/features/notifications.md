@@ -35,7 +35,7 @@ NVM for Windows использует нативные уведомления н�
 | Коллекция | Что покрывает | По умолчанию |
 |-----------|---------------|--------------|
 | Releases | Общие версии продукта (`x.y.z`) | Вкл |
-| Hotfixes | Hotfix-версии продукта (`x.y.z-hotfix.N`) на том же major.minor.patch, что и установленный NVM | Вкл |
+| Hotfixes | Hotfix-версии продукта (`x.y.z-hotfix.N`) на том же major.minor.patch, что и установленный NVM. Тело — краткое summary релиза. | Вкл |
 | Pre-releases | Alpha, beta, rc и другие версии с дефисом | Вкл |
 | News | Лента новостей проекта | Вкл |
 
@@ -66,4 +66,5 @@ NVM for Windows использует нативные уведомления н�
 |--------|--------|--------|
 | Лента новостей | Заголовок записи | Тело — описание записи со ссылками; пропускается при [`disable_announcements`](../cfg/core#logging-and-announcements) = true |
 | Доступно обновление | Update Available | Доступность версии со ссылками View/Upgrade; пропускается при [`disable_announcements`](../cfg/core#logging-and-announcements) = true |
+| Доступен hotfix | Hotfix available | Тело — summary релиза (что исправляет hotfix). Если summary нет, тело — строка с версией. Те же ссылки View/Upgrade. Только для hotfix на установленном major.minor.patch. Пропускается при [`disable_announcements`](../cfg/core#logging-and-announcements) = true |
 | Истечение лицензии<br/>_(certified builds)_ | Expiration warning | Не подавляется [`disable_announcements`](../cfg/core#logging-and-announcements); не более одного уведомления на веху/день. |
