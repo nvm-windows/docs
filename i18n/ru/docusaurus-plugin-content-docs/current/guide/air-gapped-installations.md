@@ -125,4 +125,6 @@ node -v
 
 :::tip[Certified Builds]
 [`air_gapped`](../cfg/registry#available-registry-keys) управляет offline-поведением лицензии/JWKS для зеркал Author _(Governance)_. Она **не** указывает установкам Node локальную папку архивов. Для этого используйте [`local_dir`](../cfg/registry#available-registry-keys)/[`local_install_only`](../cfg/registry#available-registry-keys) (или шаги выше).
+
+Если `AirGapped` включён и нет доверенного `malware.db`, shim пропускает проверки malware. Certified MSI кладёт seed в Program Files и копирует его, когда live-лента недоступна (air-gap, образ). Live-лента всё равно важнее, когда доступна. Копируйте файл вручную только если нет ни live-пары, ни seed. Недоверенный файл не подменяет проверенный seed.
 :::

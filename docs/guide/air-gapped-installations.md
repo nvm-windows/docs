@@ -125,4 +125,6 @@ Repeat prefetch on a connected host when new Node releases are approved, update 
 
 :::tip[Certified Builds]
 [`air_gapped`](../cfg/registry#available-registry-keys) controls offline license/JWKS behavior for Author mirrors _(Governance)_. It does **not** point Node installs at a local archive folder. Use [`local_dir`](../cfg/registry#available-registry-keys)/[`local_install_only`](../cfg/registry#available-registry-keys) (or the steps above) for that.
+
+When `AirGapped` is on and no trusted `malware.db` is on disk, the shim skips malware scans. Certified MSI installs ship a build-time seed in Program Files and copy it when the live feed is unreachable (air-gap, image). Live feed still wins when reachable. Copy a file by hand only if both the live pair and the seed are gone. An untrusted file still blocks unless the seed verifies.
 :::
