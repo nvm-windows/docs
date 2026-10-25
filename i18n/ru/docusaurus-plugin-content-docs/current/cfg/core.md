@@ -95,7 +95,7 @@ nvm config set auto_detect=.nvmrc,.node-version
 | Параметр | По умолчанию | Значения | Описание |
 |--------|---------|--------|-------------|
 | `log_executions` | `false` | Boolean | Журналировать каждый вызов Node.js (например, `node file.js`). (только shim) |
-| `disable_announcements` | `false` | Boolean | Отключить объявления проекта и релизов. На Certified Builds предупреждения об истечении коммерческой лицензии всё равно показываются. Mute по типу для Releases / Pre-releases / News — это параметры Windows, не ключ config. См. [Уведомления](../features/notifications#категории-параметры-windows). |
+| `disable_announcements` | `false` | Boolean | Отключить объявления проекта и релизов. На Certified Builds предупреждения об истечении коммерческой лицензии всё равно показываются. Mute по типу для Releases / Hotfixes / Pre-releases / News — это параметры Windows, не ключ config. См. [Уведомления](../features/notifications#категории-параметры-windows). |
 
 ```powershell
 nvm config set log_executions=true
