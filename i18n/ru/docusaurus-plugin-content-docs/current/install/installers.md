@@ -41,6 +41,56 @@ NVM for Windows доступен в community- и certified-сборках дл�
   </TabItem>
 </Tabs>
 
+## Тихая установка
+
+Community-установщик — Inno Setup. Эти ключи работают для `nvm-<version>-x64-setup.exe` и `nvm-<version>-arm64-setup.exe`:
+
+|Ключ|Что делает|
+|:-|:-|
+|`/VERYSILENT`|Без мастера и без окна прогресса.|
+|`/SILENT`|Только окно прогресса. Без страниц мастера.|
+|`/SUPPRESSMSGBOXES`|Пропускает окна сообщений. Используйте с `/SILENT` или `/VERYSILENT`.|
+|`/NORESTART`|Не перезагружает компьютер после установки.|
+
+```powershell
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+.\nvm-<version>-x64-setup.exe /SILENT /SUPPRESSMSGBOXES /NORESTART
+```
+
+Корень программы остаётся `%LOCALAPPDATA%\Author Software\nvm`. Тихий `/DIR` в другое место останавливает установку с [NVM4100](../troubleshooting/error-codes.md). Хранилище версий Node — `InstallRoot` (мастер или `nvm config` после установки), не `/DIR`.
+
+Тихая установка пропускает страницу прав хранилища. Если текущий `InstallRoot` небезопасен и проверка ACL не проходит, установщик переносит хранилище в AppData. Если ремонт ACL всё равно не проходит, тихая установка останавливается, пока не передадите `/ALLOWDEGRADEDACLS`.
+
+|Параметр|Допустимые значения|Что делает|
+|:-|:-|:-|
+|`/ALLOWDEGRADEDACLS`|`1`, `true`, `yes`|Завершает тихую установку, когда ACL хранилища Node нельзя усилить. Ставит `RuntimeACLDegraded`. Позже восстановите через `nvm doctor --autofix`.|
+|`/OFFICIALNODE`|`adopt` (по умолчанию), `drop`|Что делать с официальной установкой Node.js (не NVM). `adopt` копирует эту версию и глобальные модули `%APPDATA%\npm` в хранилище NVM, затем удаляет официальную Node.js. `drop` удаляет официальную Node.js. Не копирует эту установку.|
+
+Если официальная Node.js есть, мастер показывает строку вроде `Node.js 22.20.0 detected with 14 global modules (128 MB)`. Дальше только **Adopt** и **Drop**. Тихая установка и winget пропускают эту страницу. Они используют `/OFFICIALNODE`. Для community значение по умолчанию — `adopt`. Любое другое значение, включая `copy`, `keep` и `ignore`, обрабатывается как `adopt`.
+
+Community-установщик не может оставить официальную Node.js. Каталог Node.js в system PATH перекрывает user PATH NVM. `copy` и `keep` есть только у [certified MSI](#certified-build).
+
+Если установщик не может удалить официальную Node.js, тихая установка останавливается. Код выхода не 0. Удалите эту установку Node.js и запустите установщик снова.
+
+```powershell
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /ALLOWDEGRADEDACLS=1
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /OFFICIALNODE=adopt
+.\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /OFFICIALNODE=drop
+```
+
+Списка задач нет. `/TASKS` не влияет на поведение.
+
+### Winget
+
+Когда пакет опубликован, `winget install nvm` использует ключи very-silent выше. Пользовательский параметр передайте через `--custom` (добавляется к этим ключам):
+
+```powershell
+winget install nvm --custom "/ALLOWDEGRADEDACLS=1"
+winget install nvm --custom "/OFFICIALNODE=adopt"
+```
+
+`--override` заменяет стандартные ключи. Если используете его, добавьте `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART` вручную.
+
 ## Certified Build
 
 :::info[Доступно с сентября 2026]
@@ -48,6 +98,29 @@ NVM for Windows доступен в community- и certified-сборках дл�
 :::
 
 Certified-сборки рассчитаны на удалённую установку через платформы вроде Active Directory и Microsoft Entra, но их можно поставить и на один компьютер через MSI. См. [корпоративное развёртывание](./enterprise/requirements), чтобы развернуть NVM for Windows на многих машинах.
+
+Тихая установка требует повышения прав. Свойства MSI передавайте после пути к пакету.
+
+|Свойство|Допустимые значения|Что делает|
+|:-|:-|:-|
+|`ACCEPT_EULA`|`1`|Принять EULA без мастера. Нужно для `/qn` и `/qb`.|
+|`OFFICIALNODE`|`copy` (по умолчанию), `adopt`, `keep`, `drop`|Что делать с официальной установкой Node.js (не NVM). `copy` копирует эту версию и глобальные модули `%APPDATA%\npm` в NVM. Оставляет официальную установку на диске. Ставит NVM первым в system PATH. `adopt` копирует те же файлы, затем удаляет официальную Node.js. `keep` не копирует официальную Node.js. Оставляет её на диске. Ставит NVM первым в system PATH. `drop` удаляет официальную Node.js. Не копирует эту установку.|
+
+`adopt-keep` значит `copy`. `adopt-drop` значит `adopt`. `ignore-keep` и `ignore` значат `keep`. `ignore-drop` значит `drop`. Любое другое значение становится `copy`. Голый `adopt` удаляет официальную Node.js после копирования. Это не синоним `copy`.
+
+```powershell
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=copy /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=adopt /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=keep /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=drop /qn /norestart
+```
+
+NVM первым значит `%LOCALAPPDATA%\Author Software\nvm\.nodejs`, затем `C:\Program Files\Author Software\nvm`, затем официальная Node.js.
+Если копирование или удаление не удалось, установка останавливается.
+Удалите существующую установку Node.js и запустите установщик снова.
+
+Мастер показывает **Copy**, **Adopt**, **Keep** и **Drop**. По умолчанию **Copy**.
 
 |Файл|Сценарий|
 |:-|:-|

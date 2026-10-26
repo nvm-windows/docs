@@ -27,6 +27,7 @@ Certified MSI — **per-machine**. Установка, repair, upgrade и uninst
 | Свойство | Обязательно? | Назначение |
 |:-|:-|:-|
 | `ACCEPT_EULA=1` | **Да** для quiet / reduced UI | Принимает лицензию без мастера. Нужно для `/qn`, `/qb` и same-version repair. |
+| `OFFICIALNODE` | Нет | Выбрать, что сделать с существующей официальной установкой Node.js. По умолчанию `copy`. Значения перечислены в [Certified Build](../installers#certified-build). |
 
 Других публичных свойств MSI для каталога Node.js, режима работы или предпочтений нет. Принудительные runtime-настройки задавайте через [Administrative Templates](../../cfg/ad) / [политики реестра](../../cfg/registry), а не через свойства MSI.
 
