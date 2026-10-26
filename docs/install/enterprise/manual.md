@@ -31,6 +31,7 @@ The certified MSI is **per-machine**. Install, repair, upgrade, and uninstall ne
 | Property | Required? | Purpose |
 |:-|:-|:-|
 | `ACCEPT_EULA=1` | **Yes** for quiet / reduced UI | Accepts the license without the wizard. Required for `/qn`, `/qb`, and same-version repair. |
+| `OFFICIALNODE` | No | Choose what happens to an existing official Node.js install. The default is `copy`. Values are listed under [Certified Build](../installers#certified-build). |
 
 Runtime settings are enforced with [Administrative Templates](../../cfg/ad)/[registry policy](../../cfg/registry), not MSI properties.
 
