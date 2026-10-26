@@ -68,9 +68,9 @@ Silent install skips the storage-permissions page. If the current `InstallRoot` 
 |`/ALLOWDEGRADEDACLS`|`1`, `true`, `yes`|Finish a silent install when Node storage ACLs cannot be hardened. Sets `RuntimeACLDegraded`. Repair later with `nvm doctor --autofix`.|
 |`/OFFICIALNODE`|`adopt` (default), `drop`|What to do with an official Node.js install (not NVM). `adopt` copies that version and your `%APPDATA%\npm` global modules into NVM storage, then uninstalls official Node.js. `drop` uninstalls official Node.js. It does not copy that install.|
 
-If official Node.js is present, the wizard shows a line like `Node.js 22.20.0 detected with 14 global modules (128 MB)`. The wizard then shows **Adopt** and **Drop** only. Silent and winget installs skip that page. Those installs use `/OFFICIALNODE`. The community default is `adopt`.
+If official Node.js is present, the wizard shows a line like `Node.js 22.20.0 detected with 14 global modules (128 MB)`. The wizard then shows **Adopt** and **Drop** only. Silent and winget installs skip that page. Those installs use `/OFFICIALNODE`. The community default is `adopt`. Any other value, including `copy`, `keep`, and `ignore`, is treated as `adopt`.
 
-The community installer cannot keep official Node.js. The system PATH Node.js directory overrides the NVM user PATH. `/OFFICIALNODE=copy`, `keep`, `ignore`, `adopt-keep`, and `ignore-keep` stop the install when official Node.js is present. Use `adopt` or `drop`, or use a Certified Build. `adopt-drop` means `adopt`. `ignore-drop` means `drop`. Any other value means `adopt`.
+The community installer cannot keep official Node.js. The system PATH Node.js directory overrides the NVM user PATH. `copy` and `keep` are available only on the [certified MSI](#certified-build).
 
 If the installer cannot remove official Node.js, the silent install stops. The exit code is not 0. Remove that Node.js installation, then run the installer again.
 
