@@ -66,9 +66,13 @@ Silent install skips the storage-permissions page. If the current `InstallRoot` 
 |Parameter|Accepted values|What it does|
 |:-|:-|:-|
 |`/ALLOWDEGRADEDACLS`|`1`, `true`, `yes`|Finish a silent install when Node storage ACLs cannot be hardened. Sets `RuntimeACLDegraded`. Repair later with `nvm doctor --autofix`.|
-|`/OFFICIALNODE`|`adopt`, `drop`, `ignore`|What to do with an official Node.js install (not NVM). Default **`ignore`**: leave it on disk and put NVM first on PATH. `adopt` copies that version and your `%APPDATA%\npm` global modules into NVM storage. `drop` uninstalls official Node.js without copying (silent `msiexec /x` when it is an MSI).|
+|`/OFFICIALNODE`|`adopt` (default), `drop`|What to do with an official Node.js install (not NVM). `adopt` copies that version and your `%APPDATA%\npm` global modules into NVM storage, then uninstalls official Node.js. `drop` uninstalls official Node.js. It does not copy that install.|
 
-If official Node.js is present, the wizard shows a line like `Node.js 22.20.0 detected with 14 global modules (128 MB)` and the same three choices. Silent / winget installs skip that page and use `/OFFICIALNODE` (default `ignore`).
+If official Node.js is present, the wizard shows a line like `Node.js 22.20.0 detected with 14 global modules (128 MB)`. The wizard then shows **Adopt** and **Drop** only. Silent and winget installs skip that page. Those installs use `/OFFICIALNODE`. The community default is `adopt`.
+
+The community installer cannot keep official Node.js. The system PATH Node.js directory overrides the NVM user PATH. `/OFFICIALNODE=copy`, `keep`, `ignore`, `adopt-keep`, and `ignore-keep` stop the install when official Node.js is present. Use `adopt` or `drop`, or use a Certified Build. `adopt-drop` means `adopt`. `ignore-drop` means `drop`. Any other value means `adopt`.
+
+If the installer cannot remove official Node.js, the silent install stops. The exit code is not 0. Remove that Node.js installation, then run the installer again.
 
 ```powershell
 .\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /ALLOWDEGRADEDACLS=1
@@ -96,6 +100,29 @@ Code-signed Certified Build assets will be available from the customer portal.
 :::
 
 Certified builds are designed for remote installation through platforms like Active Directory and Microsoft Entra, but you can still install on a single computer using the MSI. See [Enterprise Deployment](./enterprise/requirements) to deploy NVM for Windows to many computers.
+
+Quiet installs need elevation. Pass MSI properties after the package path.
+
+|Property|Accepted values|What it does|
+|:-|:-|:-|
+|`ACCEPT_EULA`|`1`|Accept the EULA without the wizard. Required for `/qn` and `/qb`.|
+|`OFFICIALNODE`|`copy` (default), `adopt`, `keep`, `drop`|What to do with an official Node.js install (not NVM). `copy` copies that version and `%APPDATA%\npm` global modules into NVM. It leaves the official install on disk. It puts NVM first on the system PATH. `adopt` copies the same files, then uninstalls official Node.js. `keep` does not copy official Node.js. It leaves that install on disk. It puts NVM first on the system PATH. `drop` uninstalls official Node.js. It does not copy that install.|
+
+`adopt-keep` means `copy`. `adopt-drop` means `adopt`. `ignore-keep` and `ignore` mean `keep`. `ignore-drop` means `drop`. Any other value becomes `copy`. Bare `adopt` uninstalls official Node.js after the copy. It is not an alias of `copy`.
+
+```powershell
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=copy /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=adopt /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=keep /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=drop /qn /norestart
+```
+
+NVM first means `%LOCALAPPDATA%\Author Software\nvm\.nodejs`, then `C:\Program Files\Author Software\nvm`, then official Node.js.
+If the copy fails, or the uninstall fails, the install stops.
+Remove the existing Node.js installation, then run the installer again.
+
+The wizard shows **Copy**, **Adopt**, **Keep**, and **Drop**. **Copy** is the default.
 
 |File|Use Case|
 |:-|:-|
