@@ -49,8 +49,10 @@ On a connected machine you can populate a folder with [`nvm cache add`](../comma
 nvm install 24.11.0
 ```
 
+Use an **exact** `x.y.z` version. That path skips `index.tab`. Aliases (`lts`, `latest`) and partials (`24`, `24.11`) still resolve through the catalog (cached `index.tab` if present; otherwise network).
+
 1. Look for `node-v24.11.0-win-*.7z` under [`local_dir`](../cfg/registry#available-registry-keys) (or `.cache/versions` when [`local_dir`](../cfg/registry#available-registry-keys) is unset).
-2. Run integrity checks (verify-cache, local SHASUM, trusted policy path, or live mirror SHASUM when online).
+2. Run integrity checks (verify-cache, local SHASUM, trusted policy path). Live mirror SHASUM runs only when online **and** [`local_install_only`](../cfg/registry#available-registry-keys) is off.
 3. If found and valid → extract and install.
 4. If missing and **[`local_install_only=true`](../cfg/registry#available-registry-keys)** → fail with `not found in local install directory` (no download).
 5. If missing and local-only is off → download from configured mirrors as usual.

@@ -49,8 +49,10 @@ D:\node-archives\
 nvm install 24.11.0
 ```
 
+Указывайте **точную** версию `x.y.z`. Этот путь не запрашивает `index.tab`. Псевдонимы (`lts`, `latest`) и частичные номера (`24`, `24.11`) по-прежнему резолвятся через каталог (кэшированный `index.tab`, если есть; иначе сеть).
+
 1. Поиск `node-v24.11.0-win-*.7z` в [`local_dir`](../cfg/registry#available-registry-keys) (или в `.cache/versions`, если [`local_dir`](../cfg/registry#available-registry-keys) не задан).
-2. Проверка целостности (verify-cache, локальный SHASUM, доверенный путь политики или живой SHASUM зеркала онлайн).
+2. Проверка целостности (verify-cache, локальный SHASUM, доверенный путь политики). Живой SHASUM зеркала выполняется только онлайн **и** когда [`local_install_only`](../cfg/registry#available-registry-keys) выключен.
 3. Если найден и валиден → распаковка и установка.
 4. Если отсутствует и **[`local_install_only=true`](../cfg/registry#available-registry-keys)** → ошибка `not found in local install directory` (без загрузки).
 5. Если отсутствует и локальный режим выключен → загрузка с настроенных зеркал как обычно.
