@@ -68,10 +68,22 @@ Constraints can appear in the following project files:
 |--------|-----------------|----------|
 | `.nvmrc` | Exact version or constraint | Auto-detection resolves a matching version. |
 | `.node-version` | Exact version or constraint | Uses the same resolution path as `.nvmrc`. |
-| `package.json` `engines.node` | Exact version or semver constraint | Auto-detection resolves a version satisfying the Node.js engine constraint. |
+| `package.json` `engines.node` | Exact version or semver constraint | Auto-detection treats this as a constraint. If the default version satisfies it, NVM for Windows keeps the default. |
 
 Configured auto-detect files come from [`auto_detect`](../cfg/core#project-detection-and-auto-behavior). By default, NVM for Windows checks
 `.nvmrc`, `.node-version`, and `package.json`.
+
+### How a constraint picks an installed version
+
+1. If the default version satisfies the constraint, NVM for Windows uses the default version.
+2. If the default version does not satisfy the constraint, NVM for Windows uses the newest installed version that does.
+3. If no installed version satisfies the constraint, NVM for Windows can install a match when `auto_install` is on. Open lower bounds such as `>=16` or `>20` pick the oldest catalog match in that case.
+
+This applies to `engines.node` and to range text in `.nvmrc` or `.node-version`.
+
+Example: default `13.14.0`, `engines.node` is `>=8.9`. `13.14.0` satisfies the range, so `node` stays on `13.14.0`.
+
+Example: default `13.14.0`, `engines.node` is `>=20`. `13.14.0` does not satisfy the range, so `node` uses the newest installed 20+ version.
 
 ## Resolution order {/* #resolution-order */}
 
@@ -84,7 +96,42 @@ Configured auto-detect files come from [`auto_detect`](../cfg/core#project-detec
 
 ## Auto-detect Node.js version by project
 
-In shim mode, NVM for Windows resolves the Node.js version from an auto-detect file (.nvmrc, .node-version, package.json, etc.). If no version can be resolved, it falls back to the default system version.
+In shim mode, NVM for Windows reads auto-detect files in the current directory. The default list is `.nvmrc`, `.node-version`, then `package.json`. The first file that yields a version wins.
+
+If no file yields a version, NVM for Windows uses the default version (`nvm default`).
+
+Shim runtime order:
+
+1. `--nvm-use` / `--nvm-use=<version>` (this invocation only)
+2. Auto-detect file in the current directory, when `auto_use` is on
+3. Default version
+
+`nvm list` and `nvm default` still show the default. They do not show the version the shim will run in this directory.
+
+## See which version the shim will run
+
+There is no `--nvm-use-which` flag. `--nvm-use` overrides the version for one command. `--nvm-which` prints how the shim resolved the version, then runs the command.
+
+```powershell
+node --nvm-which --version
+npm --nvm-which --version
+```
+
+The line looks like this:
+
+```text
+nvm version resolution: source=package.json requested=>=8.9 effective=>=8.9 resolved=13.14.0 node=C:\Users\...\node.exe
+```
+
+| Field | Meaning |
+|-------|---------|
+| `source` | Why this version was chosen: `system_default`, a detect filename such as `package.json` or `.nvmrc`, or `override` for `--nvm-use`. |
+| `requested` | Raw spec from that source. |
+| `effective` | Spec after user alias mapping. |
+| `resolved` | Concrete installed version. |
+| `node` | Path of the real `node.exe`. |
+
+See also [`node` shim flags](../command/node#shim-flags).
 
 ## Pinning a Node.js version to a project
 
