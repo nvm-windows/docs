@@ -100,6 +100,8 @@ nvm use 24.11.0
 node -v
 ```
 
+Указывайте **точную** версию `x.y.z` (например `24.11.0`). Тогда удалённый `index.tab` не запрашивается. `lts` / `latest` / `24` по-прежнему требуют кэшированный каталог или сеть.
+
 Ожидаемый путь: найти архив → проверка целостности → распаковка. Если архива нет и включён local-only, установка останавливается с `not found in local install directory`.
 
 ## 5. Обновление версий позже
@@ -112,7 +114,7 @@ node -v
 |---------|--------|
 | `not found in local install directory` | Точная строка версии; имя архива `node-v…-win-….7z`; arch совпадает с ОС; путь [`local_dir`](../cfg/registry#available-registry-keys) доступен |
 | Ошибка целостности/SHASUM | Повреждённая копия; отсутствует или неверный SHASUM sidecar; перекопируйте с машины с сетью |
-| Всё ещё пытается сеть | Проверьте [`local_install_only=true`](../cfg/registry#available-registry-keys) (или политику `LocalInstallOnly=1`) |
+| Всё ещё пытается сеть | Проверьте [`local_install_only=true`](../cfg/registry#available-registry-keys) (или политику `LocalInstallOnly=1`); используйте точную `x.y.z`, не `lts`/`latest`/частичный номер |
 | Работает на одном ПК, не на другом | Несовпадение arch (`x64` vs `arm64`); другой [`local_dir`](../cfg/registry#available-registry-keys); переопределение политикой |
 
 ## Связанные материалы

@@ -100,6 +100,8 @@ nvm use 24.11.0
 node -v
 ```
 
+Pass an **exact** `x.y.z` (for example `24.11.0`). That skips the remote `index.tab` fetch. `lts` / `latest` / `24` still need a cached catalog or network.
+
 Expected path: find archive → integrity check → extract. If the archive is missing and local-only is on, install stops with `not found in local install directory`.
 
 ## 5. Refresh versions later
@@ -112,7 +114,7 @@ Repeat prefetch on a connected host when new Node releases are approved, update 
 |---------|--------|
 | `not found in local install directory` | Exact version string; archive name `node-v…-win-….7z`; arch matches OS; [`local_dir`](../cfg/registry#available-registry-keys) path reachable |
 | Integrity/SHASUM failure | Corrupt copy; missing or wrong SHASUM sidecar; re-copy from connected host |
-| Still tries network | Confirm [`local_install_only=true`](../cfg/registry#available-registry-keys) (or policy `LocalInstallOnly=1`) |
+| Still tries network | Confirm [`local_install_only=true`](../cfg/registry#available-registry-keys) (or policy `LocalInstallOnly=1`); use exact `x.y.z`, not `lts`/`latest`/partial |
 | Works on one PC, not another | Arch mismatch (`x64` vs `arm64`); different [`local_dir`](../cfg/registry#available-registry-keys); policy override |
 
 ## Related
