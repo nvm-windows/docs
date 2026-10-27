@@ -42,12 +42,14 @@ node --nvm-shim-version
 Пример строки `--nvm-which`:
 
 ```text
-nvm version resolution: source=preference requested= effective=24.16.0 resolved=24.16.0 node=C:\Users\...\node.exe
+nvm version resolution: source=system_default requested=24.16.0 effective=24.16.0 resolved=24.16.0 node=C:\Users\...\node.exe
 ```
 
 ## Разрешение версии
 
-Без `--nvm-use` shim использует те же правила, что и другие инструменты в режиме shim: preference в реестре, затем файлы проекта (по умолчанию `.nvmrc`, `.node-version`, `package.json`), алиасы и связанная конфигурация. См. [Разрешение версий](/guide/version-resolution).
+Без `--nvm-use` shim использует файлы проекта при включённом `auto_use`, затем версию по умолчанию. Диапазон вроде `engines.node` `>=8.9` не переключает на новейший установленный Node.js, если версия по умолчанию уже подходит. См. [Разрешение версий](/guide/version-resolution).
+
+`--nvm-which` печатает источник этого решения. `--nvm-use` — только подмена на один запуск. Флага `--nvm-use-which` нет.
 
 Обнаружение и автоустановка настраиваются (`auto_detect`, `auto_use`, `auto_install`, `auto_install_prompt`). См. [Базовая конфигурация](/cfg/core#project-detection-and-auto-behavior).
 
