@@ -17,7 +17,7 @@ If setup cannot elevate for `nvm --register-eventlog` (UAC canceled / non-admin)
 :::
 
 :::tip[Certified Builds — Advanced Logging]
-The **Advanced Logging** add-on (Certified Builds, available September 2026) writes structured entries with well-known SIEM event codes to a dedicated native NVM for Windows log (not the Application log). Use it for fleet SIEM integration and audit querying.
+The **Advanced Logging** add-on (Certified Builds) writes structured entries with `EventName` and JSON `Payload` to **NVM for Windows/Operational**. Use the [SIEM guide](../guide/siem) for collector setup and starter queries. Details: [Advanced Logging](./certified-builds/advanced-logging).
 :::
 
 ## Malware feed
