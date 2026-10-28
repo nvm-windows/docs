@@ -38,7 +38,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4411** | Version firewall blocked a Node.js version | Certified `VersionAllowList` / `VersionBlockList` denied `nvm install`, `nvm use`, or a Certified shim launch. Community ACL is a no-op |
 | **NVM4412** | Package-manager lifecycle scripts blocked | Audit (non-error), Advanced Logging on Certified Builds only. HKLM `BlockPackageManagerLifecycleScripts` rewrote an install-class command (`install` / `ci` / `add` / …). `npm --version` and `npm run` do not write this event. EventName `package_manager.lifecycle_scripts_blocked`. Windows Event ID 120 |
 | **NVM4601** | Malware definitions updated | Informational, advanced logging only. A successful `malware.db` write changed the database. Payload: `added`, `removed`, `seq`, `previous_seq`. Windows Event ID 120 |
-| **NVM4602** | Malicious package blocked | Informational, advanced logging only. The shim blocked a package before the install audit. Payload includes the package name, version when known, and command. The terminal message still prints without the advanced logging license. Windows Event ID 120 |
+| **NVM4602** | Malicious package blocked | Informational, advanced logging only. The shim blocked a package before the install audit. Payload includes the package name, version when known, command, `source` (`OpenSSF`, `MalwareBlockList`, or `remote`), and `reason`. The terminal line is `NVM blocked <name> — <reason>. (NVM4602)`. It still prints without the advanced logging license. Windows Event ID 120 |
 
 ## Ranges
 

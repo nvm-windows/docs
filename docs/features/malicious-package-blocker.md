@@ -22,6 +22,10 @@ They are on by default on Community Builds and Certified Builds.
 
 A match is a terminal error.
 That install command does not continue.
+Each blocked name prints `NVM blocked <name> — <reason>. (NVM4602)`.
+OpenSSF uses `recognized as malware (OpenSSF)`.
+A local organization pattern uses `organization malware block`.
+A remote 403 uses `remote malware policy`, then `: <reason>` when the TSV column is present.
 
 ## What it checks
 
@@ -85,11 +89,35 @@ Bundled package-manager trust seeds (`npm`, `npx`, `yarn`, `yarnpkg`, `corepack`
 A malware block does not write `package_manager.install`.
 **NVM4602** is the record when Advanced Logging is on.
 
+### Remote HTTPS body (Certified Builds)
+
+When `MalwareBlockList` is one `https://` URL, the shim POSTs hits during install. A **403** body is TSV:
+
+```text
+name<TAB>date<TAB>reason
+```
+
+`reason` is optional. Empty reason uses `remote malware policy`. A custom reason is used only for that request. It is not written back to policy.
+
+Local `MalwareBlockList` patterns stay `organization malware block`. They do not take a custom reason.
+
+### Inspect a name
+
+```powershell
+nvm malware status left-pad
+nvm malware status left-pad --json
+```
+
+`status` is local only. It does not POST.
+An `allowed` row whose message says the block was overruled still means OpenSSF (or the org list) hit. That policy let it through.
+See [`nvm malware status`](../command/nvm/malware/status).
+
 ## Notifications
 
 A hit always prints in the terminal.
 
-When the console is in the background, Windows also shows **Malicious package blocked**.
+When the console is in the background, Windows also shows a toast.
+The title is **Malicious package blocked** for OpenSSF-only hits, **Organization malware block** for local-list-only hits, and **Package blocked** when sources mix or a remote 403 kept the name.
 The body names at most three packages, then `and N more`.
 The cue is `Notification.Reminder`.
 [`disable_announcements`](../cfg/core#logging-and-announcements) does not hide this toast.
@@ -123,7 +151,7 @@ They use Windows Event ID 120 on **NVM for Windows/Operational**.
 | Code | Event |
 |:-|:-|
 | **NVM4601** | `malware.definitions_updated` |
-| **NVM4602** | `malware.package_blocked` |
+| **NVM4602** | `malware.package_blocked` — package, version, command, `source`, `reason` |
 
 See [Event Logging](./log) and [Error Codes](../troubleshooting/error-codes).
 

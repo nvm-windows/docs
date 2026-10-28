@@ -85,7 +85,7 @@ Certified Builds уже пишут в **NVM for Windows/Operational** без э�
 | Код | Событие | Payload |
 |------|--------|---------|
 | **NVM4601** | `malware.definitions_updated` | `added`, `removed`, `seq`, `previous_seq` |
-| **NVM4602** | `malware.package_blocked` | имя пакета, версия если известна, команда |
+| **NVM4602** | `malware.package_blocked` | имя пакета, версия если известна, команда, `source`, `reason` |
 
 См. [SIEM](../../guide/siem) для запросов.
 См. [Коды ошибок](../../troubleshooting/error-codes) для каждого значения `NVM####`.

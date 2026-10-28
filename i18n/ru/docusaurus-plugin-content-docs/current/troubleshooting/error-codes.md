@@ -32,6 +32,8 @@ NVM for Windows использует стабильные коды `NVM####` в 
 | **NVM4410** | Изменена политика firewall | Аудит: `nvm firewall` изменил список политики |
 | **NVM4411** | Version firewall заблокировал версию Node.js | Certified `VersionAllowList` / `VersionBlockList` отклонил `nvm install`, `nvm use` или запуск Certified shim. Community ACL — no-op |
 | **NVM4412** | Заблокированы lifecycle-скрипты package manager | Аудит (не ошибка), только Advanced Logging на Certified Builds. HKLM `BlockPackageManagerLifecycleScripts` переписал install-команду (`install` / `ci` / `add` / …). `npm --version` и `npm run` это событие не пишут. EventName `package_manager.lifecycle_scripts_blocked`. Windows Event ID 120 |
+| **NVM4601** | Обновлены определения malware | Информационное, только Advanced Logging. Успешная запись `malware.db` изменила базу. Payload: `added`, `removed`, `seq`, `previous_seq`. Windows Event ID 120 |
+| **NVM4602** | Заблокирован вредоносный пакет | Информационное, только Advanced Logging. Shim заблокировал пакет до install-аудита. Payload: имя пакета, версия если известна, команда, `source` (`OpenSSF`, `MalwareBlockList` или `remote`) и `reason`. Строка терминала: `NVM blocked <name> — <reason>. (NVM4602)`. Печатается и без лицензии Advanced Logging. Windows Event ID 120 |
 
 ## Диапазоны
 
@@ -40,6 +42,7 @@ NVM for Windows использует стабильные коды `NVM####` в 
 | **NVM41xx** | Установщик / граница поддержки Community layout |
 | **NVM43xx** | Runtime trust Node, активация, gatekeeping package manager и путь хранения Node |
 | **NVM44xx** | NVM Firewall (version / module / trust policy) |
+| **NVM46xx** | Лента malware. Информационное, только Advanced Logging |
 
 ## Подсказки
 
