@@ -36,6 +36,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4409** | Firewall remote authority unreachable | HTTPS policy host refused the connection, timed out, or could not be resolved |
 | **NVM4410** | Firewall policy mutated | Audit: `nvm firewall` changed a policy list |
 | **NVM4411** | Version firewall blocked a Node.js version | Certified `VersionAllowList` / `VersionBlockList` denied `nvm install`, `nvm use`, or a Certified shim launch. Community ACL is a no-op |
+| **NVM4412** | Package-manager lifecycle scripts blocked | Audit (non-error), Advanced Logging on Certified Builds only. HKLM `BlockPackageManagerLifecycleScripts` rewrote the command (`--ignore-scripts` or `YARN_ENABLE_SCRIPTS=false`). EventName `package_manager.lifecycle_scripts_blocked`. Windows Event ID 120 |
 | **NVM4601** | Malware definitions updated | Informational, advanced logging only. A successful `malware.db` write changed the database. Payload: `added`, `removed`, `seq`, `previous_seq`. Windows Event ID 120 |
 | **NVM4602** | Malicious package blocked | Informational, advanced logging only. The shim blocked a package before the install audit. Payload includes the package name, version when known, and command. The terminal message still prints without the advanced logging license. Windows Event ID 120 |
 
@@ -54,5 +55,6 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 - **NVM4304** is success/recovery telemetry, not a failure.
 - **NVM4406** is an audit/info event for untrusted-module changes (including when allow/prompt accepts the change), not a failure. Structured payload includes `path`, `before_digest` / `after_digest` (SHA-256 hex when available), and `before_size` / `after_size`.
 - **NVM4407** and **NVM4408** are audit/info events for module-firewall allow paths (remote HTTPS policy vs local/remote install evaluation), not failures.
+- **NVM4412** is an audit/info event that the lifecycle-script lock was applied. It is not a failed install. Community Builds and Certified Builds without Advanced Logging do not write it.
 - Structured execution and install audits (for example `nodejs.executed`, `package_manager.executed`, `package_manager.install`, and related security events) may include `project_name`, `project_path`, `parent_process`, `parent_pid`, and `sid` when the host can resolve them; fields may be empty or `unknown` when not available.
 - Symptom-based fixes without a code: [General Troubleshooting](./general).

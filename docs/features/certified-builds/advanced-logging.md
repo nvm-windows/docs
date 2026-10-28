@@ -34,6 +34,7 @@ With `EventName` and `Payload`, you can query:
 - Which Node.js versions run in the organization, who installed or removed them, and on which host.
 - Which package a module-firewall allow (**NVM4408**) or deny (**NVM4403**) named. Classic `Code` is allow or deny only.
 - Each `npm` / `yarn` / `pnpm` launch (`package_manager.executed`). Classic logging does not write this event.
+- When HKLM blocks package-manager lifecycle scripts (`package_manager.lifecycle_scripts_blocked`, **NVM4412**). Classic logging does not write this event.
 - A malware block as an Event Log record (`malware.package_blocked`). Without this add-on, the block prints in the terminal only.
 - A network deadline (`network.deadline_exceeded`). Classic logging does not write this event.
 - Whether a `node` launch came from a human or an agent (`parent_process`, `parent_pid`), and which project (`project_name`, `project_path`).
@@ -48,6 +49,7 @@ Certified Builds write to **NVM for Windows/Operational** without the advanced l
 Some records never hit the Operational log without this add-on:
 
 - `package_manager.executed`
+- `package_manager.lifecycle_scripts_blocked`
 - `network.deadline_exceeded`
 - `malware.definitions_updated`
 - `malware.package_blocked`.

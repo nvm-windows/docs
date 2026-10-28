@@ -201,6 +201,20 @@ export const siemQueries = {
 | STATS Blocks = COUNT(*) BY host = winlog.computer_name`,
     wevtutil: `wevtutil qe "${CHANNEL}" /q:"*[EventData[Data[@Name='Code']='4411'] and EventData[Data[@Name='EventName']='node.security.version_firewall_blocked']]" /f:text /c:20`,
   },
+  lifecycleScriptsBlocked: {
+    wevtutilListsOnly: true,
+    sentinel: `Event
+| where EventLog == "${CHANNEL}"
+| where EventData.Code == 4412
+| where EventData.EventName == "package_manager.lifecycle_scripts_blocked"
+| summarize Locks = count() by Computer, tostring(EventData.EventName)`,
+    splunk: `index=wineventlog Channel="${CHANNEL}" EventData.Code=4412 EventData.EventName="package_manager.lifecycle_scripts_blocked"
+| stats count as Locks by Computer`,
+    elastic: `FROM logs-*
+| WHERE winlog.channel == "${CHANNEL}" AND winlog.event_data.Code == 4412 AND winlog.event_data.EventName == "package_manager.lifecycle_scripts_blocked"
+| STATS Locks = COUNT(*) BY host = winlog.computer_name`,
+    wevtutil: `wevtutil qe "${CHANNEL}" /q:"*[EventData[Data[@Name='Code']='4412'] and EventData[Data[@Name='EventName']='package_manager.lifecycle_scripts_blocked']]" /f:text /c:20`,
+  },
   configurationChanges: {
     wevtutilListsOnly: true,
     sentinel: `Event
