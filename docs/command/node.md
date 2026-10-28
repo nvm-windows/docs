@@ -58,7 +58,7 @@ Detection and auto-install are configurable (`auto_detect`, `auto_use`, `auto_in
 | Check | When | Behavior |
 |-------|------|----------|
 | Shim self-check | Invoked from `{DataRoot}/.shim/node.exe` | Byte-compare against the program-root canonical shim. Mismatch → `shim integrity check failed`, exit `1`. |
-| `node.exe` trust | Before every spawn | Prefer signed **verify-cache** hit (~1–2 ms). Cache miss/invalid → full Authenticode. Failure → blocked (e.g. **NVM4301**). |
+| `node.exe` trust | Before every spawn | Prefer signed **verify-cache** hit (~1–2 ms). Cache miss/invalid → full Authenticode, then PE FileVersion vs folder. Authenticode failure → **NVM4301**. FileVersion mismatch → **NVM4314**. Certified version firewall → **NVM4411**. |
 
 If the verify-cache public key or entries are missing, the shim falls back to full Authenticode (slower, still secure). `nvm doctor` reports verify-cache health.
 
@@ -71,4 +71,4 @@ The shim adds roughly 1–3 ms of resolution work. Windows still pays `CreatePro
 - [Package Manager Shims](/command/package-manager-shims) — `proxy.exe` for npm/npx/yarn/pnpm and optional bun
 - [Global Module Shims](/command/global-module-shims) — `proxy.exe` hardlinks for global CLIs
 - [`nvm use shim`](/command/nvm/use/shim)
-- [Error Codes](/troubleshooting/error-codes) — NVM4301 and related security codes
+- [Error Codes](/troubleshooting/error-codes) — NVM4301, NVM4314, NVM4411, and related security codes

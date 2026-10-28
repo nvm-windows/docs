@@ -90,7 +90,7 @@ Mismatch → `shim integrity check failed`, exit `1`.
 
 ### Resolved `node.exe`
 
-Same verify-cache / Authenticode path as the [node shim](/command/node). Cache state changes can surface as **NVM4303**; untrusted Node → **NVM4301**.
+Same verify-cache / Authenticode path as the [node shim](/command/node). Cache state changes can surface as **NVM4303**; untrusted Node → **NVM4301**; FileVersion mismatch → **NVM4314**; Certified version firewall → **NVM4411**.
 
 ### Delegated package-manager targets
 
@@ -132,4 +132,4 @@ Trust entries are written when versions are installed, activated, or reshimed (`
 - [node (shim)](/command/node)
 - [Operating Modes](/features/modes)
 - [`nvm use shim`](/command/nvm/use/shim)
-- [Error Codes](/troubleshooting/error-codes) — NVM4301, NVM4303, NVM4305, NVM4306
+- [Error Codes](/troubleshooting/error-codes) — NVM4301, NVM4303, NVM4305, NVM4306, NVM4314, NVM4411

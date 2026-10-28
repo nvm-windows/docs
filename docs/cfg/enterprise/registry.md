@@ -77,9 +77,9 @@ These keys are part of the **Governance** feature set. They appear in the Govern
 |**Verbose mirror license metadata**|`ApplyVerboseLicenseMetadata`|When on, Author mirror license JWTs include identity claims (`idp_username`, `idp_machine_name`, `idp_machine_id`). Does not set `AccessToken`/`AccessKey`.<br /><br />- `0` = omit claims<br />- `1` = include claims<br /><br />Default: `0`<br /><br />`REG_DWORD`|
 |**Verbose firewall policy metadata**|`ApplyVerboseFirewallMetadata`|When on, HTTPS firewall policy JWTs include verbose identity claims (`idp_*`) plus npm/pnpm/yarn profile/config when available.<br /><br />- `0` = omit extra claims<br />- `1` = include claims<br /><br />Default: `0`<br /><br />`REG_DWORD`|
 |**Skip lockfile for module firewall**|`FirewallSkipLockfile`|When on, module firewall uses `package.json` only (ignores lockfiles for local matching and HTTPS POST bodies).<br /><br />- `0` = use lockfile when present (default)<br />- `1` = skip lockfile<br /><br />`REG_DWORD`|
-|**npm module minimum age**|`NpmModuleMinimumAge`|Minimum package publish age (cooldown), in minutes, for package manager installs (shim mode). Auto-converts for npm/pnpm/yarn.<br /><br />Default: `0` (disabled)<br /><br />`REG_DWORD`|
-|**Allowed Node.js versions**|`VersionAllowList`|Allow list for installs. Invalid entries fail enforcement. Allow wins over block. Also feeds Author-mirror JWT version claims (magic tokens such as `EOL`, `ALPHA`, `MAINTENANCE`, `ALL`).<br /><br />Supports exact semver, wildcards (e.g. `20.x`), aliases, and `NOT`/`!` negation (one rule per line).<br /><br />`REG_SZ`|
-|**Blocked Node.js versions**|`VersionBlockList`|Block list for installs. Same rule formats as `VersionAllowList`.<br /><br />`REG_SZ`|
+|**npm module minimum age**|`NpmModuleMinimumAge`|Minimum package publish age (cooldown), in minutes, for package manager installs (shim mode). Auto-converts for npm/pnpm/yarn.<br /><br />Default: Community `0` (disabled). Certified Builds `2880` (2 days) when the key is unset. `nvm config` and CLI `--min-release-age` still override the Certified default. When HKLM Policies sets this key, the value is forced and the shim strips `--min-release-age`, `--minimum-release-age`, `--config.min-release-age`, `--no-time-gate`, and `--bypass-age-policy` (arguments after `--` stay). DWORD `0` forces the gate off.<br /><br />`REG_DWORD`|
+|**Allowed Node.js versions**|`VersionAllowList`|Allow list for `nvm install`, `nvm use`, and the Certified shim. Community ACL is a no-op at install and at use/shim. Invalid entries fail enforcement. Allow wins over block. Also feeds Author-mirror JWT version claims (magic tokens such as `EOL`, `ALPHA`, `MAINTENANCE`, `ALL`).<br /><br />Supports exact semver, wildcards (e.g. `20.x`), aliases, and `NOT`/`!` negation (one rule per line).<br /><br />`REG_SZ`|
+|**Blocked Node.js versions**|`VersionBlockList`|Block list for `nvm install`, `nvm use`, and the Certified shim. Same rule formats as `VersionAllowList`.<br /><br />`REG_SZ`|
 
 :::info[License secrets]
 `AccessToken`, `AccessKey`, and `JwksCose` are **not** ADMX policies. Deploy with portal scripts (`Set-NvmWindowsAccessToken.ps1` on stock certified build; `Set-NvmWindowsLicensing.ps1` for governance builds, which also sets `AccessKey` for Author mirrors) or `nvm license`.
@@ -150,7 +150,7 @@ Windows Registry Editor Version 5.00
 "EnforcePermissionModel"=dword:00000001
 "FreezeV8GlobalObjects"=dword:00000001
 "DisableEvalAndStringExecution"=dword:00000001
-"NpmModuleMinimumAge"=dword:000005a0
+"NpmModuleMinimumAge"=dword:00000b40
 ```
 
 After importing the `.reg` (or instead of it for list values), set multi-string keys elevated:

@@ -58,7 +58,7 @@ nvm version resolution: source=system_default requested=24.16.0 effective=24.16.
 | Проверка | Когда | Поведение |
 |----------|-------|-----------|
 | Self-check shim | Запуск из `{DataRoot}/.shim/node.exe` | Побайтовое сравнение с каноническим shim в program-root. Несовпадение → `shim integrity check failed`, код `1`. |
-| Доверие к `node.exe` | Перед каждым spawn | Предпочтительно hit в подписанном **verify-cache** (~1–2 мс). Miss/invalid → полный Authenticode. Отказ → блокировка (например **NVM4301**). |
+| Доверие к `node.exe` | Перед каждым spawn | Предпочтительно hit в подписанном **verify-cache** (~1–2 мс). Miss/invalid → полный Authenticode, затем PE FileVersion против папки. Отказ Authenticode → **NVM4301**. Несовпадение FileVersion → **NVM4314**. Certified version firewall → **NVM4411**. |
 
 Если ключ или записи verify-cache отсутствуют, shim откатывается к полному Authenticode (медленнее, но безопасно). `nvm doctor` показывает состояние verify-cache.
 
@@ -71,4 +71,4 @@ Shim добавляет примерно 1–3 мс на разрешение. W
 - [Package Manager Shims](/command/package-manager-shims) — `proxy.exe` для npm/npx/yarn/pnpm
 - [Global Module Shims](/command/global-module-shims) — hardlink `proxy.exe` для глобальных CLI
 - [`nvm use shim`](/command/nvm/use/shim)
-- [Коды ошибок](/troubleshooting/error-codes) — NVM4301 и связанные коды безопасности
+- [Коды ошибок](/troubleshooting/error-codes) — NVM4301, NVM4314, NVM4411 и связанные коды безопасности

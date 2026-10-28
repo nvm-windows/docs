@@ -13,7 +13,7 @@ Frontline controls for Node version installs, npm package installs, and self-upd
 
 | Firewall | Edition | Keys | Effect |
 |----------|---------|------|--------|
-| Version | Certified | `VersionAllowList` / `VersionBlockList` | Block `nvm install` of disallowed Node versions |
+| Version | Certified | `VersionAllowList` / `VersionBlockList` | Block `nvm install`, `nvm use`, and Certified shim launch of disallowed Node versions |
 | Module | Certified | `ApprovedModules` / `ApprovedGlobalModules` | Block npm/pnpm/yarn/npx install of disallowed packages (shim mode) |
 | Trust | Community + Certified | `TrustedModules`, `UntrustedModuleHandlerAction` | Auto-reshim or prompt when a global CLI self-updates |
 | Malware, surface | Community + Certified | `SkipMalwareChecks`, `MalwareAllowList`, `ShimBun` | Block an OpenSSF hit on the named package or on direct `package.json` dependencies. Default on. `ShimBun` wraps bun as a package manager only — NVM for Windows does not install bun and does not switch bun versions |

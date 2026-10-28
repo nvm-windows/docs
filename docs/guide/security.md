@@ -115,7 +115,7 @@ Shim-mode security features do not apply in [link mode](../features/modes#link-m
 
 When `nvm install` (or auto-install) fetches a Node.js build:
 
-1. **Version firewall** (Governance) — `VersionAllowList` / `VersionBlockList` can refuse the version before download. See [Version Firewall + Author Mirror](../features/author-mirror).
+1. **Version firewall** (Governance) — `VersionAllowList` / `VersionBlockList` can refuse the version before download, at `nvm use`, and at Certified shim launch. Community ACL is a no-op. See [Version Firewall + Author Mirror](../features/author-mirror).
 1. **Archive integrity** — the `.7z` (or staged archive) is checked against the published `SHASUMS256` file for that version/arch.
 1. **Authenticode on `node.exe`** — after extract, Windows trust verification runs on the binary. A valid signature alone is not enough: the signer organization must be on the allow list.
 1. **Default trusted organizations** — `OpenJS Foundation`, `Node.js Foundation`, and `Author Software Inc.` are always trusted. Add others (for example **NodeSource**) with [`AllowedSigners`](../cfg/registry#available-registry-keys). Optional [`AllowedThumbprints`](../cfg/registry#available-registry-keys) pin specific certificate leafs.
@@ -139,7 +139,7 @@ On every launch the shim:
 
 1. Resolves which Node.js version to run ([version resolution](./version-resolution)).
 1. **Self-checks** when invoked from the data-root `.shim` tree — byte-compares against the canonical Program Files / install payload (integrity of the shim itself, not a second Authenticode round-trip).
-1. **Trusts `node.exe`** — prefer a verify-cache hit (~1–2 ms). On miss or cache invalidation, run full Authenticode against allowed signers. Failure blocks execution (for example **NVM4301**).
+1. **Trusts `node.exe`** — prefer a verify-cache hit (~1–2 ms). On miss or cache invalidation, run full Authenticode against allowed signers, then compare PE FileVersion to the folder version. Authenticode failure blocks with **NVM4301**. FileVersion mismatch (for example Node 10 in a `v24.0.0` folder) blocks with **NVM4314**. Certified version-firewall denies use **NVM4411**.
 1. Optionally prepends Governance security flags (below), then `CreateProcessW` the real Node.js.
 
 Details: [node (shim)](../command/node), [Package Manager Shims](../command/package-manager-shims).
@@ -168,7 +168,7 @@ sequenceDiagram
 
 ## 3. Package managers and modules
 
-Through `proxy.exe`, NVM can apply **Governance** package-manager controls such as [`NpmModuleMinimumAge`](../cfg/registry#governance-keys) (cooldown / minimum publish age for npm, pnpm, and yarn).
+Through `proxy.exe`, NVM can apply **Governance** package-manager controls such as [`NpmModuleMinimumAge`](../cfg/registry#governance-keys) (cooldown / minimum publish age for npm, pnpm, and yarn). Community defaults to off. Certified Builds default to 2 days (2880 minutes) when the key is unset. HKLM Policies forces the value and strips CLI age-override flags.
 
 Certified Builds also enforce the **[NVM Firewall](firewall)** module allow lists (`ApprovedModules` / `ApprovedGlobalModules`) on shimmed installs, and both editions support the **trust firewall** (`TrustedModules`) so approved self-updating global CLIs can auto-reshim after they rewrite their entrypoints.
 

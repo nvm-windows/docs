@@ -24,6 +24,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4310** | Auto-install command failed | `nvm install <version>` exited with a non-zero code. The message includes that code. Output from `nvm.exe` is still shown |
 | **NVM4311** | Auto-install did not leave a usable Node.js | `nvm install` returned success, but the shim still cannot resolve that version |
 | **NVM4313** | Node.js storage path refused | `nvm config set root=` or the installer Node-storage page chose Windows, Program Files, a profile folder, the NVM program folder, or a parent of those paths. Uninstall also skips deleting that path. Use a dedicated directory such as `%LOCALAPPDATA%\Author Software\nvm\installs` |
+| **NVM4314** | `node.exe` FileVersion does not match the install folder | Full verify (cache miss) compared PE VERSIONINFO FileVersion to the folder core version (major.minor.patch). Example: Node 10 dropped into `v24.0.0`. Missing VERSIONINFO on an existing `node.exe` also fails. Reinstall with `nvm install <ver> --force` |
 | **NVM4401** | Firewall remote authority unauthorized | HTTPS policy URL returned **401**; the remote denied access for this user/client |
 | **NVM4402** | Firewall remote validation failed | HTTPS policy URL TLS failure, unexpected HTTP status, or helper spawn/config error |
 | **NVM4403** | Module firewall blocked install | Local or remote **403** policy deny (`ApprovedModules` / `ApprovedGlobalModules`) |
@@ -34,6 +35,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4408** | Module firewall allowed install | Audit (non-error): proxy evaluated module policy and allowed the install |
 | **NVM4409** | Firewall remote authority unreachable | HTTPS policy host refused the connection, timed out, or could not be resolved |
 | **NVM4410** | Firewall policy mutated | Audit: `nvm firewall` changed a policy list |
+| **NVM4411** | Version firewall blocked a Node.js version | Certified `VersionAllowList` / `VersionBlockList` denied `nvm install`, `nvm use`, or a Certified shim launch. Community ACL is a no-op |
 | **NVM4601** | Malware definitions updated | Informational, advanced logging only. A successful `malware.db` write changed the database. Payload: `added`, `removed`, `seq`, `previous_seq`. Windows Event ID 120 |
 | **NVM4602** | Malicious package blocked | Informational, advanced logging only. The shim blocked a package before the install audit. Payload includes the package name, version when known, and command. The terminal message still prints without the advanced logging license. Windows Event ID 120 |
 
