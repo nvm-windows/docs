@@ -128,7 +128,7 @@ NVM **сейчас не** применяет allow/deny list **пакетов** 
 
 | Политика | Эффект |
 |:-|:-|
-| `EnforcePermissionModel` | Добавляет `--permission` (Node 23+) или `--experimental-permission` (20–22). Default-deny FS/network, пока процесс не передаст `--allow-*`. NVM не внедряет grants. |
+| `EnforcePermissionModel` | Добавляет `--permission` (Node 23+) или `--experimental-permission` (20–22). Default-deny FS/network, пока процесс не передаст `--allow-*`. NVM не внедряет grants. HKLM Policies удаляет `--permission-audit` (только отчёт) и всё равно внедряет `--permission`. Enforce только из Preferences оставляет `--permission-audit` как отладочное исключение. NVM никогда не внедряет `--permission-audit`. |
 | `FreezeV8GlobalObjects` | Добавляет `--frozen-intrinsics` |
 | `DisableEvalAndStringExecution` | Добавляет `--disallow-code-generation-from-strings` (блокирует `eval` / `new Function`; не покрывает `node:vm`) |
 

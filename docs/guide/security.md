@@ -185,7 +185,7 @@ Most teams never pass Node’s permission model flags. Governance policy can for
 
 | Policy | Effect |
 |:-|:-|
-| `EnforcePermissionModel` | Prepend `--permission` (Node 23+) or `--experimental-permission` (20–22). Default-deny FS/network until the process passes `--allow-*`. NVM does not inject grants. |
+| `EnforcePermissionModel` | Prepend `--permission` (Node 23+) or `--experimental-permission` (20–22). Default-deny FS/network until the process passes `--allow-*`. NVM does not inject grants. HKLM Policies strips caller `--permission-audit` (report-only) and still injects `--permission`. Preference-only enforce leaves `--permission-audit` as a debug exception. NVM never injects `--permission-audit`. |
 | `FreezeV8GlobalObjects` | Prepend `--frozen-intrinsics` |
 | `DisableEvalAndStringExecution` | Prepend `--disallow-code-generation-from-strings` (blocks `eval` / `new Function`; does not cover `node:vm`) |
 
