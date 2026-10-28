@@ -13,9 +13,11 @@ certified:
 Все административные политики должны применяться в разделе **HKEY_LOCAL_MACHINE (HKLM)**. Параметры здесь обязательны и переопределяют конфликтующие настройки пользователя в локальном интерфейсе приложения.
 
 :::tip[Порядок переопределения политики]
-Приложение оценивает настройки в следующем порядке приоритета:
-1. `HKLM\Software\Policies\Author Software\nvm` (принудительная политика администратора)
-2. `HKCU\Software\Author Software\Preferences\nvm` (пользовательские настройки)
+Приложение оценивает настройки в следующем порядке приоритета. Политики важнее Preferences в том же разделе реестра. HKLM важнее HKCU.
+1. `HKLM\Software\Policies\Author Software\nvm` (политика машины — GPO / Intune / ADMX)
+2. `HKLM\Software\Author Software\Preferences\nvm` (настройки машины)
+3. `HKCU\Software\Policies\Author Software\nvm` (политика пользователя)
+4. `HKCU\Software\Author Software\Preferences\nvm` (пользовательские настройки — `nvm config`)
 :::
 
 ## Доступные ключи реестра \{#available-registry-keys}

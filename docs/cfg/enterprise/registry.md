@@ -13,9 +13,11 @@ This reference contains the registry keys and values used to manage, secure, and
 All administrative policies should be enforced within the **HKEY_LOCAL_MACHINE (HKLM)** hive. Settings applied here are mandatory and will override any conflicting preferences configured by individual users within the local application interface.
 
 :::tip[Policy Override Behavior]
-The application evaluates settings in the following order of priority:
-1. `HKLM\Software\Policies\Author Software\nvm` (Enforced Admin Policy)
-2. `HKCU\Software\Author Software\Preferences\nvm` (User-defined Preferences)
+The application evaluates settings in the following order of priority. Policies beat Preferences in the same hive. HKLM beats HKCU.
+1. `HKLM\Software\Policies\Author Software\nvm` (machine policy — GPO / Intune / ADMX)
+2. `HKLM\Software\Author Software\Preferences\nvm` (machine preferences)
+3. `HKCU\Software\Policies\Author Software\nvm` (user policy)
+4. `HKCU\Software\Author Software\Preferences\nvm` (user preferences — `nvm config`)
 :::
 
 ## Available Registry Keys
