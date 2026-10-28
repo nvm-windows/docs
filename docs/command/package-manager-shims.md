@@ -21,7 +21,7 @@ Global CLIs installed with those managers (for example `tsc`) use the same `prox
 4. For `bun` / `bunx`, find the installed bun binary, run malware checks on package-manager commands, spawn bun, and stop. For other names, resolve Node.js (preference / detection / `--nvm-use`) and optionally auto-install.
 5. Check the version directory is safe (not a reparse point, not cross-user writable) — failure → **NVM4305**.
 6. Locate the delegated command under the Node install (`.exe`, then `.cmd`, then `.bat`).
-7. Enforce package-manager constraints when policy applies (npm / npx / pnpm / yarn). HKLM `BlockPackageManagerLifecycleScripts` forces `--ignore-scripts` or `YARN_ENABLE_SCRIPTS=false`. Certified Builds with Advanced Logging then write **NVM4412**.
+7. Enforce package-manager constraints when policy applies (npm / npx / pnpm / yarn). HKLM `BlockPackageManagerLifecycleScripts` forces `--ignore-scripts` or `YARN_ENABLE_SCRIPTS=false`. Certified Builds with Advanced Logging write **NVM4412** for install-class commands only.
 8. Verify trust of `node.exe` and the delegated target (below).
 9. Spawn the real tool (for npm/npx/corepack: often `node.exe` + `*-cli.js`; otherwise the `.exe` / `.cmd`).
 

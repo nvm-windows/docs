@@ -37,7 +37,7 @@ Advanced Logging пишет структурированные события в
 - Какие версии Node.js работают в организации, кто их ставил или удалял, и на каком узле.
 - Какой пакет разрешил (**NVM4408**) или запретил (**NVM4403**) module firewall. Классический `Code` — только allow или deny.
 - Каждый запуск `npm` / `yarn` / `pnpm` (`package_manager.executed`). Классическое журналирование это событие не пишет.
-- Когда HKLM блокирует lifecycle-скрипты package manager (`package_manager.lifecycle_scripts_blocked`, **NVM4412**). Классическое журналирование это событие не пишет.
+- Когда HKLM блокирует lifecycle-скрипты package manager на install-команде (`package_manager.lifecycle_scripts_blocked`, **NVM4412**). Классическое журналирование это событие не пишет.
 - Блок malware как запись Event Log (`malware.package_blocked`). Без дополнения блок только в терминале.
 - Сетевой дедлайн (`network.deadline_exceeded`). Классическое журналирование это событие не пишет.
 - Запуск `node` от человека или агента (`parent_process`, `parent_pid`) и из какого проекта (`project_name`, `project_path`).
