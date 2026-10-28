@@ -106,7 +106,7 @@ A malware block does not write this event. Use **NVM4602** instead.
 
 <SiemQuery id="malwareBlocks" />
 
-Inspect `Payload` for the package name, version when known, and command.
+Inspect `Payload` for the package name, version when known, command, `source`, and `reason`.
 
 ### Integrity verification failures
 

@@ -27,4 +27,4 @@ These events are written only when advanced logging is on. They use Windows Even
 | Code | Event | Payload |
 |------|--------|---------|
 | **NVM4601** | `malware.definitions_updated` | `added`, `removed`, `seq`, `previous_seq` |
-| **NVM4602** | `malware.package_blocked` | package name, version when known, command |
+| **NVM4602** | `malware.package_blocked` | package name, version when known, command, `source`, `reason` |

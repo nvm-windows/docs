@@ -22,6 +22,10 @@ Module firewall применяет **ваши** списки allow и deny.
 
 Совпадение — терминальная ошибка.
 Эта команда установки не продолжается.
+Каждое заблокированное имя печатает `NVM blocked <name> — <reason>. (NVM4602)`.
+OpenSSF использует `recognized as malware (OpenSSF)`.
+Локальный шаблон организации использует `organization malware block`.
+Удалённый 403 использует `remote malware policy`, затем `: <reason>`, если колонка TSV есть.
 
 ## Что проверяется \{#what-it-checks\}
 
@@ -85,11 +89,35 @@ Certified Builds также читают:
 Блок malware не пишет `package_manager.install`.
 **NVM4602** — запись, когда включён Advanced Logging.
 
+### Удалённое тело HTTPS (Certified Builds) \{#remote-https-body-certified-builds\}
+
+Когда `MalwareBlockList` — один URL `https://`, shim POSTит попадания при установке. Тело **403** — TSV:
+
+```text
+name<TAB>date<TAB>reason
+```
+
+`reason` необязателен. Пустой reason даёт `remote malware policy`. Свой reason живёт только в этом запросе. Он не пишется обратно в политику.
+
+Локальные шаблоны `MalwareBlockList` остаются `organization malware block`. Они не берут свой reason.
+
+### Проверить имя \{#inspect-a-name\}
+
+```powershell
+nvm malware status left-pad
+nvm malware status left-pad --json
+```
+
+`status` только локальный. Он не делает POST.
+Строка `allowed` с текстом overruled всё равно значит попадание OpenSSF (или оргсписка). Эта политика пропустила имя.
+См. [`nvm malware status`](../command/nvm/malware/status).
+
 ## Уведомления \{#notifications\}
 
 Попадание всегда печатается в терминале.
 
-Если консоль в фоне, Windows также показывает **Malicious package blocked**.
+Если консоль в фоне, Windows также показывает toast.
+Заголовок — **Malicious package blocked** только для OpenSSF, **Organization malware block** только для локального списка, и **Package blocked** при смеси источников или когда удалённый 403 оставил имя.
 Тело называет не более трёх пакетов, затем `and N more`.
 Сигнал — `Notification.Reminder`.
 [`disable_announcements`](../cfg/core#logging-and-announcements) это уведомление не скрывает.
@@ -123,7 +151,7 @@ nvm cache remove malware --prompt
 | Код | Событие |
 |:-|:-|
 | **NVM4601** | `malware.definitions_updated` |
-| **NVM4602** | `malware.package_blocked` |
+| **NVM4602** | `malware.package_blocked` — пакет, версия, команда, `source`, `reason` |
 
 См. [журналирование событий](./log) и [коды ошибок](../troubleshooting/error-codes).
 

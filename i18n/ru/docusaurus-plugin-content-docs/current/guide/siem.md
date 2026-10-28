@@ -111,7 +111,7 @@ Certified Builds пишут `package_manager.install`, когда межсете
 
 <SiemQuery id="malwareBlocks" />
 
-Смотрите `Payload` для имени пакета, версии если известна, и команды.
+Смотрите `Payload` для имени пакета, версии если известна, команды, `source` и `reason`.
 
 ## Сбои проверки целостности \{#integrity-verification-failures\}
 
