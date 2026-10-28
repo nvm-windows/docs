@@ -31,6 +31,7 @@ NVM for Windows использует стабильные коды `NVM####` в 
 | **NVM4409** | Удалённый firewall authority недоступен | HTTPS policy host отклонил соединение, таймаут или DNS не резолвится |
 | **NVM4410** | Изменена политика firewall | Аудит: `nvm firewall` изменил список политики |
 | **NVM4411** | Version firewall заблокировал версию Node.js | Certified `VersionAllowList` / `VersionBlockList` отклонил `nvm install`, `nvm use` или запуск Certified shim. Community ACL — no-op |
+| **NVM4412** | Заблокированы lifecycle-скрипты package manager | Аудит (не ошибка), только Advanced Logging на Certified Builds. HKLM `BlockPackageManagerLifecycleScripts` переписал команду (`--ignore-scripts` или `YARN_ENABLE_SCRIPTS=false`). EventName `package_manager.lifecycle_scripts_blocked`. Windows Event ID 120 |
 
 ## Диапазоны
 
@@ -46,4 +47,5 @@ NVM for Windows использует стабильные коды `NVM####` в 
 - **NVM4304** — успешное/восстановительное событие, не ошибка.
 - **NVM4406** — audit/info о смене недоверенного модуля (в т.ч. при allow или accept prompt), не ошибка.
 - **NVM4407** и **NVM4408** — audit/info о разрешённых module-firewall install (remote HTTPS vs локальная/remote оценка), не ошибки.
+- **NVM4412** — audit/info о применении lock lifecycle-скриптов. Это не сбой install. Community и Certified без Advanced Logging его не пишут.
 - Симптомы без кода: [Общее устранение неполадок](./general).

@@ -21,7 +21,7 @@ Proxy разрешает активную версию Node.js (те же пра
 4. Разрешает Node.js (preference / detection / `--nvm-use`) и при необходимости автоустанавливает.
 5. Проверяет, что каталог версии безопасен (не reparse point, не writable другими пользователями) — отказ → **NVM4305**.
 6. Находит делегированную команду в установке Node (`.exe`, затем `.cmd`, затем `.bat`).
-7. Применяет ограничения package manager, если действует политика (npm / npx / pnpm / yarn).
+7. Применяет ограничения package manager, если действует политика (npm / npx / pnpm / yarn). HKLM `BlockPackageManagerLifecycleScripts` принудительно ставит `--ignore-scripts` или `YARN_ENABLE_SCRIPTS=false`. Certified Builds с Advanced Logging затем пишут **NVM4412**.
 8. Проверяет доверие к `node.exe` и делегированной цели (ниже).
 9. Запускает реальный инструмент (для npm/npx/corepack часто `node.exe` + `*-cli.js`; иначе `.exe` / `.cmd`).
 
@@ -124,4 +124,4 @@ Shim блокирует запуск при провале проверок до
 - [node (shim)](/command/node)
 - [Режимы работы](/features/modes)
 - [`nvm use shim`](/command/nvm/use/shim)
-- [Коды ошибок](/troubleshooting/error-codes) — NVM4301, NVM4303, NVM4305, NVM4306, NVM4314, NVM4411
+- [Коды ошибок](/troubleshooting/error-codes) — NVM4301, NVM4303, NVM4305, NVM4306, NVM4314, NVM4411, NVM4412
