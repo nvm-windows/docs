@@ -1,0 +1,11 @@
+{
+  "label": "Certified Builds",
+  "position": 13,
+  "collapsed": true,
+  "collapsible": true,
+  "link": {
+    "type": "generated-index",
+    "title": "Certified Builds",
+    "description": "Дополнения для Certified Builds. Каждому дополнению нужна своя лицензия."
+  }
+}
