@@ -127,7 +127,7 @@ Certified Builds пишут `package_manager.install`, когда межсете
 
 ## Блоки lifecycle-скриптов \{#lifecycle-scripts-blocked\}
 
-HKLM `BlockPackageManagerLifecycleScripts` пишет **NVM4412** (`package_manager.lifecycle_scripts_blocked`) на Certified Builds с Advanced Logging, когда proxy реально переписывает команду (`--ignore-scripts` или `YARN_ENABLE_SCRIPTS=false`). Это аудит, не сбой install. Community не пишет это событие. Смотрите `Payload.action` и `Payload.command`.
+HKLM `BlockPackageManagerLifecycleScripts` пишет **NVM4412** (`package_manager.lifecycle_scripts_blocked`) на Certified Builds с Advanced Logging, когда proxy переписывает **install-команду** (`install`, `ci`, `add`, `update`, `rebuild` и похожие; `npx` с пакетом; голый `yarn`). `npm --version` и `npm run` не пишут. Lock на эти команды всё равно действует. Это аудит, не сбой install. Community не пишет это событие. Смотрите `Payload.command`, `Payload.verb` и `Payload.action`.
 
 <SiemQuery id="lifecycleScriptsBlocked" />
 
@@ -183,7 +183,7 @@ Windows Event ID — шаблон.
 | `node.security.full_verification_recovered` | 4304 | `node-shim` или `proxy` |
 | `node.security.version_mismatch` | 4314 | `node-shim` или `proxy`. PE FileVersion не совпадает с папкой установки. |
 | `node.security.version_firewall_blocked` | 4411 | `node-shim` или `proxy`. Certified `VersionAllowList` / `VersionBlockList` отклонил версию. |
-| `package_manager.lifecycle_scripts_blocked` | 4412 | `proxy`. Только Advanced Logging. Применён HKLM lock lifecycle-скриптов. |
+| `package_manager.lifecycle_scripts_blocked` | 4412 | `proxy`. Только Advanced Logging. HKLM lock lifecycle-скриптов на install-команде. |
 | `network.deadline_exceeded` | 4501 | `nvm.exe` или `sync.exe` |
 | `malware.definitions_updated` | 4601 | `sync.exe`. Только Advanced Logging. |
 | `malware.package_blocked` | 4602 | Shim. Только Advanced Logging. |

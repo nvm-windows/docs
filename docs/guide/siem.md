@@ -122,7 +122,7 @@ Certified `VersionAllowList` / `VersionBlockList` denies are **NVM4411**.
 
 ### Lifecycle scripts blocked
 
-HKLM `BlockPackageManagerLifecycleScripts` writes **NVM4412** (`package_manager.lifecycle_scripts_blocked`) on Certified Builds with Advanced Logging when the proxy actually rewrites the command (`--ignore-scripts` or `YARN_ENABLE_SCRIPTS=false`). This is audit, not a failed install. Community Builds do not write it. Inspect `Payload.action` and `Payload.command`.
+HKLM `BlockPackageManagerLifecycleScripts` writes **NVM4412** (`package_manager.lifecycle_scripts_blocked`) on Certified Builds with Advanced Logging when the proxy rewrites an **install-class** command (`install`, `ci`, `add`, `update`, `rebuild`, and similar; `npx` with a package; bare `yarn`). `npm --version` and `npm run` do not write it. The lock still applies to those commands. This is audit, not a failed install. Community Builds do not write it. Inspect `Payload.command`, `Payload.verb`, and `Payload.action`.
 
 <SiemQuery id="lifecycleScriptsBlocked" />
 
@@ -178,7 +178,7 @@ Match `Code` to the number in [Error Codes](../troubleshooting/error-codes).
 | `node.security.full_verification_recovered` | 4304 | `node-shim` or `proxy` |
 | `node.security.version_mismatch` | 4314 | `node-shim` or `proxy`. PE FileVersion does not match the install folder. |
 | `node.security.version_firewall_blocked` | 4411 | `node-shim` or `proxy`. Certified `VersionAllowList` / `VersionBlockList` denied the version. |
-| `package_manager.lifecycle_scripts_blocked` | 4412 | `proxy`. Advanced Logging only. HKLM lifecycle-script lock applied. |
+| `package_manager.lifecycle_scripts_blocked` | 4412 | `proxy`. Advanced Logging only. HKLM lifecycle-script lock on an install-class command. |
 | `network.deadline_exceeded` | 4501 | `nvm.exe` or `sync.exe` |
 | `malware.definitions_updated` | 4601 | `sync.exe`. Advanced Logging only. |
 | `malware.package_blocked` | 4602 | Shim. Advanced Logging only. |
