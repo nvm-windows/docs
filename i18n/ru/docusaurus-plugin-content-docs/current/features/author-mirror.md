@@ -61,7 +61,7 @@ import DocImage from '@site/docs/_components/DocImage';
 
 `VersionAllowList` / `VersionBlockList` (см. [ключи реестра Governance](/cfg/registry#governance-keys)) выполняют двойную роль:
 
-- **Статические записи** — применяются локальным firewall (выше), до любой загрузки.
+- **Статические записи** — применяются локальным firewall при `nvm install`, `nvm use` и запуске Certified shim, до любой загрузки.
 - **Динамические псевдонимы** (`EOL`, `ALPHA`, `MAINTENANCE`) — локальный firewall игнорирует; включаются в краткоживущий license JWT, отправляемый только на `mirror.author.io`. Зеркало применяет эти правила жизненного цикла при выдаче архива.
 
 | Запись политики | Локальный клиент | Author mirror (`mirror.author.io`) | Публичное зеркало (`nodejs.org`) |

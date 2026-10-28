@@ -61,7 +61,7 @@ flowchart TB
 
 Когда `nvm install` (или auto-install) получает сборку Node.js:
 
-1. **Version firewall** (Governance) — `VersionAllowList` / `VersionBlockList` могут отказать версии до загрузки. См. [Version Firewall + Author Mirror](../features/author-mirror).
+1. **Version firewall** (Governance) — `VersionAllowList` / `VersionBlockList` могут отказать версии до загрузки, при `nvm use` и при запуске Certified shim. Community ACL — no-op. См. [Version Firewall + Author Mirror](../features/author-mirror).
 1. **Целостность архива** — `.7z` (или staged-архив) сверяется с опубликованным `SHASUMS256` для версии/архитектуры.
 1. **Authenticode для `node.exe`** — после распаковки выполняется проверка доверия Windows. Одной валидной подписи мало: организация подписанта должна быть в allow list.
 1. **Доверенные организации по умолчанию** — всегда доверяются `OpenJS Foundation`, `Node.js Foundation` и `Author Software Inc.`. Других (например **NodeSource**) добавляйте через [`AllowedSigners`](../cfg/registry#available-registry-keys). Опционально [`AllowedThumbprints`](../cfg/registry#available-registry-keys) закрепляют конкретные leaf-сертификаты.
@@ -85,7 +85,7 @@ flowchart TB
 
 1. Определяет, какую версию Node.js запускать ([разрешение версии](./version-resolution)).
 1. **Self-check**, если вызван из data-root `.shim` — byte-compare с каноническим payload Program Files / установки (целостность самого shim, не второй круг Authenticode).
-1. **Доверяет `node.exe`** — предпочитает hit verify-cache (~1–2 ms). При miss или инвалидации кэша — полный Authenticode по allowed signers. Отказ блокирует выполнение (например **NVM4301**).
+1. **Доверяет `node.exe`** — предпочитает hit verify-cache (~1–2 ms). При miss или инвалидации кэша — полный Authenticode по allowed signers, затем сверка PE FileVersion с версией папки. Отказ Authenticode — **NVM4301**. Несовпадение FileVersion (например Node 10 в папке `v24.0.0`) — **NVM4314**. Отказ version firewall на Certified — **NVM4411**.
 1. Опционально добавляет Governance security-флаги (ниже), затем `CreateProcessW` настоящего Node.js.
 
 Подробности: [node (shim)](../command/node), [Package Manager Shims](../command/package-manager-shims).
@@ -114,7 +114,7 @@ sequenceDiagram
 
 ## 3. Пакетные менеджеры и модули \{#package-managers-and-modules}
 
-Через `proxy.exe` NVM может применять **Governance**-контроли пакетных менеджеров, например [`NpmModuleMinimumAge`](../cfg/registry#governance-keys) (cooldown / минимальный возраст публикации для npm, pnpm и yarn).
+Через `proxy.exe` NVM может применять **Governance**-контроли пакетных менеджеров, например [`NpmModuleMinimumAge`](../cfg/registry#governance-keys) (cooldown / минимальный возраст публикации для npm, pnpm и yarn). Community по умолчанию выключен. Certified Builds по умолчанию 2 дня (2880 минут), если ключ не задан. HKLM Policies фиксирует значение и удаляет CLI-флаги обхода возраста.
 
 NVM **сейчас не** применяет allow/deny list **пакетов** npm для вложенных зависимостей. Supply-chain риск внутри `node_modules` остаётся проблемой upstream-реестра; более долгосрочная работа Author Software Runtime закрывает это отдельно. Что NVM *действительно* ограничивает сегодня:
 

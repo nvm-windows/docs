@@ -76,9 +76,9 @@ certified:
 |**Verbose mirror license metadata**|`ApplyVerboseLicenseMetadata`|Если включено, JWT лицензии зеркала Author включают identity claims (`idp_username`, `idp_machine_name`, `idp_machine_id`). Не задаёт `AccessToken`/`AccessKey`.<br /><br />- `0` = без claims<br />- `1` = с claims<br /><br />По умолчанию: `0`<br /><br />`REG_DWORD`|
 |**Verbose firewall policy metadata**|`ApplyVerboseFirewallMetadata`|Если включено, JWT HTTPS firewall policy включают verbose identity claims (`idp_*`) плюс npm/pnpm/yarn profile/config при наличии.<br /><br />- `0` = без доп. claims<br />- `1` = с claims<br /><br />По умолчанию: `0`<br /><br />`REG_DWORD`|
 |**Skip lockfile for module firewall**|`FirewallSkipLockfile`|Если включено, module firewall использует только `package.json` (игнорирует lockfile для локальной проверки и HTTPS POST).<br /><br />- `0` = использовать lockfile при наличии (по умолчанию)<br />- `1` = пропустить lockfile<br /><br />`REG_DWORD`|
-|**npm module minimum age**|`NpmModuleMinimumAge`|Минимальный возраст публикации пакета (cooldown) в минутах для установок через менеджеры пакетов (режим shim). Автоконвертация для npm/pnpm/yarn.<br /><br />По умолчанию: `0` (отключено)<br /><br />`REG_DWORD`|
-|**Allowed Node.js versions**|`VersionAllowList`|Allow list для установок. Недопустимые записи ломают enforcement. Allow побеждает block. Также питает version claims JWT Author mirror (magic tokens вроде `EOL`, `ALPHA`, `MAINTENANCE`, `ALL`).<br /><br />Поддерживает exact semver, wildcards (например, `20.x`), псевдонимы и negation `NOT`/`!` (одно правило на строку).<br /><br />`REG_SZ`|
-|**Blocked Node.js versions**|`VersionBlockList`|Block list для установок. Те же форматы правил, что у `VersionAllowList`.<br /><br />`REG_SZ`|
+|**npm module minimum age**|`NpmModuleMinimumAge`|Минимальный возраст публикации пакета (cooldown) в минутах для установок через менеджеры пакетов (режим shim). Автоконвертация для npm/pnpm/yarn.<br /><br />По умолчанию: Community `0` (отключено). Certified Builds `2880` (2 дня), если ключ не задан. `nvm config` и CLI `--min-release-age` всё ещё перекрывают значение по умолчанию Certified. Когда HKLM Policies задаёт ключ, значение принудительно, и shim удаляет `--min-release-age`, `--minimum-release-age`, `--config.min-release-age`, `--no-time-gate` и `--bypass-age-policy` (аргументы после `--` сохраняются). DWORD `0` принудительно отключает gate.<br /><br />`REG_DWORD`|
+|**Allowed Node.js versions**|`VersionAllowList`|Allow list для `nvm install`, `nvm use` и Certified shim. Community ACL — no-op при install и при use/shim. Недопустимые записи ломают enforcement. Allow побеждает block. Также питает version claims JWT Author mirror (magic tokens вроде `EOL`, `ALPHA`, `MAINTENANCE`, `ALL`).<br /><br />Поддерживает exact semver, wildcards (например, `20.x`), псевдонимы и negation `NOT`/`!` (одно правило на строку).<br /><br />`REG_SZ`|
+|**Blocked Node.js versions**|`VersionBlockList`|Block list для `nvm install`, `nvm use` и Certified shim. Те же форматы правил, что у `VersionAllowList`.<br /><br />`REG_SZ`|
 
 :::info[License secrets]
 `AccessToken`, `AccessKey` и `JwksCose` **не** являются политиками ADMX. Развёртывайте скриптами портала (`Set-NvmWindowsAccessToken.ps1` на stock certified build; `Set-NvmWindowsLicensing.ps1` для governance builds, также задаёт `AccessKey` для зеркал Author) или `nvm license`.
@@ -148,7 +148,7 @@ Windows Registry Editor Version 5.00
 "EnforcePermissionModel"=dword:00000001
 "FreezeV8GlobalObjects"=dword:00000001
 "DisableEvalAndStringExecution"=dword:00000001
-"NpmModuleMinimumAge"=dword:000005a0
+"NpmModuleMinimumAge"=dword:00000b40
 ```
 
 После импорта `.reg` (или вместо него для list values) задайте multi-string ключи с правами администратора:

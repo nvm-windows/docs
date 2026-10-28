@@ -82,7 +82,7 @@ Shim блокирует запуск при провале проверок до
 
 ### Разрешённый `node.exe`
 
-Тот же путь verify-cache / Authenticode, что у [node shim](/command/node). Смена состояния кэша может дать **NVM4303**; недоверенный Node → **NVM4301**.
+Тот же путь verify-cache / Authenticode, что у [node shim](/command/node). Смена состояния кэша может дать **NVM4303**; недоверенный Node → **NVM4301**; несовпадение FileVersion → **NVM4314**; Certified version firewall → **NVM4411**.
 
 ### Делегированные цели package manager
 
@@ -124,4 +124,4 @@ Shim блокирует запуск при провале проверок до
 - [node (shim)](/command/node)
 - [Режимы работы](/features/modes)
 - [`nvm use shim`](/command/nvm/use/shim)
-- [Коды ошибок](/troubleshooting/error-codes) — NVM4301, NVM4303, NVM4305, NVM4306
+- [Коды ошибок](/troubleshooting/error-codes) — NVM4301, NVM4303, NVM4305, NVM4306, NVM4314, NVM4411

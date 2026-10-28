@@ -61,7 +61,7 @@ There are two (combinable) ways to enforce dynamic policies on the Author mirror
 
 `VersionAllowList` / `VersionBlockList` (see [Governance registry keys](/cfg/registry#governance-keys)) do double duty:
 
-- **Static entries** — enforced by the local firewall (above), before any download.
+- **Static entries** — enforced by the local firewall at `nvm install`, `nvm use`, and Certified shim launch, before any download.
 - **Dynamic aliases** (`EOL`, `ALPHA`, `MAINTENANCE`) — ignored by the local firewall; included in the short-lived license JWT sent only to `mirror.author.io`. The mirror applies those lifecycle rules when serving the archive.
 
 | Policy entry | Local client | Author mirror (`mirror.author.io`) | Public mirror (`nodejs.org`) |
