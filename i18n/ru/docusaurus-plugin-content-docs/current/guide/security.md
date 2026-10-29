@@ -128,7 +128,7 @@ NVM **сейчас не** применяет allow/deny list **пакетов** 
 
 | Политика | Эффект |
 |:-|:-|
-| `EnforcePermissionModel` | Добавляет `--permission` (Node 23+) или `--experimental-permission` (20–22) на `node`. Default-deny FS/network, пока процесс не передаст `--allow-*`. NVM не внедряет grants, кроме `DefaultPermissionGrants`. HKLM Policies удаляет `--permission-audit` (только отчёт) и всё равно внедряет `--permission`. Enforce только из Preferences оставляет `--permission-audit` как отладочное исключение для `node`. Proxy вписывает те же флаги в `npm_config_node_options` для npm/npx/pnpm; HKLM также удаляет `--permission-audit` из этой переменной. NVM никогда не внедряет `--permission-audit`. |
+| `EnforcePermissionModel` | Добавляет `--permission` (Node 23+) или `--experimental-permission` (20–22) на `node`. Default-deny FS/network, пока процесс не передаст `--allow-*`. NVM не внедряет grants, кроме `DefaultPermissionGrants`. HKLM Policies удаляет `--permission-audit` (только отчёт) из argv, `NODE_OPTIONS` и `npm_config_node_options`, затем всё равно внедряет `--permission`. Enforce только из Preferences оставляет `--permission-audit` как отладочное исключение для `node`. Proxy вписывает те же флаги в `npm_config_node_options` для npm/npx/pnpm. NVM никогда не внедряет `--permission-audit`. |
 | `FreezeV8GlobalObjects` | Добавляет `--frozen-intrinsics` на `node`; тот же флаг в `npm_config_node_options` для npm/npx/pnpm при включении |
 | `DisableEvalAndStringExecution` | Добавляет `--disallow-code-generation-from-strings` (блокирует `eval` / `new Function`; не покрывает `node:vm`). Тот же флаг в `npm_config_node_options` для npm/npx/pnpm при включении |
 

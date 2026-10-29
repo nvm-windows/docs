@@ -185,7 +185,7 @@ Most teams never pass Node’s permission model flags. Governance policy can for
 
 | Policy | Effect |
 |:-|:-|
-| `EnforcePermissionModel` | Prepend `--permission` (Node 23+) or `--experimental-permission` (20–22) on `node`. Default-deny FS/network until the process passes `--allow-*`. NVM does not inject grants except `DefaultPermissionGrants`. HKLM Policies strips caller `--permission-audit` (report-only) and still injects `--permission`. Preference-only enforce leaves `--permission-audit` as a debug exception on `node`. Proxy merges the same flags into `npm_config_node_options` for npm/npx/pnpm; HKLM also strips `--permission-audit` from that variable. NVM never injects `--permission-audit`. |
+| `EnforcePermissionModel` | Prepend `--permission` (Node 23+) or `--experimental-permission` (20–22) on `node`. Default-deny FS/network until the process passes `--allow-*`. NVM does not inject grants except `DefaultPermissionGrants`. HKLM Policies strips `--permission-audit` (report-only) from argv, `NODE_OPTIONS`, and `npm_config_node_options`, then still injects `--permission`. Preference-only enforce leaves `--permission-audit` as a debug exception on `node`. Proxy merges the same flags into `npm_config_node_options` for npm/npx/pnpm. NVM never injects `--permission-audit`. |
 | `FreezeV8GlobalObjects` | Prepend `--frozen-intrinsics` on `node`; same flag in `npm_config_node_options` for npm/npx/pnpm when on |
 | `DisableEvalAndStringExecution` | Prepend `--disallow-code-generation-from-strings` (blocks `eval` / `new Function`; does not cover `node:vm`). Same flag in `npm_config_node_options` for npm/npx/pnpm when on |
 
