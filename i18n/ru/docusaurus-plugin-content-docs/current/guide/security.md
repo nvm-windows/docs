@@ -114,7 +114,7 @@ sequenceDiagram
 
 ## 3. Пакетные менеджеры и модули \{#package-managers-and-modules}
 
-Через `proxy.exe` NVM может применять **Governance**-контроли пакетных менеджеров, например [`NpmModuleMinimumAge`](../cfg/registry#governance-keys) (cooldown / минимальный возраст публикации для npm, pnpm и yarn). Community по умолчанию выключен. Certified Builds по умолчанию 2 дня (2880 минут), если ключ не задан. HKLM Policies фиксирует значение и удаляет CLI-флаги обхода возраста.
+Через `proxy.exe` NVM может применять **Governance**-контроли пакетных менеджеров, например [`NpmModuleMinimumAge`](../cfg/registry#governance-keys) (cooldown / минимальный возраст публикации для npm, npx, pnpm и yarn). Community по умолчанию выключен (`0`) — как stock npm/npx без version manager. Certified Builds по умолчанию 2 дня (2880 минут), если ключ не задан, включая npx. HKLM Policies фиксирует значение и удаляет CLI-флаги обхода возраста.
 
 NVM **сейчас не** применяет allow/deny list **пакетов** npm для вложенных зависимостей. Supply-chain риск внутри `node_modules` остаётся проблемой upstream-реестра; более долгосрочная работа Author Software Runtime закрывает это отдельно. Что NVM *действительно* ограничивает сегодня:
 

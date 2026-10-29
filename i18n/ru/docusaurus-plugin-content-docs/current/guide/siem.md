@@ -48,7 +48,7 @@ Certified MSI регистрирует этот provider и включает к�
 | Структурированный info, warning или error | Event ID **120**, **121** или **122** |
 | Код NVM | `Code` (только число) |
 | Именованное событие жизненного цикла или аудита | `EventName`, затем разберите `Payload` как JSON |
-| Каждый запуск `node.exe` | Event ID **200**, когда включён `log_executions`. Структурированная форма — `nodejs.executed` на Event ID **120** |
+| Каждый запуск `node.exe` | Event ID **120** `nodejs.executed`, когда включён `log_executions`. Event **200** не используется |
 
 `Payload` — строка JSON.
 `Code` — отдельный `UInt32`.
@@ -70,12 +70,12 @@ Certified MSI регистрирует этот provider и включает к�
 
 ## Версии Node.js в работе \{#nodejs-versions-in-use\}
 
-Event ID **200** пишет каждый запуск shim, когда включён `log_executions`.
-Этот Event ID не требует Advanced Logging.
+Event ID **120** `nodejs.executed` пишет каждый запуск shim, когда включён `log_executions`.
+`Payload.NodeVersion` — версия. Event ID **200** не используется.
 
 <SiemQuery id="versionsInUse" />
 
-С Advanced Logging структурированная форма — `nodejs.executed` на Event ID **120**.
+Число узлов для того же события:
 
 <SiemQuery id="nodejsExecuted" />
 
@@ -148,12 +148,12 @@ Windows Event ID — шаблон.
 | 120 | структурированный info | `Source`, `EventName`, `Payload`, `Code` |
 | 121 | структурированный warning | `Source`, `EventName`, `Payload`, `Code` |
 | 122 | структурированный error | `Source`, `EventName`, `Payload`, `Code` |
-| 200 | запуск shim | `RequestedCommand`, `ResolvedPath`, `NodeVersion`, `Arguments`, `WorkingDirectory` |
+| 200 | не используется | Остаток манифеста. Журнал запусков — Event ID **120** `nodejs.executed`. |
 | 210 | shim info | `Source`, `Message`, `Code` |
 | 211 | shim warning | `Source`, `Message`, `Code` |
 | 212 | shim error | `Source`, `Message`, `Code` |
 
-У Event ID **200** нет поля `Code`.
+Event ID **200** не используется. Журнал запусков — Event ID **120**.
 
 События безопасности от shim содержат `user`, `sid`, `hostname`, `parent_process`, `parent_pid`, `project_name` и `project_path`, когда процесс может их получить.
 Пустое значение — `unknown`.

@@ -168,7 +168,7 @@ sequenceDiagram
 
 ## 3. Package managers and modules
 
-Through `proxy.exe`, NVM can apply **Governance** package-manager controls such as [`NpmModuleMinimumAge`](../cfg/registry#governance-keys) (cooldown / minimum publish age for npm, pnpm, and yarn). Community defaults to off. Certified Builds default to 2 days (2880 minutes) when the key is unset. HKLM Policies forces the value and strips CLI age-override flags.
+Through `proxy.exe`, NVM can apply **Governance** package-manager controls such as [`NpmModuleMinimumAge`](../cfg/registry#governance-keys) (cooldown / minimum publish age for npm, npx, pnpm, and yarn). Community defaults to off (`0`), matching stock npm/npx with no version manager. Certified Builds default to 2 days (2880 minutes) when the key is unset, including npx. HKLM Policies forces the value and strips CLI age-override flags.
 
 Certified Builds also enforce the **[NVM Firewall](firewall)** module allow lists (`ApprovedModules` / `ApprovedGlobalModules`) on shimmed installs, and both editions support the **trust firewall** (`TrustedModules`) so approved self-updating global CLIs can auto-reshim after they rewrite their entrypoints.
 

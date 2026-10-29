@@ -43,6 +43,7 @@ There is a full list of [Error Codes](../troubleshooting/error-codes) (and expla
 | Structured info, warning, or error | Event ID **120**, **121**, or **122** |
 | An NVM code | `Code` (number only) |
 | A named lifecycle or audit event | `EventName`, then parse `Payload` as JSON |
+| Each `node.exe` launch | Event ID **120** `nodejs.executed` when `log_executions` is on. Event **200** unused. |
 
 |Field|Detail|
 |:-|:-|
@@ -65,12 +66,12 @@ Collectors flatten EventData in different ways. Use the names your platform crea
 
 ### Node.js versions in use
 
-Event ID **200** records each shim launch when `log_executions` is on.
-This Event ID does not need Advanced Logging.
+Event ID **120** `nodejs.executed` records each shim launch when `log_executions` is on.
+`Payload.NodeVersion` is the version. Event ID **200** is unused.
 
 <SiemQuery id="versionsInUse" />
 
-With Advanced Logging, the structured form is `nodejs.executed` on Event ID **120**.
+Host count for the same event:
 
 <SiemQuery id="nodejsExecuted" />
 
@@ -143,12 +144,12 @@ It is not the NVM number.
 | 120 | structured info | `Source`, `EventName`, `Payload`, `Code` |
 | 121 | structured warning | `Source`, `EventName`, `Payload`, `Code` |
 | 122 | structured error | `Source`, `EventName`, `Payload`, `Code` |
-| 200 | shim execution | `RequestedCommand`, `ResolvedPath`, `NodeVersion`, `Arguments`, `WorkingDirectory` |
+| 200 | unused | Manifest leftover. Launch logging is Event ID **120** `nodejs.executed`. |
 | 210 | shim info | `Source`, `Message`, `Code` |
 | 211 | shim warning | `Source`, `Message`, `Code` |
 | 212 | shim error | `Source`, `Message`, `Code` |
 
-Event ID **200** has no `Code` field.
+Event ID **200** is unused. Launch logging uses Event ID **120**.
 
 Security events from the shims include `user`, `sid`, `hostname`, `parent_process`, `parent_pid`, `project_name`, and `project_path` when the process can resolve them.
 An empty value is `unknown`.
