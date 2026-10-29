@@ -13,7 +13,7 @@ It looks up names in a signed local file (`malware.db`).
 It is not a file scanner.
 It does not inspect tarball contents.
 
-It is not the [module firewall](./firewall).
+It is not the [module firewall](../guide/firewall).
 The module firewall applies **your** allow and deny lists.
 This blocker applies a public feed of **known-malicious** names.
 
@@ -60,7 +60,7 @@ The definition file still updates when checks are skipped.
 ## Allow a false positive
 
 `MalwareAllowList` is HKLM only.
-See [Registry Policy Reference](../cfg/enterprise/registry).
+See [Registry Policy Reference](../cfg/registry).
 
 Each string is one pattern.
 Matching is byte for byte.
@@ -157,6 +157,6 @@ See [Event Logging](./log) and [Error Codes](../troubleshooting/error-codes).
 
 ## Related
 
-- [NVM Firewall](./firewall) — your version, module, and trust policy
+- [NVM Firewall](../guide/firewall) — your version, module, and trust policy
 - [Choosing a Build](../guide/builds/)
-- [Registry Policy Reference](../cfg/enterprise/registry)
+- [Registry Policy Reference](../cfg/registry)
