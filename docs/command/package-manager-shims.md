@@ -22,8 +22,9 @@ Global CLIs installed with those managers (for example `tsc`) use the same `prox
 5. Check the version directory is safe (not a reparse point, not cross-user writable) — failure → **NVM4305**.
 6. Locate the delegated command under the Node install (`.exe`, then `.cmd`, then `.bat`).
 7. Enforce package-manager constraints when policy applies (npm / npx / pnpm / yarn). HKLM `BlockPackageManagerLifecycleScripts` forces `--ignore-scripts` or `YARN_ENABLE_SCRIPTS=false`. Certified Builds with Advanced Logging write **NVM4412** for install-class commands only.
-8. Verify trust of `node.exe` and the delegated target (below).
-9. Spawn the real tool (for npm/npx/corepack: often `node.exe` + `*-cli.js`; otherwise the `.exe` / `.cmd`).
+8. When `EnforcePermissionModel`, `FreezeV8GlobalObjects`, or `DisableEvalAndStringExecution` is on, merge those Node flags into `npm_config_node_options` for npm/npx/pnpm so lifecycle scripts inherit them. Default off: no env write. Does not set `NODE_OPTIONS`. Yarn, bun, corepack, and vlt are skipped. npm-cli.js itself is not launched under `--permission`.
+9. Verify trust of `node.exe` and the delegated target (below).
+10. Spawn the real tool (for npm/npx/corepack: often `node.exe` + `*-cli.js`; otherwise the `.exe` / `.cmd`).
 
 Canonical binary: `{DataRoot}/proxy.exe`. Per-command shims: `{DataRoot}/.shim/{name}.exe` (hardlink or copy of `proxy.exe`).
 

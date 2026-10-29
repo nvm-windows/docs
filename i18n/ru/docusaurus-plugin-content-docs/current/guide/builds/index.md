@@ -66,9 +66,9 @@ NVM for Windows распространяется компанией Author Softw
 - Использовать корпоративные прокси (IWA, PAC/WPAD).
 - Блокировать неутверждённые версии Node.js (EOL, уязвимые или нестабильные).
 - Задавать пользовательские cooldown для npm/yarn/pnpm.
-- Применять модель прав Node.js (`--permission` / `--experimental-permission`), чтобы каждый `node.exe` стартовал с default-deny; приложениям нужно передавать `--allow-*` при запуске.
-- Замораживать intrinsics V8 (`--frozen-intrinsics`), чтобы предотвратить загрязнение прототипов встроенных объектов.
-- Запрещать `eval()` / `new Function()` (`--disallow-code-generation-from-strings`).
+- Применять модель прав Node.js (`--permission` / `--experimental-permission`), чтобы shim-`node` стартовал с default-deny; lifecycle-скрипты npm/npx/pnpm наследуют те же флаги через `npm_config_node_options`, когда политика включена. Приложениям нужно передавать `--allow-*` при запуске.
+- Замораживать intrinsics V8 (`--frozen-intrinsics`), чтобы предотвратить загрязнение прототипов встроенных объектов (также для скриптов npm/npx/pnpm при включённой политике).
+- Запрещать `eval()` / `new Function()` (`--disallow-code-generation-from-strings`) (также для скриптов npm/npx/pnpm при включённой политике).
 - Ограничивать установки локальными источниками (air-gapping).
 - Ограничивать устанавливаемые версии (например lts/non-EOL/non-ALPHA) через version firewall.
 

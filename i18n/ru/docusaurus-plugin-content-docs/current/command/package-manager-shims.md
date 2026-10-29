@@ -22,8 +22,9 @@ Proxy разрешает активную версию Node.js (те же пра
 5. Проверяет, что каталог версии безопасен (не reparse point, не writable другими пользователями) — отказ → **NVM4305**.
 6. Находит делегированную команду в установке Node (`.exe`, затем `.cmd`, затем `.bat`).
 7. Применяет ограничения package manager, если действует политика (npm / npx / pnpm / yarn). HKLM `BlockPackageManagerLifecycleScripts` принудительно ставит `--ignore-scripts` или `YARN_ENABLE_SCRIPTS=false`. Certified Builds с Advanced Logging пишут **NVM4412** только для install-команд.
-8. Проверяет доверие к `node.exe` и делегированной цели (ниже).
-9. Запускает реальный инструмент (для npm/npx/corepack часто `node.exe` + `*-cli.js`; иначе `.exe` / `.cmd`).
+8. Если включены `EnforcePermissionModel`, `FreezeV8GlobalObjects` или `DisableEvalAndStringExecution`, вписывает эти флаги Node в `npm_config_node_options` для npm/npx/pnpm, чтобы lifecycle-скрипты их наследовали. По умолчанию выкл.: env не пишется. `NODE_OPTIONS` не задаётся. Yarn, bun, corepack и vlt пропускаются. npm-cli.js сам не запускается под `--permission`.
+9. Проверяет доверие к `node.exe` и делегированной цели (ниже).
+10. Запускает реальный инструмент (для npm/npx/corepack часто `node.exe` + `*-cli.js`; иначе `.exe` / `.cmd`).
 
 Канонический бинарник: `{DataRoot}/proxy.exe`. Shim на команду: `{DataRoot}/.shim/{name}.exe` (hardlink или копия `proxy.exe`).
 

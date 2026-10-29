@@ -124,13 +124,13 @@ NVM **сейчас не** применяет allow/deny list **пакетов** 
 
 ## 4. Permission model и V8 lockdown Node (Governance, shim) \{#node-permission-and-v8-lockdown-governance-shim-mode}
 
-Большинство команд не передают флаги permission model Node. Политика Governance может принудительно включать их на каждый shim-запуск:
+Большинство команд не передают флаги permission model Node. Политика Governance может принудительно включать их на shim-`node` и, если хотя бы один ключ включён, на lifecycle-скрипты npm/npx/pnpm. По умолчанию выкл.: `npm_config_node_options` не пишется. Yarn, bun, corepack и vlt не покрыты. NVM не задаёт `NODE_OPTIONS`.
 
 | Политика | Эффект |
 |:-|:-|
-| `EnforcePermissionModel` | Добавляет `--permission` (Node 23+) или `--experimental-permission` (20–22). Default-deny FS/network, пока процесс не передаст `--allow-*`. NVM не внедряет grants. HKLM Policies удаляет `--permission-audit` (только отчёт) и всё равно внедряет `--permission`. Enforce только из Preferences оставляет `--permission-audit` как отладочное исключение. NVM никогда не внедряет `--permission-audit`. |
-| `FreezeV8GlobalObjects` | Добавляет `--frozen-intrinsics` |
-| `DisableEvalAndStringExecution` | Добавляет `--disallow-code-generation-from-strings` (блокирует `eval` / `new Function`; не покрывает `node:vm`) |
+| `EnforcePermissionModel` | Добавляет `--permission` (Node 23+) или `--experimental-permission` (20–22) на `node`. Default-deny FS/network, пока процесс не передаст `--allow-*`. NVM не внедряет grants, кроме `DefaultPermissionGrants`. HKLM Policies удаляет `--permission-audit` (только отчёт) и всё равно внедряет `--permission`. Enforce только из Preferences оставляет `--permission-audit` как отладочное исключение для `node`. Proxy вписывает те же флаги в `npm_config_node_options` для npm/npx/pnpm; HKLM также удаляет `--permission-audit` из этой переменной. NVM никогда не внедряет `--permission-audit`. |
+| `FreezeV8GlobalObjects` | Добавляет `--frozen-intrinsics` на `node`; тот же флаг в `npm_config_node_options` для npm/npx/pnpm при включении |
+| `DisableEvalAndStringExecution` | Добавляет `--disallow-code-generation-from-strings` (блокирует `eval` / `new Function`; не покрывает `node:vm`). Тот же флаг в `npm_config_node_options` для npm/npx/pnpm при включении |
 
 См. [Operating Modes](../features/modes) и [ключи реестра](../cfg/registry#available-registry-keys).
 

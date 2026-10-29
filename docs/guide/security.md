@@ -181,13 +181,13 @@ Supply-chain risk inside transitive `node_modules` remains largely an upstream r
 
 ## 4. Node permission and V8 lockdown (Governance, shim mode)
 
-Most teams never pass Node’s permission model flags. Governance policy can force them on every shimmed launch:
+Most teams never pass Node’s permission model flags. Governance policy can force them on shimmed `node` and, when at least one of these keys is on, on npm/npx/pnpm lifecycle scripts. Default off does not write `npm_config_node_options`. Yarn, bun, corepack, and vlt are not covered. NVM does not set `NODE_OPTIONS`.
 
 | Policy | Effect |
 |:-|:-|
-| `EnforcePermissionModel` | Prepend `--permission` (Node 23+) or `--experimental-permission` (20–22). Default-deny FS/network until the process passes `--allow-*`. NVM does not inject grants. HKLM Policies strips caller `--permission-audit` (report-only) and still injects `--permission`. Preference-only enforce leaves `--permission-audit` as a debug exception. NVM never injects `--permission-audit`. |
-| `FreezeV8GlobalObjects` | Prepend `--frozen-intrinsics` |
-| `DisableEvalAndStringExecution` | Prepend `--disallow-code-generation-from-strings` (blocks `eval` / `new Function`; does not cover `node:vm`) |
+| `EnforcePermissionModel` | Prepend `--permission` (Node 23+) or `--experimental-permission` (20–22) on `node`. Default-deny FS/network until the process passes `--allow-*`. NVM does not inject grants except `DefaultPermissionGrants`. HKLM Policies strips caller `--permission-audit` (report-only) and still injects `--permission`. Preference-only enforce leaves `--permission-audit` as a debug exception on `node`. Proxy merges the same flags into `npm_config_node_options` for npm/npx/pnpm; HKLM also strips `--permission-audit` from that variable. NVM never injects `--permission-audit`. |
+| `FreezeV8GlobalObjects` | Prepend `--frozen-intrinsics` on `node`; same flag in `npm_config_node_options` for npm/npx/pnpm when on |
+| `DisableEvalAndStringExecution` | Prepend `--disallow-code-generation-from-strings` (blocks `eval` / `new Function`; does not cover `node:vm`). Same flag in `npm_config_node_options` for npm/npx/pnpm when on |
 
 See [Operating Modes](../features/modes) and [registry keys](../cfg/registry#available-registry-keys).
 
