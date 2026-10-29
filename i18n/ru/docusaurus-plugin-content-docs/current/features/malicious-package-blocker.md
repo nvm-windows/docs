@@ -13,7 +13,7 @@ Bun проверяется только когда включён [`shim_bun`](.
 Это не сканер файлов.
 Он не проверяет содержимое tarball.
 
-Это не [module firewall](./firewall).
+Это не [module firewall](../guide/firewall).
 Module firewall применяет **ваши** списки allow и deny.
 Этот blocker применяет публичную ленту **известных вредоносных** имён.
 
@@ -60,7 +60,7 @@ HKLM `SkipMalwareChecks` важнее HKCU.
 ## Разрешить ложное срабатывание \{#allow-a-false-positive\}
 
 `MalwareAllowList` — только HKLM.
-См. [справочник политики реестра](../cfg/enterprise/registry).
+См. [справочник политики реестра](../cfg/registry).
 
 Каждая строка — один шаблон.
 Сравнение по байтам.
@@ -157,6 +157,6 @@ nvm cache remove malware --prompt
 
 ## Связанные материалы \{#related\}
 
-- [NVM Firewall](./firewall) — ваша политика версий, модулей и доверия
+- [NVM Firewall](../guide/firewall) — ваша политика версий, модулей и доверия
 - [Выбор сборки](../guide/builds/)
-- [Справочник политики реестра](../cfg/enterprise/registry)
+- [Справочник политики реестра](../cfg/registry)
