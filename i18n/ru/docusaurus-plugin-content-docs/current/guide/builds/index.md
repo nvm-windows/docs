@@ -35,7 +35,7 @@ Certified-сборки рассчитаны на команды и органи�
 |:-|:-|
 |**Advanced&nbsp;Logging**|Структурированное журналирование для интеграции с SIEM.|
 |**Trust&nbsp;Artifacts**|SBOM, provenance и отчёты VEX.|
-|**Governance**|Централизованное управление политиками (ADMX/ADML + GPO/Entra-скрипты), расширенная поддержка прокси (IWA, WPAD/PAC), зеркало Node.js (mirror.author.io), version firewall, принудительные права Node.js через shim, единый cooldown для менеджеров пакетов (npm/npx/pnpm/yarn) и air-gap/локальные установки.|
+|**Governance**|Централизованное управление политиками (ADMX/ADML + GPO/Entra-скрипты), расширенная поддержка прокси (IWA, WPAD/PAC), зеркало Node.js (mirror.author.io), version firewall, принудительные права Node.js через shim, принудительный cooldown менеджеров пакетов из машинной политики (npm/npx/pnpm/yarn) и air-gap/локальные установки.|
 
 ### Центр сертификации подписи кода
 
@@ -65,7 +65,7 @@ NVM for Windows распространяется компанией Author Softw
 
 - Использовать корпоративные прокси (IWA, PAC/WPAD).
 - Блокировать неутверждённые версии Node.js (EOL, уязвимые или нестабильные).
-- Задавать пользовательские cooldown для npm/npx/yarn/pnpm.
+- Принудительно задавать cooldown npm/npx/yarn/pnpm из машинной политики.
 - Применять модель прав Node.js (`--permission` / `--experimental-permission`), чтобы shim-`node` стартовал с default-deny; lifecycle-скрипты npm/npx/pnpm наследуют те же флаги через `npm_config_node_options`, когда политика включена. Приложениям нужно передавать `--allow-*` при запуске.
 - Замораживать intrinsics V8 (`--frozen-intrinsics`), чтобы предотвратить загрязнение прототипов встроенных объектов (также для скриптов npm/npx/pnpm при включённой политике).
 - Запрещать `eval()` / `new Function()` (`--disallow-code-generation-from-strings`) (также для скриптов npm/npx/pnpm при включённой политике).
