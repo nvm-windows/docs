@@ -84,7 +84,7 @@ Certified Builds также читают:
 | `MalwareBlockList` | Шаблоны HKLM, которые всегда блокируют, или один URL `https://`. Community Builds игнорируют этот список. |
 | `MalwareTrustConflict` | `prevent` (по умолчанию) всё равно блокирует попадание OpenSSF, если имя явно доверено или одобрено. `continue` пропускает такое доверие или одобрение. Community Builds игнорируют этот ключ. |
 
-Встроенные семена доверия менеджеров пакетов (`npm`, `npx`, `yarn`, `yarnpkg`, `corepack`, `pnpm`) для этой проверки доверием не считаются.
+Встроенные семена доверия менеджеров пакетов (`npm`, `npx`, `yarn`, `yarnpkg`, `corepack`, `pnpm`, `vlt`) для этой проверки доверием не считаются.
 
 Блок malware не пишет `package_manager.install`.
 **NVM4602** — запись, когда включён Advanced Logging.
