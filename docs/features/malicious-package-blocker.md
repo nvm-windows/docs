@@ -84,7 +84,7 @@ Certified Builds also read:
 | `MalwareBlockList` | HKLM patterns that always block, or one `https://` policy URL. Community Builds ignore this list. |
 | `MalwareTrustConflict` | `prevent` (default) still blocks an OpenSSF hit when the name is explicitly trusted or approved. `continue` lets that trust or approval through. Community Builds ignore this key. |
 
-Bundled package-manager trust seeds (`npm`, `npx`, `yarn`, `yarnpkg`, `corepack`, `pnpm`) do not count as trust for this check.
+Bundled package-manager trust seeds (`npm`, `npx`, `yarn`, `yarnpkg`, `corepack`, `pnpm`, `vlt`) do not count as trust for this check.
 
 A malware block does not write `package_manager.install`.
 **NVM4602** is the record when Advanced Logging is on.
