@@ -43,17 +43,21 @@ export const siemQueries = {
     wevtutilListsOnly: true,
     sentinel: `Event
 | where EventLog == "${CHANNEL}"
-| where EventID == 200
-| summarize Launches = count() by tostring(EventData.NodeVersion), Computer
+| where EventID == 120
+| where EventData.EventName == "nodejs.executed"
+| extend Payload = parse_json(tostring(EventData.Payload))
+| summarize Launches = count() by tostring(Payload.NodeVersion), Computer
 | order by Launches desc`,
-    splunk: `index=wineventlog Channel="${CHANNEL}" EventCode=200
-| stats count as Launches by EventData.NodeVersion, Computer
+    splunk: `index=wineventlog Channel="${CHANNEL}" EventCode=120 EventData.EventName="nodejs.executed"
+| eval Payload=json_decode(EventData.Payload)
+| stats count as Launches by Payload.NodeVersion, Computer
 | sort -Launches`,
     elastic: `FROM logs-*
-| WHERE winlog.channel == "${CHANNEL}" AND winlog.event_id == 200
-| STATS Launches = COUNT(*) BY version = winlog.event_data.NodeVersion, host = winlog.computer_name
+| WHERE winlog.channel == "${CHANNEL}" AND winlog.event_id == 120 AND winlog.event_data.EventName == "nodejs.executed"
+| EVAL Payload = TO_JSON(winlog.event_data.Payload)
+| STATS Launches = COUNT(*) BY version = Payload.NodeVersion, host = winlog.computer_name
 | SORT Launches DESC`,
-    wevtutil: `wevtutil qe "${CHANNEL}" /q:"*[System[(EventID=200)]]" /f:text /c:20`,
+    wevtutil: `wevtutil qe "${CHANNEL}" /q:"*[System[(EventID=120)] and EventData[Data[@Name='EventName']='nodejs.executed']]" /f:text /c:20`,
   },
   nodejsExecuted: {
     wevtutilListsOnly: true,

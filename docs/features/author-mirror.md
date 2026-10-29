@@ -67,7 +67,7 @@ There are two (combinable) ways to enforce dynamic policies on the Author mirror
 | Policy entry | Local client | Author mirror (`mirror.author.io`) | Public mirror (`nodejs.org`) |
 |:-|:-|:-|:-|
 | `16.x` on block list | Denied before download | Not reached | Not reached |
-| `EOL` on block list | Allowed locally (alias ignored) | Denied if version is end-of-life | No Author JWT — not enforced |
+| `EOL` on block list | Allowed locally (alias ignored at install, `nvm use`, and shim launch) | Denied if version is end-of-life | No Author JWT — not enforced |
 | Allow `20.x` only (no magic) | Non-20 denied locally | — | — |
 
 
@@ -80,7 +80,7 @@ VersionAllowList=20.x
 
 What this does:
 
-1. **Locally:** `20.x` / `22.x` match the allow list. `EOL` is not expanded, so an end-of-life release is **not** stopped on the client by that alias alone. Because a dynamic alias is present, the allow list is also **not** treated as exclusive: other versions can still pass the local check.
+1. **Locally:** `20.x` / `22.x` match the allow list. `EOL` is not expanded, so an end-of-life release is **not** stopped on the client by that alias alone — including `nvm use` and Certified shim launch of an already-installed copy. Because a dynamic alias is present, the allow list is also **not** treated as exclusive: other versions can still pass the local check.
 1. **On `mirror.author.io`:** the client sends a license claim derived from these lists (including `NOT EOL`). The mirror rejects end-of-life archives.
 1. **On `nodejs.org` (or any non-Author mirror):** no Author JWT — `EOL` does nothing. Put Author first in [`node_mirror`](../cfg/core#downloads-and-mirrors), or add static blocks (for example `16.x`) if you must enforce without the Author mirror.
 
