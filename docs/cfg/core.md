@@ -117,7 +117,7 @@ _(not listed in `cfg docs`)_
 | Version aliases (`stable=24.x`, etc.) | Prefer [`nvm alias`](../command/nvm/alias); values are stored as `aliases` |
 | Turn version management on/off | [`nvm on`](../command/nvm/on)/[`nvm off`](../command/nvm/off) (writes `enabled`) |
 | Active/last version | Managed by [`nvm use`](../command/nvm/use) (`active_version`, `last_version`) |
-| Shim security/V8 flags _(Governance)_ | [Registry reference](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) |
+| Shim security/V8 flags _(Governance)_ | [Registry reference](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`). Off by default: no `npm_config_node_options` write. When on, npm/npx/pnpm lifecycle scripts inherit the same flags. |
 | Governance locks (mirrors, version allow/block lists, proxies) | [Administrative Templates](ad) and [registry policies](registry) — Certified Builds |
 
 ```powershell

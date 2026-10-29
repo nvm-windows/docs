@@ -112,7 +112,7 @@ _(не перечислены в `cfg docs`)_
 | Псевдонимы версий (`stable=24.x` и т. д.) | Предпочтительно [`nvm alias`](../command/nvm/alias); значения хранятся как `aliases` |
 | Включение/отключение управления версиями | [`nvm on`](../command/nvm/on)/[`nvm off`](../command/nvm/off) (записывает `enabled`) |
 | Активная/последняя версия | Управляется [`nvm use`](../command/nvm/use) (`active_version`, `last_version`) |
-| Безопасность shim / флаги V8 _(Governance)_ | [Справочник реестра](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) |
+| Безопасность shim / флаги V8 _(Governance)_ | [Справочник реестра](registry) (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`). По умолчанию выкл.: `npm_config_node_options` не пишется. При включении lifecycle-скрипты npm/npx/pnpm наследуют те же флаги. |
 | Блокировки Governance (зеркала, списки разрешённых/заблокированных версий, прокси) | [Административные шаблоны](ad) и [политики реестра](registry) — Certified Builds |
 
 ```powershell
