@@ -61,6 +61,8 @@ The community installer is Inno Setup. These switches work on `nvm-<version>-x64
 
 The program root stays `%LOCALAPPDATA%\Author Software\nvm`. A silent `/DIR` that points somewhere else aborts with [NVM4100](../troubleshooting/error-codes.md). Node version storage is `InstallRoot` (wizard, or `nvm config` after install), not `/DIR`.
 
+Runtime directories (`.shim`, `.nodejs`, `.sync`, `.cache`, `.verify`, `proxy.exe`) always live under the program root. Custom `InstallRoot` holds version trees only — NVM never creates those runtime dirs as siblings of a custom storage folder (for example choosing `D:\nvm` must not create `D:\.shim`).
+
 Silent install skips the storage-permissions page. If the current `InstallRoot` is not a safe managed path and the ACL check fails, the installer moves storage to AppData. If ACL repair still fails, the silent install stops unless you pass `/ALLOWDEGRADEDACLS`.
 
 |Parameter|Accepted values|What it does|
