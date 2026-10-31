@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 title: Режимы работы
 sidebar_label: Режимы работы
 ---
@@ -58,7 +58,7 @@ NVM for Windows v2 не пытается повысить права (то ес�
 - Единые/настраиваемые периоды cooldown для всех основных менеджеров пакетов (npm/npx/yarn/pnpm/vlt/bun). Community Builds по умолчанию выключены. Certified Builds по умолчанию 2 дня. Пользователи могут менять любое значение. Принудительная установка из машинной политики требует дополнение Governance.
 
 :::tip[Certified Builds]
-**Ограничение прав V8 / permission lockdown** в shim (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) — функция Governance. **Cooldown** менеджеров пакетов — нет. Governance может принудительно задать cooldown из машинной политики. См. [политику реестра](../cfg/registry) и [Выбор редакции](../guide/builds/).
+**Ограничение прав V8 / permission lockdown** в shim (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) — функция Governance. **Cooldown** менеджеров пакетов — нет. Governance может принудительно задать cooldown из машинной политики. См. [политику реестра](../cfg/registry) и [Выбор сборки](../guide/builds/).
 :::
 
 :::info
@@ -73,8 +73,19 @@ NVM for Windows v2 не пытается повысить права (то ес�
 |:-|:-:|:-:|
 |Задержка[^1]|0ms|25–35ms|
 |Системная версия|:heavy_check_mark:|:heavy_check_mark:|
-|Автоматическая установка|:heavy_check_mark:|:heavy_check_mark:|
+|Автоматическая установка (`nvm use --install`)|:heavy_check_mark:|:heavy_check_mark:|
 |Автоопределение версии|:x:|:heavy_check_mark:|
+|Автоустановка отсутствующей обнаруженной версии|:x:|:heavy_check_mark:|
+|Одноразовое переопределение версии (`--nvm-use`)|:x:|:heavy_check_mark:|
+|Шим менеджеров пакетов|:x:|:heavy_check_mark:|
+|Шим глобальных модулей|:x:|:heavy_check_mark:|
+|Проверка издателя `node.exe` при каждом запуске|:x:|:heavy_check_mark:|
+|Защита от вредоносных пакетов|:x:|:heavy_check_mark:|
+|Межсетевой экран модулей и доверия|:x:|:heavy_check_mark:|
+|Обработка несовпадения менеджеров пакетов|:x:|:heavy_check_mark:|
+|Ограничение прав Node.js / V8|:x:|:heavy_check_mark:<br/>_Governance_|
+|Cooldown менеджеров пакетов|:x:|:heavy_check_mark:|
+|Журналирование каждого запуска|:x:|:heavy_check_mark:|
 |Особые права<br/><br/>|[`SeCreateSymbolicLinkPrivilege`](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/create-symbolic-links)<br/>_для symlink на [UNC path](https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#unc-paths)_|Нет<br/><br/>|
 
 

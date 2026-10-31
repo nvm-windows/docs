@@ -14,7 +14,7 @@ This differs from the ordinary [download cache](./cache): [`local_dir`](../cfg/r
 | [`local_dir`](../cfg/registry#available-registry-keys) | `LocalInstallDir` | _(unset)_ | Directory of Node.js `.7z` archives used as the install source |
 | [`local_install_only`](../cfg/registry#available-registry-keys) | `LocalInstallOnly` | `false` | Install only from that local source; fail if the archive is missing |
 
-Both are overridable preferences (often set by [machine policy](../cfg/registry) on Certified Builds fleets). They are hidden from everyday `nvm config docs` output, but still work with `nvm config`:
+Both are overridable preferences (often set by [machine policy](../cfg/registry) on Governance fleets). They are hidden from everyday `nvm config docs` output, but still work with `nvm config`:
 
 ```powershell
 nvm config set local_dir=D:\node-archives

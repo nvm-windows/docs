@@ -126,6 +126,25 @@ pre[class*='language-pwsh'] .token.operator {
   margin-top: 0;
 }
 
+/* Box the tab list and panel so the end of a tabbed section is visible. */
+.tabs-container {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  margin-bottom: var(--ifm-paragraph-margin-bottom);
+}
+
+.tabs-container > .tabs {
+  margin-bottom: 0;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.tabs-container > .margin-top--md {
+  margin-top: 0;
+  padding: 1rem 1rem 0.25rem;
+}
+
 /* Markdown screenshots: keep aspect ratio when width/height attrs are present. */
 .theme-doc-markdown img {
   max-width: 100%;
@@ -136,4 +155,21 @@ pre[class*='language-pwsh'] .token.operator {
 .theme-doc-sidebar-item-link.hidden,
 li.hidden {
   display: none !important;
+}
+
+/* All Features catalog: keep the name column at most 30% of the table. */
+.all-features-table table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.all-features-table table th:first-child,
+.all-features-table table td:first-child {
+  width: 30%;
+  max-width: 30%;
+}
+
+.all-features-table table th:last-child,
+.all-features-table table td:last-child {
+  width: 70%;
 }

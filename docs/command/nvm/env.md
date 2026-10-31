@@ -27,7 +27,7 @@ This command takes no arguments.
 
 | Section | Contents |
 |---------|----------|
-| Computer | Windows version/build, shell, admin and developer mode |
+| Computer | Windows version/build, shell, admin, developer mode, and antivirus |
 | Installation | NVM version, install path, upgrade policy |
 | Version management | Mode, active version, install/cache roots, sizes and counts |
 | Mirrors | Node and npm mirror URLs and reachability |

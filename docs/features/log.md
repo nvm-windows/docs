@@ -1,30 +1,66 @@
 ---
-title: Event Logging
+title: Windows Native Logging
+sidebar_label: Windows Native Logging
 sidebar_position: 4
 tags: [native-integration]
 ---
 
-Critical events — installations, configuration changes, and security events — are logged natively in Windows Event Viewer. Community and Certified Builds both get operational events; org-wide SIEM/audit pipelines usually pair Event Viewer with the Advanced Logging add-on (below).
+# Windows Native Logging
+
+:::note[Basic Logging]
+_This overview covers basic logging. [Advanced Logging]() is available for [Certified Builds]()._
+:::
+
+Critical events are logged natively, including activities like Node.js version installations, configuration changes, and security concerns.
+
+Community Builds produce events in plaintext entries in the Windows Application log, which is visible from Windows Event Viewer. "NVM for Windows" is registered as an event source.
 
 ![1776532731980](/img/features/native/1776532731980.png)
 
-Only critical change events are logged by default. Additional logging is available through [configuration](../cfg/core#logging-and-announcements). It is possible to log every `node.exe` / `npm` / `npx` invocation (as well as other major package managers).
+
+:::tip[Certified Builds: Dedicated Channel & Advanced Logging]
+Certified Builds produce events in a dedicated `NVM for Windows/Operational` log, which is also visible from Windows Event Viewer. The [Advanced logging](./certified-builds/advanced-logging) add-on is available for Certified Builds, offering enriched / structured logs for auditing, observability, and [SIEM pipelines](../guide/siem).
+:::
+
+
+
+## Verbose Logging Options
+
+Only critical change events are logged by default, but it is possible to log more activities.
+
+### Log node.exe invocations
+
+When you turn this on, NVM writes one Windows event for every `node.exe` invocation ([shim mode](./modes) only).
+
+```powershell
+nvm config set log_executions=true
+node -v
+```
+
+1. Open Event Viewer.
+1. Open **Windows Logs** → **Application**.
+1. Filter by source **NVM for Windows**.
+
+Each `node.exe` launch is Event ID **120** (`nodejs.executed`). Event ID **200** is unused.
+
+```powershell
+wevtutil qe Application /q:"*[System[Provider[@Name='NVM for Windows'] and (EventID=120)]]" /f:text /c:5
+```
+
+[Advanced Logging](./certified-builds/advanced-logging) details additional capabilities.
+[SIEM](../guide/siem) has fleet queries.
+
+## Warnings
 
 :::warning[Event source registration]
-Community and Certified Builds both register an ETW provider (`NVMWindows.Events.man` + `NVMWindows.Events.dll` next to `nvm.exe`). Look under **Applications and Services Logs → NVM for Windows/Operational**, not only the classic Application log.
+Both builds register an ETW provider (`NVMWindows.Events.man` + `NVMWindows.Events.dll` next to `nvm.exe`).
+Community Builds register the **NVM for Windows** source on the Windows Application log. Certified Builds register **NVM for Windows/Operational** instead. Advanced Logging requires this dedicated channel.
 
-If setup cannot elevate for `nvm --register-eventlog` (UAC canceled / non-admin), registration is skipped. Run that command later from an elevated terminal, or reinstall and accept the UAC prompt.
+If setup cannot elevate (UAC canceled / non-admin), or the log is missing, run `nvm --register-eventlog` from an elevated terminal, or reinstall and accept the UAC prompt.
 :::
 
-:::tip[Certified Builds — Advanced Logging]
-The **Advanced Logging** add-on (Certified Builds) writes structured entries with `EventName` and JSON `Payload` to **NVM for Windows/Operational**. Use the [SIEM guide](../guide/siem) for collector setup and starter queries. Details: [Advanced Logging](./certified-builds/advanced-logging).
-:::
+## Related
 
-## Malware feed
-
-These events are written only when advanced logging is on. They use Windows Event ID 120 on `NVM for Windows/Operational`. A block still prints in the terminal when that license is off, and that block does not write `package_manager.install`.
-
-| Code | Event | Payload |
-|------|--------|---------|
-| **NVM4601** | `malware.definitions_updated` | `added`, `removed`, `seq`, `previous_seq` |
-| **NVM4602** | `malware.package_blocked` | package name, version when known, command, `source`, `reason` |
+- [Advanced Logging](./certified-builds/advanced-logging) — Certified Builds structured events
+- [SIEM](../guide/siem) — fleet queries
+- [Operating Modes](./modes)

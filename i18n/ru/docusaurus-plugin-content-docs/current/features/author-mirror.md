@@ -1,29 +1,37 @@
 ---
-title: Version Firewall + Author Mirror
-sidebar_position: 8
+title: Author Mirror
+sidebar_label: Author Mirror
+sidebar_position: 12
 certified:
   edition: governance
 ---
 
 import DocImage from '@site/docs/_components/DocImage';
 
-# Version Firewall + Author Mirror
+# Author Mirror
 
-Сборки Governance могут ограничивать, какие версии Node.js устанавливаются, через **локальный firewall** (статические списки allow/block) и **зеркало Node.js с политиками** Author Software на `https://mirror.author.io/runtime/nodejs` (правила жизненного цикла, например блокировка end-of-life релизов).
+Сборки Governance могут загружать Node.js с зеркала Author Software с политиками: `https://mirror.author.io/runtime/nodejs`.
+Зеркало может отклонять end-of-life релизы и применять hosted-правила.
 
-Для обычных URL [`node_mirror`](../cfg/core#downloads-and-mirrors)/[`npm_mirror`](../cfg/core#downloads-and-mirrors) и HTTP-прокси см. [Зеркала загрузок](./mirrors).
+Клиентские списки allow и deny для `nvm install` — это [NVM Firewall](./firewall).
+Эти списки также могут заполнять это зеркало.
 
-## Firewall \{#firewall}
+Для обычных URL [`node_mirror`](../cfg/core#downloads-and-mirrors)/[`npm_mirror`](../cfg/core#downloads-and-mirrors) см. [Зеркала загрузок](./mirrors). Для HTTP-прокси см. [HTTP-прокси](./http-proxy).
 
-Локальный firewall NVM for Windows учитывает списки разрешённых/заблокированных версий из политик безопасности организации (см. [ключи реестра edition governance](/cfg/registry#governance-keys)). **Статические** записи применяются на клиенте до начала любой загрузки при каждом `nvm install <version>`. Эта локальная проверка работает в изолированных средах.
+## Локальные списки версий \{#firewall}
 
-Псевдонимы жизненного цикла вроде `EOL` локальный firewall не раскрывает; они применяются при установках через зеркало Author (ниже).
+Статические записи `VersionAllowList` / `VersionBlockList` применяет [NVM Firewall](./firewall) до начала загрузки.
+Эта локальная проверка работает без сети.
 
-Для исходящих allow-list firewall см. [Требования](../install/enterprise/requirements#proxy-exceptions). Полный перечень типов ключей — в [справочнике политики реестра](../cfg/registry) и [базовой конфигурации](../cfg/core).
+Псевдонимы жизненного цикла вроде `EOL` на клиенте не раскрываются.
+Это зеркало оценивает их при выдаче архива.
 
-## Author Mirror
+Для исходящих allow-list см. [Требования](../install/enterprise/requirements#proxy-exceptions).
 
-Зеркало Author добавляет ещё один уровень защиты от неодобренных загрузок Node.js. Оно применяет *динамические политики* через правила, дополняя локальные списки allow/block.
+## Author Mirror \{#author-mirror\}
+
+Зеркало Author добавляет уровень проверки при загрузке неодобренных архивов Node.js.
+Оно применяет *динамические политики* через правила, дополняя локальные списки allow/block.
 
 :::warning[Только подключённые среды]
 Зеркало Author недоступно в изолированных (air-gapped) средах.
@@ -53,7 +61,7 @@ import DocImage from '@site/docs/_components/DocImage';
 
 ## Применение динамических политик
 
-Динамические политики — псевдонимы жизненного цикла (например, `EOL`), классифицирующие диапазон версий. Зеркало Author оценивает их при выдаче загрузок. Те же списки политики машины, что питают [локальный firewall](#firewall), могут также **заполнять** эти псевдонимы в license JWT Author.
+Динамические политики — псевдонимы жизненного цикла (например, `EOL`), классифицирующие диапазон версий. Зеркало Author оценивает их при выдаче загрузок. Те же списки политики машины, что питают [NVM Firewall](./firewall), могут также **заполнять** эти псевдонимы в license JWT Author.
 
 Есть два (комбинируемых) способа применить динамические политики на зеркале Author.
 
@@ -61,8 +69,8 @@ import DocImage from '@site/docs/_components/DocImage';
 
 `VersionAllowList` / `VersionBlockList` (см. [ключи реестра Governance](/cfg/registry#governance-keys)) выполняют двойную роль:
 
-- **Статические записи** — применяются локальным firewall при `nvm install`, `nvm use` и запуске Certified shim, до любой загрузки.
-- **Динамические псевдонимы** (`EOL`, `ALPHA`, `MAINTENANCE`) — локальный firewall игнорирует; включаются в краткоживущий license JWT, отправляемый только на `mirror.author.io`. Зеркало применяет эти правила жизненного цикла при выдаче архива.
+- **Статические записи** — применяет [NVM Firewall](./firewall) до любой загрузки.
+- **Динамические псевдонимы** (`EOL`, `ALPHA`, `MAINTENANCE`) — клиент игнорирует; включаются в краткоживущий license JWT, отправляемый только на `mirror.author.io`. Зеркало применяет эти правила жизненного цикла при выдаче архива.
 
 | Запись политики | Локальный клиент | Author mirror (`mirror.author.io`) | Публичное зеркало (`nodejs.org`) |
 |:-|:-|:-|:-|
@@ -123,10 +131,11 @@ Hosted rules настраиваются через клиентский порт
 | Тема | Документ |
 |:-|:-|
 | Базовые [`node_mirror`](../cfg/core#downloads-and-mirrors) / [`npm_mirror`](../cfg/core#downloads-and-mirrors) | [Зеркала загрузок](./mirrors) |
-| HTTP-прокси | [Зеркала загрузок](./mirrors#http-proxies) |
+| HTTP-прокси | [HTTP-прокси](./http-proxy) |
 | Пользовательские ключи конфигурации | [Базовая конфигурация](../cfg/core) |
 | Ключи политики и образец `.reg` | [Справочник политики реестра](../cfg/registry) |
+| NVM Firewall (списки версий) | [NVM Firewall](./firewall) |
 | Исключения firewall | [Требования](../install/enterprise/requirements) |
 | Найти AD Domain SID / Entra Tenant ID | [Как найти AD Domain ID или Entra Tenant ID](../guide/find-domain-tenant-id) |
-| Возможности edition | [Выбор edition](../guide/builds/) |
+| Возможности edition | [Выбор сборки](../guide/builds/) |
 | Проверка зеркал/прокси | [`nvm env`](../command/nvm/env) |

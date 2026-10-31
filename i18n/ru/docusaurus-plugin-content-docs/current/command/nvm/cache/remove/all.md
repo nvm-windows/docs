@@ -6,7 +6,7 @@ sidebar_label: all
 
 # nvm cache remove all
 
-Очистка кэшей метаданных и версий.
+Очистка кэшей метаданных и версий, меток скана malware и `malware.db`.
 
 ## Использование
 

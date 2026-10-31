@@ -6,47 +6,65 @@ sidebar_position: 10
 
 # Malicious Package Blocker
 
-The Malicious Package Blocker stops an `npm`, `pnpm`, `yarn`, or bun install when a package name and version match the [OpenSSF Malicious Packages](https://github.com/ossf/malicious-packages) dataset.
-Bun is checked only when [`shim_bun`](../cfg/core#package-managers) is on.
+The Malicious Package Blocker stops an `npm`, `pnpm`, `yarn`, `vlt`, or `bun` install when a package name and version match the [OpenSSF Malicious Packages](https://github.com/ossf/malicious-packages) dataset.
+If you're using Bun as a package manager, malicious package checks only run when [`shim_bun`](../cfg/core#package-managers) is on.
 
-It looks up names in a signed local file (`malware.db`).
-It is not a file scanner.
-It does not inspect tarball contents.
+:::warning[Shim Mode Only]
+Malicious package checks only run in [shim mode](./modes).
+:::
 
-It is not the [module firewall](../guide/firewall).
-The module firewall applies **your** allow and deny lists.
-This blocker applies a public feed of **known-malicious** names.
+## Example
 
-Checks run in [shim mode](./modes).
-They are on by default on Community Builds and Certified Builds.
+When a named install hits the OpenSSF feed, the shim prints a block line and the install does not continue:
 
-A match is a terminal error.
-That install command does not continue.
-Each blocked name prints `NVM blocked <name> — <reason>. (NVM4602)`.
+```powershell
+npm install left-pad
+```
+
+```text
+NVM blocked left-pad — recognized as malware (OpenSSF). (NVM4602)
+```
+
+The same line appears for `pnpm`, `yarn`, `vlt`, and (when [`shim_bun`](../cfg/core#package-managers) is on) `bun`.
+An organization list hit uses `organization malware block` instead of the OpenSSF reason.
+
+## How it works
+It looks up package names in a signed local file (`malware.db`) and blocks matches. This database is automatically updated with [notifications](./notifications). Malicious package blocking is enabled by default in both Community and Certified Builds.
+
+- A match produces a terminal error and the install command does not continue.
+- Each blocked name prints `NVM blocked <name> — <reason>. (NVM4602)`.
 OpenSSF uses `recognized as malware (OpenSSF)`.
-A local organization pattern uses `organization malware block`.
-A remote 403 uses `remote malware policy`, then `: <reason>` when the TSV column is present.
+- A local organization pattern uses `organization malware block`.
+
+### What it is not
+- It is not a file scanner.
+- It does not inspect tarball contents.
+- It is not the [module firewall](./firewall).
+
+The module firewall applies **your** allow and deny lists.
+
+This blocker applies a public feed of **known-malicious** names.
 
 ## What it checks
 
 | Build | Checked |
 |:-|:-|
-| Community Build | The named package on `npm install <name>` (and the equivalent `pnpm` / `yarn` commands). Direct `package.json` dependencies on a bare `npm install`. No lockfile. No transitive dependencies. |
-| Certified Builds | Community checks, plus the project lockfile. The lockfile is the resolved graph, including transitive dependencies. Certified Builds also check that lockfile when `node` starts in the project directory. |
+| Community&nbsp;Builds | The named package on `npm install <name>` (and the equivalent `pnpm` / `yarn` commands). Direct `package.json` dependencies on a bare `npm install`. No lockfile. No transitive dependencies. |
+| Certified&nbsp;Builds | Community checks, plus the project lockfile. The lockfile is the resolved graph, including transitive dependencies. Certified Builds also check that lockfile when `node` starts in the project directory. |
 
-Community Builds do not read the lockfile.
-Community Builds do not check transitive dependencies.
-Community Builds do not check when `node` starts.
+Community Builds do not read the lockfile, check transitive dependencies, or check when `node` starts.
 
-If `malware.db` is missing, install-time refresh and hourly sync download it. A missing or untrusted file still blocks after that attempt fails, except when `AirGapped` is on and **no** trusted file exists.
+If `malware.db` is missing, install-time refresh and hourly sync processes download / seed it. A missing or untrusted file still blocks after that attempt fails, except when `AirGapped` is on and **no** trusted file exists.
 
-Certified MSI builds snapshot the live feed at pack time (`utils\malware.db` + `utils\head.cose` in Program Files). That pair is a fallback only. Live feed always wins when reachable. The shim uses the user data-root pair only when `head.cose` verifies and `state_hash` matches; otherwise it reads the Program Files seed. Do not copy `malware.db` by hand unless both the live pair and the seed are gone.
+Certified Build installers build a snapshot of the live feed at build time (`utils\malware.db` + `utils\head.cose` in Program Files). It serves as a fallback only. The live feed is always preferred when reachable. Do not copy `malware.db` by hand. NVM for Windows handles the entire update lifecycle using end-to-end integrity verification.
 
-Certified Builds may run a lockfile-only package-manager pass before extract.
-Stderr can show `scanning...` during that pass.
-A reused stamp does not show that line.
+Certified Builds may run a lockfile-only package-manager pass before extract. `stderr` can show `scanning...` during that pass.
 
 ## Skip the checks
+
+:::danger[Unsafe Practice]
+Malicious package blocking adds some latency and is an enhancement that does not exist in normal Node.js workflows. This is why it can be disabled. However; we **strongly discourage disabling malicious package blocking** that increases the threat level on your computer.
+:::
 
 Set [`skip_malware_checks`](../cfg/core#logging-and-announcements) to `true` to skip shim lookups.
 
@@ -54,13 +72,14 @@ Set [`skip_malware_checks`](../cfg/core#logging-and-announcements) to `true` to 
 nvm config set skip_malware_checks=true
 ```
 
-HKLM `SkipMalwareChecks` wins over HKCU.
-The definition file still updates when checks are skipped.
+:::tip[Force Malicious Package Blocking on Corporate Computers]
+Certified Builds Governance users can force malicious package blocking via central policy.
+:::
 
 ## Allow a false positive
 
-`MalwareAllowList` is HKLM only.
-See [Registry Policy Reference](../cfg/registry).
+`MalwareAllowList` is available for Certified Builds Governance policies.
+See [Registry Policy Reference](../cfg/enterprise/registry).
 
 Each string is one pattern.
 Matching is byte for byte.
@@ -81,25 +100,13 @@ Certified Builds also read:
 
 | Key | Effect |
 |:-|:-|
-| `MalwareBlockList` | HKLM patterns that always block, or one `https://` policy URL. Community Builds ignore this list. |
+| `MalwareBlockList` | HKLM patterns that always block. Community Builds ignore this list. |
 | `MalwareTrustConflict` | `prevent` (default) still blocks an OpenSSF hit when the name is explicitly trusted or approved. `continue` lets that trust or approval through. Community Builds ignore this key. |
 
 Bundled package-manager trust seeds (`npm`, `npx`, `yarn`, `yarnpkg`, `corepack`, `pnpm`, `vlt`) do not count as trust for this check.
 
 A malware block does not write `package_manager.install`.
 **NVM4602** is the record when Advanced Logging is on.
-
-### Remote HTTPS body (Certified Builds)
-
-When `MalwareBlockList` is one `https://` URL, the shim POSTs hits during install. A **403** body is TSV:
-
-```text
-name<TAB>date<TAB>reason
-```
-
-`reason` is optional. Empty reason uses `remote malware policy`. A custom reason is used only for that request. It is not written back to policy.
-
-Local `MalwareBlockList` patterns stay `organization malware block`. They do not take a custom reason.
 
 ### Inspect a name
 
@@ -108,30 +115,19 @@ nvm malware status left-pad
 nvm malware status left-pad --json
 ```
 
-`status` is local only. It does not POST.
-An `allowed` row whose message says the block was overruled still means OpenSSF (or the org list) hit. That policy let it through.
+An `allowed` row whose message says the block was overruled still means OpenSSF (or the org list) identified a package as malicious, but your policy allowed it anyway.
 See [`nvm malware status`](../command/nvm/malware/status).
 
 ## Notifications
 
-A hit always prints in the terminal.
+A match always prints in the terminal.
 
-When the console is in the background, Windows also shows a toast.
-The title is **Malicious package blocked** for OpenSSF-only hits, **Organization malware block** for local-list-only hits, and **Package blocked** when sources mix or a remote 403 kept the name.
-The body names at most three packages, then `and N more`.
-The cue is `Notification.Reminder`.
-[`disable_announcements`](../cfg/core#logging-and-announcements) does not hide this toast.
-
-On a Community Build joined to Active Directory, Entra, or Google Workspace, that body adds: `Certified keeps a record of blocks like this for your security tools.`
-
-Certified Builds can also show **Malware definitions updated** after a successful definition change.
-**Don't show again** sets `notify_malware_definitions` to false.
-See [Desktop Notifications](./notifications).
+When the console is in the background, Windows also shows a notification.
+[`disable_announcements`](../cfg/core#logging-and-announcements) does not hide this notification.
 
 ## Cache
 
-Stamps live under `.cache/malware-scan`.
-`malware.db` lives in the NVM data root.
+`malware.db` is stored in the NVM root and is managable through the cache command.
 
 ```powershell
 nvm cache list malware
@@ -145,7 +141,7 @@ See [Download Cache](./cache) and [`nvm cache remove malware`](../command/nvm/ca
 
 ## Events
 
-These events need the Advanced Logging add-on.
+These events require the Advanced Logging add-on.
 They use Windows Event ID 120 on **NVM for Windows/Operational**.
 
 | Code | Event |

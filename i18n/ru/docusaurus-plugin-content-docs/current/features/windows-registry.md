@@ -10,4 +10,4 @@ tags: [native-integration]
 Ранние версии NVM for Windows использовали текстовый файл `settings.txt`. У части пользователей были проблемы со спецсимволами из-за кодировки в старых версиях Go. Windows нативно обрабатывает локальную кодировку в реестре, что устраняет эту проблему.
 :::
 
-В certified-парках политика машины может переопределять пользовательские настройки. См. [Administrative Templates](../cfg/ad) и [справочник политики реестра](../cfg/registry).
+На флотах с лицензией Governance hive Policies может переопределять пользовательские настройки. См. [Administrative Templates](../cfg/ad), [Governance](./certified-builds/governance) и [справочник политики реестра](../cfg/registry).

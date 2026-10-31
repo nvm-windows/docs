@@ -7,6 +7,8 @@ sidebar_position: 6
 
 Manage named aliases for Node.js versions.
 
+Feature overview and examples: [Aliases](../../../cfg/aliases).
+
 ## Usage
 
 ```powershell

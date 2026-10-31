@@ -79,8 +79,13 @@ Translate **section by section** (install → features → cfg → guide → com
 | **Prose MDX** (e.g. `SymlinkPermissionExplainer.mdx`) | Mirror under `i18n/ru/.../current/_components/`. Page imports with **relative** path (`../../_components/Foo.mdx`) — RU pages resolve the RU copy automatically. |
 | **No-text JSX** (e.g. `DocImage.jsx`) | Single file at `docs/_components/DocImage.jsx`. Import from RU pages: `import DocImage from '@site/docs/_components/DocImage';` |
 | **Tables in MDX** (version resolution) | Mirror + translate under `i18n/ru/.../current/_components/`. |
+| **Page titles / descriptions** | Catalog: `docs/_data/pages.js`. Render with `PageLink` / `PageDescription` from `@site/docs/_components/…`. Translate `docMeta.<id>.title` / `.description` / `.sidebarLabel` in `i18n/<locale>/code.json`. Add a catalog entry when another page reuses the title or description. |
+| **Trust Artifacts list** | Canonical items live in `docs/_data/pages.js` (`trustArtifactItems`). Render with `<TrustArtifactList />` (`format`: `table`, `inline`, `bullets`). Do not hand-write a second contents list. Pack-aligned: SBOM, SLSA Attestations, SAST, open-source license report, VEX (when required). No separate AI-BOM file. No "SLSA Build L3" as its own row (that is the attestation level). |
+| **Microsoft / Google recommendation** | Always link. URLs in `docs/_data/pages.js` (`recommendationLinks`). Microsoft: Learn Node.js on Windows. Google: Cloud Node.js setup `#installing_nvm`. Never cite the recommendation without those hrefs. |
 
 MDX v3 **does not** auto-register custom components from theme. Any `<DocImage>` / custom JSX needs an explicit `import`.
+
+Barrel: `import {PageLink, PageDescription, TrustArtifactList} from '@site/docs/_components/docMeta';`
 
 ### 4. Images
 
@@ -97,8 +102,6 @@ Hardcoded UI is **not** in markdown. Banner logic: `src/theme/DocItem/Layout/ind
 Strings use `@docusaurus/Translate` with IDs in `i18n/ru/code.json`:
 
 - `certifiedBanner.badge`
-- `certifiedBanner.releaseDate`
-- `certifiedBanner.availability`
 - `certifiedBanner.requiresEdition`
 
 Per-page custom banner text: translate in frontmatter:
@@ -193,7 +196,8 @@ Build must pass **both** `en` and `ru` with zero link errors. Anchor warnings sh
 
 - **install/** — all pages including enterprise
 - **features/** — all pages
-- **cfg/** — core, aliases, enterprise (ad, registry)
+- **cfg/** — core, enterprise (ad, registry)
+- **cfg/aliases** — user version aliases (`nvm alias`)
 - **guide/** — builds, version-resolution, air-gapped, command-workflows
 - **command/** — `nvm/` CLI tree plus `node` and package-manager shim pages
 - **permissions.md**, **troubleshooting/** (general + error-codes)

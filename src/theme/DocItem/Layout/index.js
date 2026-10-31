@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 
 /** @typedef {{ edition: string | null, comment: string | null }} CertifiedBanner */
 
-const CERTIFIED_EDITIONS = ['Governance', 'Audit', 'Trust', 'Trust Artifacts'];
+const CERTIFIED_EDITIONS = ['Governance', 'Audit', 'Trust', 'Trust Artifacts', 'Advanced Logging'];
 
 /**
  * @param {unknown} value
@@ -109,22 +109,8 @@ function parseCertifiedBanner(frontMatter, tags) {
  * @param {{ edition: string | null }} props
  */
 function CertifiedBannerText({edition}) {
-  const availability = (
-    <Translate
-      id="certifiedBanner.availability"
-      values={{
-        date: (
-          <strong>
-            <Translate id="certifiedBanner.releaseDate">September 2026</Translate>
-          </strong>
-        ),
-      }}>
-      {'Available {date}.'}
-    </Translate>
-  );
-
   if (!edition) {
-    return availability;
+    return null;
   }
 
   return (
@@ -132,13 +118,8 @@ function CertifiedBannerText({edition}) {
       id="certifiedBanner.requiresEdition"
       values={{
         edition: <strong>{edition.toLowerCase()}</strong>,
-        date: (
-          <strong>
-            <Translate id="certifiedBanner.releaseDate">September 2026</Translate>
-          </strong>
-        ),
       }}>
-      {'Requires the {edition} package. Available {date}.'}
+      {'Requires the {edition} package.'}
     </Translate>
   );
 }
@@ -156,9 +137,11 @@ export default function LayoutWrapper(props) {
             <span className={styles.proBadge}>
               <Translate id="certifiedBanner.badge">Certified Build</Translate>
             </span>
-            <span className={styles.proBannerText}>
-              <CertifiedBannerText edition={banner.edition} />
-            </span>
+            {banner.edition && (
+              <span className={styles.proBannerText}>
+                <CertifiedBannerText edition={banner.edition} />
+              </span>
+            )}
           </div>
           {banner.comment && (
             <p className={styles.proBannerComment}>{banner.comment}</p>

@@ -37,9 +37,9 @@ Certified MSI регистрирует этот provider и включает к�
 Не собирайте только журнал Windows Application.
 Предупреждения Application, например **NVM4101**, — отдельный поток.
 
-Структурированные события требуют дополнение Advanced Logging или лицензию Governance.
-Без этой лицензии классические события всё равно содержат `Code`.
-В них нет `EventName` и `Payload`.
+Большинство событий `EventName` / `Payload` требуют дополнение Advanced Logging. Без этой лицензии классические события всё равно содержат `Code`. В них нет `EventName` и `Payload`.
+
+Исключение: `nodejs.executed` (Event ID **120**) пишется при включённом `log_executions`. Community Builds и Certified Builds. Лицензия Advanced Logging не нужна. Certified Builds так же пишут `package_manager.executed`.
 
 ## Как запрашивать \{#how-to-query\}
 
@@ -121,7 +121,7 @@ Certified Builds пишут `package_manager.install`, когда межсете
 
 ## Блоки version firewall \{#version-firewall-blocks\}
 
-Отказ Certified `VersionAllowList` / `VersionBlockList` — **NVM4411**.
+Отказ Governance `VersionAllowList` / `VersionBlockList` — **NVM4411**.
 
 <SiemQuery id="versionFirewall" />
 
@@ -182,7 +182,7 @@ Event ID **200** не используется. Журнал запусков �
 | `node.security.cache_state_changed` | 4303 | `node-shim` или `proxy` |
 | `node.security.full_verification_recovered` | 4304 | `node-shim` или `proxy` |
 | `node.security.version_mismatch` | 4314 | `node-shim` или `proxy`. PE FileVersion не совпадает с папкой установки. |
-| `node.security.version_firewall_blocked` | 4411 | `node-shim` или `proxy`. Certified `VersionAllowList` / `VersionBlockList` отклонил версию. |
+| `node.security.version_firewall_blocked` | 4411 | `node-shim` или `proxy`. Governance `VersionAllowList` / `VersionBlockList` отклонил версию. |
 | `package_manager.lifecycle_scripts_blocked` | 4412 | `proxy`. Только Advanced Logging. HKLM lock lifecycle-скриптов на install-команде. |
 | `network.deadline_exceeded` | 4501 | `nvm.exe` или `sync.exe` |
 | `malware.definitions_updated` | 4601 | `sync.exe`. Только Advanced Logging. |
@@ -190,12 +190,6 @@ Event ID **200** не используется. Журнал запусков �
 | `firewall.elevation_required` | 4404 | `nvm.exe` |
 | `firewall.invalid_rule` | 4405 | `nvm.exe` |
 | `firewall.untrusted_module_changed` | 4406 | `nvm.exe` или `proxy` |
-| `firewall.remote_request` | 4407 | `nvm.exe` |
-| `firewall.remote_allowed` | 4407 | `nvm.exe` |
-| `firewall.remote_trust_allowed` | 4407 | `nvm.exe` |
-| `firewall.remote_unauthorized` | 4401 | `nvm.exe` |
-| `firewall.remote_failed` | 4402 или 4409 | `nvm.exe` или `proxy`. 4409 — хост недоступен. |
-| `firewall.remote_blocked` | 4403 | Только `nvm.exe`. Событие proxy с тем же именем использует код 0. |
 | `firewall.policy_mutated` | 4410 | `nvm.exe` |
 | `firewall.policy_mutate_failed` | 4410 | `nvm.exe` |
 | `package_manager.install` | 4403 или 4408 | `proxy` на Certified Build. 4403 — запрет. 4408 — разрешение. |

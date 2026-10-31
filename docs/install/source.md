@@ -5,37 +5,41 @@ sidebar_position: 3
 
 # Build from Source
 
-Most users should install a prebuilt package instead — see [Installers](./installers).
+[Prebuilt packages](./installers) are recommended unless you have explicit customization needs. Custom builds are not supported. This guide is a courtesy.
 
 :::info[Community Build only]
-This guide covers the open-source/unsigned Inno Setup pipeline. [Certified builds](../guide/builds/) (signed MSI/Intune packs, ADMX, SBOM, etc.) are produced from private tooling and will be available through the [customer portal](https://portal.author.io) in September 2026.
+This page describes the open-source Inno Setup pipeline.
+[Certified Builds](../guide/builds/) (MSI and Intune packs, ADMX, SBOM, etc.) are not available to build from source.
 :::
 
 ## Prerequisites
 
+Install these tools before you build.
+
 |Tool|Notes|
 |:-|:-|
-|Windows 10/11 (amd64 or arm64)|Host architecture can also cross-build the other arch via `-Architecture`.|
+|Windows 11 x64/arm64|The host can build the other architecture. Pass `-Architecture`.|
 |[Go](https://go.dev/dl/)|Version in `cli/src/go.mod` (currently **1.26.2**).|
-|[qgo](https://github.com/quikdev/go)|Go build wrapper used by the CLI (`qgo` on `PATH`).|
+|[qgo](https://github.com/quikdev/go)|Go build wrapper for the CLI. Put `qgo` on `PATH`.|
 |[Zig](https://ziglang.org/download/)|Exact version in `shim/.zigversion` (currently **0.15.2**).|
-|[Inno Setup](https://jrsoftware.org/isdl.php)|**6.7.1+** with `ISCC.exe` on `PATH` (needed for the setup EXE).|
-|[go-winres](https://github.com/tc-hib/go-winres)|Windows resource embedding. The build script installs it with `go install` if missing.|
+|[Inno Setup](https://jrsoftware.org/isdl.php)|**6.7.1+**. Put `ISCC.exe` on `PATH`. The setup EXE needs this tool.|
+|[go-winres](https://github.com/tc-hib/go-winres)|Embeds Windows resources. The build script runs `go install` if the tool is missing.|
 |Git|Clone with submodules.|
-|PowerShell|Run `.\build\main.ps1` from the repo root.|
-|Network (for `-DownloadSync`)|Fetches prebuilt `sync.exe` from the GitHub Release.|
+|PowerShell|Run `.\build\main.ps1` from the repository root.|
+|Network (for `-DownloadSync`)|Downloads the prebuilt `sync.exe` from the GitHub release.|
 
-Ensure `GOBIN`/`GOPATH\bin` is on `PATH` so tools installed by `go install` are found.
+Put `GOBIN` or `GOPATH\bin` on `PATH`.
+The build must find tools that `go install` writes to that folder.
 
 ## Get the source
 
-The public community monorepo wires CLI, common libraries, shims, and the installer as Git submodules:
+The public repository links the CLI, common libraries, shims, and the installer as Git submodules.
 
 ```
 nvm/
 ├── bin/          # created by the build
 ├── .dist/        # installer + staged sync release asset
-├── build/        # community build scripts
+├── build/        # Community Build scripts
 ├── cli/          # nvm.exe (Go)
 ├── common/       # shared Go modules
 ├── shim/         # node/proxy/reshim (Zig)
@@ -47,38 +51,54 @@ git clone --recurse-submodules https://github.com/nvm-windows/nvm.git
 cd nvm
 ```
 
-If you already cloned without submodules:
+If the clone has no submodules, run:
 
 ```powershell
 git submodule update --init --recursive
 ```
 
 :::warning[Private sync repo]
-`sync.exe` (`doctor` & `upgrade`) is freely available, but is **not** compiled from public source. It is not part of core nvm operations. It manages the **update and maintenance distribution path** used across community and certified builds, which is bound to Author service URLs and services. Custom-built versions should consider implementing their own upgrade/maintenance sidecar application.
+`sync.exe` (`doctor` and `upgrade`) is free to use.
+`sync.exe` is not compiled from public source.
+`sync.exe` is not part of core nvm operations.
+`sync.exe` manages the update and maintenance path for Community Builds and Certified Builds.
+That path uses Author service URLs.
+A custom build must supply its own upgrade and maintenance program.
 
-Community GitHub releases contain **two** assets per architecture:
+Each community GitHub release has two files per architecture:
 
 - `nvm-<version>-<arch>-setup.exe` — Inno Setup installer
-- `nvm-<version>-<arch>-sync.exe` — prebuilt sync for from-source builds
+- `nvm-<version>-<arch>-sync.exe` — prebuilt sync for a from-source build
 
-Pass **`-DownloadSync`** so `.\build\main.ps1` fetches that sync asset into `bin\utils\sync.exe` before packaging.
+Pass **`-DownloadSync`**.
+`.\build\main.ps1` then downloads that sync file into `bin\utils\sync.exe` before packaging.
 :::
 
 ## Build
 
+Select one build procedure below.
+
 ### Public full build (recommended)
 
-Compiles CLI + shims, downloads prebuilt `sync.exe`, then builds the Inno Setup installer:
+This procedure compiles the CLI and the shims.
+It downloads the prebuilt `sync.exe`.
+It builds the Inno Setup installer.
 
 ```powershell
 .\build\main.ps1 -DownloadSync
 ```
 
-`.\build.ps1` forwards to the same script.
+`.\build.ps1` calls the same script.
 
-The download uses tag `v` + `cli/src/manifest.json` `version` from repo `nvm-windows/nvm`, asset `nvm-<version>-<arch>-sync.exe`. That release must already exist — the [community release workflow](https://github.com/nvm-windows/nvm/blob/main/.github/workflows/release.yml) uploads both `*-setup.exe` and `*-sync.exe` when it publishes.
+The download uses the tag `v` plus the `version` field in `cli/src/manifest.json`.
+The repository is `nvm-windows/nvm`.
+The asset name is `nvm-<version>-<arch>-sync.exe`.
+That release must already exist.
+The [community release workflow](https://github.com/nvm-windows/nvm/blob/main/.github/workflows/release.yml) uploads `*-setup.exe` and `*-sync.exe` when it publishes.
 
 ### Public component-only
+
+Build one component:
 
 ```powershell
 .\build\main.ps1 -Component Cli
@@ -88,7 +108,8 @@ The download uses tag `v` + `cli/src/manifest.json` `version` from repo `nvm-win
 
 ### Maintainer / CI
 
-With private sync submodule access, omit `-DownloadSync` to compile sync from source:
+If you can read the private sync submodule, omit `-DownloadSync`.
+The script then compiles sync from source.
 
 ```powershell
 .\build\main.ps1
@@ -113,17 +134,20 @@ With private sync submodule access, omit `-DownloadSync` to compile sync from so
 
 |Parameter|Values|Purpose|
 |:-|:-|:-|
-|`-Architecture`|`amd64`, `arm64`|Target CPU. Omit to auto-detect.|
-|`-Component`|`All` (default), `Cli`, `Shims`, `Sync`|What to build. Installer requires `All`.|
-|`-DownloadSync`|switch|Fetch release `*-sync.exe` instead of compiling private sync source.|
-|`-SyncReleaseTag`|tag|Override release tag (default: `v` + CLI manifest version).|
-|`-SyncReleaseRepo`|`owner/repo`|Override download repo (default: `nvm-windows/nvm`).|
-|`-SkipInstaller`|switch|Skip the setup EXE (only with `-Component All`).|
-|`-BinRoot`|path|Override binary output directory.|
+|`-Architecture`|`amd64`, `arm64`|Target CPU. Omit this parameter to auto-detect.|
+|`-Component`|`All` (default), `Cli`, `Shims`, `Sync`|What to build. The installer requires `All`.|
+|`-DownloadSync`|switch|Fetch release `*-sync.exe`. Do not compile the private sync source.|
+|`-SyncReleaseTag`|tag|Override the release tag. The default is `v` plus the CLI manifest version.|
+|`-SyncReleaseRepo`|`owner/repo`|Override the download repo. The default is `nvm-windows/nvm`.|
+|`-SkipInstaller`|switch|Skip the setup EXE. Use this only with `-Component All`.|
+|`-BinRoot`|path|Override the binary output directory.|
 
-Exit code `0` means success. Non-zero stops at the first failed step.
+Exit code `0` means success.
+A non-zero exit code stops the script at the first failed step.
 
 ## Output
+
+The build writes these files.
 
 |Artifact|Path|
 |:-|:-|
@@ -133,11 +157,15 @@ Exit code `0` means success. Non-zero stops at the first failed step.
 |Installer|`.dist\nvm-<version>-<arch>-setup.exe`|
 |Staged sync release asset|`.dist\nvm-<version>-<arch>-sync.exe`|
 
-`<version>` comes from `cli/src/manifest.json`. Sync worker DLLs are not packaged; they are fetched at runtime from `assets.nvm-windows.com` when needed.
+`<version>` comes from `cli/src/manifest.json`.
+Sync worker DLLs are not in the package.
+The runtime downloads those DLLs from `assets.nvm-windows.com` when it needs them.
 
 ## Install what you built
 
-Run the generated setup EXE as a **standard user** (not elevated Administrator), same rules as the public [community installer](./installers#community-build):
+Run the setup EXE as a **standard user**.
+Do not run it as an elevated Administrator.
+Follow the [Community Build installer](./installers#community-build) rules.
 
 ```powershell
 .\.dist\nvm-<version>-<arch>-setup.exe
@@ -153,36 +181,42 @@ To remove a local build later, follow [Uninstall](./uninstall#community-builds).
 
 ### Portable/binary-only use
 
-With `-SkipInstaller`, you can run `bin\nvm.exe` from a custom layout for development. Production installs should still use the Inno Setup package so PATH, preferences, protocol handlers, and uninstall metadata are registered correctly.
+Pass `-SkipInstaller` to run `bin\nvm.exe` from a custom layout during development.
+A production install uses the Inno Setup package.
+That package registers PATH, preferences, protocol handlers, and uninstall data.
 
 ## What each component is
 
+Each component has one role.
+
 |Component|Language|Public source?|Role|
 |:-|:-|:-:|:-|
-|`cli`|Go|✓|`nvm.exe` — install/use/list/config/cache|
-|`shim`|Zig|✓|`node.exe` shim, `proxy.exe`, `reshim.exe` ([operating modes](../features/modes))|
-|`sync`|Go|—|Background update/doctor helper (`sync.exe`); use `-DownloadSync` or maintainer source|
-|`installer`|Inno Setup|✓|Per-user community setup EXE|
+|`cli`|Go|✓|`nvm.exe`. Install, use, list, config, and cache.|
+|`shim`|Zig|✓|`node.exe` shim, `proxy.exe`, and `reshim.exe`. See [operating modes](../features/modes).|
+|`sync`|Go|—|Background update and doctor helper (`sync.exe`). Use `-DownloadSync` or maintainer source.|
+|`installer`|Inno Setup|✓|Per-user Community Build setup EXE.|
 
 ## Troubleshooting
 
+Use this table when the build fails.
+
 |Symptom|What to check|
 |:-|:-|
-|`qgo` not found|Install [qgo](https://github.com/quikdev/go) and ensure it is on `PATH`.|
+|`qgo` not found|Install [qgo](https://github.com/quikdev/go). Put it on `PATH`.|
 |Wrong Go/Zig version|Match `cli/src/go.mod` and `shim/.zigversion`.|
-|Sync source missing / compile fails|Expected on public clones. Pass `-DownloadSync`, or build only `-Component Cli` / `-Component Shims`.|
-|`-DownloadSync` 404|Need a published release with `nvm-<version>-<arch>-sync.exe`. Bump/match `cli/src/manifest.json`, or pass `-SyncReleaseTag` to an existing tag.|
-|Installer step fails|Inno Setup **6.7.1+** (`ISCC.exe` on `PATH`). Confirm `cli/src/manifest.json` has `version`, `appUserModelId`, and `appId`.|
-|`go-winres` missing|Build script tries `go install github.com/tc-hib/go-winres@latest`. Put `GOPATH\bin` on `PATH`, then retry.|
-|Submodule empty/missing code|`git submodule update --init --recursive` (public: cli/common/shim; sync stays private).|
+|Sync source missing / compile fails|Expected on a public clone. Pass `-DownloadSync`. Or build only `-Component Cli` or `-Component Shims`.|
+|`-DownloadSync` 404|Publish a release that contains `nvm-<version>-<arch>-sync.exe`. Match `cli/src/manifest.json`. Or pass `-SyncReleaseTag` for an existing tag.|
+|Installer step fails|Install Inno Setup **6.7.1+**. Put `ISCC.exe` on `PATH`. Confirm `cli/src/manifest.json` has `version`, `appUserModelId`, and `appId`.|
+|`go-winres` missing|The build script runs `go install github.com/tc-hib/go-winres@latest`. Put `GOPATH\bin` on `PATH`. Run the build again.|
+|Submodule empty/missing code|Run `git submodule update --init --recursive`. Public clones include cli, common, and shim. The sync submodule stays private.|
 
-CI and release wiring for community builds live in the repo at [`build/README.md`](https://github.com/nvm-windows/nvm/blob/main/build/README.md).
+Community CI and release steps are in [`build/README.md`](https://github.com/nvm-windows/nvm/blob/main/build/README.md).
 
 ## Related
 
 |Topic|Doc|
 |:-|:-|
 |Prebuilt installers|[Installers](./installers)|
-|Community vs certified|[Choosing an Edition](../guide/builds/)|
+|Community Build vs Certified Build|[Choosing a Build](../guide/builds/)|
 |Remove an install|[Uninstall](./uninstall)|
 |Shim vs link mode|[Operating Modes](../features/modes)|

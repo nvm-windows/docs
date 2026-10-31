@@ -5,7 +5,7 @@ sidebar_position: 7
 
 NVM for Windows downloads Node.js archives from one or more **Node mirrors**, and can fall back to one or more **npm registry** URLs in shim mode. Set these with [`nvm config`](../command/nvm/config) (or machine policy on certified fleets).
 
-This page covers basic mirror URLs and HTTP proxies available to Community and certified builds. For the Author policy-aware mirror and version firewall _(Governance)_, see [Version Firewall + Author Mirror](./author-mirror).
+This page covers basic mirror URLs for Community Builds and Certified Builds. For HTTP(S) proxies (how traffic leaves the machine), see [HTTP Proxy](./http-proxy). For the Author policy-aware mirror _(Governance)_, see [Author Mirror](./author-mirror). For client version allow/deny lists, see [NVM Firewall](./firewall).
 
 ## Node.js mirrors
 
@@ -52,48 +52,13 @@ nvm config get npm_mirror
 
 Keep Node mirrors and npm registries as separate concerns.
 
-## HTTP proxies
-
-Corporate networks often require an HTTP(S) proxy between NVM and the mirror. Resolve order:
-
-1. Explicit [`proxy`](../cfg/core#proxy)/`Proxy` setting (policy or config)
-2. Process environment (`HTTP_PROXY`, `HTTPS_PROXY`, etc.)
-3. Internet Explorer/WinINET system proxy settings
-
-| Config | Registry | Notes |
-|:-|:-|:-|
-| [`proxy`](../cfg/core#proxy) | `Proxy` | Proxy URL, e.g. `http://proxy.example.corp:8080` |
-| [`proxy_auth`](../cfg/registry#available-registry-keys) | `ProxyAuth` | `user:pass` or `Bearer YOUR_TOKEN` — stored **in plain text** |
-| [`proxy_auth_type`](../cfg/registry#available-registry-keys) | `ProxyAuthType` | `basic`, `bearer`, `ntlm`, `negotiate`, or `ntlm,negotiate` |
-
-:::info[Certified Builds]
-Available September 2026.
-:::
-
-| Capability | Community | Certified (Distribution/Audit) | Governance |
-|:-|:-:|:-:|:-:|
-| Proxy URL | ✓ | ✓ | ✓ |
-| Basic/Bearer auth | limited* | ✓ | ✓ |
-| IWA (NTLM/Negotiate, current user) | — | — | ✓ |
-| PAC/WPAD (WinHTTP) | — | — | ✓ |
-
-\*Community may embed credentials in the proxy URL; dedicated `ProxyAuth*` injection is a certified path.
-
-:::warning[ProxyAuth in the registry]
-`ProxyAuth` is plain text under policy/preferences. Use IWA (`ntlm`/`negotiate`) when regulations disallow stored passwords.
-:::
-
-:::info[No Digest or Browser Proxies]
-Digest auth is not supported due to its extensive requirements and minimal real-world usage.
-
-No interactive SAML/OIDC browser login capabilities exist for captive portals. Consider using PAC instead.
-:::
-
 ## Related
 
 | Topic | Doc |
 |-------|-----|
 | Full preference table | [Basic Configuration](../cfg/core#downloads-and-mirrors) |
+| HTTP(S) proxy | [HTTP Proxy](./http-proxy) |
 | Policy/`.reg` types | [Registry Policy Reference](../cfg/registry) |
-| Author mirror & version firewall | [Version Firewall + Author Mirror](./author-mirror) |
+| Author Mirror | [Author Mirror](./author-mirror) |
+| NVM Firewall | [NVM Firewall](./firewall) |
 | Offline archives | [Air-gapped Installations](../guide/air-gapped-installations) |

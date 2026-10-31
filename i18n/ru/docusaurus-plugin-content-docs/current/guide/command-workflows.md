@@ -56,7 +56,7 @@ nvm use 22
 npm test
 ```
 
-Используйте alias для удобства:
+Используйте [псевдонимы](../cfg/aliases) для удобства:
 
 ```powershell
 nvm alias add legacy 18.20.8

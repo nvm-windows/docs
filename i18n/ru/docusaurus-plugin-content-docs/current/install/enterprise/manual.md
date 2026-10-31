@@ -7,65 +7,87 @@ certified: true
 
 # Ручное развёртывание
 
-Установка **certified** MSI на один компьютер (или своим скриптом развёртывания) без GPSI Active Directory и без пакета Intune.
+Установите MSI Certified Build на один компьютер или своим скриптом.
+Эта процедура не использует установку программ Active Directory.
+Эта процедура не использует пакет Intune.
 
-Скачайте certified-пакет развёртывания из [клиентского портала](https://portal.author.io). Выберите архитектуру целевой машины (`amd64` или `arm64`):
+1. Скачайте пакет развёртывания Certified Build из [клиентского портала](https://portal.author.io).
+1. Выберите архитектуру целевого компьютера.
+
+Для компьютера amd64 в имени файла стоит `x64`.
+Для компьютера arm64 в имени файла стоит `arm64`.
 
 | Файл | Назначение |
 |:-|:-|
-| `nvm-windows-<version>-certified-<arch>.msi` | Пакет установщика |
-| `nvm-windows-<version>-certified-<arch>.mst` | Необязательный transform (тихое принятие EULA) |
+| `nvm-windows-<version>-certified-<arch>.msi` | Пакет установщика. `<arch>` — это `x64` или `arm64`. |
+| `nvm-windows-<version>-certified-<arch>.mst` | Необязательный transform. Transform принимает EULA для тихой установки. |
 
-Сначала выполните [Требования](./requirements). Для парка машин предпочтительны [Active Directory](./ad) или [Intune](./intune).
+Сначала выполните [Требования](./requirements).
+
+:::tip[Развёртывание на парк]
+Для многих компьютеров используйте [Active Directory](./ad) или [Intune](./intune).
+:::
 
 :::info[Повышение прав]
-Certified MSI — **per-machine**. Установка, repair, upgrade и uninstall требуют elevated-приглашения или агента в system-контексте. Полезная нагрузка ставится в `%ProgramFiles%\Author Software\nvm`.
+MSI Certified Build устанавливается на компьютер.
+Установка, восстановление, обновление и удаление требуют повышенного приглашения или агента в контексте системы.
+Файлы устанавливаются в `%ProgramFiles%\Author Software\nvm`.
 :::
 
 ## Свойства MSI \{#msi-properties}
+
+У MSI Certified Build два открытых свойства для установки.
 
 | Свойство | Обязательно? | Назначение |
 |:-|:-|:-|
 | `ACCEPT_EULA=1` | **Да** для quiet / reduced UI | Принимает лицензию без мастера. Нужно для `/qn`, `/qb` и same-version repair. |
 | `OFFICIALNODE` | Нет | Выбрать, что сделать с существующей официальной установкой Node.js. По умолчанию `copy`. Значения перечислены в [Certified Build](../installers#certified-build). |
 
-Других публичных свойств MSI для каталога Node.js, режима работы или предпочтений нет. Принудительные runtime-настройки задавайте через [Administrative Templates](../../cfg/ad) / [политики реестра](../../cfg/registry), а не через свойства MSI.
+Задавайте параметры среды через [Administrative Templates](../../cfg/ad) или [политику реестра](../../cfg/registry).
+Не задавайте параметры среды свойствами MSI.
 
 ## Частые флаги `msiexec` \{#common-msiexec-flags}
 
+Используйте эти флаги с `msiexec`.
+
 | Флаг | Значение |
 |:-|:-|
-| `/i <path.msi>` | Установка или upgrade |
-| `/x {PRODUCT-CODE}` | Удаление (код зависит от сборки — берите из развёрнутого MSI) |
+| `/i <path.msi>` | Установка или обновление |
+| `/x {PRODUCT-CODE}` | Удаление. Скопируйте код продукта из MSI, который вы развёртываете. |
 | `/qn` | Без UI (quiet) |
 | `/norestart` | Не перезагружать автоматически |
-| `/L*V <path.log>` | Подробный лог |
+| `/L*V <path.log>` | Подробный журнал |
 | `TRANSFORMS=<path.mst>` | Применить MST (см. [MST transform](#mst-transform)) |
-| `REINSTALL=ALL REINSTALLMODE=amus` | Same-version repair (с `/i`, не `/fa`) |
+| `REINSTALL=ALL REINSTALLMODE=amus` | Восстановление той же версии (с `/i`, не `/fa`) |
 
-Для repair указывайте **абсолютный** путь к MSI. Относительные пути могут дать ошибку Windows Installer `1619`, когда служба заново открывает пакет.
+Для восстановления указывайте **абсолютный** путь к MSI.
+Относительный путь может дать ошибку Windows Installer `1619`.
+Служба тогда не может снова открыть пакет.
 
 :::warning[Не используйте `/fa` или `/famus`]
-Эти сокращения repair ненадёжно передают `ACCEPT_EULA=1` в сессию repair для этого пакета. Используйте `/i` с `REINSTALL=ALL REINSTALLMODE=amus`.
+`/fa` и `/famus` не сохраняют `ACCEPT_EULA=1` в сеансе восстановления этого пакета.
+Используйте `/i` с `REINSTALL=ALL REINSTALLMODE=amus`.
 :::
 
 ## Интерактивная установка \{#interactive-install}
 
-Дважды щёлкните MSI или:
+Дважды щёлкните MSI или выполните:
 
 ```powershell
-msiexec /i "C:\Packages\nvm-certified\nvm-windows-<version>-certified-amd64.msi"
+msiexec /i "C:\Packages\nvm-certified\nvm-windows-<version>-certified-x64.msi"
 ```
 
-Примите EULA в UI. Для полной UI-установки свойство `ACCEPT_EULA` не нужно.
+Примите EULA в интерфейсе.
+Полная установка с интерфейсом не требует свойства `ACCEPT_EULA`.
 
 ## Скрипт тихой установки \{#silent-install-script}
 
-Запускайте elevated PowerShell. Передайте `ACCEPT_EULA=1` (или примените MST — см. ниже).
+Запустите PowerShell с повышенными правами.
+Передайте `ACCEPT_EULA=1` или примените MST (см. ниже).
 
 ```powershell
 # Требуется elevation (Запуск от имени администратора)
-$msi = 'C:\Packages\nvm-certified\nvm-windows-<version>-certified-amd64.msi'
+$msi = 'C:\Packages\nvm-certified\nvm-windows-<version>-certified-x64.msi'
 $logDir = Join-Path $env:ProgramData 'Author'
 $log = Join-Path $logDir 'nvm-certified-install.log'
 
@@ -76,18 +98,22 @@ $process = Start-Process msiexec.exe -ArgumentList $arguments -Wait -PassThru
 exit $process.ExitCode
 ```
 
-Сохраните как `Install-NvmWindows.ps1` и запустите:
+1. Сохраните скрипт как `Install-NvmWindows.ps1`.
+1. Запустите:
 
 ```powershell
 powershell.exe -ExecutionPolicy Bypass -File .\Install-NvmWindows.ps1
 ```
 
-Типичные коды успеха: `0` (успех), `3010` (успех, нужна перезагрузка).
+Код выхода `0` означает успех.
+Код выхода `3010` означает успех, и компьютеру нужна перезагрузка.
 
-### Same-version repair \{#same-version-repair}
+### Восстановление той же версии \{#same-version-repair}
+
+Используйте этот скрипт, чтобы восстановить ту же версию.
 
 ```powershell
-$msi = 'C:\Packages\nvm-certified\nvm-windows-<version>-certified-amd64.msi'
+$msi = 'C:\Packages\nvm-certified\nvm-windows-<version>-certified-x64.msi'
 $logDir = Join-Path $env:ProgramData 'Author'
 $log = Join-Path $logDir 'nvm-certified-repair.log'
 
@@ -104,31 +130,40 @@ exit $process.ExitCode
 msiexec /x "{PRODUCT-CODE-FROM-DEPLOYED-MSI}" /qn /norestart
 ```
 
-См. [Удаление](../uninstall) — поиск product code и удаление через GPO/Intune.
+См. [Удаление](../uninstall), чтобы найти код продукта и удалить продукт через GPO или Intune.
 
 ## MST transform \{#mst-transform}
 
+MST — это transform установщика Windows.
+Вы применяете MST вместе с MSI.
+Разделы ниже показывают, когда нужен transform и как его применить.
+
 ### Назначение \{#purpose}
 
-**MST** (Microsoft Transform) — патч, применяемый **вместе** с MSI при установке. Certified `.mst` из портала задаёт **`ACCEPT_EULA=1`**, чтобы Group Policy Software Installation (и другие агенты, которым сложно передать свойства MSI) могли ставить пакет тихо.
+Файл `.mst` Certified Build с портала задаёт **`ACCEPT_EULA=1`**.
+Установка программ групповой политики тогда может установить продукт без интерфейса.
+Агент, который не может передать свойства MSI, также может установить продукт без интерфейса.
 
-MST **не** настраивает runtime-предпочтения. Для этого используйте ADMX / политики. Не редактируйте бинарный `.mst` вручную; при необходимости перегенерируйте его инструментами Author.
+MST не задаёт параметры среды.
+Для параметров среды используйте ADMX или политику реестра.
+Не изменяйте двоичный файл `.mst`.
 
 ### Когда нужен \{#when-you-need-it}
 
 | Сценарий | Нужен MST? |
 |:-|:-|
-| Ручной / скриптовый `msiexec` с `ACCEPT_EULA=1` в командной строке | Необязательно — достаточно свойства |
-| Active Directory **GPSI** (вкладка Modifications) | **Да** — приложите `.mst` (см. [Развёртывание через Active Directory](./ad)) |
-| Любой агент, который ставит MSI, но не может передать публичные свойства | **Да** — через `TRANSFORMS=` или список transform агента |
+| Ручной или скриптовый `msiexec` с `ACCEPT_EULA=1` в командной строке | Необязательно. Достаточно свойства. |
+| Active Directory **GPSI** (вкладка Modifications) | **Да**. Приложите `.mst`. См. [Развёртывание через Active Directory](./ad). |
+| Агент устанавливает MSI, но не может передать открытые свойства | **Да**. Используйте `TRANSFORMS=` или список transform агента. |
 
 ### Применить через `msiexec` \{#apply-with-msiexec}
 
-Держите MSI и MST рядом (одна папка). Предпочтительны абсолютные пути:
+Положите MSI и MST в одну папку.
+Используйте абсолютные пути.
 
 ```powershell
-$msi = 'C:\Packages\nvm-certified\nvm-windows-<version>-certified-amd64.msi'
-$mst = 'C:\Packages\nvm-certified\nvm-windows-<version>-certified-amd64.mst'
+$msi = 'C:\Packages\nvm-certified\nvm-windows-<version>-certified-x64.msi'
+$mst = 'C:\Packages\nvm-certified\nvm-windows-<version>-certified-x64.mst'
 $log = Join-Path $env:ProgramData 'Author\nvm-certified-install.log'
 
 New-Item -ItemType Directory -Force -Path (Split-Path $log) | Out-Null
@@ -138,26 +173,28 @@ $process = Start-Process msiexec.exe -ArgumentList $arguments -Wait -PassThru
 exit $process.ExitCode
 ```
 
-С применённым portal MST отдельно `ACCEPT_EULA=1` в командной строке не нужен (его даёт transform). Указывать оба безопасно.
-
-### Применить в Group Policy \{#apply-in-group-policy}
-
-На вкладке пакета **Modifications** добавьте `.mst` с той же UNC-шары, что и MSI. Полные шаги: [Развёртывание через Active Directory](./ad).
+MST с портала задаёт `ACCEPT_EULA=1`.
+Командная строка не требует `ACCEPT_EULA=1`, когда вы применяете этот MST.
+Можно передать оба значения.
+Установка всё равно завершается успешно.
 
 ## Проверка \{#verify}
+
+Подтвердите установку:
 
 ```powershell
 Get-Item "$env:ProgramFiles\Author Software\nvm\nvm.exe"
 nvm version
 ```
 
-После установки откройте **новый** терминал, чтобы увидеть обновлённый `PATH`.
+После установки откройте **новый** терминал.
+Новый терминал показывает обновлённый `PATH`.
 
 ## Связанные материалы \{#related}
 
 | Тема | Документ |
 |:-|:-|
-| Предварительные требования | [Требования](./requirements) |
+| Требования | [Требования](./requirements) |
 | GPO + MST | [Развёртывание через Active Directory](./ad) |
 | Win32 / Intune | [Развёртывание через Microsoft Intune](./intune) |
 | Удаление | [Удаление](../uninstall) |

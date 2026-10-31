@@ -1,6 +1,6 @@
 ---
 title: Кэш загрузок
-sidebar_position: 10
+sidebar_position: 8
 ---
 
 NVM for Windows может хранить скачанные архивы Node.js на диске, чтобы последующие установки не обращались к сети, если подходящий архив уже есть. Управляйте хранилищем через [`nvm cache`](../command/nvm/cache/) или включите автосохранение через [`cache_downloads`](../cfg/core#downloads-and-mirrors).
@@ -55,6 +55,9 @@ nvm cache                  # список (алиас: nvm cache list/ls)
 nvm cache add 24 lts       # предзагрузка архивов
 nvm cache remove version 24.1.0
 nvm cache remove metadata
+nvm cache list malware
+nvm cache remove malware
+nvm cache remove malware --prompt
 nvm cache remove all
 nvm list cached            # список версий из кэшированных архивов
 ```
