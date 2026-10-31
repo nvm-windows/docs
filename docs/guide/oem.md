@@ -21,7 +21,7 @@ Since 2014, NVM for Windows has been the <a href={recommendationLinks.microsoft}
 
 In September 2026, NVM for Windows v2 was released with major changes.
 
-- Two Operating Modes: [shim mode]() (modern) & [link mode]() (legacy)
+- Two Operating Modes: [shim mode](../features/modes#shim-mode-default) (modern) & [link mode](../features/modes#link-mode) (legacy)
 - Two Release Builds: Community (MIT) & Certified (EULA)
 
 Both of these have important concerns OEMs should address.

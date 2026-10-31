@@ -99,7 +99,7 @@ import TrustArtifactList from '@site/docs/_components/TrustArtifactList';
 | [NVM Firewall](./firewall) | Ваши списки версий, модулей и доверия. Это не Malicious Package Blocker. |
 | Version firewall | Governance. `nvm firewall allow version` и `deny version` пишут `VersionAllowList` / `VersionBlockList`. Без лицензии Governance списки игнорируются. |
 | Module firewall | Governance. Разрешение или запрет установок npm/pnpm/yarn/npx/vlt по локальным спискам. Без лицензии Governance списки игнорируются. |
-| Trust firewall | Community Builds и Certified Builds. `nvm firewall trust module` и `distrust module`. Семена по умолчанию: npm, npx, yarn, yarnpkg, corepack и pnpm. |
+| Trust firewall | Community Builds и Certified Builds. `nvm firewall trust module` и `distrust module`. Семена по умолчанию: npm, npx, yarn, yarnpkg, corepack, pnpm и vlt. |
 | Действие для недоверенного модуля | `prompt`, `allow` или `deny`, когда global CLI сам обновляется. |
 | Модель прав Node | Shim добавляет `--permission` (Node 23+) или `--experimental-permission` (20–22). |
 | Default / allowed grants | Вставка `--allow-*` из политики. Удаление токенов `--allow-*` вызывающего, которых нет в списке. |

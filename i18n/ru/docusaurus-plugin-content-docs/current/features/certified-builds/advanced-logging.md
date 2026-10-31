@@ -22,8 +22,8 @@ Certified Builds уже пишут классические события в в
 С Advanced Logging из Event Log / SIEM можно отвечать на вопросы по парку:
 
 - Какие версии Node.js где работают, кто ставил или удалял, на каком хосте
-- Какой пакет назвал module-firewall allow (**NVM4408**) или deny (**NVM4403**) — не только факт allow/deny
-- Запуск `node` от человека или агента (`parent_process`, `parent_pid`), и какой проект (`project_name`, `project_path`)
+- Какой пакет назвал module-firewall allow (**NVM4408**) или deny (**NVM4403**) — в запрашиваемом `Payload`, не только факт allow/deny
+- Происхождение запуска сверх классического текста Event 120: структурированные `parent_process`, `parent_pid`, `project_name` и `project_path` в SIEM-записях (классическое Certified launch logging уже несёт эти поля, если они резолвятся; см. [журналирование](../log))
 - Какие флаги прав передал вызывающий, какие применила или сняла политика (`permission_allow.*`)
 - Обновления определений malware и блоки malware как записи Event Log (не только терминал)
 - Исчерпание сетевых дедлайнов (`network.deadline_exceeded`)

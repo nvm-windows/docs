@@ -22,8 +22,8 @@ For collector setup and queries, see the [SIEM guide](../../guide/siem).
 With Advanced Logging you can answer fleet questions from Event Logs / SIEM pipelines:
 
 - Which Node.js versions run where, who installed or removed them, and on which host
-- Which package a the module firewall allowed (**NVM4408**) or denied (**NVM4403**) named — not only that an allow/deny happened
-- Whether a `node.exe` invocation came from a human or an agent (`parent_process`, `parent_pid`), and which project (`project_name`, `project_path`)
+- Which package the module firewall allowed (**NVM4408**) or denied (**NVM4403**) — named in a queryable `Payload`, not only that an allow/deny happened
+- Launch provenance beyond classic Event 120 text: structured `parent_process`, `parent_pid`, `project_name`, and `project_path` on SIEM-oriented records (classic Certified launch logging already carries these fields when resolvable; see [Windows Native Logging](../log))
 - Which permission flags the caller supplied, policy applied, or policy removed (`permission_allow.*`)
 - Malware definition updates and malware blocks as Event Log records (not terminal-only)
 - Network deadline budget hits (`network.deadline_exceeded`)

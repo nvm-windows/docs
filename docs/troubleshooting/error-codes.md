@@ -45,7 +45,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4404** | Firewall elevation required | Mutating firewall command run without administrator rights |
 | **NVM4405** | Invalid firewall rule | Malformed trust or module allow/deny entry |
 | **NVM4406** | Untrusted module changed | Audit (non-error): untrusted global CLI entrypoint changed; logged for deny, allow, and prompt accept/decline |
-| **NVM4408** | Module firewall allowed install | Audit (non-error), Certified Builds only: proxy evaluated module policy and allowed the install. Structured event `package_manager.install`. |
+| **NVM4408** | Module firewall allowed install | Audit (non-error): Governance module lists allowed the install. Certified Builds write structured event `package_manager.install` (richer `EventName` / `Payload` with Advanced Logging). |
 | **NVM4410** | Firewall policy mutated | Audit: `nvm firewall` changed a policy list |
 | **NVM4411** | Version firewall blocked a Node.js version | Governance `VersionAllowList` / `VersionBlockList` denied `nvm install`, `nvm use`, or a shim launch. Without Governance those lists are ignored. Lifecycle aliases such as `EOL` do not trigger this on the client. |
 | **NVM4412** | Package-manager lifecycle scripts blocked | Audit (non-error), Advanced Logging on Certified Builds only. HKLM `BlockPackageManagerLifecycleScripts` rewrote an install-class command (`install` / `ci` / `add` / …). `npm --version` and `npm run` do not write this event. EventName `package_manager.lifecycle_scripts_blocked`. Windows Event ID 120 |

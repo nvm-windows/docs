@@ -27,10 +27,13 @@ nvm config set log_executions=true
 node -v
 ```
 
-Откройте Event Viewer. Откройте **Windows Logs** → **Application**. Фильтр по источнику **NVM for Windows**. Каждый запуск `node.exe` — Event ID **120** (`nodejs.executed`). Event ID **200** не используется.
+Откройте Event Viewer. Community: **Windows Logs** → **Application**, источник **NVM for Windows**. Certified: **Applications and Services Logs** → **NVM for Windows** → **Operational**. Фильтр по Event ID **120**. Каждый запуск `node.exe` — Event ID **120** (`nodejs.executed`). Event ID **200** не используется. На Certified Builds классическая запись может включать `parent_process`, `parent_pid`, `project_name` и `project_path`, если хост их резолвит — лицензия Advanced Logging не нужна. Advanced Logging добавляет структурированные `EventName` / JSON `Payload` для SIEM.
 
 ```powershell
+# Community (Application)
 wevtutil qe Application /q:"*[System[Provider[@Name='NVM for Windows'] and (EventID=120)]]" /f:text /c:5
+# Certified (Operational)
+wevtutil qe "NVM for Windows/Operational" /q:"*[System[(EventID=120)]]" /f:text /c:5
 ```
 
 Имя события — `nodejs.executed`.

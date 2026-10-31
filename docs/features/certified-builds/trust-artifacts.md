@@ -59,9 +59,12 @@ nvm-windows-<version>-trust-artifacts-<arch>/
 ├── licenses/
 │   ├── open-source-license-report.md
 │   └── open-source-license-report.csv
-└── sast/
-    ├── gosec.sarif
-    ├── psscriptanalyzer.sarif
+├── sast/
+│   ├── gosec.sarif
+│   ├── psscriptanalyzer.sarif
+│   └── README.md
+└── vex/                         # present when VEX is required for the release
+    ├── nvm-windows.vex.json
     └── README.md
 ```
 
@@ -112,6 +115,12 @@ The report does not replace the Certified EULA.
 A finding is a review item.
 An empty `results` list means that tool reported nothing.
 These files are not a penetration test.
+
+### VEX (`vex/`) \{#vex\}
+
+Vulnerability Exploitability eXchange statements when the release requires them (see [What you get](#what-you-get)).
+Typical file: `nvm-windows.vex.json`.
+When VEX is not produced for a release, the `vex/` folder is omitted from the zip.
 
 ## How to review \{#how-to-review\}
 

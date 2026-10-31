@@ -38,7 +38,7 @@ NVM for Windows использует стабильные коды `NVM####` в 
 | **NVM4404** | Требуется elevation для firewall | Мутирующая команда firewall без прав администратора |
 | **NVM4405** | Некорректное правило firewall | Неверный элемент trust или module allow/deny |
 | **NVM4406** | Изменён недоверенный модуль | Аудит (не ошибка): изменился entrypoint недоверенного global CLI; пишется при deny, allow и accept/decline prompt |
-| **NVM4408** | Module firewall разрешил install | Аудит (не ошибка): proxy оценил module policy и разрешил install |
+| **NVM4408** | Module firewall разрешил install | Аудит (не ошибка): списки Governance module firewall разрешили install. Certified Builds пишут structured event `package_manager.install` (богаче `EventName` / `Payload` с Advanced Logging). |
 | **NVM4410** | Изменена политика firewall | Аудит: `nvm firewall` изменил список политики |
 | **NVM4601** | Обновлены определения malware | Информационное, только Advanced Logging. Успешная запись `malware.db` изменила базу. Payload: `added`, `removed`, `seq`, `previous_seq`. Windows Event ID 120 |
 | **NVM4602** | Заблокирован вредоносный пакет | Информационное, только Advanced Logging. Shim заблокировал пакет до install-аудита. Payload: имя пакета, версия если известна, команда, `source` (`OpenSSF` или `MalwareBlockList`) и `reason`. Строка терминала: `NVM blocked <name> — <reason>. (NVM4602)`. Печатается и без лицензии Advanced Logging. Windows Event ID 120 |

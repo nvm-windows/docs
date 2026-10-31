@@ -121,6 +121,7 @@ NVM **сейчас не** применяет allow/deny list **пакетов** 
 - **Версии Node.js** — локальный firewall + опциональные правила Author mirror ([author-mirror](../features/author-mirror))
 - **Доверие к издателю** `node.exe` на каждый запуск
 - **Cooldown** при установках пакетных менеджеров (Governance)
+- **Allow-list пакетов** (Governance module firewall) и **доверие self-update** (trust firewall) — см. [Firewall](../features/firewall)
 
 ## 4. Permission model и V8 lockdown Node (Governance, shim) \{#node-permission-and-v8-lockdown-governance-shim-mode}
 
@@ -139,7 +140,8 @@ NVM **сейчас не** применяет allow/deny list **пакетов** 
 Настройки живут в реестре Windows. В общих чертах:
 
 - **Пользовательские предпочтения (HKCU)** — то, что интерактивный пользователь может менять без прав администратора.
-- **Машинные предпочтения / Policies (HKLM)** — то, что пишут администраторы и MDM/GPO. Certified-сборки учитывают **машинную политику**, чтобы админы перекрывали пользовательский выбор по security-sensitive ключам.
+- **Машинные предпочтения (HKLM Preferences)** — то, что администраторы пишут в hive Preferences. Доступны без Governance.
+- **Машинная политика (HKLM Policies)** — то, что GPO/MDM пишут в `Software\Policies`. Учитывается только с лицензией **Governance** (`AllowsMachinePolicy`).
 
 Пакет **Governance** поставляет шаблоны **ADMX/ADML** для Active Directory и конфигурации в стиле Entra/Intune. Разные GPO могут задавать разный уровень риска (например блокировать EOL Node для большинства, разрешить одну legacy-версию команде миграции). См. [Administrative Templates](../cfg/ad) и [справочник политик реестра](../cfg/registry).
 
@@ -147,7 +149,7 @@ NVM **сейчас не** применяет allow/deny list **пакетов** 
 
 Организации могут запретить публичный `nodejs.org/dist` на сетевом периметре и allow-list `mirror.author.io`. Тогда NVM качает через policy-aware зеркало Author. Контроли сочетают:
 
-- Списки клиента/GPO (`VersionAllowList` / `VersionBlockList`, включая lifecycle-алиасы вроде `EOL`)
+- Списки клиента/GPO (`VersionAllowList` / `VersionBlockList`) для точных версий и диапазонов — lifecycle-алиасы вроде `EOL` / `ALPHA` / `MAINTENANCE` на клиенте **игнорируются** и применяются только Author Mirror при скачивании
 - **Hosted rules** в [клиентском портале](https://portal.author.io) (IP, geo, domain/tenant, SID, license group)
 
 Подробности: [Version Firewall + Author Mirror](../features/author-mirror). Domain/tenant ID: [Как найти AD Domain ID или Entra Tenant ID](./find-domain-tenant-id).
