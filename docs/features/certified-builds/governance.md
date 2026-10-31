@@ -69,8 +69,14 @@ Every key and default: [Registry Policy Reference](../../cfg/registry).
 |:-|:-|
 | Malicious package blocking | Keep OpenSSF malware scans on (`SkipMalwareChecks` forced off). Deploy org allow/block patterns and trust-conflict behavior from policy. See [Malicious Package Blocker](../malicious-package-blocker). |
 | Module firewall | Allow or deny npm/pnpm/yarn/npx package installs from machine lists. See [NVM Firewall](../firewall). |
-| Package-manager lifecycle scripts | Block install-class lifecycle scripts from HKLM (`BlockPackageManagerLifecycleScripts`). Advanced Logging records **NVM4412** when that lock rewrites a command. |
+| Package-manager lifecycle scripts | Force install-class lifecycle scripts off from HKLM (`BlockPackageManagerLifecycleScripts`). See [Lifecycle scripts vs stock npm](#lifecycle-scripts-vs-stock-npm). Advanced Logging records **NVM4412** when that lock rewrites a command. |
 | Package minimum age | Force a unified cooldown for npm/pnpm/yarn/yarnpkg, vlt, and bun/bunx (when the bun wrap is on). CLI bypass flags are stripped. DWORD `0` forces the gate off. |
+
+#### Lifecycle scripts vs stock npm \{#lifecycle-scripts-vs-stock-npm\}
+
+npm, pnpm, yarn, and similar tools already let a developer skip install lifecycle scripts (`preinstall` / `install` / `postinstall` / `prepare`) with flags such as `--ignore-scripts`. That is voluntary and easy to forget. NVM does **not** expose a user preference or `nvm config` switch for this lock.
+
+Governance’s value is **machine policy that forces** the same behavior through the package-manager shim on every managed PC: the proxy injects `--ignore-scripts` (or Yarn’s equivalent) on install-class commands and strips attempts to turn scripts back on. Explicit `npm run …` still runs — that is stock package-manager behavior. A project `.npmrc` cannot undo the HKLM lock. See [`BlockPackageManagerLifecycleScripts`](../../cfg/registry#governance-keys) and [package-manager shims](/command/package-manager-shims#install-time-policy).
 
 ### Runtime hardening
 
