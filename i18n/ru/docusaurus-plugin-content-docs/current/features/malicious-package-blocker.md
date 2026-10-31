@@ -13,7 +13,7 @@ Bun проверяется только когда включён [`shim_bun`](.
 Это не сканер файлов.
 Он не проверяет содержимое tarball.
 
-Это не [module firewall](../guide/firewall).
+Это не [module firewall](./firewall).
 Module firewall применяет **ваши** списки allow и deny.
 Этот blocker применяет публичную ленту **известных вредоносных** имён.
 
@@ -160,6 +160,6 @@ nvm cache remove malware --prompt
 
 ## Связанные материалы \{#related\}
 
-- [NVM Firewall](../guide/firewall) — ваша политика версий, модулей и доверия
+- [NVM Firewall](./firewall) — ваша политика версий, модулей и доверия
 - [Выбор сборки](../guide/builds/)
 - [Справочник политики реестра](../cfg/registry)

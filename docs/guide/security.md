@@ -170,14 +170,14 @@ sequenceDiagram
 
 Through `proxy.exe`, NVM can apply **Governance** package-manager controls such as [`NpmModuleMinimumAge`](../cfg/registry#governance-keys) (cooldown / minimum publish age for npm, npx, pnpm, yarn, vlt, and bun/bunx when `shim_bun` is on). Community defaults to off (`0`), matching stock npm/npx with no version manager. Certified Builds default to 2 days (2880 minutes) when the key is unset, including npx, vlt, and shimmed bun. HKLM Policies forces the value and strips CLI age-override flags.
 
-Certified Builds also enforce the **[NVM Firewall](firewall)** module allow lists (`ApprovedModules` / `ApprovedGlobalModules`) on shimmed installs, and both editions support the **trust firewall** (`TrustedModules`) so approved self-updating global CLIs can auto-reshim after they rewrite their entrypoints.
+Certified Builds also enforce the **[NVM Firewall](../features/firewall)** module allow lists (`ApprovedModules` / `ApprovedGlobalModules`) on shimmed installs, and both editions support the **trust firewall** (`TrustedModules`) so approved self-updating global CLIs can auto-reshim after they rewrite their entrypoints.
 
 Supply-chain risk inside transitive `node_modules` remains largely an upstream registry problem; Author Software’s longer-term Runtime / advanced security work addresses deeper checks separately. What NVM gates today:
 
 - **Node.js versions** — local firewall + optional Author mirror rules ([author-mirror](../features/author-mirror))
 - **Publisher trust** on `node.exe` every launch
 - **Cooldown** on package-manager installs (Governance)
-- **Package allow lists** (Certified module firewall) and **self-update trust** (trust firewall) — see [Firewall](firewall)
+- **Package allow lists** (Certified module firewall) and **self-update trust** (trust firewall) — see [Firewall](../features/firewall)
 
 ## 4. Node permission and V8 lockdown (Governance, shim mode)
 

@@ -8,7 +8,7 @@ certified:
 
 # Административные шаблоны (Intune и GPO)
 
-Пакеты [Governance](../../features/certified-builds/governance) NVM for Windows поставляются с шаблонами ADMX/ADML. Используйте их в **локальной групповой политике** или **профилях конфигурации Microsoft Intune**.
+Пакеты [Governance](/features/certified-builds/governance) NVM for Windows поставляются с шаблонами ADMX/ADML. Используйте их в **локальной групповой политике** или **профилях конфигурации Microsoft Intune**.
 
 |Ресурс|Руководство|
 |:-|:-|
