@@ -21,7 +21,7 @@ Proxy разрешает активную версию Node.js (те же пра
 4. Разрешает Node.js (preference / detection / `--nvm-use`) и при необходимости автоустанавливает.
 5. Проверяет, что каталог версии безопасен (не reparse point, не writable другими пользователями) — отказ → **NVM4305**.
 6. Находит делегированную команду в установке Node (`.exe`, затем `.cmd`, затем `.bat`).
-7. Применяет ограничения package manager, если действует политика (npm / npx / pnpm / yarn / vlt). `NpmModuleMinimumAge` мапится на нативный cooldown каждого менеджера, включая npx (`npm_config_min_release_age`) и vlt (`VLT_BEFORE`). Community по умолчанию выкл. (`0`). Certified по умолчанию 2880 минут (2 дня), если ключ не задан. HKLM `BlockPackageManagerLifecycleScripts` принудительно ставит `--ignore-scripts` или `YARN_ENABLE_SCRIPTS=false`. Certified Builds с Advanced Logging пишут **NVM4412** только для install-команд.
+7. Применяет ограничения package manager, если действует политика (npm / npx / pnpm / yarn / vlt, а также bun/bunx при `shim_bun`). `NpmModuleMinimumAge` мапится на нативный cooldown каждого менеджера, включая npx (`npm_config_min_release_age`), vlt (`VLT_BEFORE`) и bun (`--minimum-release-age` в секундах). Community по умолчанию выкл. (`0`). Certified по умолчанию 2880 минут (2 дня), если ключ не задан. HKLM `BlockPackageManagerLifecycleScripts` принудительно ставит `--ignore-scripts` или `YARN_ENABLE_SCRIPTS=false`. Certified Builds с Advanced Logging пишут **NVM4412** только для install-команд.
 8. Если включены `EnforcePermissionModel`, `FreezeV8GlobalObjects` или `DisableEvalAndStringExecution`, вписывает эти флаги Node в `npm_config_node_options` для npm/npx/pnpm, чтобы lifecycle-скрипты их наследовали. По умолчанию выкл.: env не пишется. `NODE_OPTIONS` не задаётся. Когда HKLM Policies форсирует `EnforcePermissionModel`, удаляет `--permission-audit` из `NODE_OPTIONS` и `npm_config_node_options` перед spawn. Yarn, bun, corepack и vlt пропускаются для inject флагов. npm-cli.js сам не запускается под `--permission`.
 9. Проверяет доверие к `node.exe` и делегированной цели (ниже).
 10. Запускает реальный инструмент (для npm/npx/corepack часто `node.exe` + `*-cli.js`; иначе `.exe` / `.cmd`).
@@ -59,7 +59,7 @@ pnpm --nvm-shim-version
 
 NVM for Windows не устанавливает bun и не переключает версии bun. Если `shim_bun` включён, `reshim` ставит `bun.exe` и `bunx.exe` в `PATH` как копии `proxy.exe`. Proxy находит уже установленный bun и применяет те же проверки OpenSSF malware, что для npm, pnpm и yarn.
 
-Проверки malware идут для `bun install` / `i` / `add` / `x` / `create` / `update` и для каждого вызова `bunx`. `bun test`, `bun run` и остальные команды bun проходят без сканирования пакетов.
+Проверки malware идут для `bun install` / `i` / `add` / `x` / `create` / `update` и для каждого вызова `bunx`. Те же install-команды получают `NpmModuleMinimumAge` как Bun `--minimum-release-age` (секунды). `bun test`, `bun run` и остальные команды bun проходят без сканирования пакетов и без inject возраста.
 
 По умолчанию: **выкл** в Community, **вкл** в Certified Builds. HKLM `ShimBun` имеет приоритет над HKCU.
 

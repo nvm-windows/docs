@@ -55,7 +55,7 @@ Shim mode features:
 - Lockdown Node.js/V8 permissions. (Optional) _Requires Certified Builds with the Governance add-on._
 - Publisher trust: Verifies node.exe publisher to prevent untrusted node.exe swaps.
 - Native event logging.
-- Unified/configurable cooldown periods across all major package managers (npm/npx/yarn/pnpm/vlt). Community Builds default to off. Certified Builds default to 2 days. Users can change either. Forcing the value from machine policy requires the Governance add-on.
+- Unified/configurable cooldown periods across all major package managers (npm/npx/yarn/pnpm/vlt/bun). Community Builds default to off. Certified Builds default to 2 days. Users can change either. Forcing the value from machine policy requires the Governance add-on.
 
 :::tip[Certified Builds]
 Shim **V8 / permission lockdown** (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) is a Governance feature. Package-manager **cooldown** is not. Governance can force the cooldown from machine policy. See [registry policy](../cfg/registry) and [Choosing an Edition](../guide/builds/).
