@@ -105,7 +105,7 @@ Proxy находит уже установленный bun и применяет
 
 Проверки malware идут для `bun install` / `i` / `add` / `x` / `create` / `update` и для каждого вызова `bunx`.
 Те же install-команды также получают [cooldown минимального возраста](/cfg/registry#governance-keys) как Bun `--minimum-release-age` (секунды) и [блокировку lifecycle-скриптов](/cfg/registry#governance-keys) как `--ignore-scripts`, когда Governance её форсирует.
-`bun test`, `bun run` и остальные команды bun проходят без сканирования пакетов и без inject возраста.
+`bun test`, `bun run` и остальные команды bun проходят без сканирования пакетов, без inject возраста и без lifecycle-блокировки.
 Bun не выполняет проверку безопасности каталога Node, поэтому **NVM4305** для bun не возникает.
 
 ```powershell
