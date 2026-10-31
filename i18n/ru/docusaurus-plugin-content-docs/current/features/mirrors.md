@@ -5,7 +5,7 @@ sidebar_position: 7
 
 NVM for Windows загружает архивы Node.js с одного или нескольких **Node mirrors** и в режиме shim может переключаться на один или несколько URL **npm registry**. Задавайте их через [`nvm config`](../command/nvm/config) (или политику машины в certified-парках).
 
-Эта страница описывает базовые URL зеркал и HTTP-прокси для Community и certified-сборок. Для зеркала Node.js с политиками Author и version firewall _(Governance)_ см. [Version Firewall + Author Mirror](./author-mirror).
+Эта страница описывает базовые URL зеркал для Community Builds и Certified Builds. Для HTTP(S)-прокси (как трафик выходит с машины) см. [HTTP-прокси](./http-proxy). Для зеркала Author с политиками _(Governance)_ см. [Author Mirror](./author-mirror). Для клиентских списков allow/deny версий см. [NVM Firewall](./firewall).
 
 ## Зеркала Node.js
 
@@ -52,48 +52,13 @@ nvm config get npm_mirror
 
 Держите зеркала Node и npm registry раздельно.
 
-## HTTP proxies \{#http-proxies}
-
-Корпоративные сети часто требуют HTTP(S)-прокси между NVM и зеркалом. Порядок разрешения:
-
-1. Явная настройка [`proxy`](../cfg/core#proxy)/`Proxy` (политика или config)
-2. Переменные окружения процесса (`HTTP_PROXY`, `HTTPS_PROXY` и т. д.)
-3. Системный прокси Internet Explorer/WinINET
-
-| Config | Реестр | Примечания |
-|:-|:-|:-|
-| [`proxy`](../cfg/core#proxy) | `Proxy` | URL прокси, например `http://proxy.example.corp:8080` |
-| [`proxy_auth`](../cfg/registry#available-registry-keys) | `ProxyAuth` | `user:pass` или `Bearer YOUR_TOKEN` — хранится **в открытом виде** |
-| [`proxy_auth_type`](../cfg/registry#available-registry-keys) | `ProxyAuthType` | `basic`, `bearer`, `ntlm`, `negotiate` или `ntlm,negotiate` |
-
-:::info[Certified Builds]
-Доступно с сентября 2026.
-:::
-
-| Возможность | Community | Certified (Distribution/Audit) | Governance |
-|:-|:-:|:-:|:-:|
-| Proxy URL | ✓ | ✓ | ✓ |
-| Basic/Bearer auth | ограничено* | ✓ | ✓ |
-| IWA (NTLM/Negotiate, текущий пользователь) | — | — | ✓ |
-| PAC/WPAD (WinHTTP) | — | — | ✓ |
-
-\*Community может встроить учётные данные в URL прокси; отдельная инъекция `ProxyAuth*` — путь certified.
-
-:::warning[ProxyAuth в реестре]
-`ProxyAuth` в политике/настройках хранится открытым текстом. Используйте IWA (`ntlm`/`negotiate`), если регламент запрещает хранение паролей.
-:::
-
-:::info[Без Digest и browser proxies]
-Digest auth не поддерживается из-за объёма требований и редкого использования.
-
-Интерактивного SAML/OIDC browser login для captive portal нет. Рассмотрите PAC.
-:::
-
 ## См. также
 
 | Тема | Документ |
 |-------|-----|
 | Полная таблица настроек | [Базовая конфигурация](../cfg/core#downloads-and-mirrors) |
+| HTTP(S)-прокси | [HTTP-прокси](./http-proxy) |
 | Типы политики/`.reg` | [Справочник политики реестра](../cfg/registry) |
-| Author mirror и version firewall | [Version Firewall + Author Mirror](./author-mirror) |
+| Author Mirror | [Author Mirror](./author-mirror) |
+| NVM Firewall | [NVM Firewall](./firewall) |
 | Офлайн-архивы | [Изолированные установки](../guide/air-gapped-installations) |

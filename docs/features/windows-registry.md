@@ -10,4 +10,4 @@ As of v2.0.0, settings and preferences are stored in the registry under user key
 Prior versions of NVM for Windows utilized a plain text `settings.txt` file. Some users experienced difficulties using special characters. This was caused by encoding type problems in older versions of Go. Windows handles locale encoding natively in the registry, eliminating this problem.
 :::
 
-On certified fleets, machine policy can override user preferences. See [Administrative Templates](../cfg/ad) and the [registry policy reference](../cfg/registry).
+On Governance-licensed fleets, the Policies hive can override user preferences. See [Administrative Templates](../cfg/ad), [Governance](./certified-builds/governance), and the [registry policy reference](../cfg/registry).

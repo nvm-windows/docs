@@ -1,29 +1,25 @@
 ---
-title: Version Firewall + Author Mirror
-sidebar_position: 8
+title: Author Mirror
+sidebar_label: Author Private Mirror
+sidebar_position: 7.5
 certified:
   edition: governance
 ---
 
 import DocImage from '@site/docs/_components/DocImage';
 
-# Version Firewall + Author Mirror
+# Author Mirror
 
-Governance builds can limit which Node.js versions install via a **local firewall** (static allow/block lists) and Author Software's **policy-aware Node.js mirror** at `https://mirror.author.io/runtime/nodejs` (lifecycle rules such as blocking end-of-life releases).
+Governance builds can download Node.js from Author Software's policy-aware mirror at `https://mirror.author.io/runtime/nodejs`.
+The mirror can refuse end-of-life releases, apply hosted rules, and enforce local policy-defined download rules. This is commonly used to block `https://nodejs.org/dist` through a corporate proxy, forcing downloads through a policy-enforced/auditable mirror.
 
-For everyday [`node_mirror`](../cfg/core#downloads-and-mirrors)/[`npm_mirror`](../cfg/core#downloads-and-mirrors) URLs and HTTP proxies, see [Download Mirrors](./mirrors).
+Client allow and deny lists for `nvm install` are part of the [NVM Firewall](./firewall). Those lists can also seed this mirror.
 
-## Firewall
+For everyday [`node_mirror`](../cfg/core#downloads-and-mirrors)/[`npm_mirror`](../cfg/core#downloads-and-mirrors) URLs, see [Download Mirrors](./mirrors). For HTTP proxies, see [HTTP Proxy](./http-proxy).
 
-The NVM for Windows local firewall honors version allow/block lists defined in your organization's security policies (see [governance edition registry keys](/cfg/registry#governance-keys)). **Static** entries are enforced on the client before any download starts whenever `nvm install <version>` runs. That local check works in air-gapped environments.
+## Private Mirror \{#author-mirror\}
 
-Lifecycle aliases such as `EOL` are not expanded by the local firewall; they are enforced when installs use the Author mirror (below).
-
-For outbound firewall allow-lists, see [Requirements](../install/enterprise/requirements#proxy-exceptions). Full key types live in the [registry policy reference](../cfg/registry) and [basic configuration](../cfg/core).
-
-## Author Mirror
-
-The Author mirror adds another layer of protection against unapproved Node.js downloads. It enforces *dynamic policies* through rules, complementary to local allow/block lists.
+The Author mirror adds a download-time protection layer against unapproved Node.js archives. It enforces *dynamic policies* through rules, complementary to local allow/block lists.
 
 :::warning[Connected Environments Only]
 The Author mirror is not available in air-gapped environments.
@@ -53,7 +49,7 @@ Optional: `ApplyVerboseLicenseMetadata` includes machine/user identity claims in
 
 ## Enforce Dynamic Policies
 
-Dynamic policies are lifecycle aliases (i.e. `EOL`) that classify a range of versions. The Author mirror evaluates them when serving downloads. The same machine-policy lists that feed the [local firewall](#firewall) can also **seed** those aliases into the Author license JWT.
+Dynamic policies are lifecycle aliases (i.e. `EOL`) that classify a range of versions. The Author mirror evaluates them when serving downloads. The same machine-policy lists that feed [NVM Firewall](./firewall) can also **seed** those aliases into the Author license JWT.
 
 There are two (combinable) ways to enforce dynamic policies on the Author mirror.
 
@@ -61,8 +57,8 @@ There are two (combinable) ways to enforce dynamic policies on the Author mirror
 
 `VersionAllowList` / `VersionBlockList` (see [Governance registry keys](/cfg/registry#governance-keys)) do double duty:
 
-- **Static entries** — enforced by the local firewall at `nvm install`, `nvm use`, and Certified shim launch, before any download.
-- **Dynamic aliases** (`EOL`, `ALPHA`, `MAINTENANCE`) — ignored by the local firewall; included in the short-lived license JWT sent only to `mirror.author.io`. The mirror applies those lifecycle rules when serving the archive.
+- **Static entries** — enforced by [NVM Firewall](./firewall) before any download.
+- **Dynamic aliases** (`EOL`, `ALPHA`, `MAINTENANCE`) — ignored on the client; included in the short-lived license JWT sent only to `mirror.author.io`. The mirror applies those lifecycle rules when serving the archive.
 
 | Policy entry | Local client | Author mirror (`mirror.author.io`) | Public mirror (`nodejs.org`) |
 |:-|:-|:-|:-|
@@ -123,10 +119,11 @@ Organizations whose policies prevent storing any organization data on hosted ser
 | Topic | Doc |
 |:-|:-|
 | Basic [`node_mirror`](../cfg/core#downloads-and-mirrors) / [`npm_mirror`](../cfg/core#downloads-and-mirrors) | [Download Mirrors](./mirrors) |
-| HTTP proxies | [Download Mirrors](./mirrors#http-proxies) |
+| HTTP proxies | [HTTP Proxy](./http-proxy) |
 | User-facing config keys | [Basic Configuration](../cfg/core) |
 | Policy keys and `.reg` sample | [Registry Policy Reference](../cfg/registry) |
+| NVM Firewall (version lists) | [NVM Firewall](./firewall) |
 | Firewall exceptions | [Requirements](../install/enterprise/requirements) |
 | Find AD Domain SID / Entra Tenant ID | [Find Your AD Domain or Entra Tenant ID](../guide/find-domain-tenant-id) |
-| Edition capabilities | [Choosing an Edition](../guide/builds/) |
+| Edition capabilities | [Choosing a Build](../guide/builds/) |
 | Inspect mirrors/proxy | [`nvm env`](../command/nvm/env) |

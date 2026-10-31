@@ -5,37 +5,43 @@ sidebar_position: 3
 
 # Сборка из исходников
 
-Большинству пользователей достаточно готового пакета — см. [Установщики](./installers).
+Установите готовый пакет, если вам не нужно собирать продукт из исходников.
+См. [Установщики](./installers).
 
 :::info[Только Community Build]
-Это руководство по открытому/неподписанному пайплайну Inno Setup. [Certified-сборки](../guide/builds/) (подписанные MSI/Intune, ADMX, SBOM и т.д.) собираются закрытыми инструментами и будут доступны в [клиентском портале](https://portal.author.io) с сентября 2026.
+Эта страница описывает открытый пайплайн Inno Setup.
+[Certified Builds](../guide/builds/) (пакеты MSI и Intune, ADMX, SBOM) собираются закрытыми инструментами.
+Эти файлы доступны в [клиентском портале](https://portal.author.io).
 :::
 
 ## Предварительные требования
 
+Установите эти инструменты до сборки.
+
 |Инструмент|Примечания|
 |:-|:-|
-|Windows 10/11 (amd64 или arm64)|На хосте можно кросс-собирать другую архитектуру через `-Architecture`.|
+|Windows 10/11 (amd64 или arm64)|Хост может собрать другую архитектуру. Передайте `-Architecture`.|
 |[Go](https://go.dev/dl/)|Версия в `cli/src/go.mod` (сейчас **1.26.2**).|
-|[qgo](https://github.com/quikdev/go)|Обёртка сборки Go для CLI (`qgo` в `PATH`).|
+|[qgo](https://github.com/quikdev/go)|Обёртка сборки Go для CLI. Добавьте `qgo` в `PATH`.|
 |[Zig](https://ziglang.org/download/)|Точная версия в `shim/.zigversion` (сейчас **0.15.2**).|
-|[Inno Setup](https://jrsoftware.org/isdl.php)|**6.7.1+**, `ISCC.exe` в `PATH` (нужен для setup EXE).|
-|[go-winres](https://github.com/tc-hib/go-winres)|Встраивание ресурсов Windows. Скрипт сборки ставит через `go install`, если отсутствует.|
-|Git|Клон с submodules.|
-|PowerShell|Запуск `.\build\main.ps1` из корня репозитория.|
-|Сеть (для `-DownloadSync`)|Загрузка готового `sync.exe` с GitHub Release.|
+|[Inno Setup](https://jrsoftware.org/isdl.php)|**6.7.1+**. Добавьте `ISCC.exe` в `PATH`. Setup EXE требует этот инструмент.|
+|[go-winres](https://github.com/tc-hib/go-winres)|Встраивает ресурсы Windows. Скрипт сборки запускает `go install`, если инструмента нет.|
+|Git|Клонируйте с submodules.|
+|PowerShell|Запустите `.\build\main.ps1` из корня репозитория.|
+|Сеть (для `-DownloadSync`)|Загружает готовый `sync.exe` из релиза GitHub.|
 
-Убедитесь, что `GOBIN`/`GOPATH\bin` в `PATH`, чтобы находились утилиты из `go install`.
+Добавьте `GOBIN` или `GOPATH\bin` в `PATH`.
+Сборка должна находить инструменты, которые `go install` записывает в эту папку.
 
 ## Получение исходников
 
-Публичный community-монорепозиторий связывает CLI, общие библиотеки, shim и установщик через Git submodules:
+Публичный репозиторий связывает CLI, общие библиотеки, shim и установщик как Git submodules.
 
 ```
 nvm/
 ├── bin/          # создаётся сборкой
 ├── .dist/        # установщик + staged-артефакт sync для release
-├── build/        # скрипты community-сборки
+├── build/        # скрипты Community Build
 ├── cli/          # nvm.exe (Go)
 ├── common/       # общие Go-модули
 ├── shim/         # node/proxy/reshim (Zig)
@@ -47,28 +53,38 @@ git clone --recurse-submodules https://github.com/nvm-windows/nvm.git
 cd nvm
 ```
 
-Если клонировали без submodules:
+Если в клоне нет submodules, выполните:
 
 ```powershell
 git submodule update --init --recursive
 ```
 
 :::warning[Закрытый репозиторий sync]
-`sync.exe` (`doctor` и `upgrade`) свободно доступен, но **не собирается из публичных исходников**. Не часть основных операций nvm. Управляет **путём обновления и обслуживания** в community- и certified-сборках, привязанным к URL и сервисам Author. Для кастомных сборок стоит реализовать своё sidecar-приложение обновления/обслуживания.
+`sync.exe` (`doctor` и `upgrade`) можно использовать бесплатно.
+`sync.exe` не собирается из публичных исходников.
+`sync.exe` не входит в основные операции nvm.
+`sync.exe` управляет путём обновления и обслуживания для Community Builds и Certified Builds.
+Этот путь использует URL сервисов Author.
+Своя сборка должна предоставить свою программу обновления и обслуживания.
 
-На community GitHub releases **два** артефакта на архитектуру:
+В каждом community-релизе GitHub два файла на архитектуру:
 
 - `nvm-<version>-<arch>-setup.exe` — установщик Inno Setup
 - `nvm-<version>-<arch>-sync.exe` — готовый sync для сборки из исходников
 
-Передайте **`-DownloadSync`**, чтобы `.\build\main.ps1` загрузил sync в `bin\utils\sync.exe` перед упаковкой.
+Передайте **`-DownloadSync`**.
+`.\build\main.ps1` тогда загружает этот файл sync в `bin\utils\sync.exe` перед упаковкой.
 :::
 
 ## Сборка
 
+Выберите одну процедуру сборки ниже.
+
 ### Полная публичная сборка (рекомендуется)
 
-Собирает CLI + shim, скачивает `sync.exe`, затем Inno Setup:
+Эта процедура собирает CLI и shim.
+Она загружает готовый `sync.exe`.
+Она собирает установщик Inno Setup.
 
 ```powershell
 .\build\main.ps1 -DownloadSync
@@ -76,9 +92,15 @@ git submodule update --init --recursive
 
 `.\build.ps1` вызывает тот же скрипт.
 
-Загрузка по тегу `v` + `version` из `cli/src/manifest.json` репозитория `nvm-windows/nvm`, артефакт `nvm-<version>-<arch>-sync.exe`. Release должен существовать — [community release workflow](https://github.com/nvm-windows/nvm/blob/main/.github/workflows/release.yml) публикует `*-setup.exe` и `*-sync.exe`.
+Загрузка использует тег `v` плюс поле `version` в `cli/src/manifest.json`.
+Репозиторий — `nvm-windows/nvm`.
+Имя артефакта — `nvm-<version>-<arch>-sync.exe`.
+Этот релиз уже должен существовать.
+[Рабочий процесс community-релиза](https://github.com/nvm-windows/nvm/blob/main/.github/workflows/release.yml) загружает `*-setup.exe` и `*-sync.exe` при публикации.
 
 ### Только компоненты (публичная)
+
+Соберите один компонент:
 
 ```powershell
 .\build\main.ps1 -Component Cli
@@ -88,7 +110,8 @@ git submodule update --init --recursive
 
 ### Maintainer / CI
 
-При доступе к закрытому submodule sync можно собрать sync из исходников без `-DownloadSync`:
+Если вы можете читать закрытый submodule sync, не передавайте `-DownloadSync`.
+Скрипт тогда собирает sync из исходников.
 
 ```powershell
 .\build\main.ps1
@@ -113,31 +136,38 @@ git submodule update --init --recursive
 
 |Параметр|Значения|Назначение|
 |:-|:-|:-|
-|`-Architecture`|`amd64`, `arm64`|Целевой CPU. Без параметра — автоопределение.|
-|`-Component`|`All` (по умолчанию), `Cli`, `Shims`, `Sync`|Что собирать. Installer требует `All`.|
-|`-DownloadSync`|switch|Скачать `*-sync.exe` с release вместо сборки из закрытых исходников.|
-|`-SyncReleaseTag`|tag|Переопределить тег release (по умолчанию: `v` + версия CLI manifest).|
-|`-SyncReleaseRepo`|`owner/repo`|Переопределить репозиторий (по умолчанию: `nvm-windows/nvm`).|
-|`-SkipInstaller`|switch|Пропустить setup EXE (только с `-Component All`).|
-|`-BinRoot`|path|Каталог вывода бинарников.|
+|`-Architecture`|`amd64`, `arm64`|Целевой процессор. Не передавайте параметр, чтобы определить его автоматически.|
+|`-Component`|`All` (по умолчанию), `Cli`, `Shims`, `Sync`|Что собирать. Установщик требует `All`.|
+|`-DownloadSync`|switch|Загрузить `*-sync.exe` из релиза. Не собирать закрытые исходники sync.|
+|`-SyncReleaseTag`|tag|Заменить тег релиза. По умолчанию `v` плюс версия из манифеста CLI.|
+|`-SyncReleaseRepo`|`owner/repo`|Заменить репозиторий загрузки. По умолчанию `nvm-windows/nvm`.|
+|`-SkipInstaller`|switch|Пропустить setup EXE. Используйте только с `-Component All`.|
+|`-BinRoot`|path|Заменить каталог вывода бинарников.|
 
-Код выхода `0` — успех. Иначе остановка на первом сбойном шаге.
+Код выхода `0` означает успех.
+Ненулевой код выхода останавливает скрипт на первом неудачном шаге.
 
 ## Результат
 
-|Артеfact|Путь|
+Сборка записывает эти файлы.
+
+|Артефакт|Путь|
 |:-|:-|
 |CLI|`bin\nvm.exe`|
 |Node shim|`bin\.shim\node.exe`|
 |Утилиты|`bin\utils\proxy.exe`, `reshim.exe`, `sync.exe`|
-|Installer|`.dist\nvm-<version>-<arch>-setup.exe`|
-|Staged sync|`.dist\nvm-<version>-<arch>-sync.exe`|
+|Установщик|`.dist\nvm-<version>-<arch>-setup.exe`|
+|Staged-артефакт sync|`.dist\nvm-<version>-<arch>-sync.exe`|
 
-`<version>` из `cli/src/manifest.json`. DLL sync worker не упаковываются — подгружаются с `assets.nvm-windows.com` при необходимости.
+`<version>` берётся из `cli/src/manifest.json`.
+DLL sync worker не входят в пакет.
+Среда выполнения загружает эти DLL с `assets.nvm-windows.com`, когда они нужны.
 
 ## Установка собранного
 
-Запускайте setup EXE как **обычный пользователь** (не elevated Administrator), как для [community-установщика](./installers#community-build):
+Запустите setup EXE как **обычный пользователь**.
+Не запускайте его от имени администратора с повышением прав.
+Следуйте правилам [установщика Community Build](./installers#community-build).
 
 ```powershell
 .\.dist\nvm-<version>-<arch>-setup.exe
@@ -149,40 +179,46 @@ git submodule update --init --recursive
 nvm install lts
 ```
 
-Удаление локальной сборки — [Удаление](./uninstall#community-builds).
+Чтобы позже удалить локальную сборку, следуйте [Удалению](./uninstall#community-builds).
 
 ### Только бинарники (portable)
 
-С `-SkipInstaller` можно запускать `bin\nvm.exe` из своей структуры для разработки. Для production по-прежнему используйте Inno Setup — PATH, настройки, protocol handlers и метаданные удаления.
+Передайте `-SkipInstaller`, чтобы запускать `bin\nvm.exe` из своей структуры во время разработки.
+Рабочая установка использует пакет Inno Setup.
+Этот пакет регистрирует PATH, настройки, обработчики протокола и данные удаления.
 
 ## Компоненты
 
+У каждого компонента одна роль.
+
 |Компонент|Язык|Публичные исходники?|Роль|
 |:-|:-|:-:|:-|
-|`cli`|Go|✓|`nvm.exe` — install/use/list/config/cache|
-|`shim`|Zig|✓|shim `node.exe`, `proxy.exe`, `reshim.exe` ([режимы работы](../features/modes))|
-|`sync`|Go|—|Фоновый helper update/doctor (`sync.exe`); `-DownloadSync` или исходники maintainer|
-|`installer`|Inno Setup|✓|Per-user community setup EXE|
+|`cli`|Go|✓|`nvm.exe`. Установка, use, list, config и cache.|
+|`shim`|Zig|✓|Shim `node.exe`, `proxy.exe` и `reshim.exe`. См. [режимы работы](../features/modes).|
+|`sync`|Go|—|Фоновый помощник обновления и doctor (`sync.exe`). Используйте `-DownloadSync` или исходники maintainer.|
+|`installer`|Inno Setup|✓|Setup EXE Community Build для пользователя.|
 
 ## Устранение неполадок
 
+Используйте эту таблицу, когда сборка завершается с ошибкой.
+
 |Симптом|Что проверить|
 |:-|:-|
-|`qgo` not found|Установите [qgo](https://github.com/quikdev/go), добавьте в `PATH`.|
-|Неверная версия Go/Zig|Сверьте с `cli/src/go.mod` и `shim/.zigversion`.|
-|Нет исходников sync / ошибка сборки|Ожидаемо на публичных клонах. `-DownloadSync` или только `-Component Cli` / `-Component Shims`.|
-|`-DownloadSync` 404|Нужен release с `nvm-<version>-<arch>-sync.exe`. Обновите `cli/src/manifest.json` или `-SyncReleaseTag`.|
-|Ошибка installer|Inno Setup **6.7.1+** (`ISCC.exe` в `PATH`). Проверьте `version`, `appUserModelId`, `appId` в `cli/src/manifest.json`.|
-|Нет `go-winres`|Скрипт пробует `go install github.com/tc-hib/go-winres@latest`. Добавьте `GOPATH\bin` в `PATH`.|
-|Пустой submodule|`git submodule update --init --recursive` (публично: cli/common/shim; sync закрыт).|
+|`qgo` not found|Установите [qgo](https://github.com/quikdev/go). Добавьте его в `PATH`.|
+|Неверная версия Go/Zig|Сверьте версии с `cli/src/go.mod` и `shim/.zigversion`.|
+|Нет исходников sync / ошибка сборки|Ожидаемо для публичного клона. Передайте `-DownloadSync`. Или соберите только `-Component Cli` или `-Component Shims`.|
+|`-DownloadSync` 404|Опубликуйте релиз с `nvm-<version>-<arch>-sync.exe`. Совпадайте с `cli/src/manifest.json`. Или передайте `-SyncReleaseTag` для существующего тега.|
+|Ошибка установщика|Установите Inno Setup **6.7.1+**. Добавьте `ISCC.exe` в `PATH`. Проверьте, что в `cli/src/manifest.json` есть `version`, `appUserModelId` и `appId`.|
+|Нет `go-winres`|Скрипт сборки запускает `go install github.com/tc-hib/go-winres@latest`. Добавьте `GOPATH\bin` в `PATH`. Запустите сборку снова.|
+|Пустой submodule / нет кода|Выполните `git submodule update --init --recursive`. Публичные клоны включают cli, common и shim. Submodule sync остаётся закрытым.|
 
-CI и release для community — [`build/README.md`](https://github.com/nvm-windows/nvm/blob/main/build/README.md).
+Шаги CI и релиза Community Build описаны в [`build/README.md`](https://github.com/nvm-windows/nvm/blob/main/build/README.md).
 
 ## См. также
 
 |Тема|Документ|
 |:-|:-|
 |Готовые установщики|[Установщики](./installers)|
-|Community vs certified|[Выбор редакции](../guide/builds/)|
+|Community Build и Certified Build|[Выбор сборки](../guide/builds/)|
 |Удаление|[Удаление](./uninstall)|
-|Shim vs link|[Режимы работы](../features/modes)|
+|Режим shim и link|[Режимы работы](../features/modes)|

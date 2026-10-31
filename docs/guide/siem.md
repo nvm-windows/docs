@@ -32,7 +32,9 @@ This guide shows how to collect the channel, then gives starter queries.
 
 Point your collector at the `NVM for Windows/Operational` channel. Do not collect only the Windows Application log. Application warnings, such as **NVM4101**, are a separate stream.
 
-Structured events need the Advanced Logging add-on. Without that license, classic events still include `Code`. They do not include `EventName` or `Payload`.
+Most `EventName` / `Payload` events need the Advanced Logging add-on. Without that license, classic events still include `Code`. They do not include `EventName` or `Payload`.
+
+Exception: `nodejs.executed` (Event ID **120**) is written whenever `log_executions` is on. Community Builds and Certified Builds. No Advanced Logging license. Certified Builds also write `package_manager.executed` the same way.
 
 ## How to query
 
@@ -117,7 +119,7 @@ Authenticode / trust failures are **NVM4301**. A swapped `node.exe` whose FileVe
 
 ### Version firewall blocks
 
-Certified `VersionAllowList` / `VersionBlockList` denies are **NVM4411**.
+Governance `VersionAllowList` / `VersionBlockList` denies are **NVM4411**.
 
 <SiemQuery id="versionFirewall" />
 
@@ -178,7 +180,7 @@ Match `Code` to the number in [Error Codes](../troubleshooting/error-codes).
 | `node.security.cache_state_changed` | 4303 | `node-shim` or `proxy` |
 | `node.security.full_verification_recovered` | 4304 | `node-shim` or `proxy` |
 | `node.security.version_mismatch` | 4314 | `node-shim` or `proxy`. PE FileVersion does not match the install folder. |
-| `node.security.version_firewall_blocked` | 4411 | `node-shim` or `proxy`. Certified `VersionAllowList` / `VersionBlockList` denied the version. |
+| `node.security.version_firewall_blocked` | 4411 | `node-shim` or `proxy`. Governance `VersionAllowList` / `VersionBlockList` denied the version. |
 | `package_manager.lifecycle_scripts_blocked` | 4412 | `proxy`. Advanced Logging only. HKLM lifecycle-script lock on an install-class command. |
 | `network.deadline_exceeded` | 4501 | `nvm.exe` or `sync.exe` |
 | `malware.definitions_updated` | 4601 | `sync.exe`. Advanced Logging only. |
@@ -186,12 +188,6 @@ Match `Code` to the number in [Error Codes](../troubleshooting/error-codes).
 | `firewall.elevation_required` | 4404 | `nvm.exe` |
 | `firewall.invalid_rule` | 4405 | `nvm.exe` |
 | `firewall.untrusted_module_changed` | 4406 | `nvm.exe` or `proxy` |
-| `firewall.remote_request` | 4407 | `nvm.exe` |
-| `firewall.remote_allowed` | 4407 | `nvm.exe` |
-| `firewall.remote_trust_allowed` | 4407 | `nvm.exe` |
-| `firewall.remote_unauthorized` | 4401 | `nvm.exe` |
-| `firewall.remote_failed` | 4402 or 4409 | `nvm.exe` or `proxy`. 4409 means the host was unreachable. |
-| `firewall.remote_blocked` | 4403 | `nvm.exe` only. The proxy event of the same name uses code 0. |
 | `firewall.policy_mutated` | 4410 | `nvm.exe` |
 | `firewall.policy_mutate_failed` | 4410 | `nvm.exe` |
 | `package_manager.install` | 4403 or 4408 | `proxy` on a Certified Build. 4403 is a deny. 4408 is an allow. |

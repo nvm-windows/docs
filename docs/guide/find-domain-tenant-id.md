@@ -144,7 +144,7 @@ Look under **Device State** for `AzureAdJoined`, `DomainJoined`, and `WorkplaceJ
 
 | Topic | Doc |
 |:-|:-|
-| Hosted mirror rules (domain conditions) | [Version Firewall + Author Mirror](../features/author-mirror#hosted-rules) |
+| Hosted mirror rules (domain conditions) | [Author Mirror](../features/author-mirror#hosted-rules) |
 | Deploy with Active Directory | [Deploy with Active Directory](../install/enterprise/ad) |
 | Deploy with Intune / Entra | [Deploy with Microsoft Intune](../install/enterprise/intune) |
-| Governance edition overview | [Choosing an Edition](./builds/) |
+| Governance edition overview | [Choosing a Build](./builds/) |

@@ -8,7 +8,7 @@ certified:
 
 # Administrative Templates (Intune & GPO)
 
-NVM for Windows certified governance builds come with ADMX/ADML templates. Use them in **on-premises Group Policy** or **Microsoft Intune** configuration profiles.
+NVM for Windows [Governance](../../features/certified-builds/governance) packs ship ADMX/ADML templates. Use them in **on-premises Group Policy** or **Microsoft Intune** configuration profiles.
 
 |Resource|Guidance|
 |:-|:-|
@@ -16,7 +16,9 @@ NVM for Windows certified governance builds come with ADMX/ADML templates. Use t
 |ADML file| Provides the language text for the settings. Available at [portal.author.io](https://portal.author.io).|
 |Target path| `HKLM\Software\Policies\Author Software\nvm`|
 
-Download the ADMX/ADML from the [customer portal](https://portal.author.io). For Win32 app installation through Intune, see [Install → Intune](../install/enterprise/intune).
+Download the ADMX/ADML from the [customer portal](https://portal.author.io).
+Values under the Policies hive are enforced only with a Governance license (licensing secrets excepted). See the [Registry Policy Reference](registry) for every value name and default.
+For Win32 app installation through Intune, see [Install → Intune](../install/enterprise/intune).
 
 ---
 
@@ -66,6 +68,8 @@ You can also deploy individual registry values with a **Settings catalog** or **
 
 ## Group Policy (GPO) Deployment
 
+ADMX policies do not include licensing secrets or ETW/env remediation. The MSI already registers the event provider and clears legacy SYSTEM env. GPO startup is for `Set-NvmWindowsLicensing.ps1` with AccessToken **and** the Default private key (`AccessKey`), or `Set-NvmWindowsAccessToken.ps1` plus an AccessKey REG_BINARY write. Create a **Default** private key in the portal if the organization has none. Do **not** add `Remediation/` scripts to the GPO.
+
 :::info[Domain Controller Access]
 You will need access to your domain controller to perform the tasks in this section.
 :::
@@ -102,7 +106,11 @@ Computer Configuration
                 │   ├── Always cache downloads
                 │   ├── Disable removal of cached downloads
                 │   ├── Disable NVM for Windows upgrades
-                │   └── Disable project and release announcements
+                │   ├── Disable project and release announcements
+                │   ├── Catalog fetch deadline
+                │   ├── Catalog mirror deadline
+                │   ├── Download-source check deadline
+                │   └── Download deadline
                 ├── Environment
                 │   ├── Set operating mode
                 │   ├── Configure custom version aliases
@@ -121,13 +129,32 @@ Computer Configuration
                     ├── Configure blocked Node.js versions
                     ├── Disable insecure downloads
                     ├── Include verbose identity metadata in mirror license tokens
-                    ├── Configure approved vendors (trusted code signers)
+                    ├── Include verbose identity metadata in firewall policy tokens
                     └── Shim mode
                         ├── Enable audit logging
                         ├── Enforce Node.js permission model
+                        ├── Audit Node.js permission grants
+                        ├── Default Node.js permission grants
+                        ├── Allowed Node.js permission grants
                         ├── Prevent modification of global JavaScript prototypes
                         ├── Disallow dynamic code generation from strings
-                        └── Configure npm package minimum release age
+                        ├── Configure approved vendors (trusted code signers)
+                        ├── Configure npm package minimum release age
+                        ├── Block package manager lifecycle scripts
+                        ├── Configure trusted modules (self-update reshim)
+                        ├── Configure approved modules (local installs)
+                        ├── Configure approved global modules
+                        ├── Untrusted module change action
+                        ├── Firewall HTTPS policy timeout (seconds)
+                        ├── Skip package-lock.json for module firewall
+                        ├── Trusted firewall TLS certificate organizations
+                        ├── Trusted firewall TLS leaf thumbprints
+                        ├── Skip malware checks
+                        ├── Wrap bun for malware checks
+                        ├── Notify when malware definitions update
+                        ├── Malware allow list
+                        ├── Malware block list
+                        └── Malware trust conflict
 ```
 
 :::tip[Language Support]

@@ -35,7 +35,7 @@ Usage: nvm config (cfg) <command>
 | Mode | `shim` or `link` only | [`mode=shim`](../../../cfg/core#mode-and-install-location) |
 
 :::tip[Certified Builds]
-Some settings are policy-managed on Certified Builds; writes are blocked when Governance/machine policy controls the value. Community installs are not subject to HKLM policy locks.
+Some settings are policy-managed when a Governance license honors the Policies hive; writes are blocked for those keys. Without Governance, Policies values are ignored. Community installs are not subject to HKLM policy locks.
 :::
 
 ## Notes

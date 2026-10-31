@@ -14,7 +14,7 @@ sidebar_position: 9
 | [`local_dir`](../cfg/registry#available-registry-keys) | `LocalInstallDir` | _(не задан)_ | Каталог архивов Node.js `.7z` как источник установки |
 | [`local_install_only`](../cfg/registry#available-registry-keys) | `LocalInstallOnly` | `false` | Устанавливать только из локального источника; ошибка, если архива нет |
 
-Обе — переопределяемые настройки (часто задаются [политикой машины](../cfg/registry) на флотах Certified Builds). Они скрыты из обычного вывода `nvm config docs`, но работают через `nvm config`:
+Обе — переопределяемые настройки (часто задаются [политикой машины](../cfg/registry) на флотах Governance). Они скрыты из обычного вывода `nvm config docs`, но работают через `nvm config`:
 
 ```powershell
 nvm config set local_dir=D:\node-archives

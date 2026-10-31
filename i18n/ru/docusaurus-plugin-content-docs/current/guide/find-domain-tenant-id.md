@@ -144,7 +144,7 @@ dsregcmd /status
 
 | Тема | Документ |
 |:-|:-|
-| Hosted-правила зеркала (условия по домену) | [Version Firewall + Author Mirror](../features/author-mirror#hosted-rules) |
+| Hosted-правила зеркала (условия по домену) | [Author Mirror](../features/author-mirror#hosted-rules) |
 | Развёртывание через Active Directory | [Развёртывание через Active Directory](../install/enterprise/ad) |
 | Развёртывание через Intune / Entra | [Развёртывание через Microsoft Intune](../install/enterprise/intune) |
-| Обзор edition Governance | [Выбор edition](./builds/) |
+| Обзор edition Governance | [Выбор сборки](./builds/) |

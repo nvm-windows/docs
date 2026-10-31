@@ -1,23 +1,24 @@
-# Выбор редакции
+---
+title: Выбор сборки
+sidebar_label: Выбор сборки
+---
+
+import PageLink from '@site/docs/_components/PageLink';
+import PageDescription from '@site/docs/_components/PageDescription';
+import TrustArtifactList from '@site/docs/_components/TrustArtifactList';
+
+# Выбор сборки
 
 В этом руководстве описаны различия между community- и certified-сборками NVM for Windows, чтобы помочь выбрать подходящий вариант.
 
 |Тип|Аудитория|Лицензия|Доступность|
 |:-|:-:|:-:|:-|
 |Community&nbsp;Build|Частные разработчики|MIT|[nvm-windows.com](https://nvm-windows.com) или [github.com/nvm-windows](https://github.com/nvm-windows/nvm/releases)|
-|Certified&nbsp;Build|Организации|EULA|С сентября 2026 через [клиентский портал](https://portal.author.io)|
+|Certified&nbsp;Build|Организации|EULA|[Клиентский портал](https://portal.author.io)|
 
 ## Community-сборки
 
-Community-сборки рассчитаны на отдельных разработчиков. Они содержат полное приложение со всеми функциями, но без возможностей централизованного управления. Распространяются через установщик `.exe` с открытым исходным кодом.
-
-:::warning[Community-сборки не подписаны кодом]
-Community-сборки NVM for Windows v2 *не подписаны кодом*. Они могут попадать под фильтр Windows SmartScreen. NVM for Windows v1 более десяти лет поддерживает высокий рейтинг доверия у Microsoft, но при установке или обновлении SmartScreen всё равно может появиться.
-
-_Пример:_
-
-![Пример фильтра SmartScreen](/img/guide_smartscreen.png)
-:::
+Community-сборки рассчитаны на отдельных разработчиков. Они содержат полное приложение со всеми функциями, но без возможностей централизованного управления. Распространяются через установщик `.exe` с открытым исходным кодом. Опубликованные community-сборки подписаны кодом. Издатель — Author Software Inc.
 
 ## Certified-сборки
 
@@ -25,7 +26,6 @@ Certified-сборки рассчитаны на команды и органи�
 
 ### Ключевые дополнения
 
-- **Бинарники с EV-подписью кода**
 - **Установщики для развёртывания** (Intune/MSI + PowerShell-скрипты)
 - **Финансовые гарантии** (Author Software Inc)
 
@@ -33,9 +33,9 @@ Certified-сборки рассчитаны на команды и органи�
 
 |Дополнение|Возможности|
 |:-|:-|
-|**Advanced&nbsp;Logging**|Структурированное журналирование для интеграции с SIEM.|
-|**Trust&nbsp;Artifacts**|SBOM, provenance и отчёты VEX.|
-|**Governance**|Централизованное управление политиками (ADMX/ADML + GPO/Entra-скрипты), расширенная поддержка прокси (IWA, WPAD/PAC), зеркало Node.js (mirror.author.io), version firewall, принудительные права Node.js через shim, принудительный cooldown менеджеров пакетов из машинной политики (npm/npx/pnpm/yarn/vlt/bun) и air-gap/локальные установки.|
+|**<PageLink id="advancedLogging" />**|<PageDescription id="advancedLogging" />|
+|**<PageLink id="trustArtifacts" />**|<TrustArtifactList format="inline" />.|
+|**Governance**|Централизованное управление политиками (ADMX/ADML + GPO/Entra-скрипты), расширенная поддержка прокси (IWA, WPAD/PAC), зеркало Node.js (mirror.author.io), version firewall, принудительные права Node.js через shim, принудительный cooldown менеджеров пакетов из машинной политики (npm/pnpm/yarn/vlt/bun) и air-gap/локальные установки.|
 
 ### Центр сертификации подписи кода
 
@@ -57,20 +57,27 @@ NVM for Windows распространяется компанией Author Softw
 
 ### Trust Artifacts
 
-Дополнение **Trust Artifacts** предоставляет материалы цепочки поставок вместе с certified-релизами — например SBOM, provenance и отчёты VEX — чтобы команды безопасности и закупок могли проверять содержимое каждой сборки без отдельного «Compliance»-тарифа.
+Дополнение **Trust Artifacts** даёт compliance-пакет с каждым certified-релизом (SBOM, SLSA provenance, лицензии, SAST и верификатор).
+Клиенты скачивают его в [клиентском портале](https://portal.author.io).
+Портал может также доставить тот же пакет аудиторам клиента.
+Это не отдельный уровень продукта под именем Compliance.
+
+<TrustArtifactList />
+
+См. <PageLink id="trustArtifacts" /> — layout пакета, доставка через портал и как проверять.
 
 ### Управление политиками
 
 Пакет Governance для certified-сборок добавляет управление политиками. С его помощью можно применять политики безопасности. Например:
 
 - Использовать корпоративные прокси (IWA, PAC/WPAD).
-- Блокировать неутверждённые версии Node.js (EOL, уязвимые или нестабильные).
+- Блокировать неутверждённые версии Node.js статическими списками allow/block (semver, маски).
 - Принудительно задавать cooldown npm/npx/yarn/pnpm/vlt/bun из машинной политики.
-- Применять модель прав Node.js (`--permission` / `--experimental-permission`), чтобы shim-`node` стартовал с default-deny; lifecycle-скрипты npm/npx/pnpm наследуют те же флаги через `npm_config_node_options`, когда политика включена. Приложениям нужно передавать `--allow-*` при запуске.
-- Замораживать intrinsics V8 (`--frozen-intrinsics`), чтобы предотвратить загрязнение прототипов встроенных объектов (также для скриптов npm/npx/pnpm при включённой политике).
-- Запрещать `eval()` / `new Function()` (`--disallow-code-generation-from-strings`) (также для скриптов npm/npx/pnpm при включённой политике).
+- Применять модель прав Node.js (`--permission` / `--experimental-permission`), чтобы каждый `node.exe` стартовал с default-deny; приложениям нужно передавать `--allow-*` при запуске.
+- Замораживать intrinsics V8 (`--frozen-intrinsics`), чтобы предотвратить загрязнение прототипов встроенных объектов.
+- Запрещать `eval()` / `new Function()` (`--disallow-code-generation-from-strings`).
 - Ограничивать установки локальными источниками (air-gapping).
-- Ограничивать устанавливаемые версии (например lts/non-EOL/non-ALPHA) через version firewall.
+- Ограничивать устанавливаемые версии через version firewall. Псевдонимы жизненного цикла `EOL` и `ALPHA` применяются на Author Mirror, не на клиенте.
 
 Governance-сборки поставляются с файлами ADMX/ADML и официальными скриптами для групповых политик Microsoft Active Directory, Microsoft Entra и других платформ управления устройствами.
 

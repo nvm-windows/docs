@@ -329,13 +329,125 @@
   "certifiedBanner.badge": {
     "message": "Certified-сборка"
   },
-  "certifiedBanner.releaseDate": {
-    "message": "сентябрь 2026"
+  "docMeta.choosingABuild.title": {
+    "message": "Выбор сборки"
   },
-  "certifiedBanner.availability": {
-    "message": "Доступно {date}."
+  "docMeta.choosingABuild.description": {
+    "message": "Различия между Community Builds и Certified Builds NVM for Windows."
+  },
+  "docMeta.trustArtifacts.title": {
+    "message": "Trust Artifacts"
+  },
+  "docMeta.trustArtifacts.description": {
+    "message": "SBOM, SLSA provenance, лицензии и SAST для Certified Builds — скачивание в клиентском портале для команды или аудиторов."
+  },
+  "docMeta.advancedLogging.title": {
+    "message": "Advanced Logging"
+  },
+  "docMeta.advancedLogging.description": {
+    "message": "Структурированное журналирование для интеграции с SIEM."
+  },
+  "docMeta.governance.title": {
+    "message": "Governance"
+  },
+  "docMeta.governance.description": {
+    "message": "Пакет политик для парков, которые блокируют настройки и контролируют загрузки."
+  },
+  "docMeta.oem.title": {
+    "message": "Преднастройка образа Windows"
+  },
+  "docMeta.oem.sidebarLabel": {
+    "message": "OEM / заводские образы"
+  },
+  "docMeta.oem.description": {
+    "message": "Преднастройка NVM for Windows в образе Windows."
+  },
+  "docMeta.trustArtifacts.item.sbom.name": {
+    "message": "Подписанный перечень материалов (SBOM)"
+  },
+  "docMeta.trustArtifacts.item.sbom.summary": {
+    "message": "CycloneDX SBOM компонентов и сводки (`node`, `proxy`, `reshim`, `nvm`, `sync`, `nvm-windows`), с подписью когда шаг подписания релиза выполнился."
+  },
+  "docMeta.trustArtifacts.item.slsa.name": {
+    "message": "Аттестации SLSA"
+  },
+  "docMeta.trustArtifacts.item.slsa.summary": {
+    "message": "Офлайн-проверяемый DSSE / in-toto provenance для certified app pack (SLSA Build L3)."
+  },
+  "docMeta.trustArtifacts.item.sast.name": {
+    "message": "Результаты SAST"
+  },
+  "docMeta.trustArtifacts.item.sast.summary": {
+    "message": "SARIF 2.1.0 от gosec (Go) и PSScriptAnalyzer (PowerShell). Не тест на проникновение; без CodeQL и DAST."
+  },
+  "docMeta.trustArtifacts.item.licenses.name": {
+    "message": "Отчёт по open-source лицензиям"
+  },
+  "docMeta.trustArtifacts.item.licenses.summary": {
+    "message": "Markdown-сводка и CSV-инвентарь из rollup SBOM. Строки со статусом `unknown` требуют проверки."
+  },
+  "docMeta.trustArtifacts.item.vex.name": {
+    "message": "Отчёты VEX"
+  },
+  "docMeta.trustArtifacts.item.vex.summary": {
+    "message": "Заявления об эксплуатируемости уязвимостей, когда они требуются для релиза."
+  },
+  "docMeta.trustArtifacts.table.artifact": {
+    "message": "Артефакт"
+  },
+  "docMeta.trustArtifacts.table.what": {
+    "message": "Что это"
   },
   "certifiedBanner.requiresEdition": {
-    "message": "Требуется пакет {edition}. Доступно {date}."
+    "message": "Требуется пакет {edition}."
+  },
+  "locale.aiTranslated": {
+    "message": "Перевод ИИ",
+    "description": "Badge on a machine-translated language in the language menu"
+  },
+  "wingetStatus.checking": {
+    "message": "Проверка версий.",
+    "description": "Shown while release and winget versions load"
+  },
+  "wingetStatus.unavailable": {
+    "message": "Проверка версий недоступна.",
+    "description": "Shown when GitHub version lookups fail"
+  },
+  "wingetStatus.latestRelease": {
+    "message": "Последний выпуск",
+    "description": "Label for the newest GitHub release"
+  },
+  "wingetStatus.unknown": {
+    "message": "Неизвестно",
+    "description": "Shown when a version cannot be read"
+  },
+  "wingetStatus.latestWinget": {
+    "message": "Последняя версия в winget",
+    "description": "Label for the newest merged winget manifest"
+  },
+  "wingetStatus.notPublished": {
+    "message": "Не опубликовано",
+    "description": "Shown when the package has no merged winget manifest"
+  },
+  "wingetStatus.pending": {
+    "message": "Ожидает одобрения",
+    "description": "Label when a newer winget pull request is still open"
+  },
+  "wingetStatus.notSubmittedLabel": {
+    "message": "Нет в winget",
+    "description": "Label when the latest release has no open winget pull request"
+  },
+  "wingetStatus.notSubmitted": {
+    "message": "{version} ещё нет в winget.",
+    "description": "Shown when the latest release is newer than winget and no pull request is open"
+  },
+  "siem.wevtutil.listsOnly": {
+    "message": "Event Viewer показывает совпавшие события. Он не считает и не группирует их."
+  },
+  "siem.splunk.indexHint": {
+    "message": "Смените `index=wineventlog` на свой индекс Splunk."
+  },
+  "siem.elastic.dataStreamHint": {
+    "message": "Смените `FROM logs-*` на свой поток Elastic."
   }
 }

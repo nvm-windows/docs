@@ -1,36 +1,31 @@
 ---
-title: Choosing an Edition
-sidebar_label: Choosing an Edition
+title: Choosing a Build
+sidebar_label: Choosing a Build
 ---
 
-# Choosing an Edition
+import PageLink from '@site/docs/_components/PageLink';
+import PageDescription from '@site/docs/_components/PageDescription';
+import TrustArtifactList from '@site/docs/_components/TrustArtifactList';
 
-This guide details the differences between NVM for Windows community builds and certified builds, to help readers choose the option best suited for them.
+# Choosing a Build
+
+This guide details the differences between NVM for Windows Community Builds and Certified Builds, to help readers choose the option best suited for them.
 
 |Type|Audience|License|Availability|
 |:-|:-:|:-:|:-|
 |Community&nbsp;Build|Individuals|MIT|[nvm-windows.com](https://nvm-windows.com) or [github.com/nvm-windows](https://github.com/nvm-windows/nvm/releases)|
-|Certified&nbsp;Build|Organizations|EULA|September 2026 via Customer Portal|
+|Certified&nbsp;Build|Organizations|EULA|[Customer portal](https://portal.author.io)|
 
 ## Community Builds
 
-Community builds are designed for individual developers. They contain the full application with all features. They do not contain capabilities for centralized management. These builds are released using an open source `.exe` installer.
-
-:::warning[Community Builds Are Not Code-Signed]
-NVM for Windows v2 *community builds are not code-signed*. They may be subject to the Windows SmartScreen filter. NVM for Windows v1 has maintained a high reputation score with Microsoft for over a decade, but you may still see the SmartScreen filter during installation/upgrade.
-
-_Example:_
-
-![Example SmartScreen Filter](/img/guide_smartscreen.png)
-:::
+Community Builds are designed for individual developers. They contain the full application with all features. They do not contain capabilities for centralized management. These builds are released using an open source `.exe` installer. Published Community Builds are code-signed. The publisher is Author Software Inc.
 
 ## Certified Builds
 
-Certified builds are designed for teams and organizations who need to centralize software distribution, audit activity, comply with regulations, & enforce usage/security policies. These builds deliver the same application while adding meaningful management capabilities. Distribution will be through the [Customer Portal](https://portal.author.io).
+Certified Builds are designed for teams and organizations who need to centralize software distribution, audit activity, comply with regulations, & enforce usage/security policies. These builds deliver the same application while adding meaningful management capabilities. Distribution is through the [Customer Portal](https://portal.author.io).
 
 ### Key additions
 
-- **EV code-signed binaries**
 - **Deployment-ready installers** (Intune/MSI + Powershell Scripts)
 - **Financially-backed** (Author Software Inc)
 
@@ -38,9 +33,9 @@ Additional capabilties are available as add-ons:
 
 |Add-on|Capabilities|
 |:-|:-|
-|**Advanced&nbsp;Logging**|Structured logging for SIEM integration.|
-|**Trust&nbsp;Artifacts**|SBOM, provenance, and VEX reports.|
-|**Governance**|Central policy management (ADMX/ADML + GPO/Entra scripts), advanced proxy support (IWA, WPAD/PAC), Node.js mirror (mirror.author.io), version firewall, shim-enforced Node.js permissions, force the package-manager cooldown from machine policy (npm/npx/pnpm/yarn/vlt/bun), and air-gap/local installations.|
+|**<PageLink id="advancedLogging" />**|<PageDescription id="advancedLogging" />|
+|**<PageLink id="trustArtifacts" />**|<TrustArtifactList format="inline" />.|
+|**Governance**|Central policy management (ADMX/ADML + GPO/Entra scripts), advanced proxy support (IWA, WPAD/PAC), Node.js mirror (mirror.author.io), version firewall, shim-enforced Node.js permissions, force the package-manager cooldown from machine policy (npm/pnpm/yarn/vlt/bun), and air-gap/local installations.|
 
 ### Code Signing Authority
 
@@ -56,26 +51,33 @@ This transition was authorized by Corey Butler, the creator of NVM for Windows. 
 
 Both editions have native Windows Application logging with plaintext log entries using generic event codes. While these can be consumed by log aggregators, they are designed for developer reference, not auditing/observability.
 
-The Advanced Logging package for certified builds introduce comprehensive *structured* logging with a dedicated native log. Log entries are specifically designed for direct export to central SIEM systems.
+The Advanced Logging package for Certified Builds introduce comprehensive *structured* logging with a dedicated native log. Log entries are specifically designed for direct export to central SIEM systems.
 
 Structured logs allow SIEM systems to capture and query events with far greater precision and predictability. For example, an SIEM query can quickly identify which versions of Node.js are still regularly used by developers/agents in your organization, when unsupported/EOL versions are installed or finally uninstalled, or which npm modules are installed most often.
 
 ### Trust Artifacts
 
-The **Trust Artifacts** add-on provides supply-chain materials with certified releases — for example SBOM, provenance, and VEX reports — so security and procurement teams can review what ships in each build without treating those materials as a separate “Compliance” product tier.
+The **Trust Artifacts** add-on provides a compliance pack with each certified release (SBOM, SLSA provenance, license inventory, SAST, and a verifier).
+Customers download it from the [customer portal](https://portal.author.io).
+The portal can also deliver the same pack to the customer's auditors.
+This add-on is not a separate product tier named Compliance.
+
+<TrustArtifactList />
+
+See <PageLink id="trustArtifacts" /> for pack layout, portal delivery, and how to review.
 
 ### Policy Management
 
-The Governance package for certified builds introduce policy management. With these capabilities, it is possible to enforce security policies. For example:
+The Governance package for Certified Builds introduce policy management. With these capabilities, it is possible to enforce security policies. For example:
 
 - Utilize corporate proxies (IWA, PAC/WPAD).
-- Block unapproved Node.js Versions (i.e. EOL, vulnerable, or unstable versions).
+- Block unapproved Node.js versions with static allow and block lists (semver, wildcards).
 - Force npm/npx/yarn/pnpm/vlt/bun cooldown periods from machine policy.
 - Enforce Node.js permission model (`--permission` / `--experimental-permission`) so shimmed `node` starts default-deny; npm/npx/pnpm lifecycle scripts inherit the same flags via `npm_config_node_options` when the policy is on. Apps must pass `--allow-*` at runtime.
 - Freeze V8 intrinsics (`--frozen-intrinsics`) to prevent prototype pollution of built-ins (also applied to npm/npx/pnpm scripts when the policy is on).
 - Disallow `eval()` / `new Function()` (`--disallow-code-generation-from-strings`) (also applied to npm/npx/pnpm scripts when the policy is on).
 - Limit to local installations (airgapping).
-- Restrict version installations (ex: lts/non-EOL/non-ALPHA) with the version firewall.
+- Restrict version installations with the version firewall. Lifecycle aliases such as `EOL` and `ALPHA` apply on the Author Mirror, not the client.
 
 Governance builds ship with ADMX/ADML files and official scripts to support Microsoft Active Directory group policies, Microsoft Entra, and other device management platforms.
 

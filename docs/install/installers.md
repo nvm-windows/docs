@@ -6,46 +6,76 @@ sidebar_position: 1
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import WingetStatus from '@site/docs/_components/WingetStatus';
 
 # Installers
 
-NVM for Windows offers community and certified builds on amd64 (x64) and arm64 devices. See [Choosing an Edition](../guide/builds/) to understand which is right for you.
+NVM for Windows has a Community Build and a Certified Build.
+Each build has an amd64 (x64) package and an arm64 package.
+For help identifying the build best for you, review [Choosing a Build](../guide/builds/).
 
 ## Community Build
 
+Use the Community Build for a _user-managed_ install under `%LOCALAPPDATA%\Author Software\nvm`.
+The published installer is code-signed by Author Software Inc.
+
+:::info[You may already have a Community Build installed]
+[Microsoft Zenith](https://blogs.windows.com/windowsdeveloper/2026/09/04/announcing-project-zenith-the-ready-to-code-windows-experience/) preconfigures NVM for Windows, starting with AMD Ryzen AI Halo devices. More silicon partners & OEMs are being added.
+
+Open PowerShell and run `nvm env`.
+If NVM for Windows is present, the command shows the configuration.
+:::
+
 <Tabs>
   <TabItem value="native" label="Installer" default>
-    Download and run the [setup.exe installer](https://github.com/nvm-windows/nvm/releases) (MIT License).
+    1. Download the [setup.exe installer](https://github.com/nvm-windows/nvm/releases) (MIT License).
+    1. Run the installer.
 
     :::tip[Recommended Approach]
-    This installation approach provides a native GUI wizard to customize your Node.js workflows.
+    The installer opens a wizard.
+    Use the wizard to set your Node.js options.
     :::
 
 
   </TabItem>
   <TabItem value="winget" label="Winget">
-    :::warning[Coming Soon!]
-    We're still getting everything setup for winget.
-    :::
-
     ```powershell
-      winget install nvm # MIT License
+      winget install nvm-windows # MIT License
     ```
+    <WingetStatus />
+    <br/>
+    Runs with `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART`.
 
-    `winget install` runs the community installer with `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART`. Extra installer parameters go in `--custom`. See [Silent install](#silent-install).
+    Put extra installer parameters in `--custom`.
+    See [Silent install](#silent-install).
   </TabItem>
   <TabItem value="upgrade" label="Upgrade from v1">
-    Download and run the [setup.exe installer](https://github.com/nvm-windows/nvm/releases) (MIT License). It automatically migrates v1 to v2.
+    See [Upgrading from v1](../guide/upgrade-from-v1).
+
+    For a single computer:
+
+    1. Download the [setup.exe installer](https://github.com/nvm-windows/nvm/releases) (MIT License).
+    1. Run the installer as a standard user.
+
+    The installer migrates supported v1 installs (v1.1.7 or later) and merges Node.js versions into v2.
 
     :::warning[Legacy Updater]
-    The v1 updater is designed for minor/patch upgrades in the legacy v1.x.x line. It will not work with v2.
+    The v1 updater applies minor and patch updates on the v1.x.x line only.
+    The v1 updater does not install v2.
+    :::
+    :::warning[winget upgrade]
+    If you installed v1 with winget, run `winget install nvm-windows` once for the first upgrade.
+    That command resets the winget package ID from `CoreyButler.NVMforWindows` to `AuthorSoftware.NVMWindows`.
+    Later upgrades use `winget upgrade nvm-windows`.
+    Details: [Upgrading from v1](../guide/upgrade-from-v1#winget).
     :::
   </TabItem>
 </Tabs>
 
-## Silent install
+### Silent Installation
 
-The community installer is Inno Setup. These switches work on `nvm-<version>-x64-setup.exe` and `nvm-<version>-arm64-setup.exe`:
+The community installer is Inno Setup.
+These switches apply to `nvm-<version>-x64-setup.exe` and `nvm-<version>-arm64-setup.exe`.
 
 |Switch|What it does|
 |:-|:-|
@@ -53,19 +83,28 @@ The community installer is Inno Setup. These switches work on `nvm-<version>-x64
 |`/SILENT`|Progress window only. No wizard pages.|
 |`/SUPPRESSMSGBOXES`|Skip message boxes. Use with `/SILENT` or `/VERYSILENT`.|
 |`/NORESTART`|Do not reboot when the install finishes.|
+|`/DIR`|:warning: Ignored. A path other than the default program root stops the silent install with [NVM4100](../troubleshooting/error-codes.md).|
+
+:::warning[/DIR is ignored]
+Do not pass `/DIR` to choose an install folder.
+The community program root stays `%LOCALAPPDATA%\Author Software\nvm`.
+A different `/DIR` value is ignored, and the silent install stops with error [NVM4100](../troubleshooting/error-codes.md).
+Set Node.js storage with `InstallRoot` in the wizard, or with `nvm config` after install.
+:::
 
 ```powershell
 .\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
 .\nvm-<version>-x64-setup.exe /SILENT /SUPPRESSMSGBOXES /NORESTART
 ```
 
-The program root stays `%LOCALAPPDATA%\Author Software\nvm`. A silent `/DIR` that points somewhere else aborts with [NVM4100](../troubleshooting/error-codes.md). Node version storage is `InstallRoot` (wizard, or `nvm config` after install), not `/DIR`.
+A silent install skips the storage-permissions page.
+If `InstallRoot` is not a safe managed path and the ACL check fails, the installer moves storage to AppData.
+If ACL repair still fails, the silent install stops.
+Pass `/ALLOWDEGRADEDACLS` to continue.
 
 Runtime directories (`.shim`, `.nodejs`, `.sync`, `.cache`, `.verify`, `proxy.exe`) always live under the program root. Custom `InstallRoot` holds version trees only — NVM never creates those runtime dirs as siblings of a custom storage folder (for example choosing `D:\nvm` must not create `D:\.shim`).
 
-Silent install skips the storage-permissions page. If the current `InstallRoot` is not a safe managed path and the ACL check fails, the installer moves storage to AppData. If ACL repair still fails, the silent install stops unless you pass `/ALLOWDEGRADEDACLS`.
-
-|Parameter|Accepted values|What it does|
+|Parameter|Accepted&nbsp;values|What it does|
 |:-|:-|:-|
 |`/ALLOWDEGRADEDACLS`|`1`, `true`, `yes`|Finish a silent install when Node storage ACLs cannot be hardened. Sets `RuntimeACLDegraded`. Repair later with `nvm doctor --autofix`.|
 |`/OFFICIALNODE`|`adopt` (default), `drop`|What to do with an official Node.js install (not NVM). `adopt` copies that version and your `%APPDATA%\npm` global modules into NVM storage, then uninstalls official Node.js. `drop` uninstalls official Node.js. It does not copy that install.|
@@ -82,26 +121,35 @@ If the installer cannot remove official Node.js, the silent install stops. The e
 .\nvm-<version>-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /OFFICIALNODE=drop
 ```
 
-There is no task list. `/TASKS` has no effect.
+There is no task list.
+`/TASKS` has no effect.
 
-### Winget
+#### Winget
 
-When the package is published, `winget install nvm` uses the very-silent switches above. Pass the custom parameter with `--custom` (appended to those switches):
+`winget install nvm-windows` uses the very-silent switches above.
+Pass a custom parameter with `--custom`.
+Winget appends `--custom` to those switches.
 
 ```powershell
-winget install nvm --custom "/ALLOWDEGRADEDACLS=1"
-winget install nvm --custom "/OFFICIALNODE=adopt"
+winget install nvm-windows --custom "/ALLOWDEGRADEDACLS=1"
+winget install nvm-windows --custom "/OFFICIALNODE=adopt"
 ```
 
-`--override` replaces the default switches. Include `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART` yourself if you use it.
+`--override` replaces the default switches.
+If you use `--override`, include `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART`.
 
 ## Certified Build
 
-:::info[Available September 2026]
-Code-signed Certified Build assets will be available from the customer portal.
+Use the Certified Build for a machine-managed MSI install under `%ProgramFiles%\Author Software\nvm`.
+The installer is code-signed by Author Software Inc.
+
+:::info[Available now]
+Certified Build files are available from the [customer portal](https://portal.author.io).
 :::
 
-Certified builds are designed for remote installation through platforms like Active Directory and Microsoft Entra, but you can still install on a single computer using the MSI. See [Enterprise Deployment](./enterprise/requirements) to deploy NVM for Windows to many computers.
+Certified Builds support remote install through Active Directory and Microsoft Entra / Intune.
+You can also install the MSI on one computer.
+See [Enterprise Deployment](./enterprise/requirements) to install NVM for Windows on many computers.
 
 Quiet installs need elevation. Pass MSI properties after the package path.
 
@@ -132,13 +180,55 @@ The wizard shows **Copy**, **Adopt**, **Keep**, and **Drop**. **Copy** is the de
 |[Intune](./enterprise/intune)|Deploy to a Microsoft Entra organization.|
 |[Active Directory](./enterprise/ad)|Deploy sitewide with GPO Software Installation.|
 
-:::note[Upgrading from v1 or community v2]
-The certified MSI installs to Program Files and updates machine `NVM_HOME` / PATH. Existing Node versions stay under LocalAppData. On first `nvm` launch, obsolete AppData app binaries are retired while `installs` are kept. The MSI does not run the community uninstaller. It also registers the ETW event provider and clears legacy SYSTEM env during install. `Remediation/` scripts (`machine-startup.ps1`, `Register-EventLogSource.ps1`, `Remove-LegacySystemEnv.ps1`) are backup only — do not add them to GPO startup.
+### Silent Installation
+
+The Certified Build uses a Windows Installer (MSI) package.
+Quiet installs need elevation.
+
+|Flag|What it does|
+|:-|:-|
+|`/i <path.msi>`|Install or upgrade.|
+|`/qn`|No UI (quiet).|
+|`/norestart`|Do not reboot when the install finishes.|
+
+Pass MSI properties after the package path.
+
+```powershell
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 /qn /norestart
+```
+
+|Property|Accepted&nbsp;values|What it does|
+|:-|:-|:-|
+|`ACCEPT_EULA`|`1`|Accept the [EULA](https://nvm-windows.com/eula.html) without the wizard. **Required** for `/qn` and `/qb`. A full-UI install does not need this property.|
+|`OFFICIALNODE`|<ul><li>`adopt-keep` (default)</li><li>`adopt-drop`</li><li>`ignore-keep`</li><li>`ignore-drop`</li></ul>|What to do with an official Node.js install (not NVM).<br/>`adopt-keep` copies that version and `%APPDATA%\npm` global modules into NVM. It leaves the official install on disk. It puts NVM first on the system PATH.<br/>`adopt-drop` copies the same files. It then uninstalls official Node.js.<br/>`ignore-keep` does not copy official Node.js. It leaves that install on disk. It puts NVM first on the system PATH. Alias: `ignore`.<br/>`ignore-drop` does not copy official Node.js. It uninstalls that install. Alias: `drop`.<br/>`adopt` is an alias of `adopt-keep`.<br/>Any other value becomes `adopt-keep`.|
+
+```powershell
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=adopt-keep /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=adopt-drop /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=ignore-keep /qn /norestart
+msiexec /i "C:\path\to\nvm-windows-<version>-certified-x64.msi" ACCEPT_EULA=1 OFFICIALNODE=ignore-drop /qn /norestart
+```
+
+NVM first means `%LOCALAPPDATA%\Author Software\nvm\.nodejs`, then `C:\Program Files\Author Software\nvm`, then official Node.js.
+If the copy fails, or the uninstall fails, the install stops.
+Remove the existing Node.js installation, then run the installer again.
+
+More `msiexec` flags, repair, and MST transforms: [Deploy Manually](./enterprise/manual).
+
+:::note[Upgrading from v1 or Community v2]
+The certified MSI installs to Program Files and updates machine `NVM_HOME` and PATH.
+Existing Node.js versions stay under LocalAppData.
+On the first `nvm` launch, obsolete AppData app binaries are removed.
+The `installs` folder is kept.
+The MSI does not run the community uninstaller.
+The MSI also registers the ETW event provider and clears legacy SYSTEM environment variables during install.
+`Remediation/` scripts (`machine-startup.ps1`, `Register-EventLogSource.ps1`, `Remove-LegacySystemEnv.ps1`) are backup only.
+Do not add those scripts to GPO startup.
 :::
 
 ## Installing Node.js
 
-Once NVM for Windows is installed, use it to install one or more versions of Node.js.
+After NVM for Windows is installed, install one or more Node.js versions.
 
 ```powershell title="Example: Install the latest supported Node.js version"
 nvm install lts
@@ -146,10 +236,19 @@ nvm install lts
 
 ## Warnings
 
-:::warning[Do not install community edition as Administrator!]
-Do not attempt to install the community edition as Administrator. Doing so will configure NVM for Windows for the administrator instead of the user account who will run Node.js. See [registered event source permissions](/permissions#community-installer-registered-event-source).
+Read these warnings before you install the Community Build.
+
+:::warning[Do not install the Community Build as Administrator!]
+Do not install the Community Build as Administrator.
+An Administrator install configures NVM for Windows for the administrator account.
+It does not configure the user account that will run Node.js.
+See [registered event source permissions](/permissions#community-installer-registered-event-source).
 :::
 
 :::warning[UAC for Logging]
-The community installer attempts to register NVM for Windows as a system event source, introducing a UAC prompt. If the user account does not have permission to do this, log entries will show "Unknown" instead of "NVM for Windows" as the event source in Windows Event Viewer, but this does not prevent native logging from working.
+The community installer tries to register NVM for Windows as a system event source.
+That step shows a UAC prompt.
+If the user account cannot complete that step, Event Viewer shows the source as "Unknown".
+It does not show "NVM for Windows".
+Native logging still works.
 :::

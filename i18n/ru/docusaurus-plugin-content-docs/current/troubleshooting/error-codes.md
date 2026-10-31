@@ -12,28 +12,36 @@ NVM for Windows использует стабильные коды `NVM####` в 
 |:-|:-|:-|
 | **NVM4100** | Тихая установка отклонила нестандартный каталог программы | Community Inno Setup с `/SILENT` или `/VERYSILENT` и нестандартным `/DIR` (корень программы должен оставаться под LocalAppData) |
 | **NVM4101** | Community-сборка запущена вне доверенного корня программы | Community `nvm.exe` (или doctor) видит процесс не под `%LOCALAPPDATA%\Author Software\nvm`; предупреждение, не жёсткая блокировка |
+| **NVM4102** | Очистка scheduled task превысила 3 минуты | Установщик всё ещё удалял старые задачи NVM после 3 минут. Установка откатывается |
+| **NVM4103** | Проверка прав хранилища превысила 5 минут | Установщик всё ещё проверял права каталога Node.js после 5 минут. Установка откатывается |
+| **NVM4104** | Удаление старой ссылки Node.js превысило 5 минут | Установщик всё ещё удалял старую ссылку Node.js после 5 минут. Установка откатывается |
+| **NVM4105** | Копирование версии Node.js превысило 5 минут | Установщик всё ещё копировал одну версию Node.js после 5 минут. У каждой версии свой предел. Установка откатывается |
+| **NVM4106** | Принятие официального Node.js превысило 15 минут | Установщик всё ещё копировал официальную установку Node.js после 15 минут. Установка откатывается |
+| **NVM4107** | Регистрация установленных версий превысила предел времени | Установщик всё ещё регистрировал или подписывал установленные версии Node.js после предела зависания. Community-установщик даёт 10 минут плюс 2 минуты на версию и останавливается на 30 минутах. Certified-установщик даёт 30 минут. Установка откатывается |
+| **NVM4108** | Создание sync task превысило 3 минуты | Установщик всё ещё создавал фоновую задачу sync после 3 минут. Установка откатывается |
+| **NVM4109** | Создание ссылки shim превысило 3 минуты | Установщик всё ещё создавал ссылку `.nodejs` после 3 минут. Установка откатывается |
+| **NVM4110** | Обновление PATH не удалось или превысило 3 минуты | Установщик не поставил каталоги NVM перед официальным Node.js, или обновление всё ещё шло после 3 минут. Установка откатывается |
+| **NVM4111** | Регистрация журнала событий превысила 5 минут | Установщик всё ещё регистрировал журнал событий Windows после 5 минут. Отклонённый запрос администратора не является этой ошибкой. Установка откатывается |
+| **NVM4112** | Исправление прав хранилища превысило предел времени | Установщик всё ещё исправлял права каталога Node.js после предела зависания. Предел совпадает с **NVM4107**. Установка откатывается |
+| **NVM4113** | Пересборка shim превысила предел времени | Установщик всё ещё пересобирал shim после предела зависания. Предел совпадает с **NVM4107**. Установка откатывается |
+| **NVM4114** | Закрытие процессов Node.js превысило 3 минуты | Установщик всё ещё закрывал процессы Node.js, которые блокируют установку, после 3 минут. Установка откатывается |
+| **NVM4115** | Удаление официального Node.js превысило 10 минут | Установщик всё ещё удалял официальный продукт Node.js после 10 минут. Установка откатывается |
+| **NVM4116** | Машинный запуск community-установки | Community Inno Setup прервал установку под контролем машины (SYSTEM, Intune включая Store Required/Available, GPO, Планировщик заданий или ConfigMgr). Тихая установка при работающем Intune `AgentExecutor` считается машинной. Пользовательские установки работают: мастер setup, клик в Microsoft Store, WinGet, UniGetUI/WingetUI или обычный терминал. Для IT-развёртывания используйте [Certified Builds](https://nvm-windows.com/certified). |
 | **NVM4301** | Проверка целостности Node.js не прошла | Shim или node launcher отказывается запускать `node.exe` из‑за сбоя Authenticode / trust; обычно помогает `nvm install <ver> --force` |
 | **NVM4302** | Блокировка активации в режиме link | `nvm use` (link) отклоняет небезопасный каталог версии (например, доступен другим пользователям на запись или reparse point) либо непроверенный `node.exe` |
 | **NVM4303** | Изменилось состояние verify-cache | Материал trusted verify-cache для Node-бинарника больше не совпадает; нужна полная повторная проверка |
 | **NVM4304** | Полная проверка восстановлена | Информационное продолжение после **NVM4303**: полная проверка прошла, кэш восстановлен |
 | **NVM4305** | Запуск package manager заблокирован (небезопасный каталог Node) | Proxy блокирует `npm` / `yarn` / `pnpm` (и аналоги), потому что каталог активной версии не проходит проверки cross-user write / trust; часто помогает `nvm doctor --autofix` или частный install root |
-| **NVM4306** | Сбой доверия к делегированной команде | Proxy отклоняет entrypoint package manager или скрипт: неизвестный, без подписи или не проходит delegated-command trust. Если вы доверяете изменению, выполните `nvm firewall trust module <name>`. Одного `nvm reshim` недостаточно, чтобы модуль оставался доверенным после следующего self-update. При таймауте toast NVM печатает сообщение no-answer и шлёт тихое desktop-уведомление. |
+| **NVM4306** | Сбой доверия к делегированной команде | Proxy отклоняет entrypoint package manager или скрипт: неизвестный, без подписи или не проходит delegated-command trust. Если вы доверяете изменению, выполните `nvm firewall trust module <name>`. Одного `nvm reshim` недостаточно, чтобы модуль оставался доверенным после следующего self-update. При таймауте уведомления NVM печатает сообщение no-answer и шлёт тихое desktop-уведомление. |
 | **NVM4313** | Отказ в пути хранения Node.js | `nvm config set root=` или страница установщика Node-storage выбрала Windows, Program Files, ProgramData, профиль, папку программы NVM, корень диска (например `C:\`) или родителя этих путей. Удаление также не удаляет такой путь. Используйте отдельный каталог, например `%LOCALAPPDATA%\Author Software\nvm\installs` |
-| **NVM4314** | FileVersion `node.exe` не совпадает с папкой установки | Полная проверка (cache miss) сравнила PE VERSIONINFO FileVersion с core-версией папки (major.minor.patch). Пример: Node 10 в `v24.0.0`. Отсутствующий VERSIONINFO у существующего `node.exe` тоже отказ. Переустановите `nvm install <ver> --force` |
-| **NVM4401** | Удалённый firewall authority: unauthorized | HTTPS policy URL вернул **401**; remote отказал в доступе этому пользователю/клиенту |
-| **NVM4402** | Сбой удалённой проверки firewall | HTTPS policy URL: TLS failure, неожиданный HTTP-статус или ошибка helper/config |
-| **NVM4403** | Module firewall заблокировал установку | Локальный или удалённый **403** policy deny (`ApprovedModules` / `ApprovedGlobalModules`) |
+| **NVM4403** | Module firewall заблокировал установку | Локальный policy deny для установки пакета |
 | **NVM4404** | Требуется elevation для firewall | Мутирующая команда firewall без прав администратора |
-| **NVM4405** | Некорректное правило firewall | Неверный элемент TrustedModules / ApprovedModules |
+| **NVM4405** | Некорректное правило firewall | Неверный элемент trust или module allow/deny |
 | **NVM4406** | Изменён недоверенный модуль | Аудит (не ошибка): изменился entrypoint недоверенного global CLI; пишется при deny, allow и accept/decline prompt |
-| **NVM4407** | Удалённая policy разрешила | Аудит (не ошибка): HTTPS module-firewall remote check разрешил install |
 | **NVM4408** | Module firewall разрешил install | Аудит (не ошибка): proxy оценил module policy и разрешил install |
-| **NVM4409** | Удалённый firewall authority недоступен | HTTPS policy host отклонил соединение, таймаут или DNS не резолвится |
 | **NVM4410** | Изменена политика firewall | Аудит: `nvm firewall` изменил список политики |
-| **NVM4411** | Version firewall заблокировал версию Node.js | Certified `VersionAllowList` / `VersionBlockList` отклонил `nvm install`, `nvm use` или запуск Certified shim. Community ACL — no-op |
-| **NVM4412** | Заблокированы lifecycle-скрипты package manager | Аудит (не ошибка), только Advanced Logging на Certified Builds. HKLM `BlockPackageManagerLifecycleScripts` переписал install-команду (`install` / `ci` / `add` / …). `npm --version` и `npm run` это событие не пишут. EventName `package_manager.lifecycle_scripts_blocked`. Windows Event ID 120 |
 | **NVM4601** | Обновлены определения malware | Информационное, только Advanced Logging. Успешная запись `malware.db` изменила базу. Payload: `added`, `removed`, `seq`, `previous_seq`. Windows Event ID 120 |
-| **NVM4602** | Заблокирован вредоносный пакет | Информационное, только Advanced Logging. Shim заблокировал пакет до install-аудита. Payload: имя пакета, версия если известна, команда, `source` (`OpenSSF`, `MalwareBlockList` или `remote`) и `reason`. Строка терминала: `NVM blocked <name> — <reason>. (NVM4602)`. Печатается и без лицензии Advanced Logging. Windows Event ID 120 |
+| **NVM4602** | Заблокирован вредоносный пакет | Информационное, только Advanced Logging. Shim заблокировал пакет до install-аудита. Payload: имя пакета, версия если известна, команда, `source` (`OpenSSF` или `MalwareBlockList`) и `reason`. Строка терминала: `NVM blocked <name> — <reason>. (NVM4602)`. Печатается и без лицензии Advanced Logging. Windows Event ID 120 |
 
 ## Диапазоны
 
@@ -42,13 +50,13 @@ NVM for Windows использует стабильные коды `NVM####` в 
 | **NVM41xx** | Установщик / граница поддержки Community layout |
 | **NVM43xx** | Runtime trust Node, активация, gatekeeping package manager и путь хранения Node |
 | **NVM44xx** | NVM Firewall (version / module / trust policy) |
-| **NVM46xx** | Лента malware. Информационное, только Advanced Logging |
+| **NVM46xx** | Лента malware. Информационное и только Advanced Logging |
 
 ## Подсказки
 
 - Коды встречаются в тексте как `Event code: NVM####` и могут попадать в Application log или operational-каналы NVM (зависит от edition).
+- **NVM4102**–**NVM4115** означают, что установка остановилась и откатилась. Пределы ловят зависание. Медленный компьютер должен закончить раньше. Окно установки показывает код и путь к журналу. Из этого окна вы можете отправить отчёт без имени пользователя, других профилей, имени компьютера, домена, адресов почты, учётных данных прокси, имён UNC-серверов и SID компьютера.
 - **NVM4304** — успешное/восстановительное событие, не ошибка.
 - **NVM4406** — audit/info о смене недоверенного модуля (в т.ч. при allow или accept prompt), не ошибка.
-- **NVM4407** и **NVM4408** — audit/info о разрешённых module-firewall install (remote HTTPS vs локальная/remote оценка), не ошибки.
-- **NVM4412** — audit/info о применении lock lifecycle-скриптов к install-команде. Это не сбой install. Community и Certified без Advanced Logging его не пишут.
+- **NVM4408** — audit/info о разрешённом module-firewall install, не ошибка.
 - Симптомы без кода: [Общее устранение неполадок](./general).

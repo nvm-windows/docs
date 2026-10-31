@@ -20,12 +20,28 @@ Module firewall применяет **ваши** списки allow и deny.
 Проверки работают в [режиме shim](./modes).
 Они включены по умолчанию в Community Builds и Certified Builds.
 
+## Пример \{#example\}
+
+Когда именованная установка попадает в ленту OpenSSF, shim печатает строку блокировки и установка не продолжается:
+
+```powershell
+npm install left-pad
+```
+
+```text
+NVM blocked left-pad — recognized as malware (OpenSSF). (NVM4602)
+```
+
+Та же строка появляется для `pnpm`, `yarn`, `vlt` и (когда включён [`shim_bun`](../cfg/core#package-managers)) `bun`.
+Попадание по списку организации использует `organization malware block` вместо причины OpenSSF.
+
+## Как это работает \{#how-it-works\}
+
 Совпадение — терминальная ошибка.
 Эта команда установки не продолжается.
 Каждое заблокированное имя печатает `NVM blocked <name> — <reason>. (NVM4602)`.
 OpenSSF использует `recognized as malware (OpenSSF)`.
 Локальный шаблон организации использует `organization malware block`.
-Удалённый 403 использует `remote malware policy`, затем `: <reason>`, если колонка TSV есть.
 
 ## Что проверяется \{#what-it-checks\}
 
@@ -81,25 +97,13 @@ Certified Builds также читают:
 
 | Ключ | Эффект |
 |:-|:-|
-| `MalwareBlockList` | Шаблоны HKLM, которые всегда блокируют, или один URL `https://`. Community Builds игнорируют этот список. |
+| `MalwareBlockList` | Шаблоны HKLM, которые всегда блокируют. Community Builds игнорируют этот список. |
 | `MalwareTrustConflict` | `prevent` (по умолчанию) всё равно блокирует попадание OpenSSF, если имя явно доверено или одобрено. `continue` пропускает такое доверие или одобрение. Community Builds игнорируют этот ключ. |
 
 Встроенные семена доверия менеджеров пакетов (`npm`, `npx`, `yarn`, `yarnpkg`, `corepack`, `pnpm`, `vlt`) для этой проверки доверием не считаются.
 
 Блок malware не пишет `package_manager.install`.
 **NVM4602** — запись, когда включён Advanced Logging.
-
-### Удалённое тело HTTPS (Certified Builds) \{#remote-https-body-certified-builds\}
-
-Когда `MalwareBlockList` — один URL `https://`, shim POSTит попадания при установке. Тело **403** — TSV:
-
-```text
-name<TAB>date<TAB>reason
-```
-
-`reason` необязателен. Пустой reason даёт `remote malware policy`. Свой reason живёт только в этом запросе. Он не пишется обратно в политику.
-
-Локальные шаблоны `MalwareBlockList` остаются `organization malware block`. Они не берут свой reason.
 
 ### Проверить имя \{#inspect-a-name\}
 
@@ -108,7 +112,6 @@ nvm malware status left-pad
 nvm malware status left-pad --json
 ```
 
-`status` только локальный. Он не делает POST.
 Строка `allowed` с текстом overruled всё равно значит попадание OpenSSF (или оргсписка). Эта политика пропустила имя.
 См. [`nvm malware status`](../command/nvm/malware/status).
 
@@ -116,8 +119,8 @@ nvm malware status left-pad --json
 
 Попадание всегда печатается в терминале.
 
-Если консоль в фоне, Windows также показывает toast.
-Заголовок — **Malicious package blocked** только для OpenSSF, **Organization malware block** только для локального списка, и **Package blocked** при смеси источников или когда удалённый 403 оставил имя.
+Если консоль в фоне, Windows также показывает уведомление.
+Заголовок — **Malicious package blocked** только для OpenSSF, **Organization malware block** только для локального списка, и **Package blocked** при смеси источников.
 Тело называет не более трёх пакетов, затем `and N more`.
 Сигнал — `Notification.Reminder`.
 [`disable_announcements`](../cfg/core#logging-and-announcements) это уведомление не скрывает.

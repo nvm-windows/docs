@@ -67,9 +67,9 @@
     "message": "Руководства",
     "description": "The label for category 'Guides' in sidebar 'tutorialSidebar'"
   },
-  "sidebar.tutorialSidebar.category.Choosing an Edition": {
-    "message": "Выбор редакции",
-    "description": "The label for category 'Choosing an Edition' in sidebar 'tutorialSidebar'"
+  "sidebar.tutorialSidebar.category.Choosing a Build": {
+    "message": "Выбор сборки",
+    "description": "The label for category 'Choosing a Build' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.Troubleshooting": {
     "message": "Устранение неполадок",

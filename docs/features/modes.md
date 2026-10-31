@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 title: Operating Modes
 sidebar_label: Operating Modes
 ---
@@ -58,7 +58,7 @@ Shim mode features:
 - Unified/configurable cooldown periods across all major package managers (npm/npx/yarn/pnpm/vlt/bun). Community Builds default to off. Certified Builds default to 2 days. Users can change either. Forcing the value from machine policy requires the Governance add-on.
 
 :::tip[Certified Builds]
-Shim **V8 / permission lockdown** (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) is a Governance feature. Package-manager **cooldown** is not. Governance can force the cooldown from machine policy. See [registry policy](../cfg/registry) and [Choosing an Edition](../guide/builds/).
+Shim **V8 / permission lockdown** (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) is a Governance feature. Package-manager **cooldown** is not. Governance can force the cooldown from machine policy. See [registry policy](../cfg/registry) and [Choosing a Build](../guide/builds/).
 :::
 
 :::info
@@ -73,9 +73,20 @@ Windows has a "universal latency tax". It uses [`CreateProcessW`](https://learn.
 |:-|:-:|:-:|
 |Latency[^1]|0ms|25-35ms|
 |System Version|:heavy_check_mark:|:heavy_check_mark:|
-|Automatic Installtion|:heavy_check_mark:|:heavy_check_mark:|
-|Automatic Version Detection|:x:|:heavy_check_mark:|
+|Automatic Installation (`nvm use --install`)|:heavy_check_mark:|:heavy_check_mark:|
+|Automatic version detection|:x:|:heavy_check_mark:|
+|Auto-install missing detected version|:x:|:heavy_check_mark:|
+|One-shot version override (`--nvm-use`)|:x:|:heavy_check_mark:|
+|Signed / verified package manager shims|:x:|:heavy_check_mark:|
+|Signed /verified module shims|:x:|:heavy_check_mark:|
+|Per-launch `node.exe` publisher trust|:x:|:heavy_check_mark:|
+|Malicious package blocking|:x:|:heavy_check_mark:|
+|Module and trust firewall|:x:|:heavy_check_mark:|
+|Package manager mismatch handling|:x:|:heavy_check_mark:|
+|Node.js / V8 permission lockdown|:x:|:heavy_check_mark:<br/>_Governance_|
+|Package manager cooldown|:x:|:heavy_check_mark:|
+|Per-command execution logging|:x:|:heavy_check_mark:|
 |Special Permissions<br/><br/>|[`SeCreateSymbolicLinkPrivilege`](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/create-symbolic-links)<br/>_for [UNC path](https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#unc-paths) symlinks_|None<br/><br/>|
 
 
-[^1]: Latency is predominantly from Windows `CreateProcessW` universal latency tax. The shim executable only adds ~1ms latency.
+[^1]: Latency is predominantly from Windows `CreateProcessW` universal latency tax. The shim executable only adds ~1-3ms latency.
