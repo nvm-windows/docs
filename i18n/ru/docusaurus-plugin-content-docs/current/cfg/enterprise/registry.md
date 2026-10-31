@@ -22,7 +22,7 @@ certified:
 
 ## Доступные ключи реестра \{#available-registry-keys}
 
-См. [Административные шаблоны](ad) для развёртывания через GPO и Intune. Скачайте ADMX/ADML с [клиентского портала](https://portal.author.io). ADMX/ADML входят в пакет **Governance**; Distro/Audit по-прежнему могут задавать общие ключи через Registry CSP/OMA-URI или `.reg`.
+См. [Административные шаблоны](ad) для развёртывания через GPO и Intune. Скачайте ADMX/ADML с [клиентского портала](https://portal.author.io). ADMX/ADML входят в пакет **Governance**. Значения в `HKLM\Software\Policies\Author Software\nvm` применяются только при лицензии Governance (кроме секретов лицензирования).
 
 **Overridable** в описании означает, что пользователь также может задать эквивалентную настройку (`nvm config` / HKCU). Политика машины в `HKLM\Software\Policies\Author Software\nvm` всегда имеет приоритет.
 
@@ -69,7 +69,7 @@ certified:
 
 ## Ключи Governance \{#governance-keys}
 
-Эти ключи входят в набор функций **Governance**. Они есть в ADMX-пакете Governance.
+Эти ключи есть в ADMX-пакете **Governance**. Hive Policies (включая списки version/module firewall) применяется только при лицензии Governance.
 
 |Имя|Ключ|Описание|
 |:-|:-|:-|
@@ -77,8 +77,8 @@ certified:
 |**Verbose firewall policy metadata**|`ApplyVerboseFirewallMetadata`|Если включено, JWT HTTPS firewall policy включают verbose identity claims (`idp_*`) плюс npm/pnpm/yarn profile/config при наличии.<br /><br />- `0` = без доп. claims<br />- `1` = с claims<br /><br />По умолчанию: `0`<br /><br />`REG_DWORD`|
 |**Skip lockfile for module firewall**|`FirewallSkipLockfile`|Если включено, module firewall использует только `package.json` (игнорирует lockfile для локальной проверки и HTTPS POST).<br /><br />- `0` = использовать lockfile при наличии (по умолчанию)<br />- `1` = пропустить lockfile<br /><br />`REG_DWORD`|
 |**npm module minimum age**|`NpmModuleMinimumAge`|Минимальный возраст публикации пакета (cooldown) в минутах для установок через менеджеры пакетов (режим shim). Автоконвертация для npm/npx/pnpm/yarn. bun/bunx/corepack/vlt не покрыты.<br /><br />По умолчанию: Community `0` (отключено) — как stock npm/npx без version manager. Certified Builds `2880` (2 дня), если ключ не задан, включая npx. `nvm config` и CLI `--min-release-age` всё ещё перекрывают значение по умолчанию Certified. Когда HKLM Policies задаёт ключ, значение принудительно, и shim удаляет `--min-release-age`, `--minimum-release-age`, `--config.min-release-age`, `--no-time-gate` и `--bypass-age-policy` (аргументы после `--` сохраняются). DWORD `0` принудительно отключает gate.<br /><br />`REG_DWORD`|
-|**Allowed Node.js versions**|`VersionAllowList`|Allow list для `nvm install`, `nvm use` и Certified shim. Community ACL — no-op при install и при use/shim. Недопустимые записи ломают enforcement. Allow побеждает block, когда оба списка из одного источника. Certified shim загружает allow и block парой из первого источника, где есть любой из ключей (сначала HKLM Policies). Пользовательский HKCU allow list не перекрывает HKLM Policies block list. CLI `nvm install` / `nvm use` на Certified Builds читает **только HKLM Policies**. Unmanaged Certified всё ещё чтит списки `nvm config` при запуске shim, если списков GPO нет. Также питает version claims JWT Author mirror (magic tokens вроде `EOL`, `ALPHA`, `MAINTENANCE`, `ALL`). Эти magic tokens локально игнорируются при install, use и запуске shim.<br /><br />Поддерживает exact semver, wildcards (например, `20.x`), псевдонимы и negation `NOT`/`!` (одно правило на строку).<br /><br />`REG_SZ`|
-|**Blocked Node.js versions**|`VersionBlockList`|Block list для `nvm install`, `nvm use` и Certified shim. Те же форматы правил и та же парная загрузка, что у `VersionAllowList`.<br /><br />`REG_SZ`|
+|**Allowed Node.js versions**|`VersionAllowList`|**Governance.** Allow list для `nvm install`, `nvm use` и shim. Без лицензии Governance игнорируется. Недопустимые записи ломают enforcement. Allow побеждает block из одного источника. Shim загружает allow и block парой из HKLM Policies при активной Governance. Также питает version claims JWT Author mirror (magic tokens вроде `EOL`, `ALPHA`, `MAINTENANCE`, `ALL`). Эти magic tokens локально игнорируются при install, use и запуске shim.<br /><br />Поддерживает exact semver, wildcards (например, `20.x`), псевдонимы и negation `NOT`/`!` (одно правило на строку).<br /><br />`REG_SZ`|
+|**Blocked Node.js versions**|`VersionBlockList`|**Governance.** Block list для `nvm install`, `nvm use` и shim. Те же форматы и парная загрузка, что у `VersionAllowList`. Без Governance игнорируется.<br /><br />`REG_SZ`|
 
 :::info[License secrets]
 `AccessToken`, `AccessKey` и `JwksCose` **не** являются политиками ADMX. Развёртывайте скриптами портала (`Set-NvmWindowsAccessToken.ps1` на stock certified build; `Set-NvmWindowsLicensing.ps1` для governance builds, также задаёт `AccessKey` для зеркал Author) или `nvm license`.
