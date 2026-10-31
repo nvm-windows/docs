@@ -64,6 +64,8 @@ flowchart LR
 
 **Минимальный возраст:** в Community по умолчанию выкл. В Certified Builds по умолчанию **2 дня**, если не задано (включая npx). Машинная политика может форсировать значение.
 
+**Lifecycle-скрипты:** stock npm уже поддерживает `--ignore-scripts`. Любой может передать этот флаг в одной команде. Блокировка NVM [`BlockPackageManagerLifecycleScripts`](/cfg/registry#governance-keys) — **только HKLM Policies** (без `nvm config` / user preference). Когда Governance включает её, shim принудительно ставит `--ignore-scripts` (или аналог Yarn) на install-командах, чтобы флот не зависел от того, вспомнит ли каждый разработчик флаг. См. [Lifecycle-скрипты и stock npm](/features/certified-builds/governance#lifecycle-scripts-vs-stock-npm).
+
 **Флаги безопасности Node:** если включены [enforce permission model](/cfg/registry), [freeze V8 global objects](/cfg/registry) или [disallow eval/string code gen](/cfg/registry), эти флаги мержатся в env опций Node для npm у npm/npx/pnpm, чтобы lifecycle-скрипты их наследовали. По умолчанию выкл. (env не пишется). Proxy не задаёт `NODE_OPTIONS`. Машинная политика, форсирующая permission model, также убирает вызывающий `--permission-audit` из этих env перед spawn. `--node-options=` в командной строке не трогает. Сам `npm-cli.js` не запускается под `--permission`.
 
 **vlt** — первоклассная proxied-команда для module firewall argv (как pnpm) и для global reshim, когда найден launcher `vlt`. Это не always-on shim вроде yarn/pnpm/yarnpkg. Cooldown минимального возраста мапится на cutoff публикации vlt (`VLT_BEFORE`).

@@ -19,8 +19,8 @@ For help identifying the build best for you, review [Choosing a Build](../guide/
 Use the Community Build for a _user-managed_ install under `%LOCALAPPDATA%\Author Software\nvm`.
 The published installer is code-signed by Author Software Inc.
 
-:::info[You may already have a Community Build installed]
-[Microsoft Zenith](https://blogs.windows.com/windowsdeveloper/2026/09/04/announcing-project-zenith-the-ready-to-code-windows-experience/) preconfigures NVM for Windows, starting with AMD Ryzen AI Halo devices. More silicon partners & OEMs are being added.
+:::info[You may already have NVM for Windows installed!]
+[Microsoft Zenith](https://blogs.windows.com/windowsdeveloper/2026/09/04/announcing-project-zenith-the-ready-to-code-windows-experience/) preconfigures NVM for Windows, starting with AMD Ryzen AI Max / Halo devices. Lenovo ThinkCentre X Ultra will begin shipping this in November 2026. More silicon partners & OEMs are being added in 2027 and beyond.
 
 Open PowerShell and run `nvm env`.
 If NVM for Windows is present, the command shows the configuration.
@@ -32,11 +32,9 @@ If NVM for Windows is present, the command shows the configuration.
     1. Run the installer.
 
     :::tip[Recommended Approach]
-    The installer opens a wizard.
-    Use the wizard to set your Node.js options.
+    The installer opens a wizard to customize your Node.js workflow / environment configuration.
     :::
-
-
+    <br/>
   </TabItem>
   <TabItem value="winget" label="Winget">
     ```powershell

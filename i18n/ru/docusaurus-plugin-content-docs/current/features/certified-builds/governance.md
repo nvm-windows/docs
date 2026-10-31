@@ -68,8 +68,14 @@ Governance нужен командам, которым на каждом упр�
 |:-|:-|
 | Блокировка вредоносных пакетов | Держать сканы OpenSSF malware включёнными (`SkipMalwareChecks` принудительно выкл.). Развёртывать org allow/block-шаблоны и поведение trust-conflict из политики. См. [Malicious Package Blocker](../malicious-package-blocker). |
 | Module firewall | Разрешать или запрещать установки npm/pnpm/yarn/npx по машинным спискам. См. [NVM Firewall](../firewall). |
-| Lifecycle-скрипты пакетных менеджеров | Блокировать lifecycle-скрипты install-класса из HKLM (`BlockPackageManagerLifecycleScripts`). Advanced Logging пишет **NVM4412**, когда эта блокировка переписывает команду. |
+| Lifecycle-скрипты пакетных менеджеров | Принудительно отключить lifecycle-скрипты install-класса из HKLM (`BlockPackageManagerLifecycleScripts`). См. [Lifecycle-скрипты и stock npm](#lifecycle-scripts-vs-stock-npm). Advanced Logging пишет **NVM4412**, когда эта блокировка переписывает команду. |
 | Минимальный возраст пакета | Принудительный единый cooldown для npm/pnpm/yarn/yarnpkg, vlt и bun/bunx (если обёртка bun включена). Обходные флаги CLI снимаются. DWORD `0` принудительно выключает gate. |
+
+#### Lifecycle-скрипты и stock npm \{#lifecycle-scripts-vs-stock-npm\}
+
+npm, pnpm, yarn и аналоги уже позволяют разработчику пропускать install lifecycle-скрипты (`preinstall` / `install` / `postinstall` / `prepare`) флагами вроде `--ignore-scripts`. Это добровольно и легко забыть. NVM **не** даёт user preference или `nvm config` для этой блокировки.
+
+Ценность Governance — **машинная политика, которая принуждает** то же поведение через package-manager shim на каждом управляемом ПК: proxy внедряет `--ignore-scripts` (или аналог Yarn) на install-командах и снимает попытки снова включить скрипты. Явный `npm run …` по-прежнему выполняется — так устроены package manager’ы. Проектный `.npmrc` не отменяет HKLM-блокировку. См. [`BlockPackageManagerLifecycleScripts`](../../cfg/registry#governance-keys) и [package-manager shims](/command/package-manager-shims#install-time-policy).
 
 ### Runtime hardening \{#runtime-hardening\}
 

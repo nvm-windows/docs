@@ -8,10 +8,10 @@ slug: /command/package-manager-shims
 # Package Manager Shims
 
 In **shim** mode, typing `npm`, `npx`, `yarn`, `yarnpkg`, `pnpm`, `vlt`, or `corepack` does not jump straight into the active Node.js folder.
-NVM for Windows places hardlinks (or copies) of one Zig binary — **`proxy.exe`** — on your `PATH` under those names (and under `bun` / `bunx` when that wrap is on).
+NVM for Windows places hardlinks (or copies) of one Zig binary — **`proxy.exe`** — on your `PATH` under those names (and under `bun` / `bunx` when enabled).
 
 You still run the same commands you know.
-The proxy picks the right Node.js version (same rules as the [node shim](/command/node)), checks that the install and the tool are trusted, then starts the real package manager under that version.
+The proxy picks the right Node.js version (same rules as the [node shim](/command/node)), checks that the install and the tool are trusted, then starts the real package manager under that version. The shim serves as a lightweight wrapper to add workflow features, conveniences, and safeguards.
 
 Global CLIs you install with those managers (for example `tsc`) use the same `proxy.exe` idea — see [Global Module Shims](/command/global-module-shims).
 
@@ -49,7 +49,7 @@ Roughly, the proxy:
 5. **Directory safety (**NVM4305**)** — for Node-backed managers only, the active Node.js directory must not be a reparse point and must not be writable by other users. Failure → **NVM4305**. The bun / bunx path never reaches this check, so **NVM4305** does not apply to bun.
 6. **Finds the real command** under that Node install (`.exe`, then `.cmd`, then `.bat`).
 7. **Verifies trust** of `node.exe` and the delegated target before anything is spawned (see [Integrity verification](#integrity-verification)).
-8. **Applies install-time policy** where it applies (cooldown, lifecycle-script block, Node security-flag inject), then **spawns** the real tool (for npm/npx/corepack often `node.exe` plus `*-cli.js`; otherwise the `.exe` or `.cmd`).
+8. **Applies install-time policy** where it applies cooldown, lifecycle-script block, Node security-flag inject, malicious package blocking, etc. Then it verifies and **spawns** the real tool (for npm/npx/corepack often `node.exe` plus `*-cli.js`; otherwise the `.exe` or `.cmd`).
 
 ### Install-time policy
 
@@ -57,18 +57,27 @@ These controls run on the Node-backed path after trust succeeds:
 
 | Control | Who it covers |
 |---------|----------------|
-| **[npm package minimum release age](/cfg/registry#governance-keys)** (cooldown) | **npm**, **npx**, **pnpm**, **yarn** / **yarnpkg**, **vlt**, and **bun** / **bunx** (when the bun wrap is on). Not corepack. |
-| **[Block package manager lifecycle scripts](/cfg/registry#governance-keys)** | npm / npx / pnpm / yarn / yarnpkg / vlt (and corepack when it forwards an install). Forces `--ignore-scripts` or Yarn’s equivalent. |
+| **[npm package minimum release age](/cfg/registry#governance-keys)** (cooldown) | **npm**, **npx**, **pnpm**, **yarn** / **yarnpkg**, **vlt**, and **bun** / **bunx** (when enabled). Corepack delegates this to the underlying package manager. |
+| **[Block package manager lifecycle scripts](/cfg/registry#governance-keys)** | npm / npx / pnpm / yarn / yarnpkg / vlt (and corepack when it forwards an install). Forces `--ignore-scripts` or equivalent. |
 | **Node security flags for lifecycle scripts** | **npm** / **npx** / **pnpm** only. Yarn, yarnpkg, bun, corepack, and **vlt** skip this inject. |
 | **Advanced Logging (**NVM4412**)** | Certified Builds with Advanced Logging, for install-class commands. |
 
-**Minimum release age:** Off by default on Community Builds. Certified Builds default to **2 days** when unset (including npx). Machine policy can force the value.
+#### :star: Minimum release age
+This is off by default in Community Builds, preserving the original workflow of each tool. Certified Builds default to **2 days** (including npx). Governance policies can force the value.
 
-**Node security flags:** When [enforce permission model](/cfg/registry), [freeze V8 global objects](/cfg/registry), or [disallow eval/string code gen](/cfg/registry) is on, those flags are merged into npm’s Node options env for npm/npx/pnpm so lifecycle scripts inherit them. Off by default (no env write). The proxy does not set `NODE_OPTIONS`. Machine policy that forces the permission model also strips a caller `--permission-audit` from those env vars before spawn. A `--node-options=` you pass on the command line is left alone. `npm-cli.js` itself is not launched under `--permission`.
+#### :star: Lifecycle scripts
+Stock npm already supports `--ignore-scripts`. Anyone can pass that flag on a single command. When Governance turns it on, the shim forces `--ignore-scripts` (or equivalent) on install-class commands so fleets do not depend on each developer remembering the flag. See [Lifecycle scripts vs stock npm](/features/certified-builds/governance#lifecycle-scripts-vs-stock-npm).
 
+#### :star: Node security flags
+When [enforcing permission models](/cfg/registry), [freezing V8 global objects](/cfg/registry), or [disallowing eval/string code gen](/cfg/registry) is enabled, those flags are merged into npm’s Node options env for npm/npx/pnpm so lifecycle scripts inherit them. The proxy does not set `NODE_OPTIONS`. Machine policy that forces the permission model also strips a caller `--permission-audit` from those env vars before spawning. A `--node-options=` you pass on the command line is left alone. `npm-cli.js` itself is not launched under `--permission`.
+
+:::note[vlt]
 **vlt** is a first-class proxied command for module firewall argv (same shape as pnpm) and for global reshim when a `vlt` launcher exists. It is not an always-on default shim like yarn/pnpm/yarnpkg. The minimum-age cooldown maps to vlt’s publish cutoff (`VLT_BEFORE`).
+:::
 
+:::note[bun/bunx]
 **bun** / **bunx** get the same cooldown on install-class commands when the [bun wrap](#bun-malware-wrap) is on. The proxy passes Bun’s `--minimum-release-age` in seconds (policy minutes × 60). `bun test`, `bun run`, and other non-install commands skip the age inject.
+:::
 
 `nvm reshim` refreshes the hardlinks (or copies) after installs, global package changes, and related events (also for [global module shims](/command/global-module-shims)).
 
@@ -89,13 +98,13 @@ When `auto_install` is enabled, a missing auto-detected Node version prompts or 
 
 After global-affecting operations (for example `npm install -g`, yarn global/dlx/plugins, corepack enable/use), the proxy may trigger **reshim** so new [global CLI shims](/command/global-module-shims) appear. Yarn Classic writes those CLIs to `%LOCALAPPDATA%\Yarn\bin`. Yarn 2+ does not use `yarn global`.
 
-## Bun malware wrap
+## Bun malware blocking
 
 NVM for Windows does not install bun and does not switch bun versions.
-When [wrap bun for malware checks](/cfg/core#package-managers) is on, `reshim` puts `bun.exe` and `bunx.exe` on `PATH` as hardlinks (or copies) of `proxy.exe`.
-The proxy finds the bun you already installed, then applies the same OpenSSF malware checks used for npm, pnpm, and yarn.
+When [bun](/cfg/core#package-managers) is enabled, `reshim` puts `bun.exe` and `bunx.exe` on `PATH` as hardlinks (or copies) of `proxy.exe`.
+The proxy finds the bun you already installed, then applies the same OpenSSF malware checks used for other supported package managers.
 
-Find order:
+Bun detection order:
 
 1. `%BUN_INSTALL%\bin\bun.exe` (or `bunx.exe`)
 2. `%USERPROFILE%\.bun\bin\bun.exe`
@@ -106,14 +115,14 @@ Those same install-class commands also get the [minimum-age cooldown](/cfg/regis
 `bun test`, `bun run`, and other bun commands pass through with no package scan and no age inject.
 Bun never runs the Node directory safety check, so it cannot raise **NVM4305**.
 
-Turn the wrap off to remove the extra `CreateProcessW` hop:
+Turn it off via:
 
 ```powershell
 nvm config set shim_bun=false
 nvm reshim
 ```
 
-Defaults: **off** in Community builds. **On** in Certified Builds. Machine policy wins over your user setting. See [`shim_bun`](/cfg/core#package-managers).
+Defaults: **off** in Community Builds. **On** in Certified Builds. Machine policy can override individual user settings. See [`shim_bun`](/cfg/core#package-managers).
 
 ## Integrity verification
 
@@ -122,7 +131,7 @@ If a trust check fails, the command does not run.
 ### Shim binary
 
 | Subject | Check |
-|---------|--------|
+|:-|:-|
 | `{DataRoot}/.shim/{name}.exe` | Contents must match `{DataRoot}/proxy.exe` |
 | `{DataRoot}/.shim/node.exe` | Contents must match the program-root canonical node shim |
 
@@ -136,7 +145,7 @@ Cache state changes can surface as **NVM4303**; untrusted Node → **NVM4301**; 
 ### Delegated package-manager targets
 
 | Target type | Verification |
-|-------------|--------------|
+|:-|:-|
 | npm / npx / corepack JS entry (`npm-cli.js`, `npx-cli.js`, `corepack.js`) | SHA-256 + TPM-signed **script trust** cache entry |
 | Delegated `.exe` | Same verify-cache path used for `node.exe` |
 | Delegated `.cmd` / `.bat` | SHA-256 + TPM-signed script trust cache entry |
