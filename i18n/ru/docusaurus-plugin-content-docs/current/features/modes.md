@@ -55,7 +55,7 @@ NVM for Windows v2 не пытается повысить права (то ес�
 - Ограничение прав Node.js/V8. (Опционально) _Требует Certified Builds с дополнением Governance._
 - Доверие издателю: проверка издателя node.exe, чтобы предотвратить подмену недоверенным node.exe.
 - Нативное журналирование событий.
-- Единые/настраиваемые периоды cooldown для всех основных менеджеров пакетов (npm/npx/yarn/pnpm). Community Builds по умолчанию выключены. Certified Builds по умолчанию 2 дня. Пользователи могут менять любое значение. Принудительная установка из машинной политики требует дополнение Governance.
+- Единые/настраиваемые периоды cooldown для всех основных менеджеров пакетов (npm/npx/yarn/pnpm/vlt). Community Builds по умолчанию выключены. Certified Builds по умолчанию 2 дня. Пользователи могут менять любое значение. Принудительная установка из машинной политики требует дополнение Governance.
 
 :::tip[Certified Builds]
 **Ограничение прав V8 / permission lockdown** в shim (`EnforcePermissionModel`, `FreezeV8GlobalObjects`, `DisableEvalAndStringExecution`) — функция Governance. **Cooldown** менеджеров пакетов — нет. Governance может принудительно задать cooldown из машинной политики. См. [политику реестра](../cfg/registry) и [Выбор редакции](../guide/builds/).
