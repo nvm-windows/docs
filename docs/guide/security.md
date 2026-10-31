@@ -103,7 +103,7 @@ flowchart TB
 | Allowed publisher org / thumbprint pins | ✓ | ✓ | ✓ |
 | Version-directory DACL hardening | ✓ | ✓ | ✓ |
 | Shim verify-cache + per-launch trust | shim mode | shim mode | shim mode |
-| HKLM policy override (ADMX) | — | ✓ | ✓ (+ full ADMX pack) |
+| HKLM policy override (ADMX) | — | — | ✓ (+ ADMX pack) |
 | Version allow/block firewall | — | — | ✓ |
 | Package-manager cooldown | — | — | ✓ |
 | Force `--permission` / V8 lockdown | — | — | ✓ |
@@ -115,7 +115,7 @@ Shim-mode security features do not apply in [link mode](../features/modes#link-m
 
 When `nvm install` (or auto-install) fetches a Node.js build:
 
-1. **Version firewall** (Governance) — `VersionAllowList` / `VersionBlockList` can refuse the version before download, at `nvm use`, and at Certified shim launch. Community ACL is a no-op. See [Version Firewall + Author Mirror](../features/author-mirror).
+1. **Version firewall** (Governance) — `VersionAllowList` / `VersionBlockList` in the Policies hive can refuse the version before download, at `nvm use`, and at shim launch. Without Governance those lists are ignored. See [Version Firewall + Author Mirror](../features/author-mirror).
 1. **Archive integrity** — the `.7z` (or staged archive) is checked against the published `SHASUMS256` file for that version/arch.
 1. **Authenticode on `node.exe`** — after extract, Windows trust verification runs on the binary. A valid signature alone is not enough: the signer organization must be on the allow list.
 1. **Default trusted organizations** — `OpenJS Foundation`, `Node.js Foundation`, and `Author Software Inc.` are always trusted. Add others (for example **NodeSource**) with [`AllowedSigners`](../cfg/registry#available-registry-keys). Optional [`AllowedThumbprints`](../cfg/registry#available-registry-keys) pin specific certificate leafs.

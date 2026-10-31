@@ -49,7 +49,7 @@ flowchart TB
 | Allowed publisher org / thumbprint pins | ✓ | ✓ | ✓ |
 | Ужесточение DACL каталога версии | ✓ | ✓ | ✓ |
 | Shim verify-cache + доверие на каждый запуск | shim mode | shim mode | shim mode |
-| Переопределение политикой HKLM (ADMX) | — | ✓ | ✓ (+ полный ADMX-пакет) |
+| Переопределение политикой HKLM (ADMX) | — | — | ✓ (+ ADMX-пакет) |
 | Version allow/block firewall | — | — | ✓ |
 | Cooldown пакетных менеджеров | — | — | ✓ |
 | Принудительный `--permission` / V8 lockdown | — | — | ✓ |
@@ -61,7 +61,7 @@ flowchart TB
 
 Когда `nvm install` (или auto-install) получает сборку Node.js:
 
-1. **Version firewall** (Governance) — `VersionAllowList` / `VersionBlockList` могут отказать версии до загрузки, при `nvm use` и при запуске Certified shim. Community ACL — no-op. См. [Version Firewall + Author Mirror](../features/author-mirror).
+1. **Version firewall** (Governance) — `VersionAllowList` / `VersionBlockList` в hive Policies могут отказать версии до загрузки, при `nvm use` и при запуске shim. Без Governance эти списки игнорируются. См. [Version Firewall + Author Mirror](../features/author-mirror).
 1. **Целостность архива** — `.7z` (или staged-архив) сверяется с опубликованным `SHASUMS256` для версии/архитектуры.
 1. **Authenticode для `node.exe`** — после распаковки выполняется проверка доверия Windows. Одной валидной подписи мало: организация подписанта должна быть в allow list.
 1. **Доверенные организации по умолчанию** — всегда доверяются `OpenJS Foundation`, `Node.js Foundation` и `Author Software Inc.`. Других (например **NodeSource**) добавляйте через [`AllowedSigners`](../cfg/registry#available-registry-keys). Опционально [`AllowedThumbprints`](../cfg/registry#available-registry-keys) закрепляют конкретные leaf-сертификаты.
