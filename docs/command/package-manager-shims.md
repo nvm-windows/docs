@@ -58,7 +58,7 @@ These controls run on the Node-backed path after trust succeeds:
 | Control | Who it covers |
 |---------|----------------|
 | **[npm package minimum release age](/cfg/registry#governance-keys)** (cooldown) | **npm**, **npx**, **pnpm**, **yarn** / **yarnpkg**, **vlt**, and **bun** / **bunx** (when enabled). Corepack delegates this to the underlying package manager. |
-| **[Block package manager lifecycle scripts](/cfg/registry#governance-keys)** | npm / npx / pnpm / yarn / yarnpkg / vlt (and corepack when it forwards an install). Forces `--ignore-scripts` or equivalent. |
+| **[Block package manager lifecycle scripts](/cfg/registry#governance-keys)** | npm / npx / pnpm / yarn / yarnpkg / vlt / **bun** / **bunx** (when the bun wrap is on; and corepack when it forwards an install). Forces `--ignore-scripts` or equivalent. |
 | **Node security flags for lifecycle scripts** | **npm** / **npx** / **pnpm** only. Yarn, yarnpkg, bun, corepack, and **vlt** skip this inject. |
 | **Advanced Logging (**NVM4412**)** | Certified Builds with Advanced Logging, for install-class commands. |
 
@@ -76,7 +76,7 @@ When [enforcing permission models](/cfg/registry), [freezing V8 global objects](
 :::
 
 :::note[bun/bunx]
-**bun** / **bunx** get the same cooldown on install-class commands when the [bun wrap](#bun-malware-wrap) is on. The proxy passes Bun’s `--minimum-release-age` in seconds (policy minutes × 60). `bun test`, `bun run`, and other non-install commands skip the age inject.
+**bun** / **bunx** get the same cooldown on install-class commands when the [bun wrap](#bun-malware-wrap) is on. The proxy passes Bun’s `--minimum-release-age` in seconds (policy minutes × 60). When Governance blocks lifecycle scripts, the proxy also forces `--ignore-scripts` on those install-class commands (and strips attempts to turn scripts back on). `bun test`, `bun run`, and other non-install commands skip both the age inject and the lifecycle lock.
 :::
 
 `nvm reshim` refreshes the hardlinks (or copies) after installs, global package changes, and related events (also for [global module shims](/command/global-module-shims)).
@@ -92,7 +92,7 @@ When [enforcing permission models](/cfg/registry), [freezing V8 global objects](
 | `yarnpkg` | Same as yarn | Always-on PATH shim alongside yarn |
 | `vlt` | `vlt.cmd` / `.exe` | Only when a vlt launcher is found; firewall argv like pnpm; minimum-age cooldown applies |
 | `corepack` | `corepack` / `node_modules/corepack/dist/corepack.js` | When present in the Node install |
-| `bun` / `bunx` | Your existing bun install | See [Bun malware wrap](#bun-malware-wrap); minimum-age cooldown on install-class commands when the wrap is on |
+| `bun` / `bunx` | Your existing bun install | See [Bun malware wrap](#bun-malware-wrap); minimum-age cooldown and lifecycle-script lock on install-class commands when the wrap is on |
 
 When `auto_install` is enabled, a missing auto-detected Node version prompts or installs the same way as `node` for these managers.
 
@@ -111,8 +111,8 @@ Bun detection order:
 3. `PATH`, skipping `{DataRoot}/.shim`
 
 Malware checks run for `bun install` / `i` / `add` / `x` / `create` / `update` and for every `bunx` invocation.
-Those same install-class commands also get the [minimum-age cooldown](/cfg/registry#governance-keys) as Bun’s `--minimum-release-age` (seconds).
-`bun test`, `bun run`, and other bun commands pass through with no package scan and no age inject.
+Those same install-class commands also get the [minimum-age cooldown](/cfg/registry#governance-keys) as Bun’s `--minimum-release-age` (seconds), and the [lifecycle-script lock](/cfg/registry#governance-keys) as `--ignore-scripts` when Governance forces it.
+`bun test`, `bun run`, and other bun commands pass through with no package scan, no age inject, and no lifecycle lock.
 Bun never runs the Node directory safety check, so it cannot raise **NVM4305**.
 
 Turn it off via:
