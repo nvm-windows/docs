@@ -40,7 +40,7 @@ Additional capabilties are available as add-ons:
 |:-|:-|
 |**Advanced&nbsp;Logging**|Structured logging for SIEM integration.|
 |**Trust&nbsp;Artifacts**|SBOM, provenance, and VEX reports.|
-|**Governance**|Central policy management (ADMX/ADML + GPO/Entra scripts), advanced proxy support (IWA, WPAD/PAC), Node.js mirror (mirror.author.io), version firewall, shim-enforced Node.js permissions, force the package-manager cooldown from machine policy (npm/npx/pnpm/yarn), and air-gap/local installations.|
+|**Governance**|Central policy management (ADMX/ADML + GPO/Entra scripts), advanced proxy support (IWA, WPAD/PAC), Node.js mirror (mirror.author.io), version firewall, shim-enforced Node.js permissions, force the package-manager cooldown from machine policy (npm/npx/pnpm/yarn/vlt), and air-gap/local installations.|
 
 ### Code Signing Authority
 
@@ -70,7 +70,7 @@ The Governance package for certified builds introduce policy management. With th
 
 - Utilize corporate proxies (IWA, PAC/WPAD).
 - Block unapproved Node.js Versions (i.e. EOL, vulnerable, or unstable versions).
-- Force npm/npx/yarn/pnpm cooldown periods from machine policy.
+- Force npm/npx/yarn/pnpm/vlt cooldown periods from machine policy.
 - Enforce Node.js permission model (`--permission` / `--experimental-permission`) so shimmed `node` starts default-deny; npm/npx/pnpm lifecycle scripts inherit the same flags via `npm_config_node_options` when the policy is on. Apps must pass `--allow-*` at runtime.
 - Freeze V8 intrinsics (`--frozen-intrinsics`) to prevent prototype pollution of built-ins (also applied to npm/npx/pnpm scripts when the policy is on).
 - Disallow `eval()` / `new Function()` (`--disallow-code-generation-from-strings`) (also applied to npm/npx/pnpm scripts when the policy is on).
