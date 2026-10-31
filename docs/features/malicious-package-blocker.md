@@ -79,7 +79,7 @@ Certified Builds Governance users can force malicious package blocking via centr
 ## Allow a false positive
 
 `MalwareAllowList` is available for Certified Builds Governance policies.
-See [Registry Policy Reference](../cfg/enterprise/registry).
+See [Registry Policy Reference](../cfg/registry).
 
 Each string is one pattern.
 Matching is byte for byte.
@@ -153,6 +153,6 @@ See [Event Logging](./log) and [Error Codes](../troubleshooting/error-codes).
 
 ## Related
 
-- [NVM Firewall](../guide/firewall) — your version, module, and trust policy
+- [NVM Firewall](./firewall) — your version, module, and trust policy
 - [Choosing a Build](../guide/builds/)
 - [Registry Policy Reference](../cfg/registry)

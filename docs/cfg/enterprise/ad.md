@@ -8,7 +8,7 @@ certified:
 
 # Administrative Templates (Intune & GPO)
 
-NVM for Windows [Governance](../../features/certified-builds/governance) packs ship ADMX/ADML templates. Use them in **on-premises Group Policy** or **Microsoft Intune** configuration profiles.
+NVM for Windows [Governance](/features/certified-builds/governance) packs ship ADMX/ADML templates. Use them in **on-premises Group Policy** or **Microsoft Intune** configuration profiles.
 
 |Resource|Guidance|
 |:-|:-|
