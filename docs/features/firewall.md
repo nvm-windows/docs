@@ -72,7 +72,7 @@ node -v                            # fails when the active version is denied
 
 ### Block unapproved dependency installations
 
-Certified Builds can allow or deny package installs into a project (`npm install`, `pnpm` / `yarn` equivalents, and similar proxied commands).
+With Governance, Certified Builds can allow or deny package installs into a project (`npm install`, `pnpm` / `yarn` / `vlt` equivalents, and similar proxied commands) using Policies-hive lists. Without Governance those Policies lists are ignored.
 With no module rules configured, every package is allowed.
 
 **Example**

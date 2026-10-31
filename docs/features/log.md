@@ -8,7 +8,7 @@ tags: [native-integration]
 # Windows Native Logging
 
 :::note[Basic Logging]
-_This overview covers basic logging. [Advanced Logging]() is available for [Certified Builds]()._
+_This overview covers basic logging. [Advanced Logging](./certified-builds/advanced-logging) is available for [Certified Builds](../guide/builds/)._
 :::
 
 Critical events are logged natively, including activities like Node.js version installations, configuration changes, and security concerns.
@@ -38,13 +38,16 @@ node -v
 ```
 
 1. Open Event Viewer.
-1. Open **Windows Logs** → **Application**.
-1. Filter by source **NVM for Windows**.
+1. Community: **Windows Logs** → **Application**, source **NVM for Windows**. Certified: **Applications and Services Logs** → **NVM for Windows** → **Operational**.
+1. Filter by Event ID **120**.
 
-Each `node.exe` launch is Event ID **120** (`nodejs.executed`). Event ID **200** is unused.
+Each `node.exe` launch is Event ID **120** (`nodejs.executed`). Event ID **200** is unused. On Certified Builds the classic record can include `parent_process`, `parent_pid`, `project_name`, and `project_path` when the host can resolve them — no Advanced Logging license required. Advanced Logging adds structured `EventName` / JSON `Payload` for SIEM.
 
 ```powershell
+# Community (Application log)
 wevtutil qe Application /q:"*[System[Provider[@Name='NVM for Windows'] and (EventID=120)]]" /f:text /c:5
+# Certified (Operational channel)
+wevtutil qe "NVM for Windows/Operational" /q:"*[System[(EventID=120)]]" /f:text /c:5
 ```
 
 [Advanced Logging](./certified-builds/advanced-logging) details additional capabilities.

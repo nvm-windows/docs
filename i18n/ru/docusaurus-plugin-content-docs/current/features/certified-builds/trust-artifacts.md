@@ -60,9 +60,12 @@ nvm-windows-<version>-trust-artifacts-<arch>/
 ├── licenses/
 │   ├── open-source-license-report.md
 │   └── open-source-license-report.csv
-└── sast/
-    ├── gosec.sarif
-    ├── psscriptanalyzer.sarif
+├── sast/
+│   ├── gosec.sarif
+│   ├── psscriptanalyzer.sarif
+│   └── README.md
+└── vex/                         # есть, когда для релиза нужен VEX
+    ├── nvm-windows.vex.json
     └── README.md
 ```
 
@@ -113,6 +116,12 @@ Provenance релиза производится на уровне **SLSA Build 
 Находка — пункт для проверки.
 Пустой список `results` значит, что инструмент ничего не сообщил.
 Эти файлы не являются тестом на проникновение.
+
+### VEX (`vex/`) \{#vex\}
+
+Заявления Vulnerability Exploitability eXchange, когда релиз их требует (см. таблицу артефактов выше).
+Типичный файл: `nvm-windows.vex.json`.
+Если VEX для релиза не выпускается, папка `vex/` в zip отсутствует.
 
 ## Как проверять \{#how-to-review\}
 

@@ -92,14 +92,14 @@ See [What's new in v2](./newv2) for a shorter v2 summary.
 | [Malicious Package Blocker](./malicious-package-blocker) | OpenSSF name/version lookup in signed `malware.db`. Not a file scanner. Default on in shim mode. |
 | Direct dependency checks | Community Builds check the named package and direct `package.json` dependencies. They do not read a lockfile. |
 | Transitive dependency checks | Certified Builds also read the project lockfile. They check it when `node` starts in the project directory. |
-| Malware allow list | HKLM patterns that clear an OpenSSF hit. Byte-for-byte. `*` clears every OpenSSF hit. |
-| Organization malware block list | Certified Builds only. Extra HKLM block patterns. Community Builds ignore this list. |
+| Malware allow list | Policies-hive patterns (Governance) that clear an OpenSSF hit. Byte-for-byte. `*` clears every OpenSSF hit. |
+| Organization malware block list | Certified Builds only. Extra Policies-hive block patterns (Governance). Community Builds ignore this list. |
 | Malware trust conflict | Certified Builds only. `prevent` (default) still blocks a trusted or approved OpenSSF hit. `continue` lets that trust through. |
-| Skip malware checks | `skip_malware_checks` skips shim lookups. The definition file still updates. HKLM wins. |
+| Skip malware checks | `skip_malware_checks` skips shim lookups. The definition file still updates. HKLM Policies win only with Governance; otherwise preferences apply. |
 | [NVM Firewall](./firewall) | Your version, module, and trust lists. This is not the Malicious Package Blocker. |
 | Version firewall | Governance. `nvm firewall allow version` and `deny version` write `VersionAllowList` / `VersionBlockList`. Lists are ignored without a Governance license. |
 | Module firewall | Governance. Allow or deny npm/pnpm/yarn/npx/vlt installs with local lists. Lists are ignored without a Governance license. |
-| Trust firewall | Community Builds and Certified Builds. `nvm firewall trust module` and `distrust module`. Default seeds include npm, npx, yarn, yarnpkg, corepack, and pnpm. |
+| Trust firewall | Community Builds and Certified Builds. `nvm firewall trust module` and `distrust module`. Default seeds include npm, npx, yarn, yarnpkg, corepack, pnpm, and vlt. |
 | Untrusted module action | `prompt`, `allow`, or `deny` when a global CLI self-updates. |
 | Node permission model | Shim prepends `--permission` (Node 23+) or `--experimental-permission` (20–22). |
 | Default / allowed grants | Insert `--allow-*` from policy. Drop caller `--allow-*` tokens that are not in the allow list. |
@@ -136,7 +136,7 @@ See [What's new in v2](./newv2) for a shorter v2 summary.
 
 | Feature | Description |
 |:-|:-|
-| [Config](../command/nvm/config/) | `nvm config` list, get, set, reset, and docs. HKLM policy wins over HKCU. |
+| [Config](../command/nvm/config/) | `nvm config` list, get, set, reset, and docs. HKLM Policies win over preferences only with Governance; otherwise machine/user preferences apply. |
 | [Env](../command/nvm/env) | Environment report: mirrors, sizes, antivirus, permission flags, license. JSON is available. |
 | [Doctor](../command/nvm/sync-doctor) | Detect and repair common issues. `--autofix` can restore DACLs and verify-cache. |
 | [Upgrade](../command/nvm/sync-upgrade) | Upgrade NVM for Windows. `disable_upgrade` blocks in-app upgrade. |

@@ -170,14 +170,14 @@ sequenceDiagram
 
 Through `proxy.exe`, NVM can apply **Governance** package-manager controls such as [`NpmModuleMinimumAge`](../cfg/registry#governance-keys) (cooldown / minimum publish age for npm, npx, pnpm, yarn, vlt, and bun/bunx when `shim_bun` is on). Community defaults to off (`0`), matching stock npm/npx with no version manager. Certified Builds default to 2 days (2880 minutes) when the key is unset, including npx, vlt, and shimmed bun. HKLM Policies forces the value and strips CLI age-override flags.
 
-Certified Builds also enforce the **[NVM Firewall](../features/firewall)** module allow lists (`ApprovedModules` / `ApprovedGlobalModules`) on shimmed installs, and both editions support the **trust firewall** (`TrustedModules`) so approved self-updating global CLIs can auto-reshim after they rewrite their entrypoints.
+**Governance** enforces the **[NVM Firewall](../features/firewall)** module allow lists (`ApprovedModules` / `ApprovedGlobalModules`) from the Policies hive on shimmed installs. Without Governance those Policies lists are ignored (preference lists can still apply). Both editions support the **trust firewall** (`TrustedModules`) so approved self-updating global CLIs can auto-reshim after they rewrite their entrypoints.
 
 Supply-chain risk inside transitive `node_modules` remains largely an upstream registry problem; Author Software’s longer-term Runtime / advanced security work addresses deeper checks separately. What NVM gates today:
 
 - **Node.js versions** — local firewall + optional Author mirror rules ([author-mirror](../features/author-mirror))
 - **Publisher trust** on `node.exe` every launch
 - **Cooldown** on package-manager installs (Governance)
-- **Package allow lists** (Certified module firewall) and **self-update trust** (trust firewall) — see [Firewall](../features/firewall)
+- **Package allow lists** (Governance module firewall) and **self-update trust** (trust firewall) — see [Firewall](../features/firewall)
 
 ## 4. Node permission and V8 lockdown (Governance, shim mode)
 
@@ -196,7 +196,8 @@ See [Operating Modes](../features/modes) and [registry keys](../cfg/registry#ava
 Settings live in the Windows registry. Broadly:
 
 - **User preferences (HKCU)** — what an interactive user can change without admin rights.
-- **Machine preferences / Policies (HKLM)** — what administrators and MDM/GPO write. Certified builds honor **machine policy** so admins can override user choices for security-sensitive keys.
+- **Machine preferences (HKLM Preferences)** — what administrators write under the Preferences hive. Available without Governance.
+- **Machine policy (HKLM Policies)** — what GPO/MDM write under `Software\Policies`. Honored only with a **Governance** license (`AllowsMachinePolicy`).
 
 The **Governance** pack ships **ADMX/ADML** templates for Active Directory and Entra/Intune-style configuration. Different GPOs can set different risk postures (for example block EOL Node for most users, allow one legacy version for a migration team). See [Administrative Templates](../cfg/ad) and [Registry Policy Reference](../cfg/registry).
 
@@ -204,7 +205,7 @@ The **Governance** pack ships **ADMX/ADML** templates for Active Directory and E
 
 Organizations can deny public `nodejs.org/dist` at the network edge and allow-list `mirror.author.io`. NVM then downloads through Author’s policy-aware mirror. Controls combine:
 
-- Client/GPO lists (`VersionAllowList` / `VersionBlockList`, including lifecycle aliases such as `EOL`)
+- Client/GPO lists (`VersionAllowList` / `VersionBlockList`) for exact versions and ranges — lifecycle aliases such as `EOL` / `ALPHA` / `MAINTENANCE` are **ignored on the client** and only applied by the Author Mirror at download
 - **Hosted rules** in the [customer portal](https://portal.author.io) (IP, geo, domain/tenant, SID, license group)
 
 Walkthrough: [Version Firewall + Author Mirror](../features/author-mirror). Domain/tenant IDs: [Find Your AD Domain or Entra Tenant ID](./find-domain-tenant-id).
