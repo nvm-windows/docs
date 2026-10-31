@@ -58,7 +58,7 @@ flowchart LR
 | Контроль | Кого покрывает |
 |---------|----------------|
 | **[Минимальный возраст публикации npm-пакета](/cfg/registry#governance-keys)** (cooldown) | **npm**, **npx**, **pnpm**, **yarn** / **yarnpkg**, **vlt** и **bun** / **bunx** (если обёртка bun включена). Не corepack. |
-| **[Блокировать lifecycle-скрипты package manager](/cfg/registry#governance-keys)** | npm / npx / pnpm / yarn / yarnpkg / vlt (и corepack, когда он проксирует install). Принудительно `--ignore-scripts` или аналог Yarn. |
+| **[Блокировать lifecycle-скрипты package manager](/cfg/registry#governance-keys)** | npm / npx / pnpm / yarn / yarnpkg / vlt / **bun** / **bunx** (если обёртка bun включена; и corepack, когда он проксирует install). Принудительно `--ignore-scripts` или аналог Yarn. |
 | **Флаги безопасности Node для lifecycle-скриптов** | Только **npm** / **npx** / **pnpm**. Yarn, yarnpkg, bun, corepack и **vlt** пропускают inject. |
 | **Advanced Logging (**NVM4412**)** | Certified Builds с Advanced Logging, для install-команд. |
 
@@ -70,7 +70,7 @@ flowchart LR
 
 **vlt** — первоклассная proxied-команда для module firewall argv (как pnpm) и для global reshim, когда найден launcher `vlt`. Это не always-on shim вроде yarn/pnpm/yarnpkg. Cooldown минимального возраста мапится на cutoff публикации vlt (`VLT_BEFORE`).
 
-**bun** / **bunx** получают тот же cooldown на install-командах, когда включена [обёртка bun](#bun-malware-wrap). Proxy передаёт Bun `--minimum-release-age` в секундах (минуты политики × 60). `bun test`, `bun run` и остальные non-install команды пропускают inject возраста.
+**bun** / **bunx** получают тот же cooldown на install-командах, когда включена [обёртка bun](#bun-malware-wrap). Proxy передаёт Bun `--minimum-release-age` в секундах (минуты политики × 60). Когда Governance блокирует lifecycle-скрипты, proxy также принудительно ставит `--ignore-scripts` на эти install-команды (и убирает попытки снова включить скрипты). `bun test`, `bun run` и остальные non-install команды пропускают и inject возраста, и lifecycle-блокировку.
 
 `nvm reshim` обновляет hardlink (или копии) после установок, изменений глобальных пакетов и связанных событий (также для [shim глобальных модулей](/command/global-module-shims)).
 
@@ -85,7 +85,7 @@ flowchart LR
 | `yarnpkg` | Как у yarn | Always-on shim рядом с yarn |
 | `vlt` | `vlt.cmd` / `.exe` | Только когда найден launcher vlt; firewall argv как у pnpm; действует cooldown минимального возраста |
 | `corepack` | `corepack` / `node_modules/corepack/dist/corepack.js` | Если есть в установке Node |
-| `bun` / `bunx` | Уже установленный bun | См. [обёртка bun](#bun-malware-wrap); cooldown минимального возраста на install-командах при включённой обёртке |
+| `bun` / `bunx` | Уже установленный bun | См. [обёртка bun](#bun-malware-wrap); cooldown минимального возраста и блокировка lifecycle-скриптов на install-командах при включённой обёртке |
 
 При включённом `auto_install` отсутствующая auto-detected версия Node предлагается или ставится так же, как для `node`.
 
@@ -104,7 +104,7 @@ Proxy находит уже установленный bun и применяет
 3. `PATH`, пропуская `{DataRoot}/.shim`
 
 Проверки malware идут для `bun install` / `i` / `add` / `x` / `create` / `update` и для каждого вызова `bunx`.
-Те же install-команды также получают [cooldown минимального возраста](/cfg/registry#governance-keys) как Bun `--minimum-release-age` (секунды).
+Те же install-команды также получают [cooldown минимального возраста](/cfg/registry#governance-keys) как Bun `--minimum-release-age` (секунды) и [блокировку lifecycle-скриптов](/cfg/registry#governance-keys) как `--ignore-scripts`, когда Governance её форсирует.
 `bun test`, `bun run` и остальные команды bun проходят без сканирования пакетов и без inject возраста.
 Bun не выполняет проверку безопасности каталога Node, поэтому **NVM4305** для bun не возникает.
 
