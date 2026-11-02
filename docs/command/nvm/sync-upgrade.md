@@ -30,6 +30,7 @@ This command takes no arguments.
 |--------|-------------|
 | Backend | Delegates to `sync.exe upgrade` |
 | `--check` | Runs sync upgrade in check-only mode |
+| Default target | Newest **stable** or **hotfix** newer than the installed build. When the installed build is already a **prerelease** (beta / alpha / rc), newer prereleases on that channel are eligible too |
 | Policy | Upgrade execution blocked when [`disable_upgrade=true`](../../cfg/registry#available-registry-keys) _(Certified Builds / machine policy)_; check-only still allowed |
 
 ## Examples
