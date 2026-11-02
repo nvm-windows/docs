@@ -44,7 +44,7 @@ Or run `unins000.exe` from `%LOCALAPPDATA%\Author Software\nvm`.
 The Community Build uninstaller removes:
 
 - Application files under `%LOCALAPPDATA%\Author Software\nvm`
-- Node.js versions under the configured install root (default `%LOCALAPPDATA%\Author Software\nvm\installs`)
+- Node.js versions under the configured install root (default `%LOCALAPPDATA%\Author Software\nvm\installs`). If that folder also holds non-NVM content (or sits directly under a drive root), uninstall removes only managed `v*` version directories — it does not delete the whole folder.
 - User preferences under `HKCU\Software\Author Software\Preferences\nvm`
 - The `NVM_HOME` user environment variable and related `PATH` entries
 - The **NVM for Windows Sync** scheduled task
@@ -73,7 +73,7 @@ Use this procedure only when the uninstaller is missing or the uninstaller fails
 
 1. Delete `%LOCALAPPDATA%\Author Software\nvm`.
    That folder holds app files, installs, cache, and shims.
-   If you set a custom [`root`](../cfg/core#mode-and-install-location) or `InstallRoot`, delete that directory too.
+   If you set a custom [`root`](../cfg/core#mode-and-install-location) or `InstallRoot`, delete managed `v*` version directories under it (or the whole folder only when it is dedicated to NVM).
    See [Basic Configuration](../cfg/core) and the [registry reference](../cfg/registry).
 1. Remove leftover user environment values:
    - Delete `NVM_HOME` from **User** environment variables.
