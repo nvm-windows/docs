@@ -52,6 +52,9 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4501** | Network deadline exceeded | Informational: a catalog, mirror, reachability, or download attempt used up its millisecond budget. Structured event `network.deadline_exceeded` (Certified Builds with Advanced Logging) |
 | **NVM4601** | Malware definitions updated | Informational, advanced logging only. A successful `malware.db` write changed the database. Payload: `added`, `removed`, `seq`, `previous_seq`. Windows Event ID 120 |
 | **NVM4602** | Malicious package blocked | Informational, advanced logging only. The shim blocked a package before the install audit. Payload includes the package name, version when known, command, `source` (`OpenSSF` or `MalwareBlockList`), and `reason`. The terminal line is `NVM blocked <name> — <reason>. (NVM4602)`. It still prints without the advanced logging license. Windows Event ID 120 |
+| **NVM4701** | Product upgrade started | Informational, advanced logging only. `nvm upgrade` / notification upgrade began downloading the installer. EventName `nvm.upgrade.started`. Payload: `from_version`, `to_version`, `outcome`, `nvm_version`. Windows Event ID 120 |
+| **NVM4702** | Product upgrade failed | Informational, advanced logging only. Download or installer launch failed. EventName `nvm.upgrade.failed`. Payload includes `detail` when available. Windows Event ID 120 |
+| **NVM4703** | Product upgrade blocked | Informational, advanced logging only. Machine policy `disable_upgrade` blocked the upgrade. EventName `nvm.upgrade.blocked`. Windows Event ID 120 |
 
 ## Ranges
 
@@ -62,6 +65,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM44xx** | NVM Firewall (version / module / trust policy) |
 | **NVM45xx** | Network deadlines |
 | **NVM46xx** | Malware feed. Informational and advanced logging only |
+| **NVM47xx** | Product self-upgrade. Informational and advanced logging only |
 
 ## Tips
 
@@ -74,6 +78,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 - **NVM4412** is an audit/info event that the lifecycle-script lock was applied to an install-class command. It is not a failed install. Community Builds and Certified Builds without Advanced Logging do not write it.
 - **NVM4501** is informational, not a failure. The plaintext error names `TimeoutCatalogMs` and `TimeoutCatalogMirrorMs` (or `TimeoutDownloadMs` / `TimeoutReachabilityMs`) and where that budget came from: `machine policy`, `machine settings`, `your settings`, `default`, or `command flag`.
 - Structured execution and install audits may include `project_name`, `project_path`, `parent_process`, `parent_pid`, and `sid` when the host can resolve them. A missing value is empty or `unknown`.
+- Every Advanced Logging structured `Payload` includes `nvm_version` (the NVM for Windows version that wrote the entry) so SIEM queries can filter by product version.
 - `nodejs.executed` is written on Community and Certified Builds when `LogExecutions` is `1`. No Advanced Logging license.
 - `package_manager.executed` is written on Certified Builds when `LogExecutions` is `1`. No Advanced Logging license. `package_manager.install` records an allowed install (**NVM4408**) or a blocked install (**NVM4403**).
 - Symptom-based fixes without a code: [General Troubleshooting](./general).

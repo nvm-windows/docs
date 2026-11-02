@@ -28,6 +28,7 @@ With Advanced Logging you can answer fleet questions from Event Logs / SIEM pipe
 - Malware definition updates and malware blocks as Event Log records (not terminal-only)
 - Network deadline budget hits (`network.deadline_exceeded`)
 - When policy blocks package-manager lifecycle scripts on an install-class command (`package_manager.lifecycle_scripts_blocked`)
+- In-app product upgrades (`nvm.upgrade.started`, `nvm.upgrade.failed`, `nvm.upgrade.blocked`)
 
 ## What you get only with this add-on
 
@@ -39,6 +40,9 @@ These records appear on **NVM for Windows/Operational** as structured events (`E
 | `network.deadline_exceeded` | **NVM4501** | Catalog / mirror / download time budget used up |
 | `malware.definitions_updated` | **NVM4601** | Successful `malware.db` change |
 | `malware.package_blocked` | **NVM4602** | Shim blocked a package; terminal still prints without this add-on |
+| `nvm.upgrade.started` | **NVM4701** | In-app / notification product upgrade began downloading the installer |
+| `nvm.upgrade.failed` | **NVM4702** | Product upgrade download or installer launch failed |
+| `nvm.upgrade.blocked` | **NVM4703** | Product upgrade blocked by `disable_upgrade` policy |
 
 Module-firewall allow/deny, Node trust failures, and similar conditions still produce classic `Code` values without the add-on.
 With Advanced Logging they also get queryable `EventName` / `Payload` (for example `package_manager.install`, `firewall.*`, `node.security.*`).
@@ -69,7 +73,7 @@ Each Advanced Logging event carries:
 | Field | Role |
 |:-|:-|
 | `EventName` | Stable name for queries (for example `nodejs.executed`) |
-| `Payload` | JSON context (user, host, package, paths, and more) |
+| `Payload` | JSON context (user, host, package, paths, and more). Every structured payload includes `nvm_version` (the NVM for Windows build that wrote the event) |
 | `Code` | `NVM####` as `UInt32` (`EventData.Code`) |
 
 Structured templates use Event IDs **120** (info), **121** (warning), and **122** (error) on the same Operational channel.
