@@ -49,7 +49,7 @@ There is a full list of [Error Codes](../troubleshooting/error-codes) (and expla
 
 |Field|Detail|
 |:-|:-|
-|`Payload`|JSON string - Do not look for the NVM number inside this field.|
+|`Payload`|JSON string - Do not look for the NVM number inside this field. Structured payloads include `nvm_version` (the NVM for Windows version that wrote the event).|
 |`Code`|Separate `UInt32` - `Code` is `0` when the event is not an `NVM####` condition.|
 
 Collectors flatten EventData in different ways. Use the names your platform created if a sample field is missing.
@@ -185,6 +185,9 @@ Match `Code` to the number in [Error Codes](../troubleshooting/error-codes).
 | `network.deadline_exceeded` | 4501 | `nvm.exe` or `sync.exe` |
 | `malware.definitions_updated` | 4601 | `sync.exe`. Advanced Logging only. |
 | `malware.package_blocked` | 4602 | Shim. Advanced Logging only. |
+| `nvm.upgrade.started` | 4701 | `sync.exe`. Advanced Logging only. Payload: `from_version`, `to_version`, `outcome`. |
+| `nvm.upgrade.failed` | 4702 | `sync.exe`. Advanced Logging only. Payload includes `detail` when available. |
+| `nvm.upgrade.blocked` | 4703 | `sync.exe`. Advanced Logging only. `disable_upgrade` policy blocked the upgrade. |
 | `firewall.elevation_required` | 4404 | `nvm.exe` |
 | `firewall.invalid_rule` | 4405 | `nvm.exe` |
 | `firewall.untrusted_module_changed` | 4406 | `nvm.exe` or `proxy` |
