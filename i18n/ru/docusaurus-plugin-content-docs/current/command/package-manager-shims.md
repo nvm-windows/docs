@@ -138,12 +138,13 @@ nvm reshim
 | Тип цели | Проверка |
 |----------|----------|
 | JS entry npm / npx / corepack (`npm-cli.js`, `npx-cli.js`, `corepack.js`) | SHA-256 + TPM-подписанная запись **script trust** cache |
+| JS entry pnpm / yarn (`pnpm.mjs` / `pnpm.cjs` / `pnpm.js`, `yarn.js` / `yarn.cjs` / `yarn.mjs`) | SHA-256 + TPM-подписанная запись **script trust** cache (proxy предпочитает их `.cmd`-обёртке) |
 | Делегированный `.exe` | Тот же verify-cache путь, что для `node.exe` |
 | Делегированный `.cmd` / `.bat` | SHA-256 + TPM-подписанная запись script trust cache |
 
 Записи доверия пишутся при установке/активации версий или reshim.
 Если скрипт изменился с момента доверия или записи нет — запуск блокируется (**NVM4306**).
-Если вы доверяете изменению, выполните `nvm firewall trust module <name>`.
+Если вы доверяете изменению, выполните `nvm firewall trust module <name>` — это переподписывает и top-level `.cmd`/`.bat`, и вложенный JS/CJS/MJS entrypoint, который реально запускает proxy.
 Одного `nvm reshim` недостаточно, чтобы модуль оставался доверенным после следующего self-update.
 Также можно переустановить версию или выполнить `nvm doctor --autofix`.
 

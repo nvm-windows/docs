@@ -147,12 +147,13 @@ Cache state changes can surface as **NVM4303**; untrusted Node → **NVM4301**; 
 | Target type | Verification |
 |:-|:-|
 | npm / npx / corepack JS entry (`npm-cli.js`, `npx-cli.js`, `corepack.js`) | SHA-256 + TPM-signed **script trust** cache entry |
+| pnpm / yarn JS entry (`pnpm.mjs` / `pnpm.cjs` / `pnpm.js`, `yarn.js` / `yarn.cjs` / `yarn.mjs`) | SHA-256 + TPM-signed **script trust** cache entry (proxy prefers these over the `.cmd` wrapper) |
 | Delegated `.exe` | Same verify-cache path used for `node.exe` |
 | Delegated `.cmd` / `.bat` | SHA-256 + TPM-signed script trust cache entry |
 
 Trust entries are written when versions are installed, activated, or reshimed.
 If a script changed since it was trusted, or no trust entry exists, launch is blocked (**NVM4306**).
-If you trust the change, run `nvm firewall trust module <name>`.
+If you trust the change, run `nvm firewall trust module <name>` — that resigns both the top-level `.cmd`/`.bat` and the nested JS/CJS/MJS entrypoint the proxy actually launches.
 `nvm reshim` alone does not keep the module trusted after the next self-update.
 You can also reinstall the version or run `nvm doctor --autofix` as appropriate.
 
