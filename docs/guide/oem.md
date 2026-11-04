@@ -40,7 +40,7 @@ Community and Certified Builds offer the same fundamental developer experience, 
 
 ### Community Build Considerations
 
-Community Builds are designed for user-controlled installations. The application is installed to the user's directory, giving their account full control of Node.js installations on Windows. This is the recommended build for general distribution on OEM images.
+Community Builds are designed for user-controlled installations. The application is installed to the user's local app directory, giving their account full control of Node.js installations on Windows. This is the recommended build for general distribution on OEM images.
 
 ### Certified Build Considerations
 
@@ -61,8 +61,8 @@ Creating a Windows image with NVM for Windows does not require anything other th
 |Add-on|OEM Compatibility|
 |:-|:-|
 |<PageLink id="trustArtifacts" />|<TrustArtifactList format="inline" />. These aren't typically distributed on OEM images. Highly regulated/audited organizations who require trust artifacts next to the application on disk could include these under a custom agreement with Author Software Inc.|
-|Advanced&nbsp;Logging|Provides SIEM-integrated logging. This does not require changes to OEM images.|
-|Governance|Enforce / lockdown usage policies. This does not require changes to OEM images.|
+|[Advanced&nbsp;Logging](../../features/certified-builds/advanced-logging)|Provides SIEM-integrated logging. This does not require changes to OEM images.|
+|[Governance](../../features/certified-builds/governance)|Enforce / lockdown usage policies. This does not require changes to OEM images.|
 
 :::tip[Licensing]
 Certified Builds operating without a valid license are limited to Community features, but it will not stop working.
