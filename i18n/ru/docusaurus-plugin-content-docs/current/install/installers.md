@@ -59,7 +59,7 @@ NVM for Windows доступен в community- и certified-сборках дл�
   </TabItem>
 </Tabs>
 
-## Тихая установка
+## Тихая установка \{#silent-install\}
 
 Community-установщик — Inno Setup. Эти ключи работают для `nvm-<version>-x64-setup.exe` и `nvm-<version>-arm64-setup.exe`:
 
@@ -233,7 +233,7 @@ NVM первым значит `%LOCALAPPDATA%\Author Software\nvm\.nodejs`, за
 nvm install lts
 ```
 
-## Предупреждения
+## Предупреждения \{#warnings\}
 
 :::warning[Не устанавливайте Community Build от имени администратора!]
 Не устанавливайте Community Build от имени администратора.

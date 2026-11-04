@@ -95,7 +95,7 @@ VersionAllowList=20.x
 Изолированные/[`local_install_only`](../cfg/registry#available-registry-keys) установки не обращаются к зеркалу, поэтому `EOL` в локальных средах не применяется. Используйте статические allow/block списки (или размещайте только одобренные архивы).
 
 
-### 2. Hosted Rules
+### 2. Hosted Rules \{#hosted-rules\}
 
 Hosted rules настраиваются через клиентский портал:
 

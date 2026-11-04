@@ -54,7 +54,7 @@ Windows не даёт mute по одному типу.
 
 ## Отключение и включение \{#mute-and-unmute\}
 
-### По каналу (параметры Windows)
+### По каналу (параметры Windows) \{#categories-windows-settings\}
 
 1. Откройте **Параметры → Система → Уведомления → NVM for Windows**.
 1. Выключите или включите канал: **Releases**, **Hotfixes**, **Pre-releases** или **News**.

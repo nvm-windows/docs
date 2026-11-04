@@ -20,7 +20,7 @@ nvm cfg set mode=shim
 nvm cfg set mode=link
 ```
 
-## Link Mode
+## Link Mode \{#link-mode\}
 
 This mode uses links to locate the active system-wide version of `node.exe`. The link is part of the `PATH`. Running [`nvm use`](../command/nvm/use) changes the _target_ of the link path, not the path itself. `PATH` never changes.
 
@@ -41,7 +41,7 @@ flowchart LR
 NVM for Windows v2 will not attempt to elevate permissions (i.e. no UAC prompt) on failure of symlink creation. If permissions block the creation of a link, a native desktop notification warns users and offers guidance.
 :::
 
-## Shim Mode (default)
+## Shim Mode (default) \{#shim-mode-default\}
 
 Shim mode offers a new, streamlined developer experience. When compared with Link Mode, Shim Mode comes with the benefit of avoiding esoteric permission requirements, but at the cost of a small amount of additional latency (~25-35ms total). This latency is negligible for most use cases. For this reason, Shim Mode is recommended for most users.
 

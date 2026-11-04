@@ -83,7 +83,7 @@ What this does:
 Air-gapped/[`local_install_only`](../cfg/registry#available-registry-keys) installs never hit the mirror, so `EOL` is not enforced in local environments. Use static allow/block lists (or stage only approved archives).
 
 
-### 2. Hosted Rules
+### 2. Hosted Rules \{#hosted-rules\}
 
 Hosted rules are configured through the customer portal:
 

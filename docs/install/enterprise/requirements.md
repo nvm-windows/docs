@@ -15,7 +15,7 @@ import SymlinkPermissionExplainer from '../../_components/SymlinkPermissionExpla
 |User privileges|No special privileges unless using  link mode with UNC paths. See [User privileges](#user-privileges).|
 |Proxy exceptions|Allow `licensing.author.io`. If you use the Author Software Node.js mirror, also allow `mirror.author.io`. An air-gapped deployment does not need these exceptions. See [Proxy exceptions](#proxy-exceptions).|
 
-## Understanding User Privileges
+## Understanding User Privileges \{#user-privileges\}
 
 |If you plan to...|Required privileges|
 |:-|:-|

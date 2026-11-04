@@ -98,7 +98,7 @@ When `auto_install` is enabled, a missing auto-detected Node version prompts or 
 
 After global-affecting operations (for example `npm install -g`, yarn global/dlx/plugins, corepack enable/use), the proxy may trigger **reshim** so new [global CLI shims](/command/global-module-shims) appear. Yarn Classic writes those CLIs to `%LOCALAPPDATA%\Yarn\bin`. Yarn 2+ does not use `yarn global`.
 
-## Bun malware blocking
+## Bun malware blocking \{#bun-malware-wrap\}
 
 NVM for Windows does not install bun and does not switch bun versions.
 When [bun](/cfg/core#package-managers) is enabled, `reshim` puts `bun.exe` and `bunx.exe` on `PATH` as hardlinks (or copies) of `proxy.exe`.

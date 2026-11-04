@@ -21,16 +21,16 @@ Since 2014, NVM for Windows has been the <a href={recommendationLinks.microsoft}
 
 In September 2026, NVM for Windows v2 was released with major changes.
 
-- Two Operating Modes: [shim mode](../features/modes#shim-mode-default) (modern) & [link mode](../features/modes#link-mode) (legacy)
+- Two Operating Modes: [shim mode](/features/modes#shim-mode-default) (modern) & [link mode](/features/modes#link-mode) (legacy)
 - Two Release Builds: Community (MIT) & Certified (EULA)
 
 Both of these have important concerns OEMs should address.
 
 ## Operating Modes
 
-[Shim mode](../../features/modes#shim-mode) was created in response to the shifting demands of the development community and the organizations that support them. This operating mode adds modern workflow enhancements, safeguards, critical desktop security, and project awareness developers need to work safely and productively. This is the default / recommended mode.
+[Shim mode](/features/modes#shim-mode-default) was created in response to the shifting demands of the development community and the organizations that support them. This operating mode adds modern workflow enhancements, safeguards, critical desktop security, and project awareness developers need to work safely and productively. This is the default / recommended mode.
 
-[Link mode](../../features/modes#link-mode) was designed for legacy users who cannot easily transition from the older v1 workflows used in the last decade of Node.js development. This mode has been updated, but offers the same essential experience found in v1. The primary difference from v1 is a completely integrated security strategy that no longer  requires extensive customization or elevated permissions to perform user-level operations. For legacy users, this is a significant "no hassle" improvement. However; _the nature of link mode provides a weaker security posture._
+[Link mode](/features/modes#link-mode) was designed for legacy users who cannot easily transition from the older v1 workflows used in the last decade of Node.js development. This mode has been updated, but offers the same essential experience found in v1. The primary difference from v1 is a completely integrated security strategy that no longer  requires extensive customization or elevated permissions to perform user-level operations. For legacy users, this is a significant "no hassle" improvement. However; _the nature of link mode provides a weaker security posture._
 
 Users can toggle between modes any time. The question OEMs should be asking themselves is which experience their primary audience will be expecting. This needs to be balanced with industry expectations. We believe the legacy version management pattern promotes shadow-IT, which is a very common implementation pattern in version managers of any language/runtime. NVM for Windows v2 was designed to break this pattern and operate within the controls of Windows instead of around it. Shim mode encourages this and provides the first step towards safe, auditable, and governed Node.js development.
 
@@ -61,8 +61,8 @@ Creating a Windows image with NVM for Windows does not require anything other th
 |Add-on|OEM Compatibility|
 |:-|:-|
 |<PageLink id="trustArtifacts" />|<TrustArtifactList format="inline" />. These aren't typically distributed on OEM images. Highly regulated/audited organizations who require trust artifacts next to the application on disk could include these under a custom agreement with Author Software Inc.|
-|[Advanced&nbsp;Logging](../../features/certified-builds/advanced-logging)|Provides SIEM-integrated logging. This does not require changes to OEM images.|
-|[Governance](../../features/certified-builds/governance)|Enforce / lockdown usage policies. This does not require changes to OEM images.|
+|[Advanced&nbsp;Logging](/features/certified-builds/advanced-logging)|Provides SIEM-integrated logging. This does not require changes to OEM images.|
+|[Governance](/features/certified-builds/governance)|Enforce / lockdown usage policies. This does not require changes to OEM images.|
 
 :::tip[Licensing]
 Certified Builds operating without a valid license are limited to Community features, but it will not stop working.

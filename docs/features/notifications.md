@@ -54,7 +54,7 @@ If registration fails (sideload GPO, missing package), notifications still fire 
 
 ## Mute and unmute
 
-### Per channel (Windows Settings)
+### Per channel (Windows Settings) \{#categories-windows-settings\}
 
 1. Open **Settings → System → Notifications → NVM for Windows**.
 1. Turn a channel Off or On: **Releases**, **Hotfixes**, **Pre-releases**, or **News**.

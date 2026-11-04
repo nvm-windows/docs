@@ -70,7 +70,7 @@ If NVM for Windows is present, the command shows the configuration.
   </TabItem>
 </Tabs>
 
-### Silent Installation
+### Silent Installation \{#silent-install\}
 
 The community installer is Inno Setup.
 These switches apply to `nvm-<version>-x64-setup.exe` and `nvm-<version>-arm64-setup.exe`.
@@ -232,7 +232,7 @@ After NVM for Windows is installed, install one or more Node.js versions.
 nvm install lts
 ```
 
-## Warnings
+## Warnings \{#warnings\}
 
 Read these warnings before you install the Community Build.
 

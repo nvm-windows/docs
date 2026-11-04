@@ -22,7 +22,7 @@ NVM for Windows also provides several mechanisms to prevent unapproved version i
 
 NVM for Windows can be configured to honor version allow/block-lists. These may contain specific versions or ranges. Version downloads (including cached/local) can be blocked with the firewall.
 
-:star: [Learn more about the version firewall](/features/author-mirror#firewall)
+:star: [Learn more about the version firewall](/features/firewall)
 
 ### Node.js Gateway / Mirror
 
@@ -56,7 +56,7 @@ SIEM, registered app (intentionality), notifications as telemetry
 
 
 
-In [**shim mode**](/features/modes#shim-mode), NVM for Windows verifies the binary on every launch. Certified and Governance editions add machine policy, version firewalls, and (optionally) an Author-hosted download mirror/gateway.
+In [**shim mode**](/features/modes#shim-mode-default), NVM for Windows verifies the binary on every launch. Certified and Governance editions add machine policy, version firewalls, and (optionally) an Author-hosted download mirror/gateway.
 
 :::important
 [Link mode](/features/modes#link-mode) does not provide additional security verifications.
