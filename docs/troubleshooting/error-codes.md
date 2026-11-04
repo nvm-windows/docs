@@ -26,7 +26,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4113** | Shim rebuild exceeded its time limit | Setup was still rebuilding shims after the hang limit. The limit matches **NVM4107**. Setup rolls back |
 | **NVM4114** | Closing Node.js processes exceeded 3 minutes | Setup was still closing Node.js processes that lock the install after 3 minutes. Setup rolls back |
 | **NVM4115** | Official Node.js uninstall exceeded 10 minutes | Setup was still uninstalling the official Node.js product after 10 minutes. Setup rolls back |
-| **NVM4116** | Machine-triggered community installation | Community Inno Setup aborted a machine-controlled install (SYSTEM, Intune including Store Required/Available, GPO, Task Scheduler, or ConfigMgr). A silent install while Intune `AgentExecutor` is running is treated as machine-controlled. User-controlled installs still work: the setup wizard, Microsoft Store click, WinGet, UniGetUI/WingetUI, or a real terminal. Use [Certified Builds](https://nvm-windows.com/certified) for IT-managed deployment. |
+| **NVM4116** | Machine-triggered community installation | Community Inno Setup aborted a machine-controlled install (SYSTEM, Intune including Store Required/Available, GPO, Task Scheduler, or ConfigMgr). A silent install while Intune `AgentExecutor` is running is treated as machine-controlled. User-controlled installs still work: the setup wizard, Microsoft Store click, WinGet, UniGetUI/WingetUI, a real terminal, or in-app / notification upgrades (`nvm upgrade`, toast **Update** / **Install** / **Apply**), which pass `/NVMSELFUPGRADE=1`. Use [Certified Builds](https://nvm-windows.com/certified) for IT-managed deployment. |
 | **NVM4301** | Node.js integrity verification failed | Shim or node launcher refuses to run `node.exe` because Authenticode / trust checks failed; reinstall with `nvm install <ver> --force` is the usual recovery |
 | **NVM4302** | Link-mode activation blocked | `nvm use` (link mode) rejects a version directory that is unsafe (for example writable by other users or a reparse point) or whose `node.exe` cannot be verified |
 | **NVM4303** | Verify-cache state changed | Trusted verify-cache material for a Node binary no longer matches; NVM requires a full verification pass before trusting the binary again |
@@ -39,7 +39,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4310** | Auto-install command failed | `nvm install <version>` exited with a non-zero code. The message includes that code. Output from `nvm.exe` is still shown |
 | **NVM4311** | Auto-install did not leave a usable Node.js | `nvm install` returned success, but the shim still cannot resolve that version |
 | **NVM4312** | Verify signing key did not open | Script signing could not open NCrypt key `AuthorSoftware.NVM.VerifyCache` after 4 attempts. Common cause: security software locks `ncrypt` or `%APPDATA%\Microsoft\Crypto\Keys` during `npm upgrade -g`. When Windows Security Center reports a product, the message names it as installed and does not claim that product blocked the call. `nvm env` shows the same name under My Computer as Antivirus, or `Not Detected` when no antivirus data is available. When `pubkey.cer` is present, the message says the key was not deleted. Run `nvm reshim` again. If the error remains, allow `nvm.exe` and `reshim.exe` to use the Microsoft Software Key Storage Provider and that key container. Certified Builds write structured event `verify_key.open_failed` (Event ID 122) with `key_name`, `provider`, `status`, `attempts`, `pubkey_present`, `common_cause`, `resolution`, `user`, `sid`, `hostname`, and `correlation_id`. |
-| **NVM4313** | Node.js storage path refused | `nvm config set root=` or the installer Node-storage page chose Windows, Program Files, ProgramData, a profile folder, the NVM program folder, a drive root (for example `C:\`), or a parent of those paths. Uninstall also skips deleting that path. Use a dedicated directory such as `%LOCALAPPDATA%\Author Software\nvm\installs` |
+| **NVM4313** | Node.js storage path refused | `nvm config set root=` or the installer Node-storage page chose Windows, Program Files, ProgramData, a profile folder, the NVM program folder, a drive root (for example `C:\`), a folder **directly under** a drive root (for example `D:\tools` — use `D:\tools\nvm\installs`), an existing folder that already holds non-NVM content, or a parent of protected paths. Uninstall will not wipe shared/unsafe roots; it only removes managed `v*` version directories there. Use a dedicated directory such as `%LOCALAPPDATA%\Author Software\nvm\installs` |
 | **NVM4314** | `node.exe` FileVersion does not match the install folder | Full verify (cache miss) compared PE VERSIONINFO FileVersion to the folder core version (major.minor.patch). Example: Node 10 dropped into `v24.0.0`. Missing VERSIONINFO on an existing `node.exe` also fails. Reinstall with `nvm install <ver> --force` |
 | **NVM4403** | Module firewall blocked install | Local policy deny for a package install. Certified Builds also write structured event `package_manager.install`. |
 | **NVM4404** | Firewall elevation required | Mutating firewall command run without administrator rights |
@@ -52,6 +52,9 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM4501** | Network deadline exceeded | Informational: a catalog, mirror, reachability, or download attempt used up its millisecond budget. Structured event `network.deadline_exceeded` (Certified Builds with Advanced Logging) |
 | **NVM4601** | Malware definitions updated | Informational, advanced logging only. A successful `malware.db` write changed the database. Payload: `added`, `removed`, `seq`, `previous_seq`. Windows Event ID 120 |
 | **NVM4602** | Malicious package blocked | Informational, advanced logging only. The shim blocked a package before the install audit. Payload includes the package name, version when known, command, `source` (`OpenSSF` or `MalwareBlockList`), and `reason`. The terminal line is `NVM blocked <name> — <reason>. (NVM4602)`. It still prints without the advanced logging license. Windows Event ID 120 |
+| **NVM4701** | Product upgrade started | Informational, advanced logging only. `nvm upgrade` / notification upgrade began downloading the installer. EventName `nvm.upgrade.started`. Payload: `from_version`, `to_version`, `outcome`, `nvm_version`. Windows Event ID 120 |
+| **NVM4702** | Product upgrade failed | Informational, advanced logging only. Download or installer launch failed. EventName `nvm.upgrade.failed`. Payload includes `detail` when available. Windows Event ID 120 |
+| **NVM4703** | Product upgrade blocked | Informational, advanced logging only. Machine policy `disable_upgrade` blocked the upgrade. EventName `nvm.upgrade.blocked`. Windows Event ID 120 |
 
 ## Ranges
 
@@ -62,6 +65,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 | **NVM44xx** | NVM Firewall (version / module / trust policy) |
 | **NVM45xx** | Network deadlines |
 | **NVM46xx** | Malware feed. Informational and advanced logging only |
+| **NVM47xx** | Product self-upgrade. Informational and advanced logging only |
 
 ## Tips
 
@@ -74,6 +78,7 @@ NVM for Windows uses stable `NVM####` codes in CLI messages, shim/proxy output, 
 - **NVM4412** is an audit/info event that the lifecycle-script lock was applied to an install-class command. It is not a failed install. Community Builds and Certified Builds without Advanced Logging do not write it.
 - **NVM4501** is informational, not a failure. The plaintext error names `TimeoutCatalogMs` and `TimeoutCatalogMirrorMs` (or `TimeoutDownloadMs` / `TimeoutReachabilityMs`) and where that budget came from: `machine policy`, `machine settings`, `your settings`, `default`, or `command flag`.
 - Structured execution and install audits may include `project_name`, `project_path`, `parent_process`, `parent_pid`, and `sid` when the host can resolve them. A missing value is empty or `unknown`.
+- Every Advanced Logging structured `Payload` includes `nvm_version` (the NVM for Windows version that wrote the entry) so SIEM queries can filter by product version.
 - `nodejs.executed` is written on Community and Certified Builds when `LogExecutions` is `1`. No Advanced Logging license.
 - `package_manager.executed` is written on Certified Builds when `LogExecutions` is `1`. No Advanced Logging license. `package_manager.install` records an allowed install (**NVM4408**) or a blocked install (**NVM4403**).
 - Symptom-based fixes without a code: [General Troubleshooting](./general).
