@@ -205,7 +205,7 @@ The **Governance** pack ships **ADMX/ADML** templates for Active Directory and E
 
 Organizations can deny public `nodejs.org/dist` at the network edge and allow-list `mirror.author.io`. NVM then downloads through Author’s policy-aware mirror. Controls combine:
 
-- Client/GPO lists (`VersionAllowList` / `VersionBlockList`) for exact versions and ranges — lifecycle aliases such as `EOL` / `ALPHA` / `MAINTENANCE` are **ignored on the client** and only applied by the Author Mirror at download
+- Client/GPO lists (`VersionAllowList` / `VersionBlockList`) for exact versions and ranges — `ALPHA` is enforced locally against `-alpha*` versions; `EOL` / `MAINTENANCE` are **ignored on the client** and only applied by the Author Mirror at download
 - **Hosted rules** in the [customer portal](https://portal.author.io) (IP, geo, domain/tenant, SID, license group)
 
 Walkthrough: [Version Firewall + Author Mirror](../features/author-mirror). Domain/tenant IDs: [Find Your AD Domain or Entra Tenant ID](./find-domain-tenant-id).

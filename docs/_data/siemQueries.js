@@ -114,6 +114,42 @@ export const siemQueries = {
 | STATS People = COUNT_DISTINCT(winlog.computer_name)`,
     wevtutil: `wevtutil qe "${CHANNEL}" /q:"*[System[(EventID=120)] and EventData[Data[@Name='EventName']='nvm.system.changed']]" /f:text /c:20`,
   },
+  unstableInstalled: {
+    wevtutilListsOnly: true,
+    sentinel: `Event
+| where EventLog == "${CHANNEL}"
+| where EventID == 120
+| where EventData.EventName == "nvm.system.changed"
+| extend Payload = parse_json(tostring(EventData.Payload))
+| where Payload.Action == "install"
+| where Payload.Outcome == "Succeeded"
+| where tostring(Payload.ReleaseType) == "unstable"
+| summarize Hosts = dcount(tostring(Payload.hostname)) by tostring(Payload.NodeVersion), tostring(Payload.hostname)`,
+    splunk: `index=wineventlog Channel="${CHANNEL}" EventCode=120 EventData.EventName="nvm.system.changed"
+| eval action=json_extract('EventData.Payload',"Action"), outcome=json_extract('EventData.Payload',"Outcome"), release_type=json_extract('EventData.Payload',"ReleaseType"), node_version=json_extract('EventData.Payload',"NodeVersion"), hostname=json_extract('EventData.Payload',"hostname")
+| search action=install outcome=Succeeded release_type=unstable
+| stats dc(hostname) as Hosts by node_version, hostname`,
+    elastic: `FROM logs-*
+| WHERE winlog.channel == "${CHANNEL}" AND winlog.event_id == 120 AND winlog.event_data.EventName == "nvm.system.changed" AND winlog.event_data.Payload LIKE "*\\"Action\\":\\"install\\"*" AND winlog.event_data.Payload LIKE "*\\"Outcome\\":\\"Succeeded\\"*" AND winlog.event_data.Payload LIKE "*\\"ReleaseType\\":\\"unstable\\"*"
+| STATS Hosts = COUNT_DISTINCT(winlog.computer_name)`,
+    wevtutil: `wevtutil qe "${CHANNEL}" /q:"*[System[(EventID=120)] and EventData[Data[@Name='EventName']='nvm.system.changed']]" /f:text /c:20`,
+  },
+  legacyLatestHosts: {
+    wevtutilListsOnly: true,
+    sentinel: `Event
+| where EventLog == "${CHANNEL}"
+| where EventID == 120
+| where EventData.EventName == "nvm.resolution.legacy_latest"
+| extend Payload = parse_json(tostring(EventData.Payload))
+| summarize Events = count() by tostring(Payload.hostname), tostring(Payload.ResolvedVersion)`,
+    splunk: `index=wineventlog Channel="${CHANNEL}" EventCode=120 EventData.EventName="nvm.resolution.legacy_latest"
+| eval hostname=json_extract('EventData.Payload',"hostname"), resolved=json_extract('EventData.Payload',"ResolvedVersion")
+| stats count as Events by hostname, resolved`,
+    elastic: `FROM logs-*
+| WHERE winlog.channel == "${CHANNEL}" AND winlog.event_id == 120 AND winlog.event_data.EventName == "nvm.resolution.legacy_latest"
+| STATS Events = COUNT(*) BY host = winlog.computer_name`,
+    wevtutil: `wevtutil qe "${CHANNEL}" /q:"*[System[(EventID=120)] and EventData[Data[@Name='EventName']='nvm.resolution.legacy_latest']]" /f:text /c:20`,
+  },
   uninstalledVersions: {
     wevtutilListsOnly: true,
     sentinel: `Event

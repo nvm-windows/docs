@@ -151,7 +151,7 @@ See [What's new in v2](./newv2) for a shorter v2 summary.
 | Community feature mode | A Certified Build without a commercial license keeps running with Community features. |
 | License | Hidden `nvm license` writes HKLM. Certified Builds, Advanced Logging, and Governance need a sitewide license. |
 | License expiry notifications | Certified Builds warn at 7, 3, and 1 day, on the expiry day, and daily in the 7-day grace window. |
-| [Author Mirror](./author-mirror) | Governance host `https://mirror.author.io/runtime/nodejs`. JWT version lists. EOL/ALPHA/MAINTENANCE need this host. |
+| [Author Mirror](./author-mirror) | Governance host `https://mirror.author.io/runtime/nodejs`. JWT version lists. `ALPHA` is also enforced locally; `EOL`/`MAINTENANCE` need this host. |
 | [Basic HTTP proxy](./http-proxy) | Proxy URL, `user:pass`, or Bearer. WinINET fallback. Community Builds and Certified Builds. |
 | [Advanced proxy](./http-proxy#capabilities-by-license) | IWA (NTLM/Negotiate) and PAC/WPAD. [Governance](./certified-builds/governance) add-on. |
 | Administrative templates | ADMX/ADML lock or override preferences. See [Administrative Templates](../cfg/ad) and [Governance](./certified-builds/governance). |
