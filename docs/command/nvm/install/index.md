@@ -12,10 +12,10 @@ Install one or more versions of Node.js.
 ## Usage
 
 ```powershell
-nvm install <version> [<version> ...] [flags]
+nvm install [<version> ...] [flags]
 ```
 
-Default subcommand when you pass version arguments directly (for example `nvm install 24`).
+Default subcommand when you pass version arguments directly (for example `nvm install 24`). With no version, installs `latest` (newest stable release) — same as `nvm install latest`.
 
 ## Subcommands
 
@@ -28,7 +28,7 @@ Default subcommand when you pass version arguments directly (for example `nvm in
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `<version> ...` | Yes | One or more [version specifiers](../../../guide/version-resolution). |
+| `<version> ...` | No | One or more [version specifiers](../../../guide/version-resolution). Omit to install `latest` (stable). |
 
 ## Flags
 
@@ -46,7 +46,10 @@ Internal flags (`--notify`, `--debug`) exist for automation and are hidden from 
 ## Examples
 
 ```powershell
+nvm install
+nvm install latest
 nvm install lts
+nvm install alpha
 nvm install 24
 nvm install 22.14.0 20.19.1
 nvm install lts/iron

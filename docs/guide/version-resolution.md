@@ -37,7 +37,7 @@ Commands that accept version specifiers include:
 
 ### `latest` vs `alpha`
 
-- `latest` walks the Node.js index and picks the newest row **without** a `-` prerelease suffix. When Node publishes an alpha at the tip of [index.tab](https://nodejs.org/dist/index.tab), `latest` still resolves to the prior stable release so downloads do not invent a missing GA tag.
+- `latest` walks the Node.js index and picks the newest row **without** a `-` prerelease suffix. When Node publishes an alpha at the tip of [index.tab](https://nodejs.org/dist/index.tab), `latest` still resolves to the prior stable release so downloads do not invent a missing GA tag. Bare `nvm install` (no version argument) is the same as `nvm install latest`.
 - `alpha` picks the newest row whose version contains `-alpha` and keeps that full tag (for example `27.0.0-alpha.0.0.0`) for download and install. After `nvm install alpha` succeeds, NVM prints a one-line note that alpha releases are unstable.
 
 Governance fleets that must keep the older tip-of-index meaning of `latest` can enable `LatestIncludesPrerelease`. See [Legacy latest policy](./legacy-latest-policy).
@@ -46,6 +46,7 @@ Governance fleets that must keep the older tip-of-index meaning of `latest` can 
 
 ```powershell
 # reserved aliases
+nvm install
 nvm install lts
 nvm use latest
 nvm install alpha
