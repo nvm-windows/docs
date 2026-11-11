@@ -65,7 +65,7 @@ After install, open a **new** terminal and run `nvm list` to confirm the version
 
 In v2, `nvm install latest` resolves to the newest **stable** Node.js release (it skips prereleases such as alphas).
 Use `nvm install alpha` for the newest `-alpha*` release.
-Governance fleets that must keep tip-of-index `latest` for existing scripts can enable `LatestIncludesPrerelease` — see [Legacy latest policy](./legacy-latest-policy).
+**Governance only:** fleets that must keep tip-of-index `latest` for existing scripts can enable `LatestIncludesPrerelease` — see [Legacy latest policy](./legacy-latest-policy).
 
 ### Backup in restricted environments
 
