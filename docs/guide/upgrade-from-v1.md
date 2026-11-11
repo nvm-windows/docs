@@ -61,6 +61,12 @@ Installed Node.js versions from a supported v1 install are merged into v2 storag
 You do not re-download those versions when the copy succeeds.
 After install, open a **new** terminal and run `nvm list` to confirm the versions.
 
+### `latest` alias
+
+In v2, `nvm install latest` resolves to the newest **stable** Node.js release (it skips prereleases such as alphas).
+Use `nvm install alpha` for the newest `-alpha*` release.
+Governance fleets that must keep tip-of-index `latest` for existing scripts can enable `LatestIncludesPrerelease` — see [Legacy latest policy](./legacy-latest-policy).
+
 ### Backup in restricted environments
 
 The installer copies Node.js version trees and related files during migration.

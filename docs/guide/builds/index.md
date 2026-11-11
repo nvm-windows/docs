@@ -77,7 +77,7 @@ The Governance package for Certified Builds introduce policy management. With th
 - Freeze V8 intrinsics (`--frozen-intrinsics`) to prevent prototype pollution of built-ins (also applied to npm/npx/pnpm scripts when the policy is on).
 - Disallow `eval()` / `new Function()` (`--disallow-code-generation-from-strings`) (also applied to npm/npx/pnpm scripts when the policy is on).
 - Limit to local installations (airgapping).
-- Restrict version installations with the version firewall. Lifecycle aliases such as `EOL` and `ALPHA` apply on the Author Mirror, not the client.
+- Restrict version installations with the version firewall. `ALPHA` is enforced locally; `EOL` and `MAINTENANCE` apply on the Author Mirror.
 
 Governance builds ship with ADMX/ADML files and official scripts to support Microsoft Active Directory group policies, Microsoft Entra, and other device management platforms.
 

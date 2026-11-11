@@ -35,12 +35,21 @@ Commands that accept version specifiers include:
 - [`nvm cache add`](../command/nvm/cache/add)
 - [`nvm cache remove version`](../command/nvm/cache/remove/version)
 
+### `latest` vs `alpha`
+
+- `latest` walks the Node.js index and picks the newest row **without** a `-` prerelease suffix. When Node publishes an alpha at the tip of [index.tab](https://nodejs.org/dist/index.tab), `latest` still resolves to the prior stable release so downloads do not invent a missing GA tag. Bare `nvm install` (no version argument) is the same as `nvm install latest`.
+- `alpha` picks the newest row whose version contains `-alpha` and keeps that full tag (for example `27.0.0-alpha.0.0.0`) for download and install. After `nvm install alpha` succeeds, NVM prints a one-line note that alpha releases are unstable.
+
+Governance fleets that must keep the older tip-of-index meaning of `latest` can enable `LatestIncludesPrerelease`. See [Legacy latest policy](./legacy-latest-policy).
+
 ### Examples
 
 ```powershell
 # reserved aliases
+nvm install
 nvm install lts
 nvm use latest
+nvm install alpha
 
 # named LTS line
 nvm install lts/iron
@@ -88,7 +97,7 @@ Example: default `13.14.0`, `engines.node` is `>=20`. `13.14.0` does not satisfy
 ## Resolution order {/* #resolution-order */}
 
 1. User alias mapping (from `nvm alias add`)
-2. Reserved aliases (`latest`, `lts`, `lts/<codename>`)
+2. Reserved aliases (`latest`, `alpha`, `lts`, `lts/<codename>`)
 3. Partial versions expanded to the best matching concrete release
 4. Semver constraints resolved in constraint-aware flows (for example `engines.node` or caret/tilde ranges in detect files)
 5. Read version string from the configured detect file in the current directory tree (auto-detect)

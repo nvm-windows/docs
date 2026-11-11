@@ -1,9 +1,10 @@
 | Form | Example | Resolution |
 |------|---------|------------|
-| Latest release | `latest` | Newest available release from the mirror index. |
+| Latest stable | `latest` | Newest **stable** (non-prerelease) release from the mirror index. Skips tags that contain `-` (for example alphas). |
+| Latest alpha | `alpha` | Newest release whose version contains `-alpha`. Keeps the full prerelease tag for download. |
 | Latest LTS | `lts` | Newest available LTS release. |
 | Named LTS line | `lts/iron` | Newest release from the named LTS line. |
 | User alias | `legacy` | Version assigned with [`nvm alias add`](../command/nvm/alias/add). |
 | Major only | `24` | Newest matching `24.x.x` release. |
 | Major.minor | `24.1` | Newest matching `24.1.x` release. |
-| Exact version | `24.1.0`, `v24.1.0` | The specified release. The `v` prefix is optional. |
+| Exact version | `24.1.0`, `v24.1.0`, `27.0.0-alpha.0.0.0` | The specified release. The `v` prefix is optional. Prerelease suffixes are preserved. |

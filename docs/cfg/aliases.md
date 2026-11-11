@@ -107,7 +107,8 @@ next -> v24.11.0
 | Name | Why |
 |:-|:-|
 | `default`, `current`, `latest`, `lts`, `last` | Built-in command semantics |
-| `daily`, `alpha`, `beta`, `prerelease` | Reserved for future use |
+| `alpha` | Built-in: newest `-alpha*` catalog release |
+| `daily`, `beta`, `prerelease` | Reserved for future use |
 | `link`, `shim` | Operating mode names |
 | `lts/*` (for example `lts/iron`) | Reserved LTS namespace |
 

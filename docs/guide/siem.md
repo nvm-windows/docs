@@ -81,12 +81,24 @@ Host count for the same event:
 
 <SiemQuery id="installedVersions" />
 
+`nvm.system.changed` payloads include `ReleaseType` (`stable` or `unstable`). Unstable means the Node.js version string contains a prerelease suffix (any `-`).
+
+### Hosts with unstable Node.js installs
+
+<SiemQuery id="unstableInstalled" />
+
 ### Who installed Node.js 20
 
 <SiemQuery id="installedNode20" />
 
 Change `20.` to another major version, or to an EOL line your policy tracks.
 The event does not mark EOL for you.
+
+### Hosts still using legacy `latest`
+
+Governance `LatestIncludesPrerelease` writes `nvm.resolution.legacy_latest` when `latest` resolves to tip-of-index. Successful installs also set `LatestMode=legacy` on `nvm.system.changed`. See [Legacy latest policy](./legacy-latest-policy).
+
+<SiemQuery id="legacyLatestHosts" />
 
 ### Who uninstalled a Node.js version
 
@@ -162,7 +174,8 @@ Query these by `EventName`.
 
 | EventName | What it records |
 |:-|:-|
-| `nvm.system.changed` | Install, uninstall, and similar lifecycle results. Payload: `Action`, `NodeVersion`, `Outcome`, `User`, `sid`, `hostname`, `correlation_id`. |
+| `nvm.system.changed` | Install, uninstall, and similar lifecycle results. Payload: `Action`, `NodeVersion`, `ReleaseType` (`stable` \| `unstable`), `Outcome`, `User`, `sid`, `hostname`, `correlation_id`. Installs driven by `latest` under Governance `LatestIncludesPrerelease` also include `LatestMode=legacy`. |
+| `nvm.resolution.legacy_latest` | Warning when reserved `latest` resolves under Governance `LatestIncludesPrerelease`. Payload: `ResolvedVersion`, `LatestMode`, `User`, `hostname`, `Detail`. |
 | `nvm.configuration.changed` | A setting change. Payload: `Configuration`, `Value`, `Old`, `Outcome`. |
 | `nvm.version.activated` | The active Node.js version changed. Payload: `version`, `previous_version`, `user`, `hostname`. |
 | `nodejs.executed` | A `node` launch when `LogExecutions` is `1`. Source `node-shim`. When permission allow flags were supplied, applied, or removed, the payload includes `permission_allow.supplied`, `permission_allow.applied`, and `permission_allow.removed`. |
