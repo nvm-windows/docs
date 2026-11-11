@@ -2,6 +2,8 @@
 title: Legacy latest policy
 sidebar_label: Legacy latest policy
 sidebar_position: 2.5
+certified:
+  edition: governance
 ---
 
 # Legacy latest policy
