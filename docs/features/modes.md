@@ -41,6 +41,16 @@ flowchart LR
 NVM for Windows v2 will not attempt to elevate permissions (i.e. no UAC prompt) on failure of symlink creation. If permissions block the creation of a link, a native desktop notification warns users and offers guidance.
 :::
 
+## Activation links and OpenSSH \{#activation-symlinks\}
+
+`PATH` always contains the `.nodejs` activation entry. By default, NVM for Windows creates that entry as an NTFS junction (shim mode: `.nodejs` → `.shim`; link mode: `.nodejs` → `.link\nodejs`, and `.link\nodejs` → the active version).
+
+Windows OpenSSH can enable Redirection Guard on `sshd`. That mitigation blocks traversal of junctions that a non-administrator created. Local terminals still work. SSH sessions may report that `.nodejs` is an untrusted mount point and fail to find `node`.
+
+**Certified Builds** can set machine policy `RequireActivationSymlinks` (registry `RequireActivationSymlinks`). When enabled, activation links are created as symbolic links only. Pair the policy with Developer Mode or `SeCreateSymbolicLinkPrivilege` from Group Policy so creation does not fail. After you enable the policy, the next `nvm on`, mode switch, profile init, or link-mode `nvm use` recreates existing junctions as symlinks.
+
+Community Builds keep the default junction-first behavior unless an administrator sets the same registry value manually.
+
 ## Shim Mode (default) \{#shim-mode-default\}
 
 Shim mode offers a new, streamlined developer experience. When compared with Link Mode, Shim Mode comes with the benefit of avoiding esoteric permission requirements, but at the cost of a small amount of additional latency (~25-35ms total). This latency is negligible for most use cases. For this reason, Shim Mode is recommended for most users.
