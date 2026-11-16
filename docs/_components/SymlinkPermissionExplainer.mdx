@@ -1,9 +1,9 @@
-[Link mode](/features/modes#link-mode) uses an NTFS junction to select the Node.js version.
+[Link mode](/features/modes#link-mode) uses an NTFS junction or a symbolic link to select the Node.js version. See also [activation links and OpenSSH](/features/modes#activation-symlinks).
 
 - NTFS junctions do not need a special privilege.
 - NTFS junctions do not support UNC paths such as a network share or a mapped drive.
 
-If Node.js storage uses a UNC path, NVM for Windows creates a symbolic link.
+If Node.js storage uses a UNC path, or Certified Builds enable `RequireActivationSymlinks`, NVM for Windows creates a symbolic link.
 Windows requires the `SeCreateSymbolicLinkPrivilege` privilege to create that symbolic link.
 
 :::tip[Enable `SeCreateSymbolicLinkPrivilege`]
