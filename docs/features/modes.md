@@ -57,6 +57,8 @@ Shim mode offers a new, streamlined developer experience. When compared with Lin
 
 Most users won't notice or feel the impact of shim latency, making shim mode recommended for most users.
 
+Shim executables under `.shim` are hard links to `proxy.exe`. Hard links require the **same volume** for Node storage (`root` / InstallRoot) and the NVM data directory that holds `.shim`. If the hard link cannot be created (for example, Node on `D:` and NVM on `C:`), NVM tries a **file symlink** instead. That fallback needs [Developer Mode](https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development) or `SeCreateSymbolicLinkPrivilege` (same requirements as [link mode](#link-mode) UNC symlinks). If both fail, `nvm install` / `nvm reshim` fail and roll back rather than leaving a broken `npm`/`npx` PATH. Keep `root` on the same drive as NVM, switch to link mode, or enable Developer Mode.
+
 Shim mode features:
 
 - Auto-use pinned versions via `.nvmrc`, `.node-version`, `package.json`, or other custom runtime config files.
@@ -96,7 +98,7 @@ Windows has a "universal latency tax". It uses [`CreateProcessW`](https://learn.
 |Node.js / V8 permission lockdown|:x:|:heavy_check_mark:<br/>_Governance_|
 |Package manager cooldown|:x:|:heavy_check_mark:|
 |Per-command execution logging|:x:|:heavy_check_mark:|
-|Special Permissions<br/><br/>|[`SeCreateSymbolicLinkPrivilege`](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/create-symbolic-links)<br/>_for [UNC path](https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#unc-paths) symlinks_|None<br/><br/>|
+|Special Permissions<br/><br/>|[`SeCreateSymbolicLinkPrivilege`](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/create-symbolic-links)<br/>_for [UNC path](https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#unc-paths) symlinks_|None for same-volume hardlinks; symlink privilege / Developer Mode only if `.shim` and `proxy.exe` are on different volumes<br/><br/>|
 
 
 [^1]: Latency is predominantly from Windows `CreateProcessW` universal latency tax. The shim executable only adds ~1-3ms latency.
