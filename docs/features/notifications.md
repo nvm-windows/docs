@@ -120,7 +120,7 @@ These use Notification Center when the NVM process is **not** in the foreground:
 | `nvm alias add` | _(empty)_ | "&lt;name&gt;" now refers to vX.X.X |
 | `nvm alias remove` | _(empty)_ | &lt;count&gt; alias(es) removed successfully. |
 | `nvm pin` | _(empty)_ | Success text for `.nvmrc` / `package.json` engines updates |
-| Symlink failure (Developer Mode off) | Help Enabling Symlinks | Button: **Open Developer Settings** |
+| Symlink failure (Developer Mode off) — link mode UNC, or shim hardlink→symlink fallback | Help Enabling Symlinks | Button: **Open Developer Settings** |
 
 ## Sync and security notifications
 
