@@ -32,7 +32,7 @@ See [What's new in v2](./newv2) for a shorter v2 summary.
 
 | Feature | Description |
 |:-|:-|
-| [Install](../command/nvm/install/) | Install one or more Node.js versions. Specs include `latest`, `lts`, `lts/<codename>`, and `x.x.x`. |
+| [Install](../command/nvm/install/) | Install one or more Node.js versions. Specs include `latest`, `lts`, `lts/<codename>`, `lts/-N`, and `x.x.x`. |
 | Parallel installations | Each requested version installs in its own goroutine. |
 | Compact `.7z` archives | Downloads are Windows `.7z` archives (x64 or arm64). Size is about 40% smaller than the old layout. |
 | Native extraction | NVM uses installed 7-Zip when present. Otherwise it uses the embedded extractor. |

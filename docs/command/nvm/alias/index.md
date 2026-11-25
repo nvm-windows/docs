@@ -30,7 +30,7 @@ Usage: nvm alias <command>
 | `default`, `current`, `latest`, `lts`, `last` | Built-in command semantics |
 | `daily`, `alpha`, `beta`, `prerelease` | Reserved for future use |
 | `link`, `shim` | Operating mode names |
-| `lts/*` | Reserved LTS namespace (for example `lts/iron`) |
+| `lts/*` | Reserved LTS namespace (for example `lts/iron`, `lts/-1`) |
 
 ## Notes
 
