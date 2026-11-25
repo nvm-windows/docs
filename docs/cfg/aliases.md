@@ -110,7 +110,7 @@ next -> v24.11.0
 | `alpha` | Built-in: newest `-alpha*` catalog release |
 | `daily`, `beta`, `prerelease` | Reserved for future use |
 | `link`, `shim` | Operating mode names |
-| `lts/*` (for example `lts/iron`) | Reserved LTS namespace |
+| `lts/*` (for example `lts/iron`, `lts/-1`) | Reserved LTS namespace (codenames and `lts/-N` offsets are built-in) |
 
 Pick names like `legacy`, `apps`, `ci`, or `stable24` instead.
 

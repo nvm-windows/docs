@@ -54,6 +54,10 @@ nvm install alpha
 # named LTS line
 nvm install lts/iron
 
+# previous LTS lines (offset from current LTS)
+nvm install lts/-1
+nvm use lts/-2
+
 # partial and exact versions
 nvm use 24.1
 nvm cache add 22.14.0
@@ -62,6 +66,18 @@ nvm cache add 22.14.0
 nvm alias add stable 24.1.0
 nvm use stable
 ```
+
+### LTS offsets (`lts/-N`)
+
+`lts/-N` selects the Nth previous LTS **line** relative to the current latest LTS (`lts`). Catalog order is newest first. Unique LTS codenames form the line list; `lts/-1` is the second line, `lts/-2` the third, and so on. `N` must be a positive integer (`lts/-0` is invalid).
+
+Any name under `lts/` that starts with `-` is offset syntax only. It is never treated as a codename.
+
+| Input | Result |
+|-------|--------|
+| `lts/-1` | Previous LTS line’s newest release |
+| `lts/-0`, `lts/-`, `lts/-1x`, `lts/--1` | Error: invalid LTS offset (use `lts/-N` with a positive integer) |
+| `lts/-99` when fewer lines exist | Error: LTS offset out of range |
 
 ## Version constraints
 
@@ -97,7 +113,7 @@ Example: default `13.14.0`, `engines.node` is `>=20`. `13.14.0` does not satisfy
 ## Resolution order {/* #resolution-order */}
 
 1. User alias mapping (from `nvm alias add`)
-2. Reserved aliases (`latest`, `alpha`, `lts`, `lts/<codename>`)
+2. Reserved aliases (`latest`, `alpha`, `lts`, `lts/<codename>`, `lts/-N`)
 3. Partial versions expanded to the best matching concrete release
 4. Semver constraints resolved in constraint-aware flows (for example `engines.node` or caret/tilde ranges in detect files)
 5. Read version string from the configured detect file in the current directory tree (auto-detect)
