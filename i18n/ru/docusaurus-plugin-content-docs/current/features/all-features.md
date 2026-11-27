@@ -32,7 +32,7 @@ import TrustArtifactList from '@site/docs/_components/TrustArtifactList';
 
 | Возможность | Описание |
 |:-|:-|
-| [Install](../command/nvm/install/) | Установка одной или нескольких версий Node.js. Спецификации: `latest`, `lts`, `lts/<codename>` и `x.x.x`. |
+| [Install](../command/nvm/install/) | Установка одной или нескольких версий Node.js. Спецификации: `latest`, `lts`, `lts/<codename>`, `lts/-N` и `x.x.x`. |
 | Параллельные установки | Каждая запрошенная версия ставится в своей goroutine. |
 | Компактные архивы `.7z` | Загрузки — архивы Windows `.7z` (x64 или arm64). Объём примерно на 40% меньше. |
 | Нативная распаковка | NVM использует установленный 7-Zip, если он есть. Иначе встроенный распаковщик. |

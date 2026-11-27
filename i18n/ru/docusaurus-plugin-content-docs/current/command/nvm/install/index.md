@@ -51,6 +51,7 @@ nvm install lts
 nvm install 24
 nvm install 22.14.0 20.19.1
 nvm install lts/iron
+nvm install lts/-1
 nvm install 24 --cache
 nvm install 24 --no-cache
 nvm install 24.0.0 --force
